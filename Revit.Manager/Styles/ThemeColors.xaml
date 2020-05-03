@@ -1,0 +1,42 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+
+    <SolidColorBrush x:Key="ThemeTextBoxBackgroundBrush" Color="WhiteSmoke"/>
+    <SolidColorBrush x:Key="ThemeTextBoxBorderBrush" Color="LightGray"/>
+    <SolidColorBrush x:Key="ThemeTextBoxForgroundBrush" Color="DarkSlateGray"/>
+    <SolidColorBrush x:Key="ThemeTextBoxTitleBrush" Color="DarkSlateGray"/>
+    <SolidColorBrush x:Key="ThemeTextBoxCaptionBrush" Color="DarkSlateGray" Opacity="0.25"/>
+    <SolidColorBrush x:Key="ThemeTextBoxHighlightBorderBrush" Color="Orange"/>
+    <SolidColorBrush x:Key="ThemeTextBoxHighlightBackgroundBrush" Color="Orange" Opacity="0.5"/>
+
+    <SolidColorBrush x:Key="ThemeButtonBackgroundBrush" Color="DarkSlateGray" Opacity="0.75"/>
+    <SolidColorBrush x:Key="ThemeButtonBorderBrush" Color="LightGoldenrodYellow" Opacity="0.9"/>
+    <SolidColorBrush x:Key="ThemeButtonForgroundBrush" Color="WhiteSmoke"/>
+    <SolidColorBrush x:Key="ThemeButtonHilightBrush" Color="Orange" Opacity="0.5"/>
+    <SolidColorBrush x:Key="ThemeButtonSelectionBrush" Color="Orange"/>
+
+    <SolidColorBrush x:Key="ThemeGroupBoxBackgroundBrush" Color="DarkSlateGray" Opacity="0.75"/>
+    <SolidColorBrush x:Key="ThemeGroupBoxBorderBrush" Color="LightGray" Opacity="0.9"/>
+    <SolidColorBrush x:Key="ThemeGroupBoxForgroundBrush" Color="White"/>
+    <SolidColorBrush x:Key="ThemeGroupBoxAccentBrush" Color="Orange"/>
+
+    <SolidColorBrush x:Key="ThemeTextBlockForgroundBrush" Color="DarkSlateGray"/>
+
+    <SolidColorBrush x:Key="ThemeComboBoxBackgroundBrush" Color="WhiteSmoke"/>
+    <SolidColorBrush x:Key="ThemeComboBoxArrowBrush" Color="Orange"/>
+    <SolidColorBrush x:Key="ThemeComboBoxBorderBrush" Color="LightGray"/>
+    <SolidColorBrush x:Key="ThemeComboBoxMouseOverBorderBrush" Color="Orange" Opacity="0.5"/>
+    <SolidColorBrush x:Key="ThemeComboBoxTextBackgroundBrush" Color="WhiteSmoke"/>
+
+    <SolidColorBrush x:Key="ThemeInactiveGray" Color="Gray"/>
+    <SolidColorBrush x:Key="ThemeSectionOutlineColor" Color="#FF363636" />
+    <SolidColorBrush x:Key="ThemeOutlineColor" Color="#b7b7b7"/>
+    <SolidColorBrush x:Key="ThemeTextColor" Color="#FF363636"/>
+    <SolidColorBrush x:Key="ThemeBackgroundColor" Color="#FFFFFFFF"/>
+    <SolidColorBrush x:Key="ThemeAccentColor" Color="#f3a016"/>
+    <SolidColorBrush x:Key="ThemeAccentColorInActive" Color="#f3a016"/>
+
+    <SolidColorBrush x:Key="ThemeBorderColor" Color="DarkSlateGray"/>
+
+</ResourceDictionary>
