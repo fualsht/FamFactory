@@ -132,6 +132,7 @@ namespace ModBox.FamFactory.Revit.Manager
             RefferencePlaneItems = new ObservableCollection<Parameter>();
             FamilyGeometryItems = new ObservableCollection<FamilyGeometry>();
             ParameterItems = new ObservableCollection<Parameter>();
+            //DataView v = view.CreateChildView();
         }
 
         public static FamilyTemplate NewTemplate(DataView rowView)

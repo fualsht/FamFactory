@@ -21,11 +21,13 @@ namespace ModBox.FamFactory.Revit.Manager
             InitilizeReferencePlaneTable(dataSet);
             InitilizeGeometryTable(dataSet);
             InitilizeParametersTable(dataSet);
+
+            InstallSampleData(dataSet);
         }
 
         private static void InitilizeEmailProfiles(DataSet dataSet)
         {
-            DataTable EmailprofilesTable = new DataTable("FFEmailProfiles");
+            DataTable EmailprofilesTable = new DataTable(TableNames.FF_EmailProfiles.ToString());
             DataColumn IdColumn = EmailprofilesTable.Columns.Add(EmailProfile.EmailProfileColumnNames.Id.ToString(), typeof(string));
             IdColumn.AllowDBNull = false;
             IdColumn.Unique = true;
@@ -56,25 +58,12 @@ namespace ModBox.FamFactory.Revit.Manager
 
             EmailprofilesTable.PrimaryKey = new DataColumn[] { IdColumn, NameColumn };
 
-            //Email Profile
-            DataRow EmailProfileDatarow = EmailprofilesTable.NewRow();
-            EmailProfileDatarow[IdColumn.ColumnName] = Guid.NewGuid();
-            EmailProfileDatarow[NameColumn.ColumnName] = "Admin";
-            EmailProfileDatarow[DescriptionColumn.ColumnName] = "Admin permissions with full permissions.";
-            EmailProfileDatarow[ServerColumn.ColumnName] = "mail.server.com";
-            EmailProfileDatarow[PortColumn.ColumnName] = 25;
-            EmailProfileDatarow[SSLColumn.ColumnName] = false;
-            EmailProfileDatarow[UserNameColumn.ColumnName] = "";
-            EmailProfileDatarow[PasswordColumn.ColumnName] = "";
-            EmailProfileDatarow[StateColumn.ColumnName] = true;
-            EmailprofilesTable.Rows.Add(EmailProfileDatarow);
-
             dataSet.Tables.Add(EmailprofilesTable);
         }
 
         private static void InitilizePermissions(DataSet dataSet)
         {
-            DataTable permissionsTable = new DataTable("FFPermissions");
+            DataTable permissionsTable = new DataTable(TableNames.FF_Permissions.ToString());
             DataColumn IdColumn = permissionsTable.Columns.Add(Permission.PermissionColumnNames.Id.ToString(), typeof(string));
             IdColumn.AllowDBNull = false;
             IdColumn.Unique = true;
@@ -143,7 +132,7 @@ namespace ModBox.FamFactory.Revit.Manager
         private static void InitilizeUsersTable(DataSet dataSet)
         {
             // Users Table
-            DataTable usersTable = new DataTable("FFUsers");
+            DataTable usersTable = new DataTable(TableNames.FF_Users.ToString());
             DataColumn IdColumn = usersTable.Columns.Add(User.UsersTableColumnNames.Id.ToString(), typeof(string));
             IdColumn.Caption = "Id";
             IdColumn.AllowDBNull = false;
@@ -177,7 +166,7 @@ namespace ModBox.FamFactory.Revit.Manager
             DataColumn permissionIdColumn = usersTable.Columns.Add(User.UsersTableColumnNames.PermissionId.ToString(), typeof(string));
             permissionIdColumn.Caption = "Permission";
             permissionIdColumn.AllowDBNull = true;
-            permissionIdColumn.DefaultValue = dataSet.Tables["FFPermissions"].Select("Name = 'Editor'").FirstOrDefault()["Id"];
+            permissionIdColumn.DefaultValue = dataSet.Tables[TableNames.FF_Permissions.ToString()].Select("Name = 'Editor'").FirstOrDefault()["Id"];
             DataColumn lastLogInDateColumn = usersTable.Columns.Add(User.UsersTableColumnNames.LastLogInDate.ToString(), typeof(DateTime));
             lastNameColumn.Caption = "Last Login Date";
             DataColumn stateColumn = usersTable.Columns.Add(User.UsersTableColumnNames.State.ToString(), typeof(EntityStates));
@@ -194,83 +183,48 @@ namespace ModBox.FamFactory.Revit.Manager
             // Add DataTable to DataSet befroe adding Datarelations.
             dataSet.Tables.Add(usersTable);
             //Create the DataRelation.
-            DataRelation dataRelation = new DataRelation("Users_PermissionId_Permissions_Id", dataSet.Tables["FFPermissions"].Columns["Id"], dataSet.Tables["FFUsers"].Columns["PermissionId"]);
+            DataRelation dataRelation = new DataRelation(TableRelations.UsersPermissionId_PermissionsId.ToString(), 
+                dataSet.Tables[TableNames.FF_Permissions.ToString()].Columns["Id"], 
+                dataSet.Tables[TableNames.FF_Users.ToString()].Columns[User.UsersTableColumnNames.PermissionId.ToString()]);
             dataSet.Relations.Add(dataRelation);
-
-            DataRow adminUserDataRow = usersTable.NewRow();
-            adminUserDataRow[User.UsersTableColumnNames.Id.ToString()] = Guid.NewGuid();
-            adminUserDataRow[User.UsersTableColumnNames.Name.ToString()] = "Admin";
-            adminUserDataRow[User.UsersTableColumnNames.FirstName.ToString()] = "Admin";
-            adminUserDataRow[User.UsersTableColumnNames.LastName.ToString()] = "";
-            adminUserDataRow[User.UsersTableColumnNames.Email.ToString()] = "Admin@Comapny.com";
-            adminUserDataRow[User.UsersTableColumnNames.Password.ToString()] = Utils.GetPasswordHash(SHA256.Create("SHA256"), "Password");
-            adminUserDataRow[User.UsersTableColumnNames.ProfilePic.ToString()] = Utils.ImageToByte(Resources.UserIcon);
-            adminUserDataRow[User.UsersTableColumnNames.PermissionId.ToString()] = dataSet.Tables["FFPermissions"].Select().FirstOrDefault(x => x["Name"].ToString() == "Admin")["Id"];
-            adminUserDataRow[User.UsersTableColumnNames.LastLogInDate.ToString()] = DateTime.Now;
-            adminUserDataRow[User.UsersTableColumnNames.State.ToString()] = Manager.EntityStates.Enabled;
-            adminUserDataRow[User.UsersTableColumnNames.TempFolder.ToString()] = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + "\\FamFactory\\Temp";
-            usersTable.Rows.Add(adminUserDataRow);
-
-            DataRow testUserDataRow = usersTable.NewRow();
-            testUserDataRow[User.UsersTableColumnNames.Id.ToString()] = Guid.NewGuid();
-            testUserDataRow[User.UsersTableColumnNames.Name.ToString()] = "User";
-            testUserDataRow[User.UsersTableColumnNames.FirstName.ToString()] = "User";
-            testUserDataRow[User.UsersTableColumnNames.LastName.ToString()] = "";
-            testUserDataRow[User.UsersTableColumnNames.Email.ToString()] = "user@company.com";
-            testUserDataRow[User.UsersTableColumnNames.Password.ToString()] = "Password";
-            testUserDataRow[User.UsersTableColumnNames.ProfilePic.ToString()] = Utils.ImageToByte(Resources.UserIcon);
-            testUserDataRow[User.UsersTableColumnNames.PermissionId.ToString()] = dataSet.Tables["FFPermissions"].Select().FirstOrDefault(x => x["Name"].ToString() == "Editor")["Id"];
-            testUserDataRow[User.UsersTableColumnNames.LastLogInDate.ToString()] = DateTime.Now;
-            testUserDataRow[User.UsersTableColumnNames.State.ToString()] = Manager.EntityStates.Enabled;
-            testUserDataRow[User.UsersTableColumnNames.TempFolder.ToString()] = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + "\\FamFactory\\Temp";
-            usersTable.Rows.Add(testUserDataRow);
         }
 
         private static void InitilizeSystemConfigurationTable(DataSet dataSet)
         {
             // System Configuration
-            DataTable SysConfigTable = new DataTable("FFSysConfigs");
-            DataColumn idColumn = SysConfigTable.Columns.Add("Id", typeof(string));
+            DataTable SysConfigTable = new DataTable(TableNames.FF_SystemConfiguration.ToString());
+            DataColumn idColumn = SysConfigTable.Columns.Add(SystemConfiguration.SystemConfigurationTableColumnNames.Id.ToString(), typeof(string));
             idColumn.Caption = "Id";
             idColumn.AllowDBNull = false;
             idColumn.Unique = true;
-            DataColumn nameColumn = SysConfigTable.Columns.Add("Name", typeof(string));
+            DataColumn nameColumn = SysConfigTable.Columns.Add(SystemConfiguration.SystemConfigurationTableColumnNames.Name.ToString(), typeof(string));
             nameColumn.Caption = "Comany Name";
             nameColumn.AllowDBNull = false;
             nameColumn.Unique = true;
-            DataColumn addressColumn = SysConfigTable.Columns.Add("CompanyAddress", typeof(string));
+            DataColumn addressColumn = SysConfigTable.Columns.Add(SystemConfiguration.SystemConfigurationTableColumnNames.CompanyAddress.ToString(), typeof(string));
             addressColumn.Caption = "Address";
             addressColumn.AllowDBNull = true;
-            DataColumn emailColumn = SysConfigTable.Columns.Add("Email", typeof(string));
+            DataColumn emailColumn = SysConfigTable.Columns.Add(SystemConfiguration.SystemConfigurationTableColumnNames.Email.ToString(), typeof(string));
             emailColumn.AllowDBNull = false;
             emailColumn.Caption = "System Email";
-            DataColumn installColumn = SysConfigTable.Columns.Add("InstallLocation", typeof(string));
+            DataColumn installColumn = SysConfigTable.Columns.Add(SystemConfiguration.SystemConfigurationTableColumnNames.InstallLocataion.ToString(), typeof(string));
             installColumn.Caption = "Installation Location";
             installColumn.AllowDBNull = true;
-            DataColumn appVerColumn = SysConfigTable.Columns.Add("AppVersion", typeof(string));
+            DataColumn appVerColumn = SysConfigTable.Columns.Add(SystemConfiguration.SystemConfigurationTableColumnNames.AppVersion.ToString(), typeof(string));
             appVerColumn.Caption = "Application Version";
             appVerColumn.AllowDBNull = false;
             appVerColumn.DefaultValue = "1.0.0";
-            DataColumn dbVersionColumn = SysConfigTable.Columns.Add("DataBaseVersion", typeof(string));
+            DataColumn dbVersionColumn = SysConfigTable.Columns.Add(SystemConfiguration.SystemConfigurationTableColumnNames.DataBaseVersion.ToString(), typeof(string));
             dbVersionColumn.Caption = "Database Version";
             dbVersionColumn.AllowDBNull = false;
             dbVersionColumn.DefaultValue = "1.0.0";
 
-            DataRow SystemConfigDataRow = SysConfigTable.NewRow();
-            SystemConfigDataRow["Id"] = Guid.NewGuid();
-            SystemConfigDataRow["Name"] = "<DefaultCompany>";
-            SystemConfigDataRow["CompanyAddress"] = string.Empty;
-            SystemConfigDataRow["Email"] = "admin@company.com";
-            SystemConfigDataRow["InstallLocation"] = "C:\\programfiles\\FamFactory";
-            SystemConfigDataRow["AppVersion"] = "1.0.0";
-            SystemConfigDataRow["DataBaseVersion"] = "1.0.0";
-            SysConfigTable.Rows.Add(SystemConfigDataRow);
             dataSet.Tables.Add(SysConfigTable);
         }
 
         private static void InitilizeFamilyTemplatesTable(DataSet dataSet)
         {
-            DataTable FamilyTemplatesTable = new DataTable("FFTemplates");
+            DataTable FamilyTemplatesTable = new DataTable(TableNames.FF_FamilyTemplates.ToString());
 
             DataColumn IdColumn = FamilyTemplatesTable.Columns.Add(FamilyTemplate.ParameterColumnNames.Id.ToString(), typeof(string));
             IdColumn.AllowDBNull = false;
@@ -385,7 +339,7 @@ namespace ModBox.FamFactory.Revit.Manager
         
         private static void InitilizeReferencePlaneTable(DataSet dataSet)
         {
-            DataTable referencePlaneTable = new DataTable("FFReferencePlanes");
+            DataTable referencePlaneTable = new DataTable(TableNames.FF_ReferencePlanes.ToString());
             DataColumn IdColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.Id.ToString(), typeof(string));
             IdColumn.AllowDBNull = false;
             IdColumn.Unique = true;
@@ -490,7 +444,7 @@ namespace ModBox.FamFactory.Revit.Manager
 
         private static void InitilizeGeometryTable(DataSet dataSet)
         {
-            DataTable GeometryTable = new DataTable("FFGeometry");
+            DataTable GeometryTable = new DataTable(TableNames.FF_Geometry.ToString());
 
             DataColumn IdColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.Id.ToString(), typeof(string));
             IdColumn.AllowDBNull = false;
@@ -542,12 +496,16 @@ namespace ModBox.FamFactory.Revit.Manager
 
         private static void InitilizeParametersTable(DataSet dataSet)
         {
-            DataTable ParametersTable = new DataTable("FFParameters");
+            DataTable ParametersTable = new DataTable(TableNames.FF_Parameters.ToString());
 
             DataColumn IdColumn = ParametersTable.Columns.Add(Parameter.ParameterColumnNames.Id.ToString(), typeof(string));
             IdColumn.AllowDBNull = false;
             IdColumn.Unique = true;
             IdColumn.Caption = "Id";
+
+            DataColumn FamilyTemplateIdColumn = ParametersTable.Columns.Add(Parameter.ParameterColumnNames.FamilyTemplateId.ToString(), typeof(string));
+            FamilyTemplateIdColumn.AllowDBNull = false;
+            FamilyTemplateIdColumn.Unique = false;
 
             DataColumn NameColumn = ParametersTable.Columns.Add(Parameter.ParameterColumnNames.Name.ToString(), typeof(string));
             NameColumn.AllowDBNull = false;
@@ -568,11 +526,6 @@ namespace ModBox.FamFactory.Revit.Manager
             HasValueColumn.AllowDBNull = false;
             HasValueColumn.DefaultValue = false;
             HasValueColumn.Unique = false;
-
-            DataColumn ParamIdColumn = ParametersTable.Columns.Add(Parameter.ParameterColumnNames.ParamId.ToString(), typeof(string));
-            ParamIdColumn.AllowDBNull = false;
-            ParamIdColumn.DefaultValue = string.Empty;
-            ParamIdColumn.Unique = false;
 
             DataColumn IsReadOnlyColumn = ParametersTable.Columns.Add(Parameter.ParameterColumnNames.IsReadOnly.ToString(), typeof(bool));
             IsReadOnlyColumn.AllowDBNull = false;
@@ -596,7 +549,6 @@ namespace ModBox.FamFactory.Revit.Manager
 
             DataColumn IsEditableColumn = ParametersTable.Columns.Add(Parameter.ParameterColumnNames.IsEditable.ToString(), typeof(bool));
             IsEditableColumn.AllowDBNull = false;
-            //IsEditableColumn.DefaultValue = false;
             IsEditableColumn.Unique = false;
 
             DataColumn IsActiveColumn = ParametersTable.Columns.Add(Parameter.ParameterColumnNames.IsActive.ToString(), typeof(bool));
@@ -648,10 +600,122 @@ namespace ModBox.FamFactory.Revit.Manager
             FormulaColumn.AllowDBNull = true;
             FormulaColumn.DefaultValue = string.Empty;
             FormulaColumn.Unique = false;
-               
 
+            ParametersTable.PrimaryKey = new DataColumn[] { IdColumn, NameColumn };
 
             dataSet.Tables.Add(ParametersTable);
+        }
+
+        private static void InstallSampleData(DataSet dataSet)
+        {
+            //Email Profile
+            DataTable EmailprofilesTable = dataSet.Tables[TableNames.FF_EmailProfiles.ToString()];
+            DataRow EmailProfileDatarow = EmailprofilesTable.NewRow();
+            EmailProfileDatarow[EmailProfile.EmailProfileColumnNames.Id.ToString()] = Guid.NewGuid();
+            EmailProfileDatarow[EmailProfile.EmailProfileColumnNames.Name.ToString()] = "Admin";
+            EmailProfileDatarow[EmailProfile.EmailProfileColumnNames.Description.ToString()] = "Admin permissions with full permissions.";
+            EmailProfileDatarow[EmailProfile.EmailProfileColumnNames.ServerAddress.ToString()] = "mail.server.com";
+            EmailProfileDatarow[EmailProfile.EmailProfileColumnNames.Port.ToString()] = 25;
+            EmailProfileDatarow[EmailProfile.EmailProfileColumnNames.SSL.ToString()] = false;
+            EmailProfileDatarow[EmailProfile.EmailProfileColumnNames.Username.ToString()] = "";
+            EmailProfileDatarow[EmailProfile.EmailProfileColumnNames.Password.ToString()] = "";
+            EmailProfileDatarow[EmailProfile.EmailProfileColumnNames.State.ToString()] = true;
+            EmailprofilesTable.Rows.Add(EmailProfileDatarow);
+
+            //Users
+            DataTable usersTable = dataSet.Tables[TableNames.FF_Users.ToString()];
+            DataRow adminUserDataRow = usersTable.NewRow();
+            adminUserDataRow[User.UsersTableColumnNames.Id.ToString()] = Guid.NewGuid();
+            adminUserDataRow[User.UsersTableColumnNames.Name.ToString()] = "Admin";
+            adminUserDataRow[User.UsersTableColumnNames.FirstName.ToString()] = "Admin";
+            adminUserDataRow[User.UsersTableColumnNames.LastName.ToString()] = "";
+            adminUserDataRow[User.UsersTableColumnNames.Email.ToString()] = "Admin@Comapny.com";
+            adminUserDataRow[User.UsersTableColumnNames.Password.ToString()] = Utils.GetPasswordHash(SHA256.Create("SHA256"), "Password");
+            adminUserDataRow[User.UsersTableColumnNames.ProfilePic.ToString()] = Utils.ImageToByte(Resources.UserIcon);
+            adminUserDataRow[User.UsersTableColumnNames.PermissionId.ToString()] = dataSet.Tables[TableNames.FF_Permissions.ToString()].Select("Name = 'Editor'").FirstOrDefault()["Id"];
+            adminUserDataRow[User.UsersTableColumnNames.LastLogInDate.ToString()] = DateTime.Now;
+            adminUserDataRow[User.UsersTableColumnNames.State.ToString()] = Manager.EntityStates.Enabled;
+            adminUserDataRow[User.UsersTableColumnNames.TempFolder.ToString()] = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + "\\FamFactory\\Temp";
+            usersTable.Rows.Add(adminUserDataRow);
+
+            DataRow testUserDataRow = usersTable.NewRow();
+            testUserDataRow[User.UsersTableColumnNames.Id.ToString()] = Guid.NewGuid();
+            testUserDataRow[User.UsersTableColumnNames.Name.ToString()] = "User";
+            testUserDataRow[User.UsersTableColumnNames.FirstName.ToString()] = "User";
+            testUserDataRow[User.UsersTableColumnNames.LastName.ToString()] = "";
+            testUserDataRow[User.UsersTableColumnNames.Email.ToString()] = "user@company.com";
+            testUserDataRow[User.UsersTableColumnNames.Password.ToString()] = "Password";
+            testUserDataRow[User.UsersTableColumnNames.ProfilePic.ToString()] = Utils.ImageToByte(Resources.UserIcon);
+            testUserDataRow[User.UsersTableColumnNames.PermissionId.ToString()] = dataSet.Tables[TableNames.FF_Permissions.ToString()].Select("Name = 'Editor'").FirstOrDefault()["Id"];
+            testUserDataRow[User.UsersTableColumnNames.LastLogInDate.ToString()] = DateTime.Now;
+            testUserDataRow[User.UsersTableColumnNames.State.ToString()] = Manager.EntityStates.Enabled;
+            testUserDataRow[User.UsersTableColumnNames.TempFolder.ToString()] = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + "\\FamFactory\\Temp";
+            usersTable.Rows.Add(testUserDataRow);
+
+            // System Configuration
+            DataTable SysConfigTable = dataSet.Tables[TableNames.FF_SystemConfiguration.ToString()];
+            DataRow SystemConfigDataRow = SysConfigTable.NewRow();
+            SystemConfigDataRow[SystemConfiguration.SystemConfigurationTableColumnNames.Id.ToString()] = Guid.NewGuid();
+            SystemConfigDataRow[SystemConfiguration.SystemConfigurationTableColumnNames.Name.ToString()] = "<DefaultCompany>";
+            SystemConfigDataRow[SystemConfiguration.SystemConfigurationTableColumnNames.CompanyAddress.ToString()] = string.Empty;
+            SystemConfigDataRow[SystemConfiguration.SystemConfigurationTableColumnNames.Email.ToString()] = "admin@company.com";
+            SystemConfigDataRow[SystemConfiguration.SystemConfigurationTableColumnNames.InstallLocataion.ToString()] = "C:\\programfiles\\FamFactory";
+            SystemConfigDataRow[SystemConfiguration.SystemConfigurationTableColumnNames.AppVersion.ToString()] = "v.1.0.0";
+            SystemConfigDataRow[SystemConfiguration.SystemConfigurationTableColumnNames.DataBaseVersion.ToString()] = "v.1.0.0";
+            SysConfigTable.Rows.Add(SystemConfigDataRow);
+
+            // FamilyTemplates
+            DataTable FamilyTemplatesTable = dataSet.Tables[TableNames.FF_FamilyTemplates.ToString()];
+            DataRow FamilyTemplateRow1 = FamilyTemplatesTable.NewRow();
+            FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Id.ToString()] = Guid.NewGuid().ToString();
+            FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Name.ToString()] = "New Family Template";
+            FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Description.ToString()] = "";
+            FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.IsReleased.ToString()] = true;
+            FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.FamilyCategory.ToString()] = "New Category";
+            FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.CanHostRebar.ToString()] = false;
+            FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.RoundConnectorDimention.ToString()] = 0;
+            FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.PartType.ToString()] = "";
+            FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.OmnoClassNumber.ToString()] = "";
+            FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.OmniClassTitle.ToString()] = ""; 
+            FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.WorkPlaneBased.ToString()] = true;
+            FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.AlwaysVertical.ToString()] = false;
+            FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.CutsWithVoidWhenLoaded.ToString()] = false;
+            FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.IsShared.ToString()] = false;
+            FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.RoomCalculationPoint.ToString()] = false;
+            FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.FileName.ToString()] = "file.rfa";
+            FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Thumbnail.ToString()] = new byte[byte.MinValue];
+            FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Version.ToString()] = "v.1.0.0";
+            FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.FileSize.ToString()] = long.MinValue;
+            FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.DateCreated.ToString()] = DateTime.Now;
+            FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.DateModified.ToString()] = DateTime.Now;
+            FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.FamilyFile.ToString()] = new byte[byte.MinValue];
+            FamilyTemplatesTable.Rows.Add(FamilyTemplateRow1);
+
+            // Parameters
+            DataTable ParametersTable = dataSet.Tables[TableNames.FF_Parameters.ToString()];
+            DataRow row = ParametersTable.NewRow();
+            row[Parameter.ParameterColumnNames.Id.ToString()] = Guid.NewGuid().ToString();
+            row[Parameter.ParameterColumnNames.FamilyTemplateId.ToString()] = FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Id.ToString()];
+            row[Parameter.ParameterColumnNames.Name.ToString()] = "NewParameter1";
+            row[Parameter.ParameterColumnNames.ElementId.ToString()] = 0;
+            row[Parameter.ParameterColumnNames.ElementGUID.ToString()] = Guid.NewGuid();
+            row[Parameter.ParameterColumnNames.HasValue.ToString()] = false;
+            row[Parameter.ParameterColumnNames.IsReadOnly.ToString()] = false;
+            row[Parameter.ParameterColumnNames.IsShared.ToString()] = false;
+            row[Parameter.ParameterColumnNames.IsInstance.ToString()] = false;
+            row[Parameter.ParameterColumnNames.StorageType.ToString()] = Autodesk.Revit.DB.StorageType.String;
+            row[Parameter.ParameterColumnNames.IsEditable.ToString()] = false;
+            row[Parameter.ParameterColumnNames.IsActive.ToString()] = true;
+            row[Parameter.ParameterColumnNames.HostId.ToString()] = Guid.NewGuid().ToString();
+            row[Parameter.ParameterColumnNames.IsReporting.ToString()] = false;
+            row[Parameter.ParameterColumnNames.BuiltInParamGroup.ToString()] = Autodesk.Revit.DB.BuiltInParameterGroup.INVALID;
+            row[Parameter.ParameterColumnNames.ParameterType.ToString()] = Autodesk.Revit.DB.ParameterType.Text;
+            row[Parameter.ParameterColumnNames.UnitType.ToString()] = Autodesk.Revit.DB.UnitType.UT_Custom;
+            row[Parameter.ParameterColumnNames.DisplayUnitType.ToString()] = Autodesk.Revit.DB.DisplayUnitType.DUT_MILLIMETERS;
+            row[Parameter.ParameterColumnNames.UserModifiable.ToString()] = false;
+            row[Parameter.ParameterColumnNames.IsDeterminedByFormula.ToString()] = false;
+            row[Parameter.ParameterColumnNames.Formula.ToString()] = "N/A";
+            ParametersTable.Rows.Add(row);
         }
     }
 }

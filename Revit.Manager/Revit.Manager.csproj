@@ -98,6 +98,7 @@
     </Compile>
     <Compile Include="FamFactoryApplication.cs" />
     <Compile Include="Structs\Version.cs" />
+    <Compile Include="TableConstants.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="ViewModels\FamilyTemplateViewModel.cs" />
     <Compile Include="ViewModels\UsersViewModel.cs" />

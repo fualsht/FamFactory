@@ -62,7 +62,7 @@ namespace ModBox.FamFactory.Revit.Manager
             get 
             {
                 ObservableCollection<Permission> temp = new ObservableCollection<Permission>();
-                foreach (DataRowView row in InternalDataRowView.Row.Table.DataSet.Tables["FFPermissions"].DefaultView)
+                foreach (DataRowView row in InternalDataRowView.Row.Table.DataSet.Tables[TableNames.FF_Permissions.ToString()].DefaultView)
                 {
                     temp.Add(new Permission(row));
                 }

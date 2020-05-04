@@ -9,13 +9,20 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class Parameter : ModelBase<Parameter>
     {
-        public enum ParameterColumnNames { Id, Name, ElementId, ElementGUID, HasValue, ParamId, IsReadOnly, IsShared, IsInstance, StorageType, 
+        public enum ParameterColumnNames { Id, FamilyTemplateId, Name, ElementId, ElementGUID, HasValue, IsReadOnly, IsShared, IsInstance, StorageType, 
             IsEditable, IsActive, HostId, IsReporting, BuiltInParamGroup, ParameterType, UnitType, DisplayUnitType, UserModifiable, IsDeterminedByFormula, Formula }
         public string Id
         {
             get { return InternalDataRowView[ParameterColumnNames.Id.ToString()].ToString(); }
             set { InternalDataRowView[ParameterColumnNames.Id.ToString()] = value; NotifyPropertyChanged(); }
         }
+
+        public string FamilyTemplateId
+        {
+            get { return InternalDataRowView[ParameterColumnNames.FamilyTemplateId.ToString()].ToString(); }
+            set { InternalDataRowView[ParameterColumnNames.FamilyTemplateId.ToString()] = value; NotifyPropertyChanged(); }
+        }
+
         public string Name
         {
             get { return InternalDataRowView[ParameterColumnNames.Name.ToString()].ToString(); }
@@ -41,11 +48,6 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             get { return (bool)InternalDataRowView[ParameterColumnNames.HasValue.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.HasValue.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
-        public string ParamId
-        {
-            get { return InternalDataRowView[ParameterColumnNames.ParamId.ToString()].ToString(); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.ParamId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public bool IsReadOnly
         {

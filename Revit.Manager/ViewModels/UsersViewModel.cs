@@ -12,12 +12,11 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class UsersViewModel : ViewModelBase<User>
     {
-        internal protected string usersTableName = "FFUsers";
         DataView UsersDataView;
 
         public UsersViewModel(DataSet dataSet) : base(dataSet)
         {
-            UsersDataView = InternalDataSet.Tables[usersTableName].DefaultView;
+            UsersDataView = InternalDataSet.Tables[TableNames.FF_Users.ToString()].DefaultView;
             RefreshCollection();
         }
 
@@ -26,7 +25,7 @@ namespace ModBox.FamFactory.Revit.Manager
             if (InternalCollection != null)
             {
                 InternalCollection.Clear();
-                foreach (DataRowView item in InternalDataSet.Tables[usersTableName].DefaultView)
+                foreach (DataRowView item in InternalDataSet.Tables[TableNames.FF_Users.ToString()].DefaultView)
                 {
                     this.AddElement(new User(item), true);
                 }

@@ -9,7 +9,7 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class SystemConfiguration : ModelBase<SystemConfiguration>
     {
-        public enum SystemConfigurationTableColumnNames { Id, Name, ComapnayAddress, Email, InstallLocataion, AppVersion, DataBaseVersion }
+        public enum SystemConfigurationTableColumnNames { Id, Name, CompanyAddress, Email, InstallLocataion, AppVersion, DataBaseVersion }
         public string Id
         {
             get { return InternalDataRowView[SystemConfigurationTableColumnNames.Id.ToString()].ToString(); }
@@ -20,10 +20,10 @@ namespace ModBox.FamFactory.Revit.Manager
             get { return InternalDataRowView[SystemConfigurationTableColumnNames.Name.ToString()].ToString(); }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[SystemConfigurationTableColumnNames.Name.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
-        public string ComapnayAddress
+        public string CompanyAddress
         {
-            get { return InternalDataRowView[SystemConfigurationTableColumnNames.ComapnayAddress.ToString()].ToString(); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[SystemConfigurationTableColumnNames.ComapnayAddress.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return InternalDataRowView[SystemConfigurationTableColumnNames.CompanyAddress.ToString()].ToString(); }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[SystemConfigurationTableColumnNames.CompanyAddress.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public string Email
         {

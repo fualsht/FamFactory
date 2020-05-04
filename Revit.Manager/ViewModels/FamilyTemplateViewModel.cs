@@ -11,16 +11,15 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamilyTemplatesViewModel : ViewModelBase<FamilyTemplate>
     {
-        internal protected string templatesTableName = "FFTemplates";
         DataView TemplateDataView;
         public FamilyTemplatesViewModel(DataSet dataset) : base(dataset)
         {
-            TemplateDataView = InternalDataSet.Tables[templatesTableName].DefaultView; 
+            TemplateDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].DefaultView; 
             RefreshCollection();
         }
         public FamilyTemplatesViewModel(DataSet dataset, Autodesk.Revit.ApplicationServices.Application application) : base(dataset, application)
         {
-            TemplateDataView = InternalDataSet.Tables[templatesTableName].DefaultView;
+            TemplateDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].DefaultView;
             RefreshCollection();
         }
 
@@ -29,7 +28,7 @@ namespace ModBox.FamFactory.Revit.Manager
             if (InternalCollection != null)
             {
                 InternalCollection.Clear();
-                foreach (DataRowView item in InternalDataSet.Tables[templatesTableName].DefaultView)
+                foreach (DataRowView item in InternalDataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].DefaultView)
                 {
                     this.AddElement(new FamilyTemplate(item), true);
                 }
@@ -91,6 +90,7 @@ namespace ModBox.FamFactory.Revit.Manager
 
                 Autodesk.Revit.DB.Document doc = ADSKApplciation.OpenDocumentFile(file.FullName);
 
+                Autodesk.Revit.DB.Category category = doc.ProjectInformation.Category;
                 foreach (Autodesk.Revit.DB.FamilyParameter item in doc.FamilyManager.Parameters)
                 {
                     Parameter parameter = Parameter.newParameter(InternalDataSet.Tables["FFParameters"].DefaultView);
