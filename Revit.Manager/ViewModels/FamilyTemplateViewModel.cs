@@ -109,10 +109,22 @@ namespace ModBox.FamFactory.Revit.Manager
                     parameter.BuiltInParamGroup = item.Definition.ParameterGroup;
                     parameter.ParameterType = item.Definition.ParameterType;
                     parameter.UnitType = item.Definition.UnitType;
-                    parameter.DisplayUnitType = item.DisplayUnitType;
+
+                    try
+                    {
+                        parameter.DisplayUnitType = item.DisplayUnitType;
+                    }
+                    catch (Exception e)
+                    {
+                        parameter.DisplayUnitType = Autodesk.Revit.DB.DisplayUnitType.DUT_UNDEFINED;
+                    }
+
                     parameter.UserModifiable = item.UserModifiable;
                     parameter.IsDeterminedByFormula = item.IsDeterminedByFormula;
                     parameter.Formula = item.Formula;
+                    parameter.IsActive = false;
+                    parameter.IsEditable = true;
+                    parameter.EndEdit();
                     temp.ParameterItems.Add(parameter);
                 }
                 doc.Close(false);

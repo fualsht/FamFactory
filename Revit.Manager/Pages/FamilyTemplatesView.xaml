@@ -112,8 +112,14 @@
                                 <ListView.View>
                                     <GridView>
                                         <GridView.Columns>
-                                            <GridViewColumn Width="20"/>
-                                            <GridViewColumn Header="Id" Width="100"/>
+                                            <GridViewColumn Width="20" />
+                                            <GridViewColumn Header="Id" Width="100">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Name}"/>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
                                             <GridViewColumn Header="Name" Width="100"/>
                                             <GridViewColumn Header="Id" Width="100"/>
                                         </GridView.Columns>

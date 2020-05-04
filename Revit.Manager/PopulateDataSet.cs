@@ -645,7 +645,7 @@ namespace ModBox.FamFactory.Revit.Manager
             IsDeterminedByFormulaColumn.Unique = false;
             
             DataColumn FormulaColumn = ParametersTable.Columns.Add(Parameter.ParameterColumnNames.Formula.ToString(), typeof(string));
-            FormulaColumn.AllowDBNull = false;
+            FormulaColumn.AllowDBNull = true;
             FormulaColumn.DefaultValue = string.Empty;
             FormulaColumn.Unique = false;
                
