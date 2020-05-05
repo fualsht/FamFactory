@@ -453,14 +453,19 @@ namespace ModBox.FamFactory.Revit.Manager
             NameColumn.DefaultValue = "New Sweep";
             NameColumn.Unique = false;
 
+            DataColumn ElementIdColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.ElementId.ToString(), typeof(int));
+            ElementIdColumn.AllowDBNull = false;
+            ElementIdColumn.DefaultValue = -1;
+            ElementIdColumn.Unique = false;
+
             DataColumn DescriptionColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.Description.ToString(), typeof(string));
             DescriptionColumn.AllowDBNull = false;
-            DescriptionColumn.DefaultValue = "New Sweep";
-            NameColumn.Unique = false; 
+            DescriptionColumn.DefaultValue = "";
+            DescriptionColumn.Unique = false; 
 
             DataColumn GeometryTypeColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.GeometryType.ToString(), typeof(string));
             GeometryTypeColumn.AllowDBNull = false;
-            GeometryTypeColumn.DefaultValue = "New Sweep";
+            GeometryTypeColumn.DefaultValue = "Sweep";
             GeometryTypeColumn.Unique = false; 
             
             DataColumn MaterialIdColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.MaterialId.ToString(), typeof(int));
@@ -487,7 +492,37 @@ namespace ModBox.FamFactory.Revit.Manager
             HostIdColumn.AllowDBNull = false;
             HostIdColumn.DefaultValue = -1;
             HostIdColumn.Unique = false;
-            
+
+            DataColumn CategoryColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.Category.ToString(), typeof(string));
+            CategoryColumn.AllowDBNull = false;
+            CategoryColumn.DefaultValue = "";
+            CategoryColumn.Unique = false;
+
+            DataColumn SubCategoryColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.SubCategory.ToString(), typeof(string));
+            SubCategoryColumn.AllowDBNull = false;
+            SubCategoryColumn.DefaultValue = "";
+            SubCategoryColumn.Unique = false;
+
+            DataColumn UniqueIdColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.UniqueId.ToString(), typeof(int));
+            UniqueIdColumn.AllowDBNull = false;
+            UniqueIdColumn.DefaultValue = -1;
+            UniqueIdColumn.Unique = false;
+
+            DataColumn OwnerViewIdColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.OwnerViewId.ToString(), typeof(int));
+            OwnerViewIdColumn.AllowDBNull = false;
+            OwnerViewIdColumn.DefaultValue = -1;
+            OwnerViewIdColumn.Unique = false;
+
+            DataColumn LevelIdColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.LevelId.ToString(), typeof(int));
+            LevelIdColumn.AllowDBNull = false;
+            LevelIdColumn.DefaultValue = -1;
+            LevelIdColumn.Unique = false;
+
+            DataColumn IsSolidColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.IsSolid.ToString(), typeof(bool));
+            LevelIdColumn.AllowDBNull = false;
+            LevelIdColumn.DefaultValue = true;
+            LevelIdColumn.Unique = false;
+
             dataSet.Tables.Add(GeometryTable);
 
             DataRelation geometryDataRelation = new DataRelation(TableRelations.GeometryFamilyTemplateid_FamilyTemplateId.ToString(),
@@ -682,7 +717,7 @@ namespace ModBox.FamFactory.Revit.Manager
             FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.RoundConnectorDimention.ToString()] = 0;
             FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.PartType.ToString()] = "";
             FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.OmnoClassNumber.ToString()] = "";
-            FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.OmniClassTitle.ToString()] = ""; 
+            FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.OmniClassTitle.ToString()] = "";
             FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.WorkPlaneBased.ToString()] = true;
             FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.AlwaysVertical.ToString()] = false;
             FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.CutsWithVoidWhenLoaded.ToString()] = false;
@@ -1062,71 +1097,107 @@ namespace ModBox.FamFactory.Revit.Manager
             referencePlaneTable.Rows.Add(ReferencePlaneDatarow4);
 
             // Geometry
-            DataTable geometryTable = dataSet.Tables[TableNames.FF_Geometry.ToString()];
-            DataRow geometryDatarow = geometryTable.NewRow();
-            geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.Id.ToString()] = Guid.NewGuid();
-            geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.FamilyTemplateId.ToString()] = FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Id.ToString()];
-            geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.Name.ToString()] = "NewReferencePlane1";
-            geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.Description.ToString()] = "";
-            geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.GeometryType.ToString()] = "Sweep";
-            geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.MaterialId.ToString()] = 0;
-            geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.IsActive.ToString()] = true;
-            geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily1Id.ToString()] = -1;
-            geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily2Id.ToString()] = -1;
-            geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.HostId.ToString()] = 0;
-            geometryTable.Rows.Add(geometryDatarow);
+            try
+            {
+                DataTable geometryTable = dataSet.Tables[TableNames.FF_Geometry.ToString()];
+                DataRow geometryDatarow = geometryTable.NewRow();
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.Id.ToString()] = Guid.NewGuid();
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.FamilyTemplateId.ToString()] = FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Id.ToString()];
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.Name.ToString()] = "NewReferencePlane1";
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.ElementId.ToString()] = -1;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.Description.ToString()] = "";
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.GeometryType.ToString()] = "Sweep";
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.MaterialId.ToString()] = -1;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.IsActive.ToString()] = true;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily1Id.ToString()] = -1;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily2Id.ToString()] = -1;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.HostId.ToString()] = -1;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.Category.ToString()] = "Default Category";
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.SubCategory.ToString()] = "Default Category";
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.UniqueId.ToString()] = -1;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.LevelId.ToString()] = -1;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.IsSolid.ToString()] = -1;
+                geometryTable.Rows.Add(geometryDatarow);
 
-            DataRow geometryDatarow1 = geometryTable.NewRow();
-            geometryDatarow1[FamilyGeometry.FamilyGeometryColumnNames.Id.ToString()] = Guid.NewGuid();
-            geometryDatarow1[FamilyGeometry.FamilyGeometryColumnNames.FamilyTemplateId.ToString()] = FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Id.ToString()];
-            geometryDatarow1[FamilyGeometry.FamilyGeometryColumnNames.Name.ToString()] = "NewReferencePlane2";
-            geometryDatarow1[FamilyGeometry.FamilyGeometryColumnNames.Description.ToString()] = "";
-            geometryDatarow1[FamilyGeometry.FamilyGeometryColumnNames.GeometryType.ToString()] = "Sweep";
-            geometryDatarow1[FamilyGeometry.FamilyGeometryColumnNames.MaterialId.ToString()] = 0;
-            geometryDatarow1[FamilyGeometry.FamilyGeometryColumnNames.IsActive.ToString()] = true;
-            geometryDatarow1[FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily1Id.ToString()] = -1;
-            geometryDatarow1[FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily2Id.ToString()] = -1;
-            geometryDatarow1[FamilyGeometry.FamilyGeometryColumnNames.HostId.ToString()] = 0;
-            geometryTable.Rows.Add(geometryDatarow1);
+                DataRow geometryDatarow1 = geometryTable.NewRow();
+                geometryDatarow1[FamilyGeometry.FamilyGeometryColumnNames.Id.ToString()] = Guid.NewGuid();
+                geometryDatarow1[FamilyGeometry.FamilyGeometryColumnNames.FamilyTemplateId.ToString()] = FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Id.ToString()];
+                geometryDatarow1[FamilyGeometry.FamilyGeometryColumnNames.Name.ToString()] = "NewReferencePlane2";
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.ElementId.ToString()] = -1;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.Description.ToString()] = "";
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.GeometryType.ToString()] = "Sweep";
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.MaterialId.ToString()] = -1;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.IsActive.ToString()] = true;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily1Id.ToString()] = -1;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily2Id.ToString()] = -1;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.HostId.ToString()] = -1;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.Category.ToString()] = "Default Category";
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.SubCategory.ToString()] = "Default Category";
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.UniqueId.ToString()] = -1;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.LevelId.ToString()] = -1;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.IsSolid.ToString()] = true;
+                geometryTable.Rows.Add(geometryDatarow1);
 
-            DataRow geometryDatarow2 = geometryTable.NewRow();
-            geometryDatarow2[FamilyGeometry.FamilyGeometryColumnNames.Id.ToString()] = Guid.NewGuid();
-            geometryDatarow2[FamilyGeometry.FamilyGeometryColumnNames.FamilyTemplateId.ToString()] = FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Id.ToString()];
-            geometryDatarow2[FamilyGeometry.FamilyGeometryColumnNames.Name.ToString()] = "NewReferencePlane3";
-            geometryDatarow2[FamilyGeometry.FamilyGeometryColumnNames.Description.ToString()] = "";
-            geometryDatarow2[FamilyGeometry.FamilyGeometryColumnNames.GeometryType.ToString()] = "Sweep";
-            geometryDatarow2[FamilyGeometry.FamilyGeometryColumnNames.MaterialId.ToString()] = 0;
-            geometryDatarow2[FamilyGeometry.FamilyGeometryColumnNames.IsActive.ToString()] = false;
-            geometryDatarow2[FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily1Id.ToString()] = -1;
-            geometryDatarow2[FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily2Id.ToString()] = -1;
-            geometryDatarow2[FamilyGeometry.FamilyGeometryColumnNames.HostId.ToString()] = 0;
-            geometryTable.Rows.Add(geometryDatarow2);
+                DataRow geometryDatarow2 = geometryTable.NewRow();
+                geometryDatarow2[FamilyGeometry.FamilyGeometryColumnNames.Id.ToString()] = Guid.NewGuid();
+                geometryDatarow2[FamilyGeometry.FamilyGeometryColumnNames.FamilyTemplateId.ToString()] = FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Id.ToString()];
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.ElementId.ToString()] = -1;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.Description.ToString()] = "";
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.GeometryType.ToString()] = "Sweep";
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.MaterialId.ToString()] = -1;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.IsActive.ToString()] = true;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily1Id.ToString()] = -1;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily2Id.ToString()] = -1;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.HostId.ToString()] = -1;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.Category.ToString()] = "Default Category";
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.SubCategory.ToString()] = "Default Category";
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.UniqueId.ToString()] = -1;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.LevelId.ToString()] = -1;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.IsSolid.ToString()] = true;
+                geometryTable.Rows.Add(geometryDatarow2);
 
-            DataRow geometryDatarow3 = geometryTable.NewRow();
-            geometryDatarow3[FamilyGeometry.FamilyGeometryColumnNames.Id.ToString()] = Guid.NewGuid();
-            geometryDatarow3[FamilyGeometry.FamilyGeometryColumnNames.FamilyTemplateId.ToString()] = FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Id.ToString()];
-            geometryDatarow3[FamilyGeometry.FamilyGeometryColumnNames.Name.ToString()] = "NewReferencePlane4";
-            geometryDatarow3[FamilyGeometry.FamilyGeometryColumnNames.Description.ToString()] = "";
-            geometryDatarow3[FamilyGeometry.FamilyGeometryColumnNames.GeometryType.ToString()] = "Sweep";
-            geometryDatarow3[FamilyGeometry.FamilyGeometryColumnNames.MaterialId.ToString()] = 0;
-            geometryDatarow3[FamilyGeometry.FamilyGeometryColumnNames.IsActive.ToString()] = false;
-            geometryDatarow3[FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily1Id.ToString()] = -1;
-            geometryDatarow3[FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily2Id.ToString()] = -1;
-            geometryDatarow3[FamilyGeometry.FamilyGeometryColumnNames.HostId.ToString()] = 0;
-            geometryTable.Rows.Add(geometryDatarow3);
+                DataRow geometryDatarow3 = geometryTable.NewRow();
+                geometryDatarow3[FamilyGeometry.FamilyGeometryColumnNames.Id.ToString()] = Guid.NewGuid();
+                geometryDatarow3[FamilyGeometry.FamilyGeometryColumnNames.FamilyTemplateId.ToString()] = FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Id.ToString()];
+                geometryDatarow3[FamilyGeometry.FamilyGeometryColumnNames.Name.ToString()] = "NewReferencePlane4";
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.ElementId.ToString()] = -1;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.Description.ToString()] = "";
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.GeometryType.ToString()] = "Sweep";
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.MaterialId.ToString()] = -1;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.IsActive.ToString()] = true;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily1Id.ToString()] = -1;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily2Id.ToString()] = -1;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.HostId.ToString()] = -1;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.Category.ToString()] = "Default Category";
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.SubCategory.ToString()] = "Default Category";
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.UniqueId.ToString()] = -1;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.LevelId.ToString()] = -1;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.IsSolid.ToString()] = true;
+                geometryTable.Rows.Add(geometryDatarow3);
 
-            DataRow geometryDatarow4 = geometryTable.NewRow();
-            geometryDatarow4[FamilyGeometry.FamilyGeometryColumnNames.Id.ToString()] = Guid.NewGuid();
-            geometryDatarow4[FamilyGeometry.FamilyGeometryColumnNames.FamilyTemplateId.ToString()] = FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Id.ToString()];
-            geometryDatarow4[FamilyGeometry.FamilyGeometryColumnNames.Name.ToString()] = "NewReferencePlane5";
-            geometryDatarow4[FamilyGeometry.FamilyGeometryColumnNames.Description.ToString()] = "";
-            geometryDatarow4[FamilyGeometry.FamilyGeometryColumnNames.GeometryType.ToString()] = "Sweep";
-            geometryDatarow4[FamilyGeometry.FamilyGeometryColumnNames.MaterialId.ToString()] = 0;
-            geometryDatarow4[FamilyGeometry.FamilyGeometryColumnNames.IsActive.ToString()] = false;
-            geometryDatarow4[FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily1Id.ToString()] = -1;
-            geometryDatarow4[FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily2Id.ToString()] = -1;
-            geometryDatarow4[FamilyGeometry.FamilyGeometryColumnNames.HostId.ToString()] = 0;
-            geometryTable.Rows.Add(geometryDatarow4);
+                DataRow geometryDatarow4 = geometryTable.NewRow();
+                geometryDatarow4[FamilyGeometry.FamilyGeometryColumnNames.Id.ToString()] = Guid.NewGuid();
+                geometryDatarow4[FamilyGeometry.FamilyGeometryColumnNames.FamilyTemplateId.ToString()] = FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Id.ToString()];
+                geometryDatarow4[FamilyGeometry.FamilyGeometryColumnNames.Name.ToString()] = "NewReferencePlane5";
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.ElementId.ToString()] = -1;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.Description.ToString()] = "";
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.GeometryType.ToString()] = "Sweep";
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.MaterialId.ToString()] = -1;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.IsActive.ToString()] = true;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily1Id.ToString()] = -1;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily2Id.ToString()] = -1;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.HostId.ToString()] = -1;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.Category.ToString()] = "Default Category";
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.SubCategory.ToString()] = "Default Category";
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.UniqueId.ToString()] = -1;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.LevelId.ToString()] = -1;
+                geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.IsSolid.ToString()] = true;
+                geometryTable.Rows.Add(geometryDatarow4);
+            }
+            catch (Exception e)
+            {
+                string s = "";
+            }
         }
     }
 }

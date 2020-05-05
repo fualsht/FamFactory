@@ -253,24 +253,201 @@ namespace ModBox.FamFactory.Revit.Manager
 
 
         enum ViewsFromDirection { LEFT_RIGHT, BACK_FROUNT, PLAN_CELING }
-        public static List<Autodesk.Revit.DB.ReferencePlane> GetReferencePlanes(Document doc)
+
+        public static void GetReferencePlanes(FamilyTemplate famTemplate, Document doc)
         {
-            // Gets a Temprary list of all features in the family template and adds them to the features list.
-            List<Autodesk.Revit.DB.ReferencePlane> RefPLanes = null;
             if (doc != null)
             {
-                RefPLanes = new List<Autodesk.Revit.DB.ReferencePlane>();
-                // Get reference planes from the family.
-                List<Element> referencePlaneElementList = new FilteredElementCollector(doc).OfClass(typeof(Autodesk.Revit.DB.ReferencePlane)).ToElements() as List<Element>;
-                foreach (Element element in referencePlaneElementList)
+                if (famTemplate.RefferencePlaneItems.Count <= 0)
                 {
-                    Autodesk.Revit.DB.ReferencePlane plane = (Autodesk.Revit.DB.ReferencePlane)element as Autodesk.Revit.DB.ReferencePlane;
-                    RefPLanes.Add(plane);
+                    List<Element> referencePlaneElementList = new FilteredElementCollector(doc).OfClass(typeof(Autodesk.Revit.DB.ReferencePlane)).ToElements() as List<Element>;
+                    foreach (Element element in referencePlaneElementList)
+                    {
+                        Autodesk.Revit.DB.ReferencePlane plane = (Autodesk.Revit.DB.ReferencePlane)element as Autodesk.Revit.DB.ReferencePlane;
+                        ModBox.FamFactory.Revit.Manager.ReferencePlane refPlane = ReferencePlane.NewReferencePlane(famTemplate.FamilyTemplateReferencePlanesView);
+                        refPlane.Name = plane.Name;
+                        refPlane.FamiltyTemplateId = famTemplate.Id;
+                        refPlane.ElementId = plane.Id.IntegerValue;
+                        refPlane.UniqueId = plane.UniqueId;
+                        refPlane.LevelId = plane.LevelId.IntegerValue;
+                        refPlane.ViewId = plane.OwnerViewId.IntegerValue;
+                        refPlane.Category = plane.Category.Name;
+                        refPlane.DirectionX = plane.Direction.X;
+                        refPlane.DirectionY = plane.Direction.Y;
+                        refPlane.DirectionZ = plane.Direction.Z;
+                        refPlane.BubbleEndX = plane.BubbleEnd.X;
+                        refPlane.BubbleEndY = plane.BubbleEnd.Y;
+                        refPlane.BubbleEndZ = plane.BubbleEnd.Z;
+                        refPlane.NormalX = plane.Normal.X;
+                        refPlane.NormalY = plane.Normal.Y;
+                        refPlane.NormalZ = plane.Normal.Z;
+                        refPlane.FreeEndX = plane.FreeEnd.X;
+                        refPlane.FreeEndY = plane.FreeEnd.Y;
+                        refPlane.FreeEndZ = plane.FreeEnd.Z;
+                        refPlane.IsActive = true;
+                        refPlane.EndEdit();
+                    }
+                }
+                else
+                {
+
                 }
             }
-            return RefPLanes;
         }
 
+        public static void GetParameters(FamilyTemplate famTemplate, Document doc)
+        {
+            if (famTemplate.ParameterItems.Count <= 0)
+            {
+                //Autodesk.Revit.DB.Category category;
+                foreach (Autodesk.Revit.DB.FamilyParameter item in doc.FamilyManager.Parameters)
+                {
+                    Parameter parameter = Parameter.newParameter(famTemplate.FamilyTemplateParametersView);
+                    parameter.FamilyTemplateId = famTemplate.Id;
+                    parameter.Name = item.Definition.Name;
+                    parameter.ElementId = item.Id.IntegerValue;
+                    parameter.IsShared = item.IsShared;
+                    if (parameter.IsShared)
+                        parameter.ElementGUID = item.GUID.ToString();
+                    else
+                        parameter.ElementGUID = string.Empty;
+                    parameter.HasValue = false;
+                    parameter.IsInstance = item.IsInstance;
+                    parameter.IsReadOnly = item.IsReadOnly;
+                    parameter.IsReporting = item.IsReporting;
+                    parameter.StorageType = (int)item.StorageType;
+                    parameter.BuiltInParamGroup = (int)item.Definition.ParameterGroup;
+                    parameter.ParameterType = (int)item.Definition.ParameterType;
+                    parameter.UnitType = (int)item.Definition.UnitType;
 
+                    try
+                    {
+                        parameter.DisplayUnitType = (int)item.DisplayUnitType;
+                    }
+                    catch (Exception e)
+                    {
+                        parameter.DisplayUnitType = (int)Autodesk.Revit.DB.DisplayUnitType.DUT_UNDEFINED;
+                    }
+
+                    parameter.UserModifiable = item.UserModifiable;
+                    parameter.IsDeterminedByFormula = item.IsDeterminedByFormula;
+                    parameter.Formula = item.Formula;
+                    parameter.IsActive = false;
+                    parameter.IsEditable = true;
+                    parameter.EndEdit();
+                }
+            }
+        }
+
+        public static void GetFamilyFeatures(FamilyTemplate famTemplate, Document doc)
+        {
+            if (famTemplate.FamilyGeometryItems.Count <= 0)
+            {
+                if (doc != null)
+                {
+                    List<Element> sweepElementList = new FilteredElementCollector(doc).OfClass(typeof(Autodesk.Revit.DB.Sweep)).ToElements() as List<Element>;
+                    List<Element> extrudeElementList = new FilteredElementCollector(doc).OfClass(typeof(Autodesk.Revit.DB.Extrusion)).ToElements() as List<Element>;
+                    List<Element> blendElementList = new FilteredElementCollector(doc).OfClass(typeof(Autodesk.Revit.DB.Blend)).ToElements() as List<Element>;
+                    List<Element> sweptBlendElementList = new FilteredElementCollector(doc).OfClass(typeof(Autodesk.Revit.DB.SweptBlend)).ToElements() as List<Element>;
+                    List<Element> revolveElementList = new FilteredElementCollector(doc).OfClass(typeof(Autodesk.Revit.DB.Revolution)).ToElements() as List<Element>;
+
+                    foreach (Element element in sweepElementList)
+                    {
+                        Autodesk.Revit.DB.Sweep sweep = (Autodesk.Revit.DB.Sweep)element as Autodesk.Revit.DB.Sweep;
+                        FamilyGeometry familyGeometry = FamilyGeometry.NewFamilyGeometry(famTemplate.FamilyTemplateGeometryView);
+                        familyGeometry.Name = sweep.Name;
+                        familyGeometry.ElementId = sweep.Id.IntegerValue;
+                        familyGeometry.Description = string.Empty;
+                        familyGeometry.Category = sweep.Category.Name;
+                        familyGeometry.SubCategory = sweep.Subcategory.Name;
+                        familyGeometry.FamilyTemplateId = famTemplate.Id;
+                        familyGeometry.GeometryType = "Sweep";
+                        familyGeometry.UniqueId = sweep.UniqueId;
+                        familyGeometry.OwnerViewId = sweep.OwnerViewId.IntegerValue;
+                        familyGeometry.LevelId = sweep.LevelId.IntegerValue;
+                        familyGeometry.IsSolid = sweep.IsSolid;
+                        familyGeometry.MaterialId = 0;
+                        familyGeometry.EndEdit();
+                    }
+
+                    foreach (Element element in extrudeElementList)
+                    {
+                        Autodesk.Revit.DB.Extrusion extrude = (Autodesk.Revit.DB.Extrusion)element as Autodesk.Revit.DB.Extrusion;
+                        FamilyGeometry familyGeometry = FamilyGeometry.NewFamilyGeometry(famTemplate.FamilyTemplateGeometryView);
+                        familyGeometry.Name = extrude.Name;
+                        familyGeometry.ElementId = extrude.Id.IntegerValue;
+                        familyGeometry.Description = string.Empty;
+                        familyGeometry.Category = extrude.Category.Name;
+                        familyGeometry.SubCategory = extrude.Subcategory.Name;
+                        familyGeometry.FamilyTemplateId = famTemplate.Id;
+                        familyGeometry.GeometryType = "Extrusion";
+                        familyGeometry.UniqueId = extrude.UniqueId;
+                        familyGeometry.OwnerViewId = extrude.OwnerViewId.IntegerValue;
+                        familyGeometry.LevelId = extrude.LevelId.IntegerValue;
+                        familyGeometry.IsSolid = extrude.IsSolid;
+                        familyGeometry.MaterialId = 0;
+                        familyGeometry.EndEdit();
+                    }
+                    foreach (Element element in blendElementList)
+                    {
+                        Autodesk.Revit.DB.Blend blend = (Autodesk.Revit.DB.Blend)element as Autodesk.Revit.DB.Blend;
+                        FamilyGeometry familyGeometry = FamilyGeometry.NewFamilyGeometry(famTemplate.FamilyTemplateGeometryView);
+                        familyGeometry.Name = blend.Name;
+                        familyGeometry.ElementId = blend.Id.IntegerValue;
+                        familyGeometry.Description = string.Empty;
+                        familyGeometry.Category = blend.Category.Name;
+                        familyGeometry.SubCategory = blend.Subcategory.Name;
+                        familyGeometry.FamilyTemplateId = famTemplate.Id;
+                        familyGeometry.GeometryType = "Blend";
+                        familyGeometry.UniqueId = blend.UniqueId;
+                        familyGeometry.OwnerViewId = blend.OwnerViewId.IntegerValue;
+                        familyGeometry.LevelId = blend.LevelId.IntegerValue;
+                        familyGeometry.IsSolid = blend.IsSolid;
+                        familyGeometry.MaterialId = 0;
+                        familyGeometry.EndEdit();
+                    }
+                    foreach (Element element in sweptBlendElementList)
+                    {
+                        Autodesk.Revit.DB.SweptBlend weptblend = (Autodesk.Revit.DB.SweptBlend)element as Autodesk.Revit.DB.SweptBlend;
+                        FamilyGeometry familyGeometry = FamilyGeometry.NewFamilyGeometry(famTemplate.FamilyTemplateGeometryView);
+                        familyGeometry.Name = weptblend.Name;
+                        familyGeometry.ElementId = weptblend.Id.IntegerValue;
+                        familyGeometry.Description = string.Empty;
+                        familyGeometry.Category = weptblend.Category.Name;
+                        familyGeometry.SubCategory = weptblend.Subcategory.Name;
+                        familyGeometry.FamilyTemplateId = famTemplate.Id;
+                        familyGeometry.GeometryType = "SweptBlend";
+                        familyGeometry.UniqueId = weptblend.UniqueId;
+                        familyGeometry.OwnerViewId = weptblend.OwnerViewId.IntegerValue;
+                        familyGeometry.LevelId = weptblend.LevelId.IntegerValue;
+                        familyGeometry.IsSolid = weptblend.IsSolid;
+                        familyGeometry.MaterialId = 0;
+                        familyGeometry.EndEdit();
+                    }
+                    foreach (Element element in revolveElementList)
+                    {
+                        Autodesk.Revit.DB.Revolution revolve = (Autodesk.Revit.DB.Revolution)element as Autodesk.Revit.DB.Revolution;
+                        FamilyGeometry familyGeometry = FamilyGeometry.NewFamilyGeometry(famTemplate.FamilyTemplateGeometryView);
+                        familyGeometry.Name = revolve.Name;
+                        familyGeometry.ElementId = revolve.Id.IntegerValue;
+                        familyGeometry.Description = string.Empty;
+                        familyGeometry.Category = revolve.Category.Name;
+                        familyGeometry.SubCategory = revolve.Subcategory.Name;
+                        familyGeometry.FamilyTemplateId = famTemplate.Id;
+                        familyGeometry.GeometryType = "Revolution";
+                        familyGeometry.UniqueId = revolve.UniqueId;
+                        familyGeometry.OwnerViewId = revolve.OwnerViewId.IntegerValue;
+                        familyGeometry.LevelId = revolve.LevelId.IntegerValue;
+                        familyGeometry.IsSolid = revolve.IsSolid;
+                        familyGeometry.MaterialId = 0;
+                        familyGeometry.EndEdit();
+                    }
+                }
+            }
+            else
+            {
+
+            }
+        }
     }
 }
