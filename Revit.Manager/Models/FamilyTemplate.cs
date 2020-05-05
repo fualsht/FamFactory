@@ -12,6 +12,11 @@ namespace ModBox.FamFactory.Revit.Manager
     {
         public enum ParameterColumnNames { Id, Name, Description, IsReleased, FamilyCategory, CanHostRebar, RoundConnectorDimention, PartType, OmnoClassNumber,
             OmniClassTitle, WorkPlaneBased, AlwaysVertical, CutsWithVoidWhenLoaded, IsShared, RoomCalculationPoint, FileName, Thumbnail, Version, FileSize, DateCreated, DateModified, FamilyFile }
+
+        DataView FamilyTemplateParametersView;
+        DataView FamilyTemplateReferencePlanesView;
+        DataView FamilyTemplateGeometryView;
+
         public string Id
         {
             get { return InternalDataRowView[ParameterColumnNames.Id.ToString()].ToString(); }
@@ -123,16 +128,34 @@ namespace ModBox.FamFactory.Revit.Manager
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.FamilyFile.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
 
-        public ObservableCollection<Parameter> RefferencePlaneItems { get; set; }
+        public ObservableCollection<ReferencePlane> RefferencePlaneItems { get; set; }
         public ObservableCollection<FamilyGeometry> FamilyGeometryItems { get; set; }
         public ObservableCollection<Parameter> ParameterItems { get; set; }
 
         public FamilyTemplate(DataRowView view) : base(view)
         {
-            RefferencePlaneItems = new ObservableCollection<Parameter>();
+            RefferencePlaneItems = new ObservableCollection<ReferencePlane>();
             FamilyGeometryItems = new ObservableCollection<FamilyGeometry>();
             ParameterItems = new ObservableCollection<Parameter>();
-            //DataView v = view.CreateChildView();
+            RefreshChildRows();
+        }
+
+        private void RefreshChildRows()
+        {
+            FamilyTemplateParametersView = InternalDataRowView.CreateChildView(TableRelations.ParametersFamilyTemplateId_FamilyTemplatesId.ToString());
+            ParameterItems.Clear();
+            foreach (DataRowView item in FamilyTemplateParametersView)
+                ParameterItems.Add(new Parameter(item));
+
+            FamilyTemplateReferencePlanesView = InternalDataRowView.CreateChildView(TableRelations.ReferencePlanesFamilyTemplateId_FamilyTemplatesId.ToString());
+            RefferencePlaneItems.Clear();
+            foreach (DataRowView item in FamilyTemplateReferencePlanesView)
+                RefferencePlaneItems.Add(new ReferencePlane(item));
+            
+            FamilyTemplateGeometryView = InternalDataRowView.CreateChildView(TableRelations.GeometryFamilyTemplateid_FamilyTemplateId.ToString());
+            FamilyGeometryItems.Clear();
+            foreach (DataRowView item in FamilyTemplateGeometryView)
+                FamilyGeometryItems.Add(new FamilyGeometry(item));
         }
 
         public static FamilyTemplate NewTemplate(DataView rowView)

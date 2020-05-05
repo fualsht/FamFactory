@@ -11,6 +11,7 @@ namespace ModBox.FamFactory.Revit.Manager
     {
         public enum ParameterColumnNames { Id, FamilyTemplateId, Name, ElementId, ElementGUID, HasValue, IsReadOnly, IsShared, IsInstance, StorageType, 
             IsEditable, IsActive, HostId, IsReporting, BuiltInParamGroup, ParameterType, UnitType, DisplayUnitType, UserModifiable, IsDeterminedByFormula, Formula }
+
         public string Id
         {
             get { return InternalDataRowView[ParameterColumnNames.Id.ToString()].ToString(); }
@@ -64,9 +65,9 @@ namespace ModBox.FamFactory.Revit.Manager
             get { return (bool)InternalDataRowView[ParameterColumnNames.IsInstance.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.IsInstance.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
-        public Autodesk.Revit.DB.StorageType StorageType
+        public int StorageType
         {
-            get { return (Autodesk.Revit.DB.StorageType)InternalDataRowView[ParameterColumnNames.StorageType.ToString()]; }
+            get { return (int)InternalDataRowView[ParameterColumnNames.StorageType.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.StorageType.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public bool IsEditable
@@ -89,25 +90,25 @@ namespace ModBox.FamFactory.Revit.Manager
             get { return (bool)InternalDataRowView[ParameterColumnNames.IsReporting.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.IsReporting.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
-        public Autodesk.Revit.DB.BuiltInParameterGroup BuiltInParamGroup
+        public int BuiltInParamGroup
         {
-            get { return (Autodesk.Revit.DB.BuiltInParameterGroup)InternalDataRowView[ParameterColumnNames.BuiltInParamGroup.ToString()]; }
+            get { return (int)InternalDataRowView[ParameterColumnNames.BuiltInParamGroup.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.BuiltInParamGroup.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
 
-        public Autodesk.Revit.DB.ParameterType ParameterType
+        public int ParameterType
         {
-            get { return (Autodesk.Revit.DB.ParameterType)InternalDataRowView[ParameterColumnNames.ParameterType.ToString()]; }
+            get { return (int)InternalDataRowView[ParameterColumnNames.ParameterType.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.ParameterType.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
-        public Autodesk.Revit.DB.UnitType UnitType
+        public int UnitType
         {
-            get { return (Autodesk.Revit.DB.UnitType)InternalDataRowView[ParameterColumnNames.UnitType.ToString()]; }
+            get { return (int)InternalDataRowView[ParameterColumnNames.UnitType.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.UnitType.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
-        public Autodesk.Revit.DB.DisplayUnitType DisplayUnitType
+        public int DisplayUnitType
         {
-            get { return (Autodesk.Revit.DB.DisplayUnitType)InternalDataRowView[ParameterColumnNames.DisplayUnitType.ToString()]; }
+            get { return (int)InternalDataRowView[ParameterColumnNames.DisplayUnitType.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.DisplayUnitType.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public bool UserModifiable

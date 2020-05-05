@@ -21,7 +21,7 @@ namespace ModBox.FamFactory.Revit.Manager
             InitilizeReferencePlaneTable(dataSet);
             InitilizeGeometryTable(dataSet);
             InitilizeParametersTable(dataSet);
-
+            
             InstallSampleData(dataSet);
         }
 
@@ -183,7 +183,7 @@ namespace ModBox.FamFactory.Revit.Manager
             // Add DataTable to DataSet befroe adding Datarelations.
             dataSet.Tables.Add(usersTable);
             //Create the DataRelation.
-            DataRelation dataRelation = new DataRelation(TableRelations.UsersPermissionId_PermissionsId.ToString(), 
+            DataRelation dataRelation = new DataRelation(TableRelations.PermissionsUserId_UsersId.ToString(), 
                 dataSet.Tables[TableNames.FF_Permissions.ToString()].Columns["Id"], 
                 dataSet.Tables[TableNames.FF_Users.ToString()].Columns[User.UsersTableColumnNames.PermissionId.ToString()]);
             dataSet.Relations.Add(dataRelation);
@@ -340,106 +340,99 @@ namespace ModBox.FamFactory.Revit.Manager
         private static void InitilizeReferencePlaneTable(DataSet dataSet)
         {
             DataTable referencePlaneTable = new DataTable(TableNames.FF_ReferencePlanes.ToString());
+
             DataColumn IdColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.Id.ToString(), typeof(string));
             IdColumn.AllowDBNull = false;
             IdColumn.Unique = true;
-            IdColumn.Caption = "Id";
+
+            DataColumn FamilyTemplateIdColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.FamilyTemplateId.ToString(), typeof(string));
+            FamilyTemplateIdColumn.AllowDBNull = false;
+            FamilyTemplateIdColumn.Unique = false;
+
             DataColumn NameColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.Name.ToString(), typeof(string));
             NameColumn.AllowDBNull = false;
             NameColumn.DefaultValue = "New User";
-            NameColumn.Unique = true;
-            DataColumn RevitIdColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.RevitId.ToString(), typeof(string));
+            NameColumn.Unique = false;
+
+            DataColumn RevitIdColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.ElementId.ToString(), typeof(int));
             RevitIdColumn.AllowDBNull = false;
-            RevitIdColumn.DefaultValue = "";
+
             DataColumn UniquColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.UniqueId.ToString(), typeof(string));
             UniquColumn.AllowDBNull = false;
-            UniquColumn.DefaultValue = "";
-            DataColumn LevelColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.LevelId.ToString(), typeof(string));
+            UniquColumn.DefaultValue = false;
+
+            DataColumn LevelColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.LevelId.ToString(), typeof(int));
             LevelColumn.AllowDBNull = false;
-            LevelColumn.DefaultValue = "";
-            DataColumn ViewIdColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.ViewId.ToString(), typeof(string));
+            LevelColumn.DefaultValue = 0;
+
+            DataColumn ViewIdColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.ViewId.ToString(), typeof(int));
             ViewIdColumn.AllowDBNull = false;
-            ViewIdColumn.DefaultValue = "";
+            ViewIdColumn.DefaultValue = 0;
+
             DataColumn CategoryColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.Category.ToString(), typeof(string));
             CategoryColumn.AllowDBNull = false;
             CategoryColumn.DefaultValue = "";
-            DataColumn DirectionXColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.DirectionX.ToString(), typeof(string));
+
+            DataColumn DirectionXColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.DirectionX.ToString(), typeof(double));
             DirectionXColumn.AllowDBNull = false;
-            DirectionXColumn.DefaultValue = "";
-            DataColumn DirectionYColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.DirectionY.ToString(), typeof(string));
+            DirectionXColumn.DefaultValue = 0;
+
+            DataColumn DirectionYColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.DirectionY.ToString(), typeof(double));
             DirectionYColumn.AllowDBNull = false;
-            DirectionYColumn.DefaultValue = "";
-            DataColumn DirectionZColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.DirectionZ.ToString(), typeof(string));
+            DirectionYColumn.DefaultValue = 0;
+
+            DataColumn DirectionZColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.DirectionZ.ToString(), typeof(double));
             DirectionZColumn.AllowDBNull = false;
-            DirectionZColumn.DefaultValue = "";
-            DataColumn LocationXColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.LocationX.ToString(), typeof(string));
-            LocationXColumn.AllowDBNull = false;
-            LocationXColumn.DefaultValue = "";
-            DataColumn LocationYColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.LocationY.ToString(), typeof(string));
-            LocationYColumn.AllowDBNull = false;
-            LocationYColumn.DefaultValue = "";
-            DataColumn LocationZColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.LocationZ.ToString(), typeof(string));
-            LocationZColumn.AllowDBNull = false;
-            LocationZColumn.DefaultValue = "";
-            DataColumn BubbleEndXColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.BubbleEndX.ToString(), typeof(string));
+            DirectionZColumn.DefaultValue = 0;
+
+            DataColumn BubbleEndXColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.BubbleEndX.ToString(), typeof(double));
             BubbleEndXColumn.AllowDBNull = false;
-            BubbleEndXColumn.DefaultValue = "";
-            DataColumn BubbleEndYColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.BubbleEndY.ToString(), typeof(string));
+            BubbleEndXColumn.DefaultValue = 0;
+
+            DataColumn BubbleEndYColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.BubbleEndY.ToString(), typeof(double));
             BubbleEndYColumn.AllowDBNull = false;
-            BubbleEndYColumn.DefaultValue = "";
-            DataColumn BubbleEndZColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.BubbleEndZ.ToString(), typeof(string));
+            BubbleEndYColumn.DefaultValue = 0;
+
+            DataColumn BubbleEndZColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.BubbleEndZ.ToString(), typeof(double));
             BubbleEndZColumn.AllowDBNull = false;
-            BubbleEndZColumn.DefaultValue = "";
-            DataColumn NormalXColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.NormalX.ToString(), typeof(string));
+            BubbleEndZColumn.DefaultValue = 0;
+
+            DataColumn NormalXColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.NormalX.ToString(), typeof(double));
             NormalXColumn.AllowDBNull = false;
-            NormalXColumn.DefaultValue = "";
-            DataColumn NormalYColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.NormalY.ToString(), typeof(string));
+            NormalXColumn.DefaultValue = 0;
+
+            DataColumn NormalYColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.NormalY.ToString(), typeof(double));
             NormalYColumn.AllowDBNull = false;
-            NormalYColumn.DefaultValue = "";
-            DataColumn NormalZColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.NormalZ.ToString(), typeof(string));
+            NormalYColumn.DefaultValue = 0;
+
+            DataColumn NormalZColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.NormalZ.ToString(), typeof(double));
             NormalZColumn.AllowDBNull = false;
-            NormalZColumn.DefaultValue = "";
-            DataColumn FreeEndXColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.FreeEndX.ToString(), typeof(string));
+            NormalZColumn.DefaultValue = 0;
+
+            DataColumn FreeEndXColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.FreeEndX.ToString(), typeof(double));
             FreeEndXColumn.AllowDBNull = false;
-            FreeEndXColumn.DefaultValue = "";
-            DataColumn FreeEndYColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.FreeEndY.ToString(), typeof(string));
+            FreeEndXColumn.DefaultValue = 0;
+
+            DataColumn FreeEndYColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.FreeEndY.ToString(), typeof(double));
             FreeEndYColumn.AllowDBNull = false;
-            FreeEndYColumn.DefaultValue = "";
-            DataColumn FreeEndZColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.FreeEndZ.ToString(), typeof(string));
+            FreeEndYColumn.DefaultValue = 0;
+
+            DataColumn FreeEndZColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.FreeEndZ.ToString(), typeof(double));
             FreeEndZColumn.AllowDBNull = false;
-            FreeEndZColumn.DefaultValue = "";
+            FreeEndZColumn.DefaultValue = 0;
+
             DataColumn IsActiveColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.IsActive.ToString(), typeof(bool));
             IsActiveColumn.AllowDBNull = false;
-            IsActiveColumn.DefaultValue = false;
+            IsActiveColumn.DefaultValue = false; 
 
             referencePlaneTable.PrimaryKey = new DataColumn[] { IdColumn, NameColumn };
-            
-            //Admin Level
-            DataRow adminPermissionDatarow = referencePlaneTable.NewRow();
-            adminPermissionDatarow["Id"] = Guid.NewGuid();
-            adminPermissionDatarow["Name"] = "new";
-            adminPermissionDatarow["RevitId"] = "";
-            adminPermissionDatarow["UniqueId"] = "";
-            adminPermissionDatarow["LevelId"] = "";
-            adminPermissionDatarow["ViewId"] = "";
-            adminPermissionDatarow["Category"] = "";
-            adminPermissionDatarow["DirectionX"] = "";
-            adminPermissionDatarow["DirectionY"] = "";
-            adminPermissionDatarow["DirectionZ"] = "";
-            adminPermissionDatarow["LocationX"] = "";
-            adminPermissionDatarow["LocationY"] = "";
-            adminPermissionDatarow["LocationZ"] = "";
-            adminPermissionDatarow["BubbleEndX"] = "";
-            adminPermissionDatarow["BubbleEndY"] = "";
-            adminPermissionDatarow["BubbleEndZ"] = "";
-            adminPermissionDatarow["NormalX"] = "";
-            adminPermissionDatarow["NormalY"] = "";
-            adminPermissionDatarow["NormalZ"] = "";
-            adminPermissionDatarow["FreeEndX"] = "";
-            adminPermissionDatarow["FreeEndY"] = "";
-            adminPermissionDatarow["FreeEndZ"] = "";
-            adminPermissionDatarow["IsActive"] = false;
-            referencePlaneTable.Rows.Add(adminPermissionDatarow);
+
+            dataSet.Tables.Add(referencePlaneTable);
+
+            DataRelation ReferencePlanesDataRelation = new DataRelation(TableRelations.ReferencePlanesFamilyTemplateId_FamilyTemplatesId.ToString(),
+                dataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].Columns["Id"],
+                dataSet.Tables[TableNames.FF_ReferencePlanes.ToString()].Columns[ReferencePlane.ReferencePlaneTableColumnNames.FamilyTemplateId.ToString()]);
+            dataSet.Relations.Add(ReferencePlanesDataRelation);
         }
 
         private static void InitilizeGeometryTable(DataSet dataSet)
@@ -450,6 +443,10 @@ namespace ModBox.FamFactory.Revit.Manager
             IdColumn.AllowDBNull = false;
             IdColumn.Unique = true;
             IdColumn.Caption = "Id";
+
+            DataColumn FamilyTemplateIdColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.FamilyTemplateId.ToString(), typeof(string));
+            FamilyTemplateIdColumn.AllowDBNull = false;
+            FamilyTemplateIdColumn.Unique = false;
 
             DataColumn NameColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.Name.ToString(), typeof(string));
             NameColumn.AllowDBNull = false;
@@ -466,32 +463,37 @@ namespace ModBox.FamFactory.Revit.Manager
             GeometryTypeColumn.DefaultValue = "New Sweep";
             GeometryTypeColumn.Unique = false; 
             
-            DataColumn MaterialIdColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.MaterialId.ToString(), typeof(string));
+            DataColumn MaterialIdColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.MaterialId.ToString(), typeof(int));
             MaterialIdColumn.AllowDBNull = false;
-            MaterialIdColumn.DefaultValue = "New Sweep";
+            MaterialIdColumn.DefaultValue = -1;
             MaterialIdColumn.Unique = false; 
             
-            DataColumn IsActiveColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.IsActive.ToString(), typeof(string));
+            DataColumn IsActiveColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.IsActive.ToString(), typeof(bool));
             IsActiveColumn.AllowDBNull = false;
-            IsActiveColumn.DefaultValue = "New Sweep";
+            IsActiveColumn.DefaultValue = true;
             IsActiveColumn.Unique = false;
 
-            DataColumn ProfileFamily1IdColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily1Id.ToString(), typeof(string));
+            DataColumn ProfileFamily1IdColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily1Id.ToString(), typeof(int));
             ProfileFamily1IdColumn.AllowDBNull = false;
-            ProfileFamily1IdColumn.DefaultValue = "New Sweep";
+            ProfileFamily1IdColumn.DefaultValue = -1;
             ProfileFamily1IdColumn.Unique = false;
 
-            DataColumn ProfileFamily2IdColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily2Id.ToString(), typeof(string));
+            DataColumn ProfileFamily2IdColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily2Id.ToString(), typeof(int));
             ProfileFamily2IdColumn.AllowDBNull = false;
-            ProfileFamily2IdColumn.DefaultValue = "New Sweep";
+            ProfileFamily2IdColumn.DefaultValue = -1;
             ProfileFamily2IdColumn.Unique = false; 
             
-            DataColumn HostIdColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.HostId.ToString(), typeof(string));
+            DataColumn HostIdColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.HostId.ToString(), typeof(int));
             HostIdColumn.AllowDBNull = false;
-            HostIdColumn.DefaultValue = "New Sweep";
+            HostIdColumn.DefaultValue = -1;
             HostIdColumn.Unique = false;
             
             dataSet.Tables.Add(GeometryTable);
+
+            DataRelation geometryDataRelation = new DataRelation(TableRelations.GeometryFamilyTemplateid_FamilyTemplateId.ToString(),
+                dataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].Columns["Id"],
+                dataSet.Tables[TableNames.FF_Geometry.ToString()].Columns[FamilyGeometry.FamilyGeometryColumnNames.FamilyTemplateId.ToString()]);
+            dataSet.Relations.Add(geometryDataRelation);
         }
 
         private static void InitilizeParametersTable(DataSet dataSet)
@@ -542,9 +544,9 @@ namespace ModBox.FamFactory.Revit.Manager
             IsInstanceColumn.DefaultValue = false;
             IsInstanceColumn.Unique = false;
 
-            DataColumn StorageTypeColumn = ParametersTable.Columns.Add(Parameter.ParameterColumnNames.StorageType.ToString(), typeof(Autodesk.Revit.DB.StorageType));
+            DataColumn StorageTypeColumn = ParametersTable.Columns.Add(Parameter.ParameterColumnNames.StorageType.ToString(), typeof(int));
             StorageTypeColumn.AllowDBNull = false;
-            StorageTypeColumn.DefaultValue = Autodesk.Revit.DB.StorageType.None;
+            StorageTypeColumn.DefaultValue = 0;
             StorageTypeColumn.Unique = false;
 
             DataColumn IsEditableColumn = ParametersTable.Columns.Add(Parameter.ParameterColumnNames.IsEditable.ToString(), typeof(bool));
@@ -566,24 +568,24 @@ namespace ModBox.FamFactory.Revit.Manager
             IsReportingColumn.DefaultValue = false;
             IsReportingColumn.Unique = false;
 
-            DataColumn BuiltInParamGroupColumn = ParametersTable.Columns.Add(Parameter.ParameterColumnNames.BuiltInParamGroup.ToString(), typeof(Autodesk.Revit.DB.BuiltInParameterGroup));
+            DataColumn BuiltInParamGroupColumn = ParametersTable.Columns.Add(Parameter.ParameterColumnNames.BuiltInParamGroup.ToString(), typeof(int));
             BuiltInParamGroupColumn.AllowDBNull = false;
-            BuiltInParamGroupColumn.DefaultValue = Autodesk.Revit.DB.BuiltInParameterGroup.INVALID;
+            BuiltInParamGroupColumn.DefaultValue = -1;
             BuiltInParamGroupColumn.Unique = false;
 
-            DataColumn ParameterTypeColumn = ParametersTable.Columns.Add(Parameter.ParameterColumnNames.ParameterType.ToString(), typeof(Autodesk.Revit.DB.ParameterType));
+            DataColumn ParameterTypeColumn = ParametersTable.Columns.Add(Parameter.ParameterColumnNames.ParameterType.ToString(), typeof(int));
             ParameterTypeColumn.AllowDBNull = false;
-            ParameterTypeColumn.DefaultValue = Autodesk.Revit.DB.ParameterType.Text;
+            ParameterTypeColumn.DefaultValue = 1;
             ParameterTypeColumn.Unique = false;
 
-            DataColumn UnitTypeColumn = ParametersTable.Columns.Add(Parameter.ParameterColumnNames.UnitType.ToString(), typeof(Autodesk.Revit.DB.UnitType));
+            DataColumn UnitTypeColumn = ParametersTable.Columns.Add(Parameter.ParameterColumnNames.UnitType.ToString(), typeof(int));
             UnitTypeColumn.AllowDBNull = false;
-            UnitTypeColumn.DefaultValue = Autodesk.Revit.DB.UnitType.UT_Custom;
+            UnitTypeColumn.DefaultValue = -1;
             UnitTypeColumn.Unique = false;
             
-            DataColumn DisplayUnitTypeColumn = ParametersTable.Columns.Add(Parameter.ParameterColumnNames.DisplayUnitType.ToString(), typeof(Autodesk.Revit.DB.DisplayUnitType));
+            DataColumn DisplayUnitTypeColumn = ParametersTable.Columns.Add(Parameter.ParameterColumnNames.DisplayUnitType.ToString(), typeof(int));
             DisplayUnitTypeColumn.AllowDBNull = false;
-            DisplayUnitTypeColumn.DefaultValue = Autodesk.Revit.DB.DisplayUnitType.DUT_MILLIMETERS;
+            DisplayUnitTypeColumn.DefaultValue = 2;
             DisplayUnitTypeColumn.Unique = false;
             
             DataColumn UserModifiableColumn = ParametersTable.Columns.Add(Parameter.ParameterColumnNames.UserModifiable.ToString(), typeof(bool));
@@ -602,8 +604,12 @@ namespace ModBox.FamFactory.Revit.Manager
             FormulaColumn.Unique = false;
 
             ParametersTable.PrimaryKey = new DataColumn[] { IdColumn, NameColumn };
-
             dataSet.Tables.Add(ParametersTable);
+
+            DataRelation parametersDataRelation = new DataRelation(TableRelations.ParametersFamilyTemplateId_FamilyTemplatesId.ToString(),
+                dataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].Columns["Id"],
+                dataSet.Tables[TableNames.FF_Parameters.ToString()].Columns[Parameter.ParameterColumnNames.FamilyTemplateId.ToString()]);
+            dataSet.Relations.Add(parametersDataRelation);
         }
 
         private static void InstallSampleData(DataSet dataSet)
@@ -685,7 +691,7 @@ namespace ModBox.FamFactory.Revit.Manager
             FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.FileName.ToString()] = "file.rfa";
             FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Thumbnail.ToString()] = new byte[byte.MinValue];
             FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Version.ToString()] = "v.1.0.0";
-            FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.FileSize.ToString()] = long.MinValue;
+            FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.FileSize.ToString()] = 300240;
             FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.DateCreated.ToString()] = DateTime.Now;
             FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.DateModified.ToString()] = DateTime.Now;
             FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.FamilyFile.ToString()] = new byte[byte.MinValue];
@@ -693,29 +699,434 @@ namespace ModBox.FamFactory.Revit.Manager
 
             // Parameters
             DataTable ParametersTable = dataSet.Tables[TableNames.FF_Parameters.ToString()];
-            DataRow row = ParametersTable.NewRow();
-            row[Parameter.ParameterColumnNames.Id.ToString()] = Guid.NewGuid().ToString();
-            row[Parameter.ParameterColumnNames.FamilyTemplateId.ToString()] = FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Id.ToString()];
-            row[Parameter.ParameterColumnNames.Name.ToString()] = "NewParameter1";
-            row[Parameter.ParameterColumnNames.ElementId.ToString()] = 0;
-            row[Parameter.ParameterColumnNames.ElementGUID.ToString()] = Guid.NewGuid();
-            row[Parameter.ParameterColumnNames.HasValue.ToString()] = false;
-            row[Parameter.ParameterColumnNames.IsReadOnly.ToString()] = false;
-            row[Parameter.ParameterColumnNames.IsShared.ToString()] = false;
-            row[Parameter.ParameterColumnNames.IsInstance.ToString()] = false;
-            row[Parameter.ParameterColumnNames.StorageType.ToString()] = Autodesk.Revit.DB.StorageType.String;
-            row[Parameter.ParameterColumnNames.IsEditable.ToString()] = false;
-            row[Parameter.ParameterColumnNames.IsActive.ToString()] = true;
-            row[Parameter.ParameterColumnNames.HostId.ToString()] = Guid.NewGuid().ToString();
-            row[Parameter.ParameterColumnNames.IsReporting.ToString()] = false;
-            row[Parameter.ParameterColumnNames.BuiltInParamGroup.ToString()] = Autodesk.Revit.DB.BuiltInParameterGroup.INVALID;
-            row[Parameter.ParameterColumnNames.ParameterType.ToString()] = Autodesk.Revit.DB.ParameterType.Text;
-            row[Parameter.ParameterColumnNames.UnitType.ToString()] = Autodesk.Revit.DB.UnitType.UT_Custom;
-            row[Parameter.ParameterColumnNames.DisplayUnitType.ToString()] = Autodesk.Revit.DB.DisplayUnitType.DUT_MILLIMETERS;
-            row[Parameter.ParameterColumnNames.UserModifiable.ToString()] = false;
-            row[Parameter.ParameterColumnNames.IsDeterminedByFormula.ToString()] = false;
-            row[Parameter.ParameterColumnNames.Formula.ToString()] = "N/A";
-            ParametersTable.Rows.Add(row);
+            DataRow ParametersRow = ParametersTable.NewRow();
+            ParametersRow[Parameter.ParameterColumnNames.Id.ToString()] = Guid.NewGuid().ToString();
+            ParametersRow[Parameter.ParameterColumnNames.FamilyTemplateId.ToString()] = FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Id.ToString()];
+            ParametersRow[Parameter.ParameterColumnNames.Name.ToString()] = "NewParameter1";
+            ParametersRow[Parameter.ParameterColumnNames.ElementId.ToString()] = 0;
+            ParametersRow[Parameter.ParameterColumnNames.ElementGUID.ToString()] = Guid.NewGuid();
+            ParametersRow[Parameter.ParameterColumnNames.HasValue.ToString()] = false;
+            ParametersRow[Parameter.ParameterColumnNames.IsReadOnly.ToString()] = false;
+            ParametersRow[Parameter.ParameterColumnNames.IsShared.ToString()] = false;
+            ParametersRow[Parameter.ParameterColumnNames.IsInstance.ToString()] = false;
+            ParametersRow[Parameter.ParameterColumnNames.StorageType.ToString()] = 3;
+            ParametersRow[Parameter.ParameterColumnNames.IsEditable.ToString()] = false;
+            ParametersRow[Parameter.ParameterColumnNames.IsActive.ToString()] = true;
+            ParametersRow[Parameter.ParameterColumnNames.HostId.ToString()] = Guid.NewGuid().ToString();
+            ParametersRow[Parameter.ParameterColumnNames.IsReporting.ToString()] = false;
+            ParametersRow[Parameter.ParameterColumnNames.BuiltInParamGroup.ToString()] = -1;
+            ParametersRow[Parameter.ParameterColumnNames.ParameterType.ToString()] = 1;
+            ParametersRow[Parameter.ParameterColumnNames.UnitType.ToString()] = -1;
+            ParametersRow[Parameter.ParameterColumnNames.DisplayUnitType.ToString()] = 2;
+            ParametersRow[Parameter.ParameterColumnNames.UserModifiable.ToString()] = false;
+            ParametersRow[Parameter.ParameterColumnNames.IsDeterminedByFormula.ToString()] = false;
+            ParametersRow[Parameter.ParameterColumnNames.Formula.ToString()] = "N/A";
+            ParametersTable.Rows.Add(ParametersRow);
+
+            DataRow ParametersRow1 = ParametersTable.NewRow();
+            ParametersRow1[Parameter.ParameterColumnNames.Id.ToString()] = Guid.NewGuid().ToString();
+            ParametersRow1[Parameter.ParameterColumnNames.FamilyTemplateId.ToString()] = FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Id.ToString()];
+            ParametersRow1[Parameter.ParameterColumnNames.Name.ToString()] = "NewParameter2";
+            ParametersRow1[Parameter.ParameterColumnNames.ElementId.ToString()] = 0;
+            ParametersRow1[Parameter.ParameterColumnNames.ElementGUID.ToString()] = Guid.NewGuid();
+            ParametersRow1[Parameter.ParameterColumnNames.HasValue.ToString()] = false;
+            ParametersRow1[Parameter.ParameterColumnNames.IsReadOnly.ToString()] = false;
+            ParametersRow1[Parameter.ParameterColumnNames.IsShared.ToString()] = false;
+            ParametersRow1[Parameter.ParameterColumnNames.IsInstance.ToString()] = false;
+            ParametersRow1[Parameter.ParameterColumnNames.StorageType.ToString()] = 3;
+            ParametersRow1[Parameter.ParameterColumnNames.IsEditable.ToString()] = false;
+            ParametersRow1[Parameter.ParameterColumnNames.IsActive.ToString()] = true;
+            ParametersRow1[Parameter.ParameterColumnNames.HostId.ToString()] = Guid.NewGuid().ToString();
+            ParametersRow1[Parameter.ParameterColumnNames.IsReporting.ToString()] = false;
+            ParametersRow1[Parameter.ParameterColumnNames.BuiltInParamGroup.ToString()] = -1;
+            ParametersRow1[Parameter.ParameterColumnNames.ParameterType.ToString()] = 1;
+            ParametersRow1[Parameter.ParameterColumnNames.UnitType.ToString()] = -1;
+            ParametersRow1[Parameter.ParameterColumnNames.DisplayUnitType.ToString()] = 2;
+            ParametersRow1[Parameter.ParameterColumnNames.UserModifiable.ToString()] = false;
+            ParametersRow1[Parameter.ParameterColumnNames.IsDeterminedByFormula.ToString()] = false;
+            ParametersRow1[Parameter.ParameterColumnNames.Formula.ToString()] = "N/A";
+            ParametersTable.Rows.Add(ParametersRow1);
+
+            DataRow ParametersRow2 = ParametersTable.NewRow();
+            ParametersRow2[Parameter.ParameterColumnNames.Id.ToString()] = Guid.NewGuid().ToString();
+            ParametersRow2[Parameter.ParameterColumnNames.FamilyTemplateId.ToString()] = FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Id.ToString()];
+            ParametersRow2[Parameter.ParameterColumnNames.Name.ToString()] = "NewParameter3";
+            ParametersRow2[Parameter.ParameterColumnNames.ElementId.ToString()] = 0;
+            ParametersRow2[Parameter.ParameterColumnNames.ElementGUID.ToString()] = Guid.NewGuid();
+            ParametersRow2[Parameter.ParameterColumnNames.HasValue.ToString()] = false;
+            ParametersRow2[Parameter.ParameterColumnNames.IsReadOnly.ToString()] = false;
+            ParametersRow2[Parameter.ParameterColumnNames.IsShared.ToString()] = false;
+            ParametersRow2[Parameter.ParameterColumnNames.IsInstance.ToString()] = false;
+            ParametersRow2[Parameter.ParameterColumnNames.StorageType.ToString()] = 3;
+            ParametersRow2[Parameter.ParameterColumnNames.IsEditable.ToString()] = false;
+            ParametersRow2[Parameter.ParameterColumnNames.IsActive.ToString()] = true;
+            ParametersRow2[Parameter.ParameterColumnNames.HostId.ToString()] = Guid.NewGuid().ToString();
+            ParametersRow2[Parameter.ParameterColumnNames.IsReporting.ToString()] = false;
+            ParametersRow2[Parameter.ParameterColumnNames.BuiltInParamGroup.ToString()] = -1;
+            ParametersRow2[Parameter.ParameterColumnNames.ParameterType.ToString()] = 1;
+            ParametersRow2[Parameter.ParameterColumnNames.UnitType.ToString()] = -1;
+            ParametersRow2[Parameter.ParameterColumnNames.DisplayUnitType.ToString()] = 2;
+            ParametersRow2[Parameter.ParameterColumnNames.UserModifiable.ToString()] = false;
+            ParametersRow2[Parameter.ParameterColumnNames.IsDeterminedByFormula.ToString()] = false;
+            ParametersRow2[Parameter.ParameterColumnNames.Formula.ToString()] = "N/A";
+            ParametersTable.Rows.Add(ParametersRow2);
+
+            DataRow ParametersRow3 = ParametersTable.NewRow();
+            ParametersRow3[Parameter.ParameterColumnNames.Id.ToString()] = Guid.NewGuid().ToString();
+            ParametersRow3[Parameter.ParameterColumnNames.FamilyTemplateId.ToString()] = FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Id.ToString()];
+            ParametersRow3[Parameter.ParameterColumnNames.Name.ToString()] = "NewParameter4";
+            ParametersRow3[Parameter.ParameterColumnNames.ElementId.ToString()] = 0;
+            ParametersRow3[Parameter.ParameterColumnNames.ElementGUID.ToString()] = Guid.NewGuid();
+            ParametersRow3[Parameter.ParameterColumnNames.HasValue.ToString()] = false;
+            ParametersRow3[Parameter.ParameterColumnNames.IsReadOnly.ToString()] = false;
+            ParametersRow3[Parameter.ParameterColumnNames.IsShared.ToString()] = false;
+            ParametersRow3[Parameter.ParameterColumnNames.IsInstance.ToString()] = false;
+            ParametersRow3[Parameter.ParameterColumnNames.StorageType.ToString()] = 3;
+            ParametersRow3[Parameter.ParameterColumnNames.IsEditable.ToString()] = false;
+            ParametersRow3[Parameter.ParameterColumnNames.IsActive.ToString()] = true;
+            ParametersRow3[Parameter.ParameterColumnNames.HostId.ToString()] = Guid.NewGuid().ToString();
+            ParametersRow3[Parameter.ParameterColumnNames.IsReporting.ToString()] = false;
+            ParametersRow3[Parameter.ParameterColumnNames.BuiltInParamGroup.ToString()] = -1;
+            ParametersRow3[Parameter.ParameterColumnNames.ParameterType.ToString()] = 1;
+            ParametersRow3[Parameter.ParameterColumnNames.UnitType.ToString()] = -1;
+            ParametersRow3[Parameter.ParameterColumnNames.DisplayUnitType.ToString()] = 2;
+            ParametersRow3[Parameter.ParameterColumnNames.UserModifiable.ToString()] = false;
+            ParametersRow3[Parameter.ParameterColumnNames.IsDeterminedByFormula.ToString()] = false;
+            ParametersRow3[Parameter.ParameterColumnNames.Formula.ToString()] = "N/A";
+            ParametersTable.Rows.Add(ParametersRow3);
+
+            DataRow ParametersRow4 = ParametersTable.NewRow();
+            ParametersRow4[Parameter.ParameterColumnNames.Id.ToString()] = Guid.NewGuid().ToString();
+            ParametersRow4[Parameter.ParameterColumnNames.FamilyTemplateId.ToString()] = FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Id.ToString()];
+            ParametersRow4[Parameter.ParameterColumnNames.Name.ToString()] = "NewParameter5";
+            ParametersRow4[Parameter.ParameterColumnNames.ElementId.ToString()] = 0;
+            ParametersRow4[Parameter.ParameterColumnNames.ElementGUID.ToString()] = Guid.NewGuid();
+            ParametersRow4[Parameter.ParameterColumnNames.HasValue.ToString()] = false;
+            ParametersRow4[Parameter.ParameterColumnNames.IsReadOnly.ToString()] = false;
+            ParametersRow4[Parameter.ParameterColumnNames.IsShared.ToString()] = false;
+            ParametersRow4[Parameter.ParameterColumnNames.IsInstance.ToString()] = false;
+            ParametersRow4[Parameter.ParameterColumnNames.StorageType.ToString()] = 3;
+            ParametersRow4[Parameter.ParameterColumnNames.IsEditable.ToString()] = false;
+            ParametersRow4[Parameter.ParameterColumnNames.IsActive.ToString()] = true;
+            ParametersRow4[Parameter.ParameterColumnNames.HostId.ToString()] = Guid.NewGuid().ToString();
+            ParametersRow4[Parameter.ParameterColumnNames.IsReporting.ToString()] = false;
+            ParametersRow4[Parameter.ParameterColumnNames.BuiltInParamGroup.ToString()] = -1;
+            ParametersRow4[Parameter.ParameterColumnNames.ParameterType.ToString()] = 1;
+            ParametersRow4[Parameter.ParameterColumnNames.UnitType.ToString()] = -1;
+            ParametersRow4[Parameter.ParameterColumnNames.DisplayUnitType.ToString()] = 2;
+            ParametersRow4[Parameter.ParameterColumnNames.UserModifiable.ToString()] = false;
+            ParametersRow4[Parameter.ParameterColumnNames.IsDeterminedByFormula.ToString()] = false;
+            ParametersRow4[Parameter.ParameterColumnNames.Formula.ToString()] = "N/A";
+            ParametersTable.Rows.Add(ParametersRow4);
+
+            DataRow ParametersRow5 = ParametersTable.NewRow();
+            ParametersRow5[Parameter.ParameterColumnNames.Id.ToString()] = Guid.NewGuid().ToString();
+            ParametersRow5[Parameter.ParameterColumnNames.FamilyTemplateId.ToString()] = FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Id.ToString()];
+            ParametersRow5[Parameter.ParameterColumnNames.Name.ToString()] = "NewParameter6";
+            ParametersRow5[Parameter.ParameterColumnNames.ElementId.ToString()] = 0;
+            ParametersRow5[Parameter.ParameterColumnNames.ElementGUID.ToString()] = Guid.NewGuid();
+            ParametersRow5[Parameter.ParameterColumnNames.HasValue.ToString()] = false;
+            ParametersRow5[Parameter.ParameterColumnNames.IsReadOnly.ToString()] = false;
+            ParametersRow5[Parameter.ParameterColumnNames.IsShared.ToString()] = false;
+            ParametersRow5[Parameter.ParameterColumnNames.IsInstance.ToString()] = false;
+            ParametersRow5[Parameter.ParameterColumnNames.StorageType.ToString()] = 3;
+            ParametersRow5[Parameter.ParameterColumnNames.IsEditable.ToString()] = false;
+            ParametersRow5[Parameter.ParameterColumnNames.IsActive.ToString()] = true;
+            ParametersRow5[Parameter.ParameterColumnNames.HostId.ToString()] = Guid.NewGuid().ToString();
+            ParametersRow5[Parameter.ParameterColumnNames.IsReporting.ToString()] = false;
+            ParametersRow5[Parameter.ParameterColumnNames.BuiltInParamGroup.ToString()] = -1;
+            ParametersRow5[Parameter.ParameterColumnNames.ParameterType.ToString()] = 1;
+            ParametersRow5[Parameter.ParameterColumnNames.UnitType.ToString()] = -1;
+            ParametersRow5[Parameter.ParameterColumnNames.DisplayUnitType.ToString()] = 2;
+            ParametersRow5[Parameter.ParameterColumnNames.UserModifiable.ToString()] = false;
+            ParametersRow5[Parameter.ParameterColumnNames.IsDeterminedByFormula.ToString()] = false;
+            ParametersRow5[Parameter.ParameterColumnNames.Formula.ToString()] = "N/A";
+            ParametersTable.Rows.Add(ParametersRow5);
+
+            DataRow ParametersRow6 = ParametersTable.NewRow();
+            ParametersRow6[Parameter.ParameterColumnNames.Id.ToString()] = Guid.NewGuid().ToString();
+            ParametersRow6[Parameter.ParameterColumnNames.FamilyTemplateId.ToString()] = FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Id.ToString()];
+            ParametersRow6[Parameter.ParameterColumnNames.Name.ToString()] = "NewParameter7";
+            ParametersRow6[Parameter.ParameterColumnNames.ElementId.ToString()] = 0;
+            ParametersRow6[Parameter.ParameterColumnNames.ElementGUID.ToString()] = Guid.NewGuid();
+            ParametersRow6[Parameter.ParameterColumnNames.HasValue.ToString()] = false;
+            ParametersRow6[Parameter.ParameterColumnNames.IsReadOnly.ToString()] = false;
+            ParametersRow6[Parameter.ParameterColumnNames.IsShared.ToString()] = false;
+            ParametersRow6[Parameter.ParameterColumnNames.IsInstance.ToString()] = false;
+            ParametersRow6[Parameter.ParameterColumnNames.StorageType.ToString()] = 3;
+            ParametersRow6[Parameter.ParameterColumnNames.IsEditable.ToString()] = false;
+            ParametersRow6[Parameter.ParameterColumnNames.IsActive.ToString()] = true;
+            ParametersRow6[Parameter.ParameterColumnNames.HostId.ToString()] = Guid.NewGuid().ToString();
+            ParametersRow6[Parameter.ParameterColumnNames.IsReporting.ToString()] = false;
+            ParametersRow6[Parameter.ParameterColumnNames.BuiltInParamGroup.ToString()] = -1;
+            ParametersRow6[Parameter.ParameterColumnNames.ParameterType.ToString()] = 1;
+            ParametersRow6[Parameter.ParameterColumnNames.UnitType.ToString()] = -1;
+            ParametersRow6[Parameter.ParameterColumnNames.DisplayUnitType.ToString()] = 2;
+            ParametersRow6[Parameter.ParameterColumnNames.UserModifiable.ToString()] = false;
+            ParametersRow6[Parameter.ParameterColumnNames.IsDeterminedByFormula.ToString()] = false;
+            ParametersRow6[Parameter.ParameterColumnNames.Formula.ToString()] = "N/A";
+            ParametersTable.Rows.Add(ParametersRow6);
+
+            DataRow ParametersRow7 = ParametersTable.NewRow();
+            ParametersRow7[Parameter.ParameterColumnNames.Id.ToString()] = Guid.NewGuid().ToString();
+            ParametersRow7[Parameter.ParameterColumnNames.FamilyTemplateId.ToString()] = FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Id.ToString()];
+            ParametersRow7[Parameter.ParameterColumnNames.Name.ToString()] = "NewParameter8";
+            ParametersRow7[Parameter.ParameterColumnNames.ElementId.ToString()] = 0;
+            ParametersRow7[Parameter.ParameterColumnNames.ElementGUID.ToString()] = Guid.NewGuid();
+            ParametersRow7[Parameter.ParameterColumnNames.HasValue.ToString()] = false;
+            ParametersRow7[Parameter.ParameterColumnNames.IsReadOnly.ToString()] = false;
+            ParametersRow7[Parameter.ParameterColumnNames.IsShared.ToString()] = false;
+            ParametersRow7[Parameter.ParameterColumnNames.IsInstance.ToString()] = false;
+            ParametersRow7[Parameter.ParameterColumnNames.StorageType.ToString()] = 3;
+            ParametersRow7[Parameter.ParameterColumnNames.IsEditable.ToString()] = false;
+            ParametersRow7[Parameter.ParameterColumnNames.IsActive.ToString()] = true;
+            ParametersRow7[Parameter.ParameterColumnNames.HostId.ToString()] = Guid.NewGuid().ToString();
+            ParametersRow7[Parameter.ParameterColumnNames.IsReporting.ToString()] = false;
+            ParametersRow7[Parameter.ParameterColumnNames.BuiltInParamGroup.ToString()] = -1;
+            ParametersRow7[Parameter.ParameterColumnNames.ParameterType.ToString()] = 1;
+            ParametersRow7[Parameter.ParameterColumnNames.UnitType.ToString()] = -1;
+            ParametersRow7[Parameter.ParameterColumnNames.DisplayUnitType.ToString()] = 2;
+            ParametersRow7[Parameter.ParameterColumnNames.UserModifiable.ToString()] = false;
+            ParametersRow7[Parameter.ParameterColumnNames.IsDeterminedByFormula.ToString()] = false;
+            ParametersRow7[Parameter.ParameterColumnNames.Formula.ToString()] = "N/A";
+            ParametersTable.Rows.Add(ParametersRow7);
+
+            DataRow ParametersRow8 = ParametersTable.NewRow();
+            ParametersRow8[Parameter.ParameterColumnNames.Id.ToString()] = Guid.NewGuid().ToString();
+            ParametersRow8[Parameter.ParameterColumnNames.FamilyTemplateId.ToString()] = FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Id.ToString()];
+            ParametersRow8[Parameter.ParameterColumnNames.Name.ToString()] = "NewParameter9";
+            ParametersRow8[Parameter.ParameterColumnNames.ElementId.ToString()] = 0;
+            ParametersRow8[Parameter.ParameterColumnNames.ElementGUID.ToString()] = Guid.NewGuid();
+            ParametersRow8[Parameter.ParameterColumnNames.HasValue.ToString()] = false;
+            ParametersRow8[Parameter.ParameterColumnNames.IsReadOnly.ToString()] = false;
+            ParametersRow8[Parameter.ParameterColumnNames.IsShared.ToString()] = false;
+            ParametersRow8[Parameter.ParameterColumnNames.IsInstance.ToString()] = false;
+            ParametersRow8[Parameter.ParameterColumnNames.StorageType.ToString()] = 3;
+            ParametersRow8[Parameter.ParameterColumnNames.IsEditable.ToString()] = false;
+            ParametersRow8[Parameter.ParameterColumnNames.IsActive.ToString()] = true;
+            ParametersRow8[Parameter.ParameterColumnNames.HostId.ToString()] = Guid.NewGuid().ToString();
+            ParametersRow8[Parameter.ParameterColumnNames.IsReporting.ToString()] = false;
+            ParametersRow8[Parameter.ParameterColumnNames.BuiltInParamGroup.ToString()] = -1;
+            ParametersRow8[Parameter.ParameterColumnNames.ParameterType.ToString()] = 1;
+            ParametersRow8[Parameter.ParameterColumnNames.UnitType.ToString()] = -1;
+            ParametersRow8[Parameter.ParameterColumnNames.DisplayUnitType.ToString()] = 2;
+            ParametersRow8[Parameter.ParameterColumnNames.UserModifiable.ToString()] = false;
+            ParametersRow8[Parameter.ParameterColumnNames.IsDeterminedByFormula.ToString()] = false;
+            ParametersRow8[Parameter.ParameterColumnNames.Formula.ToString()] = "N/A";
+            ParametersTable.Rows.Add(ParametersRow8);
+
+            DataRow ParametersRow9 = ParametersTable.NewRow();
+            ParametersRow9[Parameter.ParameterColumnNames.Id.ToString()] = Guid.NewGuid().ToString();
+            ParametersRow9[Parameter.ParameterColumnNames.FamilyTemplateId.ToString()] = FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Id.ToString()];
+            ParametersRow9[Parameter.ParameterColumnNames.Name.ToString()] = "NewParameter10";
+            ParametersRow9[Parameter.ParameterColumnNames.ElementId.ToString()] = 0;
+            ParametersRow9[Parameter.ParameterColumnNames.ElementGUID.ToString()] = Guid.NewGuid();
+            ParametersRow9[Parameter.ParameterColumnNames.HasValue.ToString()] = false;
+            ParametersRow9[Parameter.ParameterColumnNames.IsReadOnly.ToString()] = false;
+            ParametersRow9[Parameter.ParameterColumnNames.IsShared.ToString()] = false;
+            ParametersRow9[Parameter.ParameterColumnNames.IsInstance.ToString()] = false;
+            ParametersRow9[Parameter.ParameterColumnNames.StorageType.ToString()] = 3;
+            ParametersRow9[Parameter.ParameterColumnNames.IsEditable.ToString()] = false;
+            ParametersRow9[Parameter.ParameterColumnNames.IsActive.ToString()] = true;
+            ParametersRow9[Parameter.ParameterColumnNames.HostId.ToString()] = Guid.NewGuid().ToString();
+            ParametersRow9[Parameter.ParameterColumnNames.IsReporting.ToString()] = false;
+            ParametersRow9[Parameter.ParameterColumnNames.BuiltInParamGroup.ToString()] = -1;
+            ParametersRow9[Parameter.ParameterColumnNames.ParameterType.ToString()] = 1;
+            ParametersRow9[Parameter.ParameterColumnNames.UnitType.ToString()] = -1;
+            ParametersRow9[Parameter.ParameterColumnNames.DisplayUnitType.ToString()] = 2;
+            ParametersRow9[Parameter.ParameterColumnNames.UserModifiable.ToString()] = false;
+            ParametersRow9[Parameter.ParameterColumnNames.IsDeterminedByFormula.ToString()] = false;
+            ParametersRow9[Parameter.ParameterColumnNames.Formula.ToString()] = "N/A";
+            ParametersTable.Rows.Add(ParametersRow9);
+
+            // Reference Plane
+            DataTable referencePlaneTable = dataSet.Tables[TableNames.FF_ReferencePlanes.ToString()];
+            DataRow ReferencePlaneDatarow = referencePlaneTable.NewRow();
+            ReferencePlaneDatarow[ReferencePlane.ReferencePlaneTableColumnNames.Id.ToString()] = Guid.NewGuid();
+            ReferencePlaneDatarow[ReferencePlane.ReferencePlaneTableColumnNames.FamilyTemplateId.ToString()] = FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Id.ToString()];
+            ReferencePlaneDatarow[ReferencePlane.ReferencePlaneTableColumnNames.Name.ToString()] = "NewReferencePlane1";
+            ReferencePlaneDatarow[ReferencePlane.ReferencePlaneTableColumnNames.ElementId.ToString()] = 0;
+            ReferencePlaneDatarow[ReferencePlane.ReferencePlaneTableColumnNames.UniqueId.ToString()] = "";
+            ReferencePlaneDatarow[ReferencePlane.ReferencePlaneTableColumnNames.LevelId.ToString()] = 0;
+            ReferencePlaneDatarow[ReferencePlane.ReferencePlaneTableColumnNames.ViewId.ToString()] = 0;
+            ReferencePlaneDatarow[ReferencePlane.ReferencePlaneTableColumnNames.Category.ToString()] = "";
+            ReferencePlaneDatarow[ReferencePlane.ReferencePlaneTableColumnNames.DirectionX.ToString()] = 0;
+            ReferencePlaneDatarow[ReferencePlane.ReferencePlaneTableColumnNames.DirectionY.ToString()] = 0;
+            ReferencePlaneDatarow[ReferencePlane.ReferencePlaneTableColumnNames.DirectionZ.ToString()] = 0;
+            ReferencePlaneDatarow[ReferencePlane.ReferencePlaneTableColumnNames.BubbleEndX.ToString()] = 0;
+            ReferencePlaneDatarow[ReferencePlane.ReferencePlaneTableColumnNames.BubbleEndY.ToString()] = 0;
+            ReferencePlaneDatarow[ReferencePlane.ReferencePlaneTableColumnNames.BubbleEndZ.ToString()] = 0;
+            ReferencePlaneDatarow[ReferencePlane.ReferencePlaneTableColumnNames.NormalX.ToString()] = 0;
+            ReferencePlaneDatarow[ReferencePlane.ReferencePlaneTableColumnNames.NormalY.ToString()] = 0;
+            ReferencePlaneDatarow[ReferencePlane.ReferencePlaneTableColumnNames.NormalZ.ToString()] = 0;
+            ReferencePlaneDatarow[ReferencePlane.ReferencePlaneTableColumnNames.FreeEndX.ToString()] = 0;
+            ReferencePlaneDatarow[ReferencePlane.ReferencePlaneTableColumnNames.FreeEndY.ToString()] = 0;
+            ReferencePlaneDatarow[ReferencePlane.ReferencePlaneTableColumnNames.FreeEndZ.ToString()] = 0;
+            ReferencePlaneDatarow[ReferencePlane.ReferencePlaneTableColumnNames.IsActive.ToString()] = true;
+            referencePlaneTable.Rows.Add(ReferencePlaneDatarow);
+
+            DataRow ReferencePlaneDatarow1 = referencePlaneTable.NewRow();
+            ReferencePlaneDatarow1[ReferencePlane.ReferencePlaneTableColumnNames.Id.ToString()] = Guid.NewGuid();
+            ReferencePlaneDatarow1[ReferencePlane.ReferencePlaneTableColumnNames.FamilyTemplateId.ToString()] = FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Id.ToString()];
+            ReferencePlaneDatarow1[ReferencePlane.ReferencePlaneTableColumnNames.Name.ToString()] = "NewReferencePlane2";
+            ReferencePlaneDatarow1[ReferencePlane.ReferencePlaneTableColumnNames.ElementId.ToString()] = 0;
+            ReferencePlaneDatarow1[ReferencePlane.ReferencePlaneTableColumnNames.UniqueId.ToString()] = "";
+            ReferencePlaneDatarow1[ReferencePlane.ReferencePlaneTableColumnNames.LevelId.ToString()] = 0;
+            ReferencePlaneDatarow1[ReferencePlane.ReferencePlaneTableColumnNames.ViewId.ToString()] = 0;
+            ReferencePlaneDatarow1[ReferencePlane.ReferencePlaneTableColumnNames.Category.ToString()] = "";
+            ReferencePlaneDatarow1[ReferencePlane.ReferencePlaneTableColumnNames.DirectionX.ToString()] = 0;
+            ReferencePlaneDatarow1[ReferencePlane.ReferencePlaneTableColumnNames.DirectionY.ToString()] = 0;
+            ReferencePlaneDatarow1[ReferencePlane.ReferencePlaneTableColumnNames.DirectionZ.ToString()] = 0;
+            ReferencePlaneDatarow1[ReferencePlane.ReferencePlaneTableColumnNames.BubbleEndX.ToString()] = 0;
+            ReferencePlaneDatarow1[ReferencePlane.ReferencePlaneTableColumnNames.BubbleEndY.ToString()] = 0;
+            ReferencePlaneDatarow1[ReferencePlane.ReferencePlaneTableColumnNames.BubbleEndZ.ToString()] = 0;
+            ReferencePlaneDatarow1[ReferencePlane.ReferencePlaneTableColumnNames.NormalX.ToString()] = 0;
+            ReferencePlaneDatarow1[ReferencePlane.ReferencePlaneTableColumnNames.NormalY.ToString()] = 0;
+            ReferencePlaneDatarow1[ReferencePlane.ReferencePlaneTableColumnNames.NormalZ.ToString()] = 0;
+            ReferencePlaneDatarow1[ReferencePlane.ReferencePlaneTableColumnNames.FreeEndX.ToString()] = 0;
+            ReferencePlaneDatarow1[ReferencePlane.ReferencePlaneTableColumnNames.FreeEndY.ToString()] = 0;
+            ReferencePlaneDatarow1[ReferencePlane.ReferencePlaneTableColumnNames.FreeEndZ.ToString()] = 0;
+            ReferencePlaneDatarow1[ReferencePlane.ReferencePlaneTableColumnNames.IsActive.ToString()] = true;
+            referencePlaneTable.Rows.Add(ReferencePlaneDatarow1);
+
+            DataRow ReferencePlaneDatarow2 = referencePlaneTable.NewRow();
+            ReferencePlaneDatarow2[ReferencePlane.ReferencePlaneTableColumnNames.Id.ToString()] = Guid.NewGuid();
+            ReferencePlaneDatarow2[ReferencePlane.ReferencePlaneTableColumnNames.FamilyTemplateId.ToString()] = FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Id.ToString()];
+            ReferencePlaneDatarow2[ReferencePlane.ReferencePlaneTableColumnNames.Name.ToString()] = "NewReferencePlane1";
+            ReferencePlaneDatarow2[ReferencePlane.ReferencePlaneTableColumnNames.ElementId.ToString()] = 0;
+            ReferencePlaneDatarow2[ReferencePlane.ReferencePlaneTableColumnNames.UniqueId.ToString()] = "";
+            ReferencePlaneDatarow2[ReferencePlane.ReferencePlaneTableColumnNames.LevelId.ToString()] = 0;
+            ReferencePlaneDatarow2[ReferencePlane.ReferencePlaneTableColumnNames.ViewId.ToString()] = 0;
+            ReferencePlaneDatarow2[ReferencePlane.ReferencePlaneTableColumnNames.Category.ToString()] = "";
+            ReferencePlaneDatarow2[ReferencePlane.ReferencePlaneTableColumnNames.DirectionX.ToString()] = 0;
+            ReferencePlaneDatarow2[ReferencePlane.ReferencePlaneTableColumnNames.DirectionY.ToString()] = 0;
+            ReferencePlaneDatarow2[ReferencePlane.ReferencePlaneTableColumnNames.DirectionZ.ToString()] = 0;
+            ReferencePlaneDatarow2[ReferencePlane.ReferencePlaneTableColumnNames.BubbleEndX.ToString()] = 0;
+            ReferencePlaneDatarow2[ReferencePlane.ReferencePlaneTableColumnNames.BubbleEndY.ToString()] = 0;
+            ReferencePlaneDatarow2[ReferencePlane.ReferencePlaneTableColumnNames.BubbleEndZ.ToString()] = 0;
+            ReferencePlaneDatarow2[ReferencePlane.ReferencePlaneTableColumnNames.NormalX.ToString()] = 0;
+            ReferencePlaneDatarow2[ReferencePlane.ReferencePlaneTableColumnNames.NormalY.ToString()] = 0;
+            ReferencePlaneDatarow2[ReferencePlane.ReferencePlaneTableColumnNames.NormalZ.ToString()] = 0;
+            ReferencePlaneDatarow2[ReferencePlane.ReferencePlaneTableColumnNames.FreeEndX.ToString()] = 0;
+            ReferencePlaneDatarow2[ReferencePlane.ReferencePlaneTableColumnNames.FreeEndY.ToString()] = 0;
+            ReferencePlaneDatarow2[ReferencePlane.ReferencePlaneTableColumnNames.FreeEndZ.ToString()] = 0;
+            ReferencePlaneDatarow2[ReferencePlane.ReferencePlaneTableColumnNames.IsActive.ToString()] = true;
+            referencePlaneTable.Rows.Add(ReferencePlaneDatarow2);
+
+            DataRow ReferencePlaneDatarow3 = referencePlaneTable.NewRow();
+            ReferencePlaneDatarow3[ReferencePlane.ReferencePlaneTableColumnNames.Id.ToString()] = Guid.NewGuid();
+            ReferencePlaneDatarow3[ReferencePlane.ReferencePlaneTableColumnNames.FamilyTemplateId.ToString()] = FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Id.ToString()];
+            ReferencePlaneDatarow3[ReferencePlane.ReferencePlaneTableColumnNames.Name.ToString()] = "NewReferencePlane1";
+            ReferencePlaneDatarow3[ReferencePlane.ReferencePlaneTableColumnNames.ElementId.ToString()] = 0;
+            ReferencePlaneDatarow3[ReferencePlane.ReferencePlaneTableColumnNames.UniqueId.ToString()] = "";
+            ReferencePlaneDatarow3[ReferencePlane.ReferencePlaneTableColumnNames.LevelId.ToString()] = 0;
+            ReferencePlaneDatarow3[ReferencePlane.ReferencePlaneTableColumnNames.ViewId.ToString()] = 0;
+            ReferencePlaneDatarow3[ReferencePlane.ReferencePlaneTableColumnNames.Category.ToString()] = "";
+            ReferencePlaneDatarow3[ReferencePlane.ReferencePlaneTableColumnNames.DirectionX.ToString()] = 0;
+            ReferencePlaneDatarow3[ReferencePlane.ReferencePlaneTableColumnNames.DirectionY.ToString()] = 0;
+            ReferencePlaneDatarow3[ReferencePlane.ReferencePlaneTableColumnNames.DirectionZ.ToString()] = 0;
+            ReferencePlaneDatarow3[ReferencePlane.ReferencePlaneTableColumnNames.BubbleEndX.ToString()] = 0;
+            ReferencePlaneDatarow3[ReferencePlane.ReferencePlaneTableColumnNames.BubbleEndY.ToString()] = 0;
+            ReferencePlaneDatarow3[ReferencePlane.ReferencePlaneTableColumnNames.BubbleEndZ.ToString()] = 0;
+            ReferencePlaneDatarow3[ReferencePlane.ReferencePlaneTableColumnNames.NormalX.ToString()] = 0;
+            ReferencePlaneDatarow3[ReferencePlane.ReferencePlaneTableColumnNames.NormalY.ToString()] = 0;
+            ReferencePlaneDatarow3[ReferencePlane.ReferencePlaneTableColumnNames.NormalZ.ToString()] = 0;
+            ReferencePlaneDatarow3[ReferencePlane.ReferencePlaneTableColumnNames.FreeEndX.ToString()] = 0;
+            ReferencePlaneDatarow3[ReferencePlane.ReferencePlaneTableColumnNames.FreeEndY.ToString()] = 0;
+            ReferencePlaneDatarow3[ReferencePlane.ReferencePlaneTableColumnNames.FreeEndZ.ToString()] = 0;
+            ReferencePlaneDatarow3[ReferencePlane.ReferencePlaneTableColumnNames.IsActive.ToString()] = true;
+            referencePlaneTable.Rows.Add(ReferencePlaneDatarow3);
+
+            DataRow ReferencePlaneDatarow4 = referencePlaneTable.NewRow();
+            ReferencePlaneDatarow4[ReferencePlane.ReferencePlaneTableColumnNames.Id.ToString()] = Guid.NewGuid();
+            ReferencePlaneDatarow4[ReferencePlane.ReferencePlaneTableColumnNames.FamilyTemplateId.ToString()] = FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Id.ToString()];
+            ReferencePlaneDatarow4[ReferencePlane.ReferencePlaneTableColumnNames.Name.ToString()] = "NewReferencePlane1";
+            ReferencePlaneDatarow4[ReferencePlane.ReferencePlaneTableColumnNames.ElementId.ToString()] = 0;
+            ReferencePlaneDatarow4[ReferencePlane.ReferencePlaneTableColumnNames.UniqueId.ToString()] = "";
+            ReferencePlaneDatarow4[ReferencePlane.ReferencePlaneTableColumnNames.LevelId.ToString()] = 0;
+            ReferencePlaneDatarow4[ReferencePlane.ReferencePlaneTableColumnNames.ViewId.ToString()] = 0;
+            ReferencePlaneDatarow4[ReferencePlane.ReferencePlaneTableColumnNames.Category.ToString()] = "";
+            ReferencePlaneDatarow4[ReferencePlane.ReferencePlaneTableColumnNames.DirectionX.ToString()] = 0;
+            ReferencePlaneDatarow4[ReferencePlane.ReferencePlaneTableColumnNames.DirectionY.ToString()] = 0;
+            ReferencePlaneDatarow4[ReferencePlane.ReferencePlaneTableColumnNames.DirectionZ.ToString()] = 0;
+            ReferencePlaneDatarow4[ReferencePlane.ReferencePlaneTableColumnNames.BubbleEndX.ToString()] = 0;
+            ReferencePlaneDatarow4[ReferencePlane.ReferencePlaneTableColumnNames.BubbleEndY.ToString()] = 0;
+            ReferencePlaneDatarow4[ReferencePlane.ReferencePlaneTableColumnNames.BubbleEndZ.ToString()] = 0;
+            ReferencePlaneDatarow4[ReferencePlane.ReferencePlaneTableColumnNames.NormalX.ToString()] = 0;
+            ReferencePlaneDatarow4[ReferencePlane.ReferencePlaneTableColumnNames.NormalY.ToString()] = 0;
+            ReferencePlaneDatarow4[ReferencePlane.ReferencePlaneTableColumnNames.NormalZ.ToString()] = 0;
+            ReferencePlaneDatarow4[ReferencePlane.ReferencePlaneTableColumnNames.FreeEndX.ToString()] = 0;
+            ReferencePlaneDatarow4[ReferencePlane.ReferencePlaneTableColumnNames.FreeEndY.ToString()] = 0;
+            ReferencePlaneDatarow4[ReferencePlane.ReferencePlaneTableColumnNames.FreeEndZ.ToString()] = 0;
+            ReferencePlaneDatarow4[ReferencePlane.ReferencePlaneTableColumnNames.IsActive.ToString()] = true;
+            referencePlaneTable.Rows.Add(ReferencePlaneDatarow4);
+
+            // Geometry
+            DataTable geometryTable = dataSet.Tables[TableNames.FF_Geometry.ToString()];
+            DataRow geometryDatarow = geometryTable.NewRow();
+            geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.Id.ToString()] = Guid.NewGuid();
+            geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.FamilyTemplateId.ToString()] = FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Id.ToString()];
+            geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.Name.ToString()] = "NewReferencePlane1";
+            geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.Description.ToString()] = "";
+            geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.GeometryType.ToString()] = "Sweep";
+            geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.MaterialId.ToString()] = 0;
+            geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.IsActive.ToString()] = true;
+            geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily1Id.ToString()] = -1;
+            geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily2Id.ToString()] = -1;
+            geometryDatarow[FamilyGeometry.FamilyGeometryColumnNames.HostId.ToString()] = 0;
+            geometryTable.Rows.Add(geometryDatarow);
+
+            DataRow geometryDatarow1 = geometryTable.NewRow();
+            geometryDatarow1[FamilyGeometry.FamilyGeometryColumnNames.Id.ToString()] = Guid.NewGuid();
+            geometryDatarow1[FamilyGeometry.FamilyGeometryColumnNames.FamilyTemplateId.ToString()] = FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Id.ToString()];
+            geometryDatarow1[FamilyGeometry.FamilyGeometryColumnNames.Name.ToString()] = "NewReferencePlane2";
+            geometryDatarow1[FamilyGeometry.FamilyGeometryColumnNames.Description.ToString()] = "";
+            geometryDatarow1[FamilyGeometry.FamilyGeometryColumnNames.GeometryType.ToString()] = "Sweep";
+            geometryDatarow1[FamilyGeometry.FamilyGeometryColumnNames.MaterialId.ToString()] = 0;
+            geometryDatarow1[FamilyGeometry.FamilyGeometryColumnNames.IsActive.ToString()] = true;
+            geometryDatarow1[FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily1Id.ToString()] = -1;
+            geometryDatarow1[FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily2Id.ToString()] = -1;
+            geometryDatarow1[FamilyGeometry.FamilyGeometryColumnNames.HostId.ToString()] = 0;
+            geometryTable.Rows.Add(geometryDatarow1);
+
+            DataRow geometryDatarow2 = geometryTable.NewRow();
+            geometryDatarow2[FamilyGeometry.FamilyGeometryColumnNames.Id.ToString()] = Guid.NewGuid();
+            geometryDatarow2[FamilyGeometry.FamilyGeometryColumnNames.FamilyTemplateId.ToString()] = FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Id.ToString()];
+            geometryDatarow2[FamilyGeometry.FamilyGeometryColumnNames.Name.ToString()] = "NewReferencePlane3";
+            geometryDatarow2[FamilyGeometry.FamilyGeometryColumnNames.Description.ToString()] = "";
+            geometryDatarow2[FamilyGeometry.FamilyGeometryColumnNames.GeometryType.ToString()] = "Sweep";
+            geometryDatarow2[FamilyGeometry.FamilyGeometryColumnNames.MaterialId.ToString()] = 0;
+            geometryDatarow2[FamilyGeometry.FamilyGeometryColumnNames.IsActive.ToString()] = false;
+            geometryDatarow2[FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily1Id.ToString()] = -1;
+            geometryDatarow2[FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily2Id.ToString()] = -1;
+            geometryDatarow2[FamilyGeometry.FamilyGeometryColumnNames.HostId.ToString()] = 0;
+            geometryTable.Rows.Add(geometryDatarow2);
+
+            DataRow geometryDatarow3 = geometryTable.NewRow();
+            geometryDatarow3[FamilyGeometry.FamilyGeometryColumnNames.Id.ToString()] = Guid.NewGuid();
+            geometryDatarow3[FamilyGeometry.FamilyGeometryColumnNames.FamilyTemplateId.ToString()] = FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Id.ToString()];
+            geometryDatarow3[FamilyGeometry.FamilyGeometryColumnNames.Name.ToString()] = "NewReferencePlane4";
+            geometryDatarow3[FamilyGeometry.FamilyGeometryColumnNames.Description.ToString()] = "";
+            geometryDatarow3[FamilyGeometry.FamilyGeometryColumnNames.GeometryType.ToString()] = "Sweep";
+            geometryDatarow3[FamilyGeometry.FamilyGeometryColumnNames.MaterialId.ToString()] = 0;
+            geometryDatarow3[FamilyGeometry.FamilyGeometryColumnNames.IsActive.ToString()] = false;
+            geometryDatarow3[FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily1Id.ToString()] = -1;
+            geometryDatarow3[FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily2Id.ToString()] = -1;
+            geometryDatarow3[FamilyGeometry.FamilyGeometryColumnNames.HostId.ToString()] = 0;
+            geometryTable.Rows.Add(geometryDatarow3);
+
+            DataRow geometryDatarow4 = geometryTable.NewRow();
+            geometryDatarow4[FamilyGeometry.FamilyGeometryColumnNames.Id.ToString()] = Guid.NewGuid();
+            geometryDatarow4[FamilyGeometry.FamilyGeometryColumnNames.FamilyTemplateId.ToString()] = FamilyTemplateRow1[FamilyTemplate.ParameterColumnNames.Id.ToString()];
+            geometryDatarow4[FamilyGeometry.FamilyGeometryColumnNames.Name.ToString()] = "NewReferencePlane5";
+            geometryDatarow4[FamilyGeometry.FamilyGeometryColumnNames.Description.ToString()] = "";
+            geometryDatarow4[FamilyGeometry.FamilyGeometryColumnNames.GeometryType.ToString()] = "Sweep";
+            geometryDatarow4[FamilyGeometry.FamilyGeometryColumnNames.MaterialId.ToString()] = 0;
+            geometryDatarow4[FamilyGeometry.FamilyGeometryColumnNames.IsActive.ToString()] = false;
+            geometryDatarow4[FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily1Id.ToString()] = -1;
+            geometryDatarow4[FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily2Id.ToString()] = -1;
+            geometryDatarow4[FamilyGeometry.FamilyGeometryColumnNames.HostId.ToString()] = 0;
+            geometryTable.Rows.Add(geometryDatarow4);
         }
     }
 }

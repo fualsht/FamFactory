@@ -14,8 +14,8 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public abstract class ViewModelBase<T> : IViewModel<T>
     {
-        static Autodesk.Revit.ApplicationServices.Application _adskApplciation;
-        internal static Autodesk.Revit.ApplicationServices.Application ADSKApplciation { get { return _adskApplciation; } }
+        static object _adskApplciation;
+        internal static object ADSKApplciation { get { return _adskApplciation; } }
 
         DataSet _InternalDataContext;
         public DataSet InternalDataSet { get { return _InternalDataContext; } }
@@ -64,7 +64,7 @@ namespace ModBox.FamFactory.Revit.Manager
             NotifyPropertyChanged("InternalDataContext");
         }
 
-        public ViewModelBase(DataSet dataSet, Autodesk.Revit.ApplicationServices.Application application)
+        public ViewModelBase(DataSet dataSet, object application)
         {
             _InternalCollection = new ObservableCollection<T>();
             NotifyPropertyChanged("InternalCollection");

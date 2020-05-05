@@ -9,37 +9,44 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class ReferencePlane : ModelBase<ReferencePlane>
     {
-        public enum ReferencePlaneTableColumnNames { Id, RevitId, UniqueId, LevelId, ViewId, Category, DirectionX, DirectionY, DirectionZ, LocationX, 
-            LocationY, LocationZ, BubbleEndX, BubbleEndY, BubbleEndZ, NormalX, NormalY, NormalZ, FreeEndX, FreeEndY, FreeEndZ, Name, IsActive, HostId }
+        public enum ReferencePlaneTableColumnNames { Id, FamilyTemplateId, ElementId, UniqueId, LevelId, ViewId, Category, DirectionX, DirectionY, DirectionZ, 
+            BubbleEndX, BubbleEndY, BubbleEndZ, NormalX, NormalY, NormalZ, FreeEndX, FreeEndY, FreeEndZ, Name, IsActive, }
         public string Id
         {
             get { return InternalDataRowView[ReferencePlaneTableColumnNames.Id.ToString()].ToString(); }
             set { InternalDataRowView[ReferencePlaneTableColumnNames.Id.ToString()] = value; NotifyPropertyChanged(); }
         }
+
+        public string FamiltyTemplateId
+        {
+            get { return InternalDataRowView[ReferencePlaneTableColumnNames.FamilyTemplateId.ToString()].ToString(); }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ReferencePlaneTableColumnNames.FamilyTemplateId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+        }
+
         public string Name
         {
             get { return InternalDataRowView[ReferencePlaneTableColumnNames.Name.ToString()].ToString(); }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ReferencePlaneTableColumnNames.Name.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
 
-        public string RevitId
+        public int ElementId
         {
-            get { return InternalDataRowView[ReferencePlaneTableColumnNames.RevitId.ToString()].ToString(); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ReferencePlaneTableColumnNames.RevitId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return (int)InternalDataRowView[ReferencePlaneTableColumnNames.ElementId.ToString()]; }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ReferencePlaneTableColumnNames.ElementId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public string UniqueId
         {
             get { return InternalDataRowView[ReferencePlaneTableColumnNames.UniqueId.ToString()].ToString(); }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ReferencePlaneTableColumnNames.UniqueId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
-        public string LevelId
+        public int LevelId
         {
-            get { return InternalDataRowView[ReferencePlaneTableColumnNames.LevelId.ToString()].ToString(); }
+            get { return (int)InternalDataRowView[ReferencePlaneTableColumnNames.LevelId.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ReferencePlaneTableColumnNames.LevelId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
-        public string ViewId
+        public int ViewId
         {
-            get { return InternalDataRowView[ReferencePlaneTableColumnNames.ViewId.ToString()].ToString(); }
+            get { return (int)InternalDataRowView[ReferencePlaneTableColumnNames.ViewId.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ReferencePlaneTableColumnNames.ViewId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public string Category
@@ -47,90 +54,70 @@ namespace ModBox.FamFactory.Revit.Manager
             get { return InternalDataRowView[ReferencePlaneTableColumnNames.Category.ToString()].ToString(); }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ReferencePlaneTableColumnNames.Category.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
-        public string DirectionX
+        public double DirectionX
         {
-            get { return InternalDataRowView[ReferencePlaneTableColumnNames.DirectionX.ToString()].ToString(); }
+            get { return (double)InternalDataRowView[ReferencePlaneTableColumnNames.DirectionX.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ReferencePlaneTableColumnNames.DirectionX.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
-        public string DirectionY
+        public double DirectionY
         {
-            get { return InternalDataRowView[ReferencePlaneTableColumnNames.DirectionY.ToString()].ToString(); }
+            get { return (double)InternalDataRowView[ReferencePlaneTableColumnNames.DirectionY.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ReferencePlaneTableColumnNames.DirectionY.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
-        public string DirectionZ
+        public double DirectionZ
         {
-            get { return InternalDataRowView[ReferencePlaneTableColumnNames.DirectionZ.ToString()].ToString(); }
+            get { return (double)InternalDataRowView[ReferencePlaneTableColumnNames.DirectionZ.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ReferencePlaneTableColumnNames.DirectionZ.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
-        public string LocationX
+        public double BubbleEndX
         {
-            get { return InternalDataRowView[ReferencePlaneTableColumnNames.LocationX.ToString()].ToString(); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ReferencePlaneTableColumnNames.LocationX.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
-        public string LocationY
-        {
-            get { return InternalDataRowView[ReferencePlaneTableColumnNames.LocationY.ToString()].ToString(); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ReferencePlaneTableColumnNames.LocationY.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
-        public string LocationZ
-        {
-            get { return InternalDataRowView[ReferencePlaneTableColumnNames.LocationZ.ToString()].ToString(); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ReferencePlaneTableColumnNames.LocationZ.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
-        public string BubbleEndX
-        {
-            get { return InternalDataRowView[ReferencePlaneTableColumnNames.BubbleEndX.ToString()].ToString(); }
+            get { return (double)InternalDataRowView[ReferencePlaneTableColumnNames.BubbleEndX.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ReferencePlaneTableColumnNames.BubbleEndX.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
-        public string BubbleEndY
+        public double BubbleEndY
         {
-            get { return InternalDataRowView[ReferencePlaneTableColumnNames.BubbleEndY.ToString()].ToString(); }
+            get { return (double)InternalDataRowView[ReferencePlaneTableColumnNames.BubbleEndY.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ReferencePlaneTableColumnNames.BubbleEndY.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
-        public string BubbleEndZ
+        public double BubbleEndZ
         {
-            get { return InternalDataRowView[ReferencePlaneTableColumnNames.BubbleEndZ.ToString()].ToString(); }
+            get { return (double)InternalDataRowView[ReferencePlaneTableColumnNames.BubbleEndZ.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ReferencePlaneTableColumnNames.BubbleEndZ.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
-        public string NormalX
+        public double NormalX
         {
-            get { return InternalDataRowView[ReferencePlaneTableColumnNames.NormalX.ToString()].ToString(); }
+            get { return (double)InternalDataRowView[ReferencePlaneTableColumnNames.NormalX.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ReferencePlaneTableColumnNames.NormalX.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
-        public string NormalY
+        public double NormalY
         {
-            get { return InternalDataRowView[ReferencePlaneTableColumnNames.NormalY.ToString()].ToString(); }
+            get { return (double)InternalDataRowView[ReferencePlaneTableColumnNames.NormalY.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ReferencePlaneTableColumnNames.NormalY.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
-        public string NormalZ
+        public double NormalZ
         {
-            get { return InternalDataRowView[ReferencePlaneTableColumnNames.NormalZ.ToString()].ToString(); }
+            get { return (double)InternalDataRowView[ReferencePlaneTableColumnNames.NormalZ.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ReferencePlaneTableColumnNames.NormalZ.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
-        public string FreeEndX
+        public double FreeEndX
         {
-            get { return InternalDataRowView[ReferencePlaneTableColumnNames.FreeEndX.ToString()].ToString(); }
+            get { return (double)InternalDataRowView[ReferencePlaneTableColumnNames.FreeEndX.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ReferencePlaneTableColumnNames.FreeEndX.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
-        public string FreeEndY
+        public double FreeEndY
         {
-            get { return InternalDataRowView[ReferencePlaneTableColumnNames.FreeEndY.ToString()].ToString(); }
+            get { return (double)InternalDataRowView[ReferencePlaneTableColumnNames.FreeEndY.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ReferencePlaneTableColumnNames.FreeEndY.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
-        public string FreeEndZ
+        public double FreeEndZ
         {
-            get { return InternalDataRowView[ReferencePlaneTableColumnNames.FreeEndZ.ToString()].ToString(); }
+            get { return (double)InternalDataRowView[ReferencePlaneTableColumnNames.FreeEndZ.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ReferencePlaneTableColumnNames.FreeEndZ.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public bool IsActive
         {
             get { return (bool)InternalDataRowView[ReferencePlaneTableColumnNames.IsActive.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ReferencePlaneTableColumnNames.IsActive.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
-        public bool HostId
-        {
-            get { return (bool)InternalDataRowView[ReferencePlaneTableColumnNames.HostId.ToString()]; }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ReferencePlaneTableColumnNames.HostId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
 
         public ReferencePlane(DataRowView rowView) : base(rowView)
@@ -145,27 +132,23 @@ namespace ModBox.FamFactory.Revit.Manager
             ReferencePlane refPlane = new ReferencePlane(row);
             refPlane.Id = Guid.NewGuid().ToString();
             refPlane.Name = "NewElement";
-            refPlane.RevitId = "";
+            refPlane.ElementId = -1;
             refPlane.UniqueId = "";
-            refPlane.LevelId = "";
-            refPlane.ViewId = "";
+            refPlane.LevelId = -1;
+            refPlane.ViewId = -1;
             refPlane.Category = "";
-            refPlane.DirectionX = "";
-            refPlane.DirectionY = "";
-            refPlane.DirectionZ = "";
-            refPlane.LocationX = "";
-            refPlane.LocationY = "";
-            refPlane.LocationZ = "";
-            refPlane.BubbleEndX = "";
-            refPlane.BubbleEndY = "";
-            refPlane.BubbleEndZ = "";
-            refPlane.NormalX = "";
-            refPlane.NormalY = "";
-            refPlane.NormalZ = "";
-            refPlane.FreeEndX = "";
-            refPlane.FreeEndY = "";
-            refPlane.FreeEndZ = "";
-            refPlane.Name = "";
+            refPlane.DirectionX = 0;
+            refPlane.DirectionY = 0;
+            refPlane.DirectionZ = 0;
+            refPlane.BubbleEndX = 0;
+            refPlane.BubbleEndY = 0;
+            refPlane.BubbleEndZ = 0;
+            refPlane.NormalX = 0;
+            refPlane.NormalY = 0;
+            refPlane.NormalZ = 0;
+            refPlane.FreeEndX = 0;
+            refPlane.FreeEndY = 0;
+            refPlane.FreeEndZ = 0;
             refPlane.IsActive = false;
             return refPlane;
         }

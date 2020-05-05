@@ -17,7 +17,7 @@ namespace ModBox.FamFactory.Revit.Manager
             TemplateDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].DefaultView; 
             RefreshCollection();
         }
-        public FamilyTemplatesViewModel(DataSet dataset, Autodesk.Revit.ApplicationServices.Application application) : base(dataset, application)
+        public FamilyTemplatesViewModel(DataSet dataset, object application) : base(dataset, application)
         {
             TemplateDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].DefaultView;
             RefreshCollection();
@@ -86,14 +86,16 @@ namespace ModBox.FamFactory.Revit.Manager
                 temp.FileSize = file.Length;
                 temp.Thumbnail = Utils.ImageToByte(Resources.key);
                 temp.FamilyFile = Utils.FileToByteArray(file.FullName);
+
+                temp.EndEdit();
                 SelectedElement = temp;
+                Autodesk.Revit.DB.Document doc = ((Autodesk.Revit.ApplicationServices.Application)ADSKApplciation).OpenDocumentFile(file.FullName);
 
-                Autodesk.Revit.DB.Document doc = ADSKApplciation.OpenDocumentFile(file.FullName);
-
-                Autodesk.Revit.DB.Category category = doc.ProjectInformation.Category;
+                //Autodesk.Revit.DB.Category category;
                 foreach (Autodesk.Revit.DB.FamilyParameter item in doc.FamilyManager.Parameters)
                 {
-                    Parameter parameter = Parameter.newParameter(InternalDataSet.Tables["FFParameters"].DefaultView);
+                    Parameter parameter = Parameter.newParameter(InternalDataSet.Tables[TableNames.FF_Parameters.ToString()].DefaultView);
+                    parameter.FamilyTemplateId = temp.Id;
                     parameter.Name = item.Definition.Name;
                     parameter.ElementId = item.Id.IntegerValue;
                     parameter.IsShared = item.IsShared;
@@ -105,18 +107,18 @@ namespace ModBox.FamFactory.Revit.Manager
                     parameter.IsInstance = item.IsInstance;
                     parameter.IsReadOnly = item.IsReadOnly;
                     parameter.IsReporting = item.IsReporting;
-                    parameter.StorageType = item.StorageType;
-                    parameter.BuiltInParamGroup = item.Definition.ParameterGroup;
-                    parameter.ParameterType = item.Definition.ParameterType;
-                    parameter.UnitType = item.Definition.UnitType;
+                    parameter.StorageType = (int)item.StorageType;
+                    parameter.BuiltInParamGroup = (int)item.Definition.ParameterGroup;
+                    parameter.ParameterType = (int)item.Definition.ParameterType;
+                    parameter.UnitType = (int)item.Definition.UnitType;
 
                     try
                     {
-                        parameter.DisplayUnitType = item.DisplayUnitType;
+                        parameter.DisplayUnitType = (int)item.DisplayUnitType;
                     }
                     catch (Exception e)
                     {
-                        parameter.DisplayUnitType = Autodesk.Revit.DB.DisplayUnitType.DUT_UNDEFINED;
+                        parameter.DisplayUnitType = (int)Autodesk.Revit.DB.DisplayUnitType.DUT_UNDEFINED;
                     }
 
                     parameter.UserModifiable = item.UserModifiable;
@@ -127,8 +129,35 @@ namespace ModBox.FamFactory.Revit.Manager
                     parameter.EndEdit();
                     temp.ParameterItems.Add(parameter);
                 }
-                doc.Close(false);
 
+                List<Autodesk.Revit.DB.ReferencePlane> planes = Utils.GetReferencePlanes(doc);
+                foreach (Autodesk.Revit.DB.ReferencePlane plane in planes)
+                {
+                    ReferencePlane refPlane = ReferencePlane.NewReferencePlane(InternalDataSet.Tables[TableNames.FF_ReferencePlanes.ToString()].DefaultView);
+                    refPlane.FamiltyTemplateId = temp.Id;
+                    refPlane.Name = plane.Name;
+                    refPlane.ElementId = plane.Id.IntegerValue;
+                    refPlane.UniqueId = plane.UniqueId;
+                    refPlane.LevelId = plane.LevelId.IntegerValue;
+                    refPlane.ViewId = plane.OwnerViewId.IntegerValue;
+                    refPlane.Category = plane.Category.Name;
+                    refPlane.DirectionX = plane.Direction.X;
+                    refPlane.DirectionY = plane.Direction.Y;
+                    refPlane.DirectionZ = plane.Direction.Z;
+                    refPlane.BubbleEndX = plane.BubbleEnd.X;
+                    refPlane.BubbleEndY = plane.BubbleEnd.Y;
+                    refPlane.BubbleEndZ = plane.BubbleEnd.Z;
+                    refPlane.NormalX = plane.Normal.X;
+                    refPlane.NormalY = plane.Normal.Y;
+                    refPlane.NormalZ = plane.Normal.Z;
+                    refPlane.FreeEndX = plane.FreeEnd.X;
+                    refPlane.FreeEndY = plane.FreeEnd.Y;
+                    refPlane.FreeEndZ = plane.FreeEnd.Z;
+                    refPlane.IsActive = true;
+                    refPlane.EndEdit();
+                    temp.RefferencePlaneItems.Add(refPlane);
+                }
+                doc.Close(false);
             }
         }
 

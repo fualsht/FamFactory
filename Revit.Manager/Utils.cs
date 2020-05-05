@@ -196,7 +196,7 @@ namespace ModBox.FamFactory.Revit.Manager
             foreach (Autodesk.Revit.DB.Parameter parameter in element.Parameters)
             {
                 Definition definition = parameter.Definition;
-                // material is stored as element id
+                //material is stored as element id
                 if (parameter.StorageType == StorageType.ElementId)
                 {
                     if (definition.ParameterGroup == BuiltInParameterGroup.PG_MATERIALS && definition.ParameterType == ParameterType.Material)
@@ -250,5 +250,27 @@ namespace ModBox.FamFactory.Revit.Manager
             }
             return material;
         }
+
+
+        enum ViewsFromDirection { LEFT_RIGHT, BACK_FROUNT, PLAN_CELING }
+        public static List<Autodesk.Revit.DB.ReferencePlane> GetReferencePlanes(Document doc)
+        {
+            // Gets a Temprary list of all features in the family template and adds them to the features list.
+            List<Autodesk.Revit.DB.ReferencePlane> RefPLanes = null;
+            if (doc != null)
+            {
+                RefPLanes = new List<Autodesk.Revit.DB.ReferencePlane>();
+                // Get reference planes from the family.
+                List<Element> referencePlaneElementList = new FilteredElementCollector(doc).OfClass(typeof(Autodesk.Revit.DB.ReferencePlane)).ToElements() as List<Element>;
+                foreach (Element element in referencePlaneElementList)
+                {
+                    Autodesk.Revit.DB.ReferencePlane plane = (Autodesk.Revit.DB.ReferencePlane)element as Autodesk.Revit.DB.ReferencePlane;
+                    RefPLanes.Add(plane);
+                }
+            }
+            return RefPLanes;
+        }
+
+
     }
 }
