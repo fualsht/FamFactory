@@ -12,5 +12,6 @@
         <ResourceDictionary Source="/FamFactoryManager;component/Styles/BorderStyles.xaml"/>
         <ResourceDictionary Source="/FamFactoryManager;component/Styles/Buttons.xaml"/>
         <ResourceDictionary Source="/FamFactoryManager;component/Styles/ScrollViewers.xaml"/>
+        <ResourceDictionary Source="/FamFactoryManager;component/Styles/CheckBoxes.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

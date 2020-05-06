@@ -10,15 +10,6 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/FamFactoryManager;component/AppResources/DataRosourses.xaml"/>
                 <ResourceDictionary Source="/FamFactoryManager;component/AppResources/MergedDictionaries.xaml" />
-                <!--<ResourceDictionary Source="/FamFactoryManager;component/Styles/ThemeColors.xaml"/>
-                <ResourceDictionary Source="/FamFactoryManager;component/Styles/GroupBoxs.xaml"/>
-                <ResourceDictionary Source="/FamFactoryManager;component/Styles/TextBoxes.xaml"/>
-                <ResourceDictionary Source="/FamFactoryManager;component/Styles/ComboBoxes.xaml"/>
-                <ResourceDictionary Source="/FamFactoryManager;component/Styles/TextBlocks.xaml"/>
-                <ResourceDictionary Source="/FamFactoryManager;component/Styles/ListBoxStyles.xaml"/>
-                <ResourceDictionary Source="/FamFactoryManager;component/Styles/BorderStyles.xaml"/>
-                <ResourceDictionary Source="/FamFactoryManager;component/Styles/Buttons.xaml"/>
-                <ResourceDictionary Source="/FamFactoryManager;component/Styles/ScrollViewers.xaml"/>-->
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
@@ -54,7 +45,7 @@
             </StackPanel>
         </Border>
         <Border Style="{DynamicResource SectionBorder}" Grid.Row="1">
-            <ListBox Margin="4" Style="{DynamicResource DefaultListBoxControlStyle}" />
+            <ListBox Margin="4" Style="{DynamicResource DefaultListBoxControlStyle}" ItemsSource="{Binding InternalCollection}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedElement, Mode=TwoWay}" />
         </Border>
         <Border Style="{DynamicResource SectionBorder}" Grid.Row="1" Grid.Column="1" DataContext="{Binding SelectedElement}">
             <ScrollViewer Grid.Row="1" Grid.ColumnSpan="2" Style="{DynamicResource DefaultScrollVIewerStyle}">
@@ -67,9 +58,10 @@
                             </Grid.ColumnDefinitions>
                             <Image Source="{Binding Thumbnail}" Stretch="UniformToFill" MaxHeight="250" MaxWidth="250"/>
                             <StackPanel Grid.Column="1">
-                                <TextBox Style="{DynamicResource TitleCationTextBoxStyle}" Tag="Template Name" Text="{Binding Name}"/>
-                                <TextBox Style="{DynamicResource TitleCationTextBoxStyle}" Tag="Template Category" Text="{Binding FamilyCategory}"/>
+                                <TextBox Style="{DynamicResource TitleCationTextBoxStyle}" Tag="Template Name" Text="{Binding Name}" IsReadOnly="True"/>
+                                <TextBox Style="{DynamicResource TitleCationTextBoxStyle}" Tag="Template Category" Text="{Binding FamilyCategory}" IsReadOnly="True"/>
                                 <TextBox Style="{DynamicResource TitleCationTextBoxStyle}" Tag="Description" Text="{Binding Description}"/>
+                                <CheckBox Style="{DynamicResource CheckboxWithTitle}" IsChecked="{Binding IsReleased}" Tag="Released"/>
                             </StackPanel>
                         </Grid>
                     </GroupBox>

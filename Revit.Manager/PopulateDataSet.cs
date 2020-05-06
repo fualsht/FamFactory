@@ -17,6 +17,8 @@ namespace ModBox.FamFactory.Revit.Manager
             InitilizeEmailProfiles(dataSet);
             InitilizeSystemConfigurationTable(dataSet);
             InitilizeUsersTable(dataSet);
+            InitilizeFamilyComponentTypesTable(dataSet);
+            InitilizeFamilyComponentsTable(dataSet);
             InitilizeFamilyTemplatesTable(dataSet);
             InitilizeReferencePlaneTable(dataSet);
             InitilizeGeometryTable(dataSet);
@@ -220,6 +222,140 @@ namespace ModBox.FamFactory.Revit.Manager
             dbVersionColumn.DefaultValue = "1.0.0";
 
             dataSet.Tables.Add(SysConfigTable);
+        }
+
+        public static void InitilizeFamilyComponentTypesTable(DataSet dataSet)
+        {
+            // System Configuration
+            DataTable FamilyComponentTypes = new DataTable(TableNames.FF_FamilyComponentTypes.ToString());
+            DataColumn idColumn = FamilyComponentTypes.Columns.Add(FamilyComponentType.FamilyComponentTypesTableColumnNames.Id.ToString(), typeof(string));
+            idColumn.Caption = "Id";
+            idColumn.AllowDBNull = false;
+            idColumn.Unique = true;
+            DataColumn nameColumn = FamilyComponentTypes.Columns.Add(FamilyComponentType.FamilyComponentTypesTableColumnNames.Name.ToString(), typeof(string));
+            nameColumn.Caption = "Name";
+            nameColumn.AllowDBNull = false;
+            nameColumn.Unique = true;
+            DataColumn addressColumn = FamilyComponentTypes.Columns.Add(FamilyComponentType.FamilyComponentTypesTableColumnNames.Description.ToString(), typeof(string));
+            addressColumn.AllowDBNull = true;
+            DataColumn ThumbnailColumn = FamilyComponentTypes.Columns.Add(FamilyComponentType.FamilyComponentTypesTableColumnNames.Thumbnail.ToString(), typeof(byte[]));
+            ThumbnailColumn.AllowDBNull = true;
+
+            dataSet.Tables.Add(FamilyComponentTypes);
+        }
+        public static void InitilizeFamilyComponentsTable(DataSet dataSet)
+        {
+            DataTable FamilyComponentsTable = new DataTable(TableNames.FF_FamilyComponents.ToString());
+
+            DataColumn idColumn = FamilyComponentsTable.Columns.Add(FamilyComponent.FamilyComponentsTableColumnNames.Id.ToString(), typeof(string));
+            idColumn.AllowDBNull = false;
+            idColumn.Unique = true;
+
+            DataColumn nameColumn = FamilyComponentsTable.Columns.Add(FamilyComponent.FamilyComponentsTableColumnNames.Name.ToString(), typeof(string));
+            nameColumn.Caption = "Name";
+            nameColumn.AllowDBNull = false;
+            nameColumn.Unique = true;
+
+            DataColumn DescriptionColumn = FamilyComponentsTable.Columns.Add(FamilyComponent.FamilyComponentsTableColumnNames.Description.ToString(), typeof(string));
+            DescriptionColumn.AllowDBNull = true;
+
+            DataColumn FamilyComponentTypeIdColumn = FamilyComponentsTable.Columns.Add(FamilyComponent.FamilyComponentsTableColumnNames.FamilyComponentTypeId.ToString(), typeof(string));
+            FamilyComponentTypeIdColumn.AllowDBNull = false;
+
+            DataColumn FamilyCategoryColumn = FamilyComponentsTable.Columns.Add(FamilyComponent.FamilyComponentsTableColumnNames.FamilyCategory.ToString(), typeof(string));
+            FamilyCategoryColumn.AllowDBNull = false;
+
+            DataColumn FamilyFileColumn = FamilyComponentsTable.Columns.Add(FamilyComponent.FamilyComponentsTableColumnNames.FamilyFile.ToString(), typeof(string));
+            FamilyFileColumn.Caption = "Application Version";
+            FamilyFileColumn.AllowDBNull = false;
+            FamilyFileColumn.DefaultValue = "1.0.0";
+
+            DataColumn ThumbnailColumn = FamilyComponentsTable.Columns.Add(FamilyComponent.FamilyComponentsTableColumnNames.Thumbnail.ToString(), typeof(string));
+            ThumbnailColumn.Caption = "Database Version";
+            ThumbnailColumn.AllowDBNull = false;
+            ThumbnailColumn.DefaultValue = "1.0.0";
+
+            DataColumn FileSizeColumn = FamilyComponentsTable.Columns.Add(FamilyComponent.FamilyComponentsTableColumnNames.FileSize.ToString(), typeof(string));
+            FileSizeColumn.Caption = "Database Version";
+            FileSizeColumn.AllowDBNull = false;
+            FileSizeColumn.DefaultValue = "1.0.0";
+
+            DataColumn DateCreatedColumn = FamilyComponentsTable.Columns.Add(FamilyComponent.FamilyComponentsTableColumnNames.DateCreated.ToString(), typeof(string));
+            DateCreatedColumn.Caption = "Database Version";
+            DateCreatedColumn.AllowDBNull = false;
+            DateCreatedColumn.DefaultValue = "1.0.0";
+
+            DataColumn DateModifiedColumn = FamilyComponentsTable.Columns.Add(FamilyComponent.FamilyComponentsTableColumnNames.DateModified.ToString(), typeof(string));
+            DateModifiedColumn.Caption = "Database Version";
+            DateModifiedColumn.AllowDBNull = false;
+            DateModifiedColumn.DefaultValue = "1.0.0";
+
+            DataColumn CreatedByColumn = FamilyComponentsTable.Columns.Add(FamilyComponent.FamilyComponentsTableColumnNames.CreatedBy.ToString(), typeof(string));
+            CreatedByColumn.Caption = "Database Version";
+            CreatedByColumn.AllowDBNull = false;
+            CreatedByColumn.DefaultValue = "1.0.0";
+
+            DataColumn VersionColumn = FamilyComponentsTable.Columns.Add(FamilyComponent.FamilyComponentsTableColumnNames.Version.ToString(), typeof(string));
+            VersionColumn.Caption = "Database Version";
+            VersionColumn.AllowDBNull = false;
+            VersionColumn.DefaultValue = "1.0.0";
+
+            DataColumn IsReleasedColumn = FamilyComponentsTable.Columns.Add(FamilyComponent.FamilyComponentsTableColumnNames.IsReleased.ToString(), typeof(string));
+            IsReleasedColumn.Caption = "Database Version";
+            IsReleasedColumn.AllowDBNull = false;
+            IsReleasedColumn.DefaultValue = "1.0.0";
+
+            DataColumn RoundConnectorDimentionColumn = FamilyComponentsTable.Columns.Add(FamilyComponent.FamilyComponentsTableColumnNames.RoundConnectorDimention.ToString(), typeof(string));
+            RoundConnectorDimentionColumn.Caption = "Database Version";
+            RoundConnectorDimentionColumn.AllowDBNull = false;
+            RoundConnectorDimentionColumn.DefaultValue = "1.0.0";
+
+            DataColumn PartTypeColumn = FamilyComponentsTable.Columns.Add(FamilyComponent.FamilyComponentsTableColumnNames.PartType.ToString(), typeof(string));
+            PartTypeColumn.Caption = "Database Version";
+            PartTypeColumn.AllowDBNull = false;
+            PartTypeColumn.DefaultValue = "1.0.0";
+
+            DataColumn OmniClassNumberColumn = FamilyComponentsTable.Columns.Add(FamilyComponent.FamilyComponentsTableColumnNames.OmniClassNumber.ToString(), typeof(string));
+            OmniClassNumberColumn.Caption = "Database Version";
+            OmniClassNumberColumn.AllowDBNull = false;
+            OmniClassNumberColumn.DefaultValue = "1.0.0";
+
+            DataColumn OmniClassTitleColumn = FamilyComponentsTable.Columns.Add(FamilyComponent.FamilyComponentsTableColumnNames.OmniClassTitle.ToString(), typeof(string));
+            OmniClassTitleColumn.Caption = "Database Version";
+            OmniClassTitleColumn.AllowDBNull = false;
+            OmniClassTitleColumn.DefaultValue = "1.0.0";
+
+            DataColumn WorkPlaneBasedColumn = FamilyComponentsTable.Columns.Add(FamilyComponent.FamilyComponentsTableColumnNames.WorkPlaneBased.ToString(), typeof(string));
+            WorkPlaneBasedColumn.Caption = "Database Version";
+            WorkPlaneBasedColumn.AllowDBNull = false;
+            WorkPlaneBasedColumn.DefaultValue = "1.0.0";
+
+            DataColumn AlwaysVerticalColumn = FamilyComponentsTable.Columns.Add(FamilyComponent.FamilyComponentsTableColumnNames.AlwaysVertical.ToString(), typeof(string));
+            AlwaysVerticalColumn.Caption = "Database Version";
+            AlwaysVerticalColumn.AllowDBNull = false;
+            AlwaysVerticalColumn.DefaultValue = "1.0.0";
+
+            DataColumn CutsWithVoidWhenLoadedColumn = FamilyComponentsTable.Columns.Add(FamilyComponent.FamilyComponentsTableColumnNames.CutsWithVoidWhenLoaded.ToString(), typeof(string));
+            CutsWithVoidWhenLoadedColumn.Caption = "Database Version";
+            CutsWithVoidWhenLoadedColumn.AllowDBNull = false;
+            CutsWithVoidWhenLoadedColumn.DefaultValue = "1.0.0";
+
+            DataColumn IsSharedColumn = FamilyComponentsTable.Columns.Add(FamilyComponent.FamilyComponentsTableColumnNames.IsShared.ToString(), typeof(string));
+            IsSharedColumn.Caption = "Database Version";
+            IsSharedColumn.AllowDBNull = false;
+            IsSharedColumn.DefaultValue = "1.0.0";
+
+            DataColumn RoomCalculationPointColumn = FamilyComponentsTable.Columns.Add(FamilyComponent.FamilyComponentsTableColumnNames.RoomCalculationPoint.ToString(), typeof(string));
+            RoomCalculationPointColumn.Caption = "Database Version";
+            RoomCalculationPointColumn.AllowDBNull = false;
+            RoomCalculationPointColumn.DefaultValue = "1.0.0";
+
+            DataColumn FileNameColumn = FamilyComponentsTable.Columns.Add(FamilyComponent.FamilyComponentsTableColumnNames.FileName.ToString(), typeof(string));
+            FileNameColumn.Caption = "Database Version";
+            FileNameColumn.AllowDBNull = false;
+            FileNameColumn.DefaultValue = "1.0.0";
+
+            dataSet.Tables.Add(FamilyComponentsTable);
         }
 
         private static void InitilizeFamilyTemplatesTable(DataSet dataSet)

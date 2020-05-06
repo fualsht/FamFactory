@@ -74,6 +74,7 @@
     </Compile>
     <Compile Include="Models\EmailProfile.cs" />
     <Compile Include="Models\FamilyComponent.cs" />
+    <Compile Include="Models\FamilyComponentType.cs" />
     <Compile Include="Models\FamilyGeometry.cs" />
     <Compile Include="Models\FamilyTemplate.cs" />
     <Compile Include="Converters\ModelBase.cs" />
@@ -141,6 +142,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
+    <Page Include="Styles\CheckBoxes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\ScrollViewers.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -223,6 +228,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\UserIconGrey.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TemplateIcon16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TemplateIcon32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

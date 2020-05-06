@@ -118,17 +118,10 @@ namespace ModBox.FamFactory.Revit.Manager
             }
         }
 
-        public static byte[] ThumbnailFromView(User user, string fileName, byte[] item, Autodesk.Revit.ApplicationServices.Application app, string previewview)
+        public static byte[] ThumbnailFromView(Autodesk.Revit.DB.Document doc, string viewName)
         {
-            Document doc;
-            FileInfo famfile = new FileInfo(fileName);
-
-            if (famfile.Extension.Contains("rft"))
-                doc = app.NewFamilyDocument(fileName);
-            else
-                doc = app.OpenDocumentFile(fileName);
-
-            string ext = ".png";
+            string guid = Guid.NewGuid().ToString();
+            FileInfo info = new FileInfo(Environment.CurrentDirectory + "\\" + guid +".png");
             if (doc != null)
             {
                 byte[] returnbytes = null;
@@ -137,16 +130,16 @@ namespace ModBox.FamFactory.Revit.Manager
                 {
                     if (view.IsTemplate) continue;
                     IList<ElementId> ImageExportList = new List<ElementId>();
-                    if (view.Name == previewview)
+                    if (view.Name == viewName)
                     {
                         ImageExportList.Clear();
                         ImageExportList.Add(view.Id);
-                        string tempThumbnail = Guid.NewGuid().ToString().Replace("-", "");
+                        
                         var BilledeExportOptions_3D_PNG = new ImageExportOptions
                         {
                             ZoomType = ZoomFitType.FitToPage,
                             PixelSize = 1024,
-                            FilePath = user.TempFolder + "\\" + tempThumbnail + ext,
+                            FilePath = info.FullName,
                             FitDirection = FitDirectionType.Horizontal,
                             HLRandWFViewsFileType = ImageFileType.JPEGLossless,
                             ShadowViewsFileType = ImageFileType.JPEGLossless,
@@ -154,29 +147,21 @@ namespace ModBox.FamFactory.Revit.Manager
                             ExportRange = ExportRange.SetOfViews
                         };
                         BilledeExportOptions_3D_PNG.SetViewsAndSheets(ImageExportList);
-
                         doc.ExportImage(BilledeExportOptions_3D_PNG);
-                        Thread.Sleep(100);
 
-                        DirectoryInfo directory = new DirectoryInfo(user.TempFolder);
-                        foreach (FileInfo file in directory.GetFiles())
+                        DirectoryInfo dinfo = new DirectoryInfo(info.DirectoryName);
+                        foreach (FileInfo file in dinfo.GetFiles())
                         {
-                            string name = file.Name.Substring(0, file.Name.IndexOf('.'));
-
-                            if (name.Length > tempThumbnail.Length)
-                                name = file.Name.Substring(0, file.Name.IndexOf(' '));
-
-                            if (file.Name.Contains(tempThumbnail))
+                            if (file.Name.Contains(guid))
                             {
-                                file.MoveTo(user.TempFolder + "\\" + tempThumbnail + ext);
+                                returnbytes = FileToByteArray(file.FullName);
+                                File.Delete(file.FullName);
                                 break;
                             }
                         }
-                        returnbytes = FileToByteArray(user.TempFolder + "\\" + tempThumbnail + ext);
                         break;
                     }
                 }
-                doc.Close(false);
                 return returnbytes;
             }
             return
@@ -271,7 +256,12 @@ namespace ModBox.FamFactory.Revit.Manager
                         refPlane.UniqueId = plane.UniqueId;
                         refPlane.LevelId = plane.LevelId.IntegerValue;
                         refPlane.ViewId = plane.OwnerViewId.IntegerValue;
-                        refPlane.Category = plane.Category.Name;
+
+                        if (plane.Category != null)
+                            refPlane.Category = plane.Category.Name;
+                        else
+                            refPlane.Category = "None";
+
                         refPlane.DirectionX = plane.Direction.X;
                         refPlane.DirectionY = plane.Direction.Y;
                         refPlane.DirectionZ = plane.Direction.Z;
@@ -299,7 +289,6 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             if (famTemplate.ParameterItems.Count <= 0)
             {
-                //Autodesk.Revit.DB.Category category;
                 foreach (Autodesk.Revit.DB.FamilyParameter item in doc.FamilyManager.Parameters)
                 {
                     Parameter parameter = Parameter.newParameter(famTemplate.FamilyTemplateParametersView);
@@ -358,10 +347,19 @@ namespace ModBox.FamFactory.Revit.Manager
                         familyGeometry.Name = sweep.Name;
                         familyGeometry.ElementId = sweep.Id.IntegerValue;
                         familyGeometry.Description = string.Empty;
-                        familyGeometry.Category = sweep.Category.Name;
-                        familyGeometry.SubCategory = sweep.Subcategory.Name;
+
+                        if (sweep.Category != null)
+                            familyGeometry.Category = sweep.Category.Name;
+                        else
+                            familyGeometry.Category = "None";
+
+                        if (sweep.Subcategory != null)
+                            familyGeometry.SubCategory = sweep.Subcategory.Name;
+                        else
+                            familyGeometry.SubCategory = "None";
+
                         familyGeometry.FamilyTemplateId = famTemplate.Id;
-                        familyGeometry.GeometryType = "Sweep";
+                        familyGeometry.GeometryType = sweep.Name;
                         familyGeometry.UniqueId = sweep.UniqueId;
                         familyGeometry.OwnerViewId = sweep.OwnerViewId.IntegerValue;
                         familyGeometry.LevelId = sweep.LevelId.IntegerValue;
@@ -377,10 +375,19 @@ namespace ModBox.FamFactory.Revit.Manager
                         familyGeometry.Name = extrude.Name;
                         familyGeometry.ElementId = extrude.Id.IntegerValue;
                         familyGeometry.Description = string.Empty;
-                        familyGeometry.Category = extrude.Category.Name;
-                        familyGeometry.SubCategory = extrude.Subcategory.Name;
+
+                        if (extrude.Category != null)
+                            familyGeometry.Category = extrude.Category.Name;
+                        else
+                            familyGeometry.Category = "None";
+
+                        if (extrude.Subcategory != null)
+                            familyGeometry.SubCategory = extrude.Subcategory.Name;
+                        else
+                            familyGeometry.SubCategory = "None";
+
                         familyGeometry.FamilyTemplateId = famTemplate.Id;
-                        familyGeometry.GeometryType = "Extrusion";
+                        familyGeometry.GeometryType = extrude.Name;
                         familyGeometry.UniqueId = extrude.UniqueId;
                         familyGeometry.OwnerViewId = extrude.OwnerViewId.IntegerValue;
                         familyGeometry.LevelId = extrude.LevelId.IntegerValue;
@@ -395,10 +402,19 @@ namespace ModBox.FamFactory.Revit.Manager
                         familyGeometry.Name = blend.Name;
                         familyGeometry.ElementId = blend.Id.IntegerValue;
                         familyGeometry.Description = string.Empty;
-                        familyGeometry.Category = blend.Category.Name;
-                        familyGeometry.SubCategory = blend.Subcategory.Name;
+
+                        if (blend.Category != null)
+                            familyGeometry.Category = blend.Category.Name;
+                        else
+                            familyGeometry.Category = "None";
+
+                        if (blend.Subcategory != null)
+                            familyGeometry.SubCategory = blend.Subcategory.Name;
+                        else
+                            familyGeometry.SubCategory = "None";
+
                         familyGeometry.FamilyTemplateId = famTemplate.Id;
-                        familyGeometry.GeometryType = "Blend";
+                        familyGeometry.GeometryType = blend.Name;
                         familyGeometry.UniqueId = blend.UniqueId;
                         familyGeometry.OwnerViewId = blend.OwnerViewId.IntegerValue;
                         familyGeometry.LevelId = blend.LevelId.IntegerValue;
@@ -413,8 +429,17 @@ namespace ModBox.FamFactory.Revit.Manager
                         familyGeometry.Name = weptblend.Name;
                         familyGeometry.ElementId = weptblend.Id.IntegerValue;
                         familyGeometry.Description = string.Empty;
-                        familyGeometry.Category = weptblend.Category.Name;
-                        familyGeometry.SubCategory = weptblend.Subcategory.Name;
+
+                        if (weptblend.Category != null)
+                            familyGeometry.Category = weptblend.Category.Name;
+                        else
+                            familyGeometry.Category = "None";
+
+                        if (weptblend.Subcategory != null)
+                            familyGeometry.SubCategory = weptblend.Subcategory.Name;
+                        else
+                            familyGeometry.SubCategory = "None";
+
                         familyGeometry.FamilyTemplateId = famTemplate.Id;
                         familyGeometry.GeometryType = "SweptBlend";
                         familyGeometry.UniqueId = weptblend.UniqueId;
@@ -431,10 +456,19 @@ namespace ModBox.FamFactory.Revit.Manager
                         familyGeometry.Name = revolve.Name;
                         familyGeometry.ElementId = revolve.Id.IntegerValue;
                         familyGeometry.Description = string.Empty;
-                        familyGeometry.Category = revolve.Category.Name;
-                        familyGeometry.SubCategory = revolve.Subcategory.Name;
+
+                        if (revolve.Category != null)
+                            familyGeometry.Category = revolve.Category.Name;
+                        else
+                            familyGeometry.Category = "None";
+
+                        if (revolve.Subcategory != null)
+                            familyGeometry.SubCategory = revolve.Subcategory.Name;
+                        else
+                            familyGeometry.SubCategory = "None";
+
                         familyGeometry.FamilyTemplateId = famTemplate.Id;
-                        familyGeometry.GeometryType = "Revolution";
+                        familyGeometry.GeometryType = revolve.Name;
                         familyGeometry.UniqueId = revolve.UniqueId;
                         familyGeometry.OwnerViewId = revolve.OwnerViewId.IntegerValue;
                         familyGeometry.LevelId = revolve.LevelId.IntegerValue;

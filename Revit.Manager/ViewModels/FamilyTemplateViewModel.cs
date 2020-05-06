@@ -81,22 +81,28 @@ namespace ModBox.FamFactory.Revit.Manager
             if (dialogue.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 FileInfo file = new FileInfo(dialogue.FileName);
-                FamilyTemplate temp = FamilyTemplate.NewTemplate(TemplateDataView);
-                temp.FileName = file.Name;
-                temp.FileSize = file.Length;
-                temp.Thumbnail = Utils.ImageToByte(Resources.key);
-                temp.FamilyFile = Utils.FileToByteArray(file.FullName);
-
-                temp.EndEdit();
-                SelectedElement = temp;
                 Autodesk.Revit.DB.Document doc = ((Autodesk.Revit.ApplicationServices.Application)ADSKApplciation).OpenDocumentFile(file.FullName);
 
+                SelectedElement = FamilyTemplate.NewTemplate(TemplateDataView);
+                SelectedElement.FileName = file.Name;
+                SelectedElement.FileSize = file.Length;
+                SelectedElement.Thumbnail = Utils.ImageToByte(Resources.key);
+                SelectedElement.Thumbnail = Utils.ThumbnailFromView(doc, "Thumbnail");
 
-                Utils.GetParameters(temp, doc);
-                Utils.GetReferencePlanes(temp ,doc);
-                Utils.GetFamilyFeatures(temp, doc);
+                if (doc.OwnerFamily.FamilyCategory != null)
+                    SelectedElement.FamilyCategory = doc.OwnerFamily.FamilyCategory.Name;
+                else
+                    SelectedElement.FamilyCategory = "None";
+
+                SelectedElement.EndEdit();
+
+                Utils.GetParameters(SelectedElement, doc);
+                Utils.GetReferencePlanes(SelectedElement, doc);
+                Utils.GetFamilyFeatures(SelectedElement, doc);
 
                 doc.Close(false);
+                
+                SelectedElement.FamilyFile = Utils.FileToByteArray(file.FullName);
                 RefreshCollection();
             }
         }
