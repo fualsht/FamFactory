@@ -8,15 +8,8 @@
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/FamFactoryManager;component/Styles/themecolors.xaml"/>
-                <ResourceDictionary Source="/FamFactoryManager;component/Styles/BorderStyles.xaml"/>
-                <ResourceDictionary Source="/FamFactoryManager;component/Styles/Buttons.xaml"/>
-                <ResourceDictionary Source="/FamFactoryManager;component/Styles/GroupBoxs.xaml"/>
-                <ResourceDictionary Source="/FamFactoryManager;component/Styles/TextBoxes.xaml"/>
-                <ResourceDictionary Source="/FamFactoryManager;component/Styles/ComboBoxes.xaml"/>
-                <ResourceDictionary Source="/FamFactoryManager;component/Styles/TextBlocks.xaml"/>
-                <ResourceDictionary Source="/FamFactoryManager;component/Styles/ListBoxStyles.xaml"/>
-                <ResourceDictionary Source="/FamFactoryManager;component/Styles/ScrollViewers.xaml"/>
+                <ResourceDictionary Source="/FamFactoryManager;component/AppResources/DataRosourses.xaml"/>
+                <ResourceDictionary Source="/FamFactoryManager;component/AppResources/MergedDictionaries.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>

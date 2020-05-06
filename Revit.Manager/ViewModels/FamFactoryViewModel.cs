@@ -14,12 +14,15 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamFactoryViewModel : ViewModelBase<Page>
     {
-        
+
         UsersViewModel _UsersViewModel;
         public UsersViewModel UsersViewModel { get { return _UsersViewModel; } }
 
         FamilyTemplatesViewModel _FamilyTemplatesViewModel;
         public FamilyTemplatesViewModel FamilyTemplatesViewModel { get { return _FamilyTemplatesViewModel; } }
+
+        FamFactoryComponentViewModel _FamilyComponentViewModel;
+        public FamFactoryComponentViewModel FamilyComponentViewModel { get { return _FamilyComponentViewModel; } }
 
         public FamFactoryViewModel(DataSet dataset) : base(dataset)
         {
@@ -39,13 +42,17 @@ namespace ModBox.FamFactory.Revit.Manager
                 NotifyPropertyChanged("UsersViewModel");
                 _FamilyTemplatesViewModel = new FamilyTemplatesViewModel(InternalDataSet, ADSKApplciation);
                 NotifyPropertyChanged("FamilyTemplatesViewModel");
+                _FamilyComponentViewModel = new FamFactoryComponentViewModel(InternalDataSet, ADSKApplciation);
+                NotifyPropertyChanged("FamilyComponentViewModel");
 
                 Pages.SystemConfigurationView systemConfigurationView = new Pages.SystemConfigurationView(this);
                 Pages.UsersView usersView = new Pages.UsersView(this);
-                Pages.FamilyTemplatesView tempView = new Pages.FamilyTemplatesView(this);
+                Pages.FamilyTemplatesView FamTempView = new Pages.FamilyTemplatesView(this);
+                Pages.FamilyComponentView familyComponentView = new Pages.FamilyComponentView(this);
                 AddElement(usersView);
                 AddElement(systemConfigurationView);
-                AddElement(tempView, true);
+                AddElement(FamTempView);
+                AddElement(familyComponentView, true);
             }
             catch (Exception e)
             {

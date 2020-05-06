@@ -83,6 +83,9 @@
     <Compile Include="Models\ReferencePlane.cs" />
     <Compile Include="Models\SystemConfiguration.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Pages\FamilyComponentView.xaml.cs">
+      <DependentUpon>FamilyComponentView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\FamilyTemplatesView.xaml.cs">
       <DependentUpon>FamilyTemplatesView.xaml</DependentUpon>
     </Compile>
@@ -102,6 +105,7 @@
     <Compile Include="Structs\Version.cs" />
     <Compile Include="TableConstants.cs" />
     <Compile Include="Utils.cs" />
+    <Compile Include="ViewModels\FamFactoryComponentViewModel.cs" />
     <Compile Include="ViewModels\FamilyTemplateViewModel.cs" />
     <Compile Include="ViewModels\UsersViewModel.cs" />
     <Compile Include="BaseClasses\ViewModelBase.cs" />
@@ -142,6 +146,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
+    <Page Include="Pages\FamilyComponentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\CheckBoxes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

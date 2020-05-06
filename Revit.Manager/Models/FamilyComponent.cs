@@ -10,7 +10,7 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamilyComponent : ModelBase<FamilyComponent>
     {
-        public enum FamilyComponentsTableColumnNames { Id, Name, Description, FamilyComponentTypeId, FamilyCategory, FamilyFile, Thumbnail, FileSize, DateCreated, DateModified, CreatedBy, Version, 
+        public enum FamilyComponentsTableColumnNames { Id, Name, Description, FamilyComponentTypeId, FamilyCategory, FamilyFile, Thumbnail, FileSize, DateCreated, DateModified, CreatedByUserId, Version, 
             IsReleased, RoundConnectorDimention, PartType, OmniClassNumber, OmniClassTitle, WorkPlaneBased, AlwaysVertical, CutsWithVoidWhenLoaded, IsShared, RoomCalculationPoint, FileName }
 
         public string Id
@@ -65,8 +65,8 @@ namespace ModBox.FamFactory.Revit.Manager
         }
         public string CreatedBy
         {
-            get { return InternalDataRowView[FamilyComponentsTableColumnNames.CreatedBy.ToString()].ToString(); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[FamilyComponentsTableColumnNames.CreatedBy.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return InternalDataRowView[FamilyComponentsTableColumnNames.CreatedByUserId.ToString()].ToString(); }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[FamilyComponentsTableColumnNames.CreatedByUserId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public Version Version
         {
@@ -133,18 +133,51 @@ namespace ModBox.FamFactory.Revit.Manager
         public ObservableCollection<FamilyGeometry> FamilyGeometryItems { get; set; }
         public ObservableCollection<Parameter> ParameterItems { get; set; }
 
-        DataView _FamilyTemplateReferencePlanesView;
-        public DataView FamilyTemplateReferencePlanesView { get { return _FamilyTemplateReferencePlanesView; } }
+        DataView _FamilyComponentReferencePlanesView;
+        public DataView FamilyComponentReferencePlanesView { get { return _FamilyComponentReferencePlanesView; } }
 
-        DataView _FamilyTemplateParametersView;
-        public DataView FamilyTemplateParametersView { get { return _FamilyTemplateParametersView; } }
+        DataView _FamilyComponentParametersView;
+        public DataView FamilyComponentParametersView { get { return _FamilyComponentParametersView; } }
 
-        DataView _FamilyTemplateGeometryView;
-        public DataView FamilyTemplateGeometryView { get { return _FamilyTemplateGeometryView; } }
+        DataView _FamilyComponentGeometryView;
+        public DataView FamilyComponentGeometryView { get { return _FamilyComponentGeometryView; } }
 
         public FamilyComponent(DataRowView view) : base(view)
         {
-            
+            RefferencePlaneItems = new ObservableCollection<ReferencePlane>();
+            FamilyGeometryItems = new ObservableCollection<FamilyGeometry>();
+            ParameterItems = new ObservableCollection<Parameter>();
+            _FamilyComponentParametersView = InternalDataRowView.CreateChildView(TableRelations.ParametersFamilyTemplateId_FamilyTemplatesId.ToString());
+            _FamilyComponentReferencePlanesView = InternalDataRowView.CreateChildView(TableRelations.ReferencePlanesFamilyTemplateId_FamilyTemplatesId.ToString());
+            _FamilyComponentGeometryView = InternalDataRowView.CreateChildView(TableRelations.GeometryFamilyTemplateid_FamilyTemplateId.ToString());
+            RefreshChildRows();
+        }
+        private void RefreshChildRows()
+        {
+            ParameterItems.Clear();
+            foreach (DataRowView item in FamilyComponentParametersView)
+                ParameterItems.Add(new Parameter(item));
+
+            RefferencePlaneItems.Clear();
+            foreach (DataRowView item in FamilyComponentReferencePlanesView)
+                RefferencePlaneItems.Add(new ReferencePlane(item));
+
+            FamilyGeometryItems.Clear();
+            foreach (DataRowView item in FamilyComponentGeometryView)
+                FamilyGeometryItems.Add(new FamilyGeometry(item));
+        }
+
+        public static FamilyComponent NewFamilyComponent(DataView rowView)
+        {
+            DataRowView row = rowView.AddNew();
+
+            FamilyComponent template = new FamilyComponent(row);
+            template.Id = Guid.NewGuid().ToString();
+            template.Version = new Version(0, 0, 0);
+            template.DateCreated = DateTime.Now;
+            template.DateModified = DateTime.Now;
+
+            return template;
         }
     }
 }

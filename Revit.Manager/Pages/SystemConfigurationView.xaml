@@ -10,6 +10,8 @@
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/FamFactoryManager;component/AppResources/DataRosourses.xaml"/>
+                <ResourceDictionary Source="/FamFactoryManager;component/AppResources/MergedDictionaries.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>

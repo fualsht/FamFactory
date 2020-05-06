@@ -9,17 +9,18 @@ using System.Threading.Tasks;
 
 namespace ModBox.FamFactory.Revit.Manager
 {
-    public class FamilyTemplatesViewModel : ViewModelBase<FamilyTemplate>
+    public class FamFactoryComponentViewModel : ViewModelBase<FamilyComponent>
     {
-        DataView TemplateDataView;
-        public FamilyTemplatesViewModel(DataSet dataset) : base(dataset)
+        DataView ComponentDataView;
+        public FamFactoryComponentViewModel(DataSet dataSet): base(dataSet)
         {
-            TemplateDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].DefaultView; 
+            ComponentDataView = InternalDataSet.Tables[TableNames.FF_FamilyComponents.ToString()].DefaultView;
             RefreshCollection();
         }
-        public FamilyTemplatesViewModel(DataSet dataset, object application) : base(dataset, application)
+
+        public FamFactoryComponentViewModel(DataSet dataSet, object application) : base(dataSet, application)
         {
-            TemplateDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].DefaultView;
+            ComponentDataView = InternalDataSet.Tables[TableNames.FF_FamilyComponents.ToString()].DefaultView;
             RefreshCollection();
         }
 
@@ -28,9 +29,9 @@ namespace ModBox.FamFactory.Revit.Manager
             if (InternalCollection != null)
             {
                 InternalCollection.Clear();
-                foreach (DataRowView item in InternalDataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].DefaultView)
+                foreach (DataRowView item in InternalDataSet.Tables[TableNames.FF_FamilyComponents.ToString()].DefaultView)
                 {
-                    this.AddElement(new FamilyTemplate(item), true);
+                    this.AddElement(new FamilyComponent(item), true);
                 }
             }
         }
@@ -47,7 +48,7 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public override void CancelElementChanges()
         {
-
+            
         }
 
         public override bool CanCreateNewElement()
@@ -83,7 +84,7 @@ namespace ModBox.FamFactory.Revit.Manager
                 FileInfo file = new FileInfo(dialogue.FileName);
                 Autodesk.Revit.DB.Document doc = ((Autodesk.Revit.ApplicationServices.Application)ADSKApplciation).OpenDocumentFile(file.FullName);
 
-                SelectedElement = FamilyTemplate.NewTemplate(TemplateDataView);
+                SelectedElement = FamilyComponent.NewFamilyComponent(ComponentDataView);
                 SelectedElement.FileName = file.Name;
                 SelectedElement.FileSize = file.Length;
                 SelectedElement.Thumbnail = Utils.ImageToByte(Resources.key);
@@ -96,20 +97,20 @@ namespace ModBox.FamFactory.Revit.Manager
 
                 SelectedElement.EndEdit();
 
-                Utils.GetFamilyTemplateParameters(SelectedElement, doc);
-                Utils.GetGamilyTemplateReferencePlanes(SelectedElement, doc);
-                Utils.GetFamilyTemplateFeatures(SelectedElement, doc);
+                Utils.GetFamilyComponentFeatures(SelectedElement, doc);
+                Utils.GetFamilyComponentParameters(SelectedElement, doc);
+                Utils.GetFamilyComponentReferencePlanes(SelectedElement, doc);
 
                 doc.Close(false);
-                
+
                 SelectedElement.FamilyFile = Utils.FileToByteArray(file.FullName);
                 RefreshCollection();
             }
         }
 
-        public override void SaveElement(FamilyTemplate element)
+        public override void SaveElement(FamilyComponent element)
         {
-
+     
         }
     }
 }
