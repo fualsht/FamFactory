@@ -142,6 +142,9 @@ namespace ModBox.FamFactory.Revit.Manager
         DataView _FamilyComponentGeometryView;
         public DataView FamilyComponentGeometryView { get { return _FamilyComponentGeometryView; } }
 
+        DataView _FamilyComponentTypesView;
+        public DataView FamilyComponentTypesView { get { return _FamilyComponentTypesView; } }
+
         public FamilyComponent(DataRowView view) : base(view)
         {
             RefferencePlaneItems = new ObservableCollection<ReferencePlane>();
@@ -150,6 +153,7 @@ namespace ModBox.FamFactory.Revit.Manager
             _FamilyComponentParametersView = InternalDataRowView.CreateChildView(TableRelations.ParametersFamilyComponentId_FamilyComponentsId.ToString());
             _FamilyComponentReferencePlanesView = InternalDataRowView.CreateChildView(TableRelations.ReferencePlanesFamilyComponentId_FamilyComponentsId.ToString());
             _FamilyComponentGeometryView = InternalDataRowView.CreateChildView(TableRelations.GeometryFamilyComponentid_FamilyComponentId.ToString());
+            _FamilyComponentTypesView = InternalDataRowView.DataView.Table.DataSet.Tables[TableNames.FF_FamilyComponentTypes.ToString()].DefaultView;
             RefreshChildRows();
         }
         private void RefreshChildRows()
@@ -171,14 +175,15 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             DataRowView row = rowView.AddNew();
 
-            FamilyComponent template = new FamilyComponent(row);
-            template.Id = Guid.NewGuid().ToString();
-            template.Thumbnail = new byte[byte.MaxValue];
-            template.Version = new Version(0, 0, 0);
-            template.DateCreated = DateTime.Now;
-            template.DateModified = DateTime.Now;
+            FamilyComponent component = new FamilyComponent(row);
+            component.Id = Guid.NewGuid().ToString();
+            component.Thumbnail = new byte[byte.MaxValue];
+            component.Version = new Version(0, 0, 0);
+            component.DateCreated = DateTime.Now;
+            component.DateModified = DateTime.Now;
+            component.FamilyComponentTypeId = component.FamilyComponentTypesView[0]["Id"].ToString();
 
-            return template;
+            return component;
         }
     }
 }

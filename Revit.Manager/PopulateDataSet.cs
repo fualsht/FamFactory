@@ -244,6 +244,48 @@ namespace ModBox.FamFactory.Revit.Manager
             DataColumn ThumbnailColumn = FamilyComponentTypes.Columns.Add(FamilyComponentType.FamilyComponentTypesTableColumnNames.Thumbnail.ToString(), typeof(byte[]));
             ThumbnailColumn.AllowDBNull = true;
 
+            DataRow drow = FamilyComponentTypes.NewRow();
+            drow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Id.ToString()] = Guid.NewGuid().ToString();
+            drow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Name.ToString()] = "Doors";
+            drow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Description.ToString()] = "";
+            drow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Thumbnail.ToString()] = Utils.ImageToByte(Resources.key);
+            FamilyComponentTypes.Rows.Add(drow);
+            
+            DataRow drow1 = FamilyComponentTypes.NewRow();
+            drow1[FamilyComponentType.FamilyComponentTypesTableColumnNames.Id.ToString()] = Guid.NewGuid().ToString();
+            drow1[FamilyComponentType.FamilyComponentTypesTableColumnNames.Name.ToString()] = "Windows";
+            drow1[FamilyComponentType.FamilyComponentTypesTableColumnNames.Description.ToString()] = "";
+            drow1[FamilyComponentType.FamilyComponentTypesTableColumnNames.Thumbnail.ToString()] = Utils.ImageToByte(Resources.key);
+            FamilyComponentTypes.Rows.Add(drow1);
+
+            DataRow drow2 = FamilyComponentTypes.NewRow();
+            drow2[FamilyComponentType.FamilyComponentTypesTableColumnNames.Id.ToString()] = Guid.NewGuid().ToString();
+            drow2[FamilyComponentType.FamilyComponentTypesTableColumnNames.Name.ToString()] = "Profiels";
+            drow2[FamilyComponentType.FamilyComponentTypesTableColumnNames.Description.ToString()] = "";
+            drow2[FamilyComponentType.FamilyComponentTypesTableColumnNames.Thumbnail.ToString()] = Utils.ImageToByte(Resources.key);
+            FamilyComponentTypes.Rows.Add(drow2);
+
+            DataRow drow3 = FamilyComponentTypes.NewRow();
+            drow3[FamilyComponentType.FamilyComponentTypesTableColumnNames.Id.ToString()] = Guid.NewGuid().ToString();
+            drow3[FamilyComponentType.FamilyComponentTypesTableColumnNames.Name.ToString()] = "Tap";
+            drow3[FamilyComponentType.FamilyComponentTypesTableColumnNames.Description.ToString()] = "";
+            drow3[FamilyComponentType.FamilyComponentTypesTableColumnNames.Thumbnail.ToString()] = Utils.ImageToByte(Resources.key);
+            FamilyComponentTypes.Rows.Add(drow3);
+
+            DataRow drow4 = FamilyComponentTypes.NewRow();
+            drow4[FamilyComponentType.FamilyComponentTypesTableColumnNames.Id.ToString()] = Guid.NewGuid().ToString();
+            drow4[FamilyComponentType.FamilyComponentTypesTableColumnNames.Name.ToString()] = "Plug";
+            drow4[FamilyComponentType.FamilyComponentTypesTableColumnNames.Description.ToString()] = "";
+            drow4[FamilyComponentType.FamilyComponentTypesTableColumnNames.Thumbnail.ToString()] = Utils.ImageToByte(Resources.key);
+            FamilyComponentTypes.Rows.Add(drow4);
+
+            DataRow drow5 = FamilyComponentTypes.NewRow();
+            drow5[FamilyComponentType.FamilyComponentTypesTableColumnNames.Id.ToString()] = Guid.NewGuid().ToString();
+            drow5[FamilyComponentType.FamilyComponentTypesTableColumnNames.Name.ToString()] = "Waste Trap";
+            drow5[FamilyComponentType.FamilyComponentTypesTableColumnNames.Description.ToString()] = "";
+            drow5[FamilyComponentType.FamilyComponentTypesTableColumnNames.Thumbnail.ToString()] = Utils.ImageToByte(Resources.key);
+            FamilyComponentTypes.Rows.Add(drow5);
+
             dataSet.Tables.Add(FamilyComponentTypes);
         }
 
@@ -265,7 +307,7 @@ namespace ModBox.FamFactory.Revit.Manager
                 DescriptionColumn.AllowDBNull = true;
 
                 DataColumn FamilyComponentTypeIdColumn = FamilyComponentsTable.Columns.Add(FamilyComponent.FamilyComponentsTableColumnNames.FamilyComponentTypeId.ToString(), typeof(string));
-                FamilyComponentTypeIdColumn.AllowDBNull = true;
+                FamilyComponentTypeIdColumn.AllowDBNull = false;
 
                 DataColumn FamilyCategoryColumn = FamilyComponentsTable.Columns.Add(FamilyComponent.FamilyComponentsTableColumnNames.FamilyCategory.ToString(), typeof(string));
                 FamilyCategoryColumn.AllowDBNull = false;
