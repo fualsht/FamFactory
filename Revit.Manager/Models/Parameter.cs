@@ -9,7 +9,7 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class Parameter : ModelBase<Parameter>
     {
-        public enum ParameterColumnNames { Id, FamilyTemplateId, Name, ElementId, ElementGUID, HasValue, IsReadOnly, IsShared, IsInstance, StorageType, 
+        public enum ParameterColumnNames { Id, FamilyId, Name, ElementId, ElementGUID, HasValue, IsReadOnly, IsShared, IsInstance, StorageType, 
             IsEditable, IsActive, HostId, IsReporting, BuiltInParamGroup, ParameterType, UnitType, DisplayUnitType, UserModifiable, IsDeterminedByFormula, Formula }
 
         public string Id
@@ -18,10 +18,10 @@ namespace ModBox.FamFactory.Revit.Manager
             set { InternalDataRowView[ParameterColumnNames.Id.ToString()] = value; NotifyPropertyChanged(); }
         }
 
-        public string FamilyTemplateId
+        public string FamilyId
         {
-            get { return InternalDataRowView[ParameterColumnNames.FamilyTemplateId.ToString()].ToString(); }
-            set { InternalDataRowView[ParameterColumnNames.FamilyTemplateId.ToString()] = value; NotifyPropertyChanged(); }
+            get { return InternalDataRowView[ParameterColumnNames.FamilyId.ToString()].ToString(); }
+            set { InternalDataRowView[ParameterColumnNames.FamilyId.ToString()] = value; NotifyPropertyChanged(); }
         }
 
         public string Name

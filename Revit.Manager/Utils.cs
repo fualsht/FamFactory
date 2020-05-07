@@ -239,7 +239,7 @@ namespace ModBox.FamFactory.Revit.Manager
 
         enum ViewsFromDirection { LEFT_RIGHT, BACK_FROUNT, PLAN_CELING }
 
-        public static void GetGamilyTemplateReferencePlanes(FamilyTemplate famTemplate, Document doc)
+        public static void GetFamilyTemplateReferencePlanes(FamilyTemplate famTemplate, Document doc)
         {
             if (doc != null)
             {
@@ -251,7 +251,7 @@ namespace ModBox.FamFactory.Revit.Manager
                         Autodesk.Revit.DB.ReferencePlane plane = (Autodesk.Revit.DB.ReferencePlane)element as Autodesk.Revit.DB.ReferencePlane;
                         ModBox.FamFactory.Revit.Manager.ReferencePlane refPlane = ReferencePlane.NewReferencePlane(famTemplate.FamilyTemplateReferencePlanesView);
                         refPlane.Name = plane.Name;
-                        refPlane.FamiltyTemplateId = famTemplate.Id;
+                        refPlane.FamiltyId = famTemplate.Id;
                         refPlane.ElementId = plane.Id.IntegerValue;
                         refPlane.UniqueId = plane.UniqueId;
                         refPlane.LevelId = plane.LevelId.IntegerValue;
@@ -292,7 +292,7 @@ namespace ModBox.FamFactory.Revit.Manager
                 foreach (Autodesk.Revit.DB.FamilyParameter item in doc.FamilyManager.Parameters)
                 {
                     Parameter parameter = Parameter.newParameter(famTemplate.FamilyTemplateParametersView);
-                    parameter.FamilyTemplateId = famTemplate.Id;
+                    parameter.FamilyId = famTemplate.Id;
                     parameter.Name = item.Definition.Name;
                     parameter.ElementId = item.Id.IntegerValue;
                     parameter.IsShared = item.IsShared;
@@ -358,7 +358,7 @@ namespace ModBox.FamFactory.Revit.Manager
                         else
                             familyGeometry.SubCategory = "None";
 
-                        familyGeometry.FamilyTemplateId = famTemplate.Id;
+                        familyGeometry.FamilyId = famTemplate.Id;
                         familyGeometry.GeometryType = sweep.Name;
                         familyGeometry.UniqueId = sweep.UniqueId;
                         familyGeometry.OwnerViewId = sweep.OwnerViewId.IntegerValue;
@@ -386,7 +386,7 @@ namespace ModBox.FamFactory.Revit.Manager
                         else
                             familyGeometry.SubCategory = "None";
 
-                        familyGeometry.FamilyTemplateId = famTemplate.Id;
+                        familyGeometry.FamilyId = famTemplate.Id;
                         familyGeometry.GeometryType = extrude.Name;
                         familyGeometry.UniqueId = extrude.UniqueId;
                         familyGeometry.OwnerViewId = extrude.OwnerViewId.IntegerValue;
@@ -413,7 +413,7 @@ namespace ModBox.FamFactory.Revit.Manager
                         else
                             familyGeometry.SubCategory = "None";
 
-                        familyGeometry.FamilyTemplateId = famTemplate.Id;
+                        familyGeometry.FamilyId = famTemplate.Id;
                         familyGeometry.GeometryType = blend.Name;
                         familyGeometry.UniqueId = blend.UniqueId;
                         familyGeometry.OwnerViewId = blend.OwnerViewId.IntegerValue;
@@ -440,7 +440,7 @@ namespace ModBox.FamFactory.Revit.Manager
                         else
                             familyGeometry.SubCategory = "None";
 
-                        familyGeometry.FamilyTemplateId = famTemplate.Id;
+                        familyGeometry.FamilyId = famTemplate.Id;
                         familyGeometry.GeometryType = "SweptBlend";
                         familyGeometry.UniqueId = weptblend.UniqueId;
                         familyGeometry.OwnerViewId = weptblend.OwnerViewId.IntegerValue;
@@ -467,7 +467,7 @@ namespace ModBox.FamFactory.Revit.Manager
                         else
                             familyGeometry.SubCategory = "None";
 
-                        familyGeometry.FamilyTemplateId = famTemplate.Id;
+                        familyGeometry.FamilyId = famTemplate.Id;
                         familyGeometry.GeometryType = revolve.Name;
                         familyGeometry.UniqueId = revolve.UniqueId;
                         familyGeometry.OwnerViewId = revolve.OwnerViewId.IntegerValue;
@@ -494,9 +494,9 @@ namespace ModBox.FamFactory.Revit.Manager
                     foreach (Element element in referencePlaneElementList)
                     {
                         Autodesk.Revit.DB.ReferencePlane plane = (Autodesk.Revit.DB.ReferencePlane)element as Autodesk.Revit.DB.ReferencePlane;
-                        ModBox.FamFactory.Revit.Manager.ReferencePlane refPlane = ReferencePlane.NewReferencePlane(famcomponent.FamilyTemplateReferencePlanesView);
+                        ModBox.FamFactory.Revit.Manager.ReferencePlane refPlane = ReferencePlane.NewReferencePlane(famcomponent.FamilyComponentReferencePlanesView);
                         refPlane.Name = plane.Name;
-                        refPlane.FamiltyTemplateId = famcomponent.Id;
+                        refPlane.FamiltyId = famcomponent.Id;
                         refPlane.ElementId = plane.Id.IntegerValue;
                         refPlane.UniqueId = plane.UniqueId;
                         refPlane.LevelId = plane.LevelId.IntegerValue;
@@ -536,8 +536,8 @@ namespace ModBox.FamFactory.Revit.Manager
             {
                 foreach (Autodesk.Revit.DB.FamilyParameter item in doc.FamilyManager.Parameters)
                 {
-                    Parameter parameter = Parameter.newParameter(famComponent.FamilyTemplateParametersView);
-                    parameter.FamilyTemplateId = famComponent.Id;
+                    Parameter parameter = Parameter.newParameter(famComponent.FamilyComponentParametersView);
+                    parameter.FamilyId = famComponent.Id;
                     parameter.Name = item.Definition.Name;
                     parameter.ElementId = item.Id.IntegerValue;
                     parameter.IsShared = item.IsShared;
@@ -588,7 +588,7 @@ namespace ModBox.FamFactory.Revit.Manager
                     foreach (Element element in sweepElementList)
                     {
                         Autodesk.Revit.DB.Sweep sweep = (Autodesk.Revit.DB.Sweep)element as Autodesk.Revit.DB.Sweep;
-                        FamilyGeometry familyGeometry = FamilyGeometry.NewFamilyGeometry(famComponent.FamilyTemplateGeometryView);
+                        FamilyGeometry familyGeometry = FamilyGeometry.NewFamilyGeometry(famComponent.FamilyComponentGeometryView);
                         familyGeometry.Name = sweep.Name;
                         familyGeometry.ElementId = sweep.Id.IntegerValue;
                         familyGeometry.Description = string.Empty;
@@ -603,7 +603,7 @@ namespace ModBox.FamFactory.Revit.Manager
                         else
                             familyGeometry.SubCategory = "None";
 
-                        familyGeometry.FamilyTemplateId = famComponent.Id;
+                        familyGeometry.FamilyId = famComponent.Id;
                         familyGeometry.GeometryType = sweep.Name;
                         familyGeometry.UniqueId = sweep.UniqueId;
                         familyGeometry.OwnerViewId = sweep.OwnerViewId.IntegerValue;
@@ -616,7 +616,7 @@ namespace ModBox.FamFactory.Revit.Manager
                     foreach (Element element in extrudeElementList)
                     {
                         Autodesk.Revit.DB.Extrusion extrude = (Autodesk.Revit.DB.Extrusion)element as Autodesk.Revit.DB.Extrusion;
-                        FamilyGeometry familyGeometry = FamilyGeometry.NewFamilyGeometry(famComponent.FamilyTemplateGeometryView);
+                        FamilyGeometry familyGeometry = FamilyGeometry.NewFamilyGeometry(famComponent.FamilyComponentGeometryView);
                         familyGeometry.Name = extrude.Name;
                         familyGeometry.ElementId = extrude.Id.IntegerValue;
                         familyGeometry.Description = string.Empty;
@@ -631,7 +631,7 @@ namespace ModBox.FamFactory.Revit.Manager
                         else
                             familyGeometry.SubCategory = "None";
 
-                        familyGeometry.FamilyTemplateId = famComponent.Id;
+                        familyGeometry.FamilyId = famComponent.Id;
                         familyGeometry.GeometryType = extrude.Name;
                         familyGeometry.UniqueId = extrude.UniqueId;
                         familyGeometry.OwnerViewId = extrude.OwnerViewId.IntegerValue;
@@ -643,7 +643,7 @@ namespace ModBox.FamFactory.Revit.Manager
                     foreach (Element element in blendElementList)
                     {
                         Autodesk.Revit.DB.Blend blend = (Autodesk.Revit.DB.Blend)element as Autodesk.Revit.DB.Blend;
-                        FamilyGeometry familyGeometry = FamilyGeometry.NewFamilyGeometry(famComponent.FamilyTemplateGeometryView);
+                        FamilyGeometry familyGeometry = FamilyGeometry.NewFamilyGeometry(famComponent.FamilyComponentGeometryView);
                         familyGeometry.Name = blend.Name;
                         familyGeometry.ElementId = blend.Id.IntegerValue;
                         familyGeometry.Description = string.Empty;
@@ -658,7 +658,7 @@ namespace ModBox.FamFactory.Revit.Manager
                         else
                             familyGeometry.SubCategory = "None";
 
-                        familyGeometry.FamilyTemplateId = famComponent.Id;
+                        familyGeometry.FamilyId = famComponent.Id;
                         familyGeometry.GeometryType = blend.Name;
                         familyGeometry.UniqueId = blend.UniqueId;
                         familyGeometry.OwnerViewId = blend.OwnerViewId.IntegerValue;
@@ -670,7 +670,7 @@ namespace ModBox.FamFactory.Revit.Manager
                     foreach (Element element in sweptBlendElementList)
                     {
                         Autodesk.Revit.DB.SweptBlend weptblend = (Autodesk.Revit.DB.SweptBlend)element as Autodesk.Revit.DB.SweptBlend;
-                        FamilyGeometry familyGeometry = FamilyGeometry.NewFamilyGeometry(famComponent.FamilyTemplateGeometryView);
+                        FamilyGeometry familyGeometry = FamilyGeometry.NewFamilyGeometry(famComponent.FamilyComponentGeometryView);
                         familyGeometry.Name = weptblend.Name;
                         familyGeometry.ElementId = weptblend.Id.IntegerValue;
                         familyGeometry.Description = string.Empty;
@@ -685,7 +685,7 @@ namespace ModBox.FamFactory.Revit.Manager
                         else
                             familyGeometry.SubCategory = "None";
 
-                        familyGeometry.FamilyTemplateId = famComponent.Id;
+                        familyGeometry.FamilyId = famComponent.Id;
                         familyGeometry.GeometryType = "SweptBlend";
                         familyGeometry.UniqueId = weptblend.UniqueId;
                         familyGeometry.OwnerViewId = weptblend.OwnerViewId.IntegerValue;
@@ -697,7 +697,7 @@ namespace ModBox.FamFactory.Revit.Manager
                     foreach (Element element in revolveElementList)
                     {
                         Autodesk.Revit.DB.Revolution revolve = (Autodesk.Revit.DB.Revolution)element as Autodesk.Revit.DB.Revolution;
-                        FamilyGeometry familyGeometry = FamilyGeometry.NewFamilyGeometry(famComponent.FamilyTemplateGeometryView);
+                        FamilyGeometry familyGeometry = FamilyGeometry.NewFamilyGeometry(famComponent.FamilyComponentGeometryView);
                         familyGeometry.Name = revolve.Name;
                         familyGeometry.ElementId = revolve.Id.IntegerValue;
                         familyGeometry.Description = string.Empty;
@@ -712,7 +712,7 @@ namespace ModBox.FamFactory.Revit.Manager
                         else
                             familyGeometry.SubCategory = "None";
 
-                        familyGeometry.FamilyTemplateId = famComponent.Id;
+                        familyGeometry.FamilyId = famComponent.Id;
                         familyGeometry.GeometryType = revolve.Name;
                         familyGeometry.UniqueId = revolve.UniqueId;
                         familyGeometry.OwnerViewId = revolve.OwnerViewId.IntegerValue;

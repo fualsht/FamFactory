@@ -58,7 +58,6 @@ namespace ModBox.FamFactory.Revit.Manager
             {
                 throw new Exception(e.Message);
             }
-            
         }
 
         public bool LaunchManagerWindow()

@@ -97,7 +97,7 @@ namespace ModBox.FamFactory.Revit.Manager
                 SelectedElement.EndEdit();
 
                 Utils.GetFamilyTemplateParameters(SelectedElement, doc);
-                Utils.GetGamilyTemplateReferencePlanes(SelectedElement, doc);
+                Utils.GetFamilyTemplateReferencePlanes(SelectedElement, doc);
                 Utils.GetFamilyTemplateFeatures(SelectedElement, doc);
 
                 doc.Close(false);

@@ -85,10 +85,10 @@ namespace ModBox.FamFactory.Revit.Manager
                 Autodesk.Revit.DB.Document doc = ((Autodesk.Revit.ApplicationServices.Application)ADSKApplciation).OpenDocumentFile(file.FullName);
 
                 SelectedElement = FamilyComponent.NewFamilyComponent(ComponentDataView);
+                SelectedElement.Name = file.Name;
                 SelectedElement.FileName = file.Name;
                 SelectedElement.FileSize = file.Length;
-                SelectedElement.Thumbnail = Utils.ImageToByte(Resources.key);
-                SelectedElement.Thumbnail = Utils.ThumbnailFromView(doc, "Thumbnail");
+                SelectedElement.Thumbnail = Utils.ThumbnailFromView(doc, "Preview");
 
                 if (doc.OwnerFamily.FamilyCategory != null)
                     SelectedElement.FamilyCategory = doc.OwnerFamily.FamilyCategory.Name;

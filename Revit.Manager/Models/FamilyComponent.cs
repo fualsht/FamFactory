@@ -147,9 +147,9 @@ namespace ModBox.FamFactory.Revit.Manager
             RefferencePlaneItems = new ObservableCollection<ReferencePlane>();
             FamilyGeometryItems = new ObservableCollection<FamilyGeometry>();
             ParameterItems = new ObservableCollection<Parameter>();
-            _FamilyComponentParametersView = InternalDataRowView.CreateChildView(TableRelations.ParametersFamilyTemplateId_FamilyTemplatesId.ToString());
-            _FamilyComponentReferencePlanesView = InternalDataRowView.CreateChildView(TableRelations.ReferencePlanesFamilyTemplateId_FamilyTemplatesId.ToString());
-            _FamilyComponentGeometryView = InternalDataRowView.CreateChildView(TableRelations.GeometryFamilyTemplateid_FamilyTemplateId.ToString());
+            _FamilyComponentParametersView = InternalDataRowView.CreateChildView(TableRelations.ParametersFamilyComponentId_FamilyComponentsId.ToString());
+            _FamilyComponentReferencePlanesView = InternalDataRowView.CreateChildView(TableRelations.ReferencePlanesFamilyComponentId_FamilyComponentsId.ToString());
+            _FamilyComponentGeometryView = InternalDataRowView.CreateChildView(TableRelations.GeometryFamilyComponentid_FamilyComponentId.ToString());
             RefreshChildRows();
         }
         private void RefreshChildRows()
@@ -173,6 +173,7 @@ namespace ModBox.FamFactory.Revit.Manager
 
             FamilyComponent template = new FamilyComponent(row);
             template.Id = Guid.NewGuid().ToString();
+            template.Thumbnail = new byte[byte.MaxValue];
             template.Version = new Version(0, 0, 0);
             template.DateCreated = DateTime.Now;
             template.DateModified = DateTime.Now;

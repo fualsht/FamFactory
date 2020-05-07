@@ -9,7 +9,7 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamilyGeometry : ModelBase<FamilyGeometry>
     {
-        public enum FamilyGeometryColumnNames { Id, FamilyTemplateId, Name, Description, ElementId, GeometryType, MaterialId, IsActive, ProfileFamily1Id, ProfileFamily2Id, HostId, Category, 
+        public enum FamilyGeometryColumnNames { Id, FamilyId, Name, Description, ElementId, GeometryType, MaterialId, IsActive, ProfileFamily1Id, ProfileFamily2Id, HostId, Category, 
             SubCategory, UniqueId, OwnerViewId, LevelId, IsSolid
         }
 
@@ -18,10 +18,10 @@ namespace ModBox.FamFactory.Revit.Manager
             get { return InternalDataRowView[FamilyGeometryColumnNames.Id.ToString()].ToString(); }
             set { InternalDataRowView[FamilyGeometryColumnNames.Id.ToString()] = value; NotifyPropertyChanged(); }
         }
-        public string FamilyTemplateId
+        public string FamilyId
         {
-            get { return InternalDataRowView[FamilyGeometryColumnNames.FamilyTemplateId.ToString()].ToString(); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[FamilyGeometryColumnNames.FamilyTemplateId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return InternalDataRowView[FamilyGeometryColumnNames.FamilyId.ToString()].ToString(); }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[FamilyGeometryColumnNames.FamilyId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public string Name
         {
