@@ -1,6 +1,8 @@
 ﻿using Autodesk.Revit.DB;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Security.Cryptography;
@@ -727,6 +729,67 @@ namespace ModBox.FamFactory.Revit.Manager
             {
 
             }
+        }
+
+        public static bool CreateDataBase(DataSet dataSet)
+        {
+            bool saved = false;
+
+            using (SqlConnection connection = new SqlConnection(GetConnectionString()))
+            {
+                SqlDataAdapter adapter = new SqlDataAdapter(new SqlCommand(string.Format("CREATE DATABASE '{0}'", dataSet.DataSetName)));
+                SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
+
+                adapter.cre
+
+                connection.Open();
+
+                adapter.Fill(dataSet);
+
+                connection.Close();
+
+                //code to modify data in DataSet here
+
+                //builder.GetUpdateCommand();
+
+                //Without the SqlCommandBuilder this line would fail
+                //adapter.Update(dataSet, tableName);
+
+                //return dataSet;
+            }
+            return saved;
+        }
+
+        public static bool SaveChanges(DataSet dataSet)
+        {
+            bool saved = false;
+
+            using (SqlConnection connection = new SqlConnection(GetConnectionString()))
+            {
+                SqlDataAdapter adapter = new SqlDataAdapter(new SqlCommand(string.Format("Select * from '{0}'", dataSet.DataSetName)));
+                SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
+
+                connection.Open();
+
+                adapter.Fill(dataSet);
+
+                //code to modify data in DataSet here
+
+                //builder.GetUpdateCommand();
+
+                //Without the SqlCommandBuilder this line would fail
+                //adapter.Update(dataSet, tableName);
+
+                //return dataSet;
+            }
+                return saved;
+        }
+
+        private static string GetConnectionString()
+        {
+            // To avoid storing the connection string in your code,
+            // you can retrieve it from a configuration file.
+            return "Data Source=(localdb)\\FamFactoryDb;Integrated Security=true;";
         }
     }
 }

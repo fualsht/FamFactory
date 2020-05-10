@@ -28,6 +28,8 @@ namespace ModBox.FamFactory.Revit.Manager
             InitilizeFamilyComponentsParametersTable(dataSet);
             
             InstallSampleData(dataSet);
+            Utils.CreateDataBase(dataSet);
+            Utils.SaveChanges(dataSet);
         }
 
         private static void InitilizeEmailProfiles(DataSet dataSet)

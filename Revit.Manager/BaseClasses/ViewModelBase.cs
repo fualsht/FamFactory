@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace ModBox.FamFactory.Revit.Manager
@@ -30,7 +26,7 @@ namespace ModBox.FamFactory.Revit.Manager
         public event PropertyChangedEventHandler PropertyChanged;
 
         private T _SelectedElement;
-        public T SelectedElement 
+        public T SelectedElement
         {
             get
             {
@@ -39,9 +35,9 @@ namespace ModBox.FamFactory.Revit.Manager
             set
             {
                 if (_SelectedElement != null)
-                    SelectionHistory.Add(_SelectedElement); 
+                    SelectionHistory.Add(_SelectedElement);
 
-                _SelectedElement = value; 
+                _SelectedElement = value;
                 NotifyPropertyChanged();
                 _SelectedElementIndex = InternalCollection.IndexOf(value);
                 NotifyPropertyChanged("SelectedElementIndex");
@@ -52,7 +48,7 @@ namespace ModBox.FamFactory.Revit.Manager
         int _SelectedElementIndex;
         public int SelectedElementIndex { get { return _SelectedElementIndex; } }
 
-        
+
 
         public ViewModelBase(DataSet dataSet)
         {
@@ -112,7 +108,7 @@ namespace ModBox.FamFactory.Revit.Manager
             get => _CancelElementChangesCommand ?? (_CancelElementChangesCommand = new RelayCommand(param => this.CancelElementChanges(), param => this.CanCancelElementChanges()));
         }
 
-        public void AddElement(T element, bool setactive =false)
+        public void AddElement(T element, bool setactive = false)
         {
             InternalCollection.Add(element);
 
@@ -195,13 +191,13 @@ namespace ModBox.FamFactory.Revit.Manager
         public abstract bool CanGoToNext();
 
         public abstract bool CanGoBack();
-        
+
         internal protected void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-       protected virtual void OnSelectedElementChanged(EventArgs e)
+        protected virtual void OnSelectedElementChanged(EventArgs e)
         {
             EventHandler eventHandler = SelectedElementChanged;
             if (eventHandler != null)
