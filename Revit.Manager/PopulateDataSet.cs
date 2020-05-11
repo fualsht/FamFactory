@@ -13,22 +13,6 @@ namespace ModBox.FamFactory.Revit.Manager
     {
         public static void InitilizeDataSet(DataSet dataSet)
         {
-            List<string> commands = new List<string>();
-            
-            DataTable tableTest = new DataTable();
-            DataColumn dataColumn = tableTest.Columns.Add("Image", typeof(byte[]));
-            DataRow row = tableTest.NewRow();
-            
-            byte[] ar =Utils.ImageToByte(Resources.UserIcon);
-            row[0] = ar;
-
-            commands.Add(CreatePermissionsTableCommnad());
-            commands.Add(CreateusersTableCommnad());
-
-
-            //InitilizeEmailProfiles(dataSet);
-            //InitilizeSystemConfigurationTable(dataSet);
-            //InitilizeUsersTable(dataSet);
             //InitilizeFamilyComponentTypesTable(dataSet);
             //InitilizeFamilyComponentsTable(dataSet);
             //InitilizeFamilyTemplatesTable(dataSet);
@@ -40,95 +24,10 @@ namespace ModBox.FamFactory.Revit.Manager
             //InitilizeFamilyComponentsParametersTable(dataSet);
 
 
-            Utils.CreateSQliteDataBase(@"C:\temp\FamFactoryDB", commands.ToArray());
+            Utils.CreateSQliteDataBase(@"C:\temp\FamFactoryDB");
 
 
             InstallSampleData(dataSet);
-            //Utils.SaveChanges(dataSet);
-        }
-
-        private static void InitilizeEmailProfiles(DataSet dataSet)
-        {
-            DataTable EmailprofilesTable = new DataTable(TableNames.FF_EmailProfiles.ToString());
-            DataColumn IdColumn = EmailprofilesTable.Columns.Add(EmailProfile.EmailProfileColumnNames.Id.ToString(), typeof(string));
-            IdColumn.AllowDBNull = false;
-            IdColumn.Unique = true;
-            IdColumn.Caption = "Id";
-            DataColumn NameColumn = EmailprofilesTable.Columns.Add(EmailProfile.EmailProfileColumnNames.Name.ToString(), typeof(string));
-            NameColumn.AllowDBNull = false;
-            NameColumn.DefaultValue = "New User";
-            NameColumn.Unique = true;
-            DataColumn DescriptionColumn = EmailprofilesTable.Columns.Add(EmailProfile.EmailProfileColumnNames.Description.ToString(), typeof(string));
-            DataColumn ServerColumn = EmailprofilesTable.Columns.Add(EmailProfile.EmailProfileColumnNames.ServerAddress.ToString(), typeof(string));
-            ServerColumn.AllowDBNull = false;
-            ServerColumn.DefaultValue = "mail.domain.com";
-            DataColumn PortColumn = EmailprofilesTable.Columns.Add(EmailProfile.EmailProfileColumnNames.Port.ToString(), typeof(int));
-            PortColumn.AllowDBNull = false;
-            PortColumn.DefaultValue = 25;
-            DataColumn SSLColumn = EmailprofilesTable.Columns.Add(EmailProfile.EmailProfileColumnNames.SSL.ToString(), typeof(bool));
-            SSLColumn.AllowDBNull = false;
-            SSLColumn.DefaultValue = false;
-            DataColumn UserNameColumn = EmailprofilesTable.Columns.Add(EmailProfile.EmailProfileColumnNames.Username.ToString(), typeof(string));
-            UserNameColumn.AllowDBNull = false;
-            UserNameColumn.DefaultValue = false;
-            DataColumn PasswordColumn = EmailprofilesTable.Columns.Add(EmailProfile.EmailProfileColumnNames.Password.ToString(), typeof(string));
-            PasswordColumn.AllowDBNull = false;
-            PasswordColumn.DefaultValue = false;
-            DataColumn StateColumn = EmailprofilesTable.Columns.Add(EmailProfile.EmailProfileColumnNames.State.ToString(), typeof(EntityStates));
-            StateColumn.AllowDBNull = false;
-            StateColumn.DefaultValue = EntityStates.Enabled;
-
-            EmailprofilesTable.PrimaryKey = new DataColumn[] { IdColumn, NameColumn };
-
-            dataSet.Tables.Add(EmailprofilesTable);
-        }
-
-        private static string CreatePermissionsTableCommnad()
-        {
-            return @"CREATE TABLE FF_Permissions (Id STRING (36, 36) PRIMARY KEY UNIQUE NOT NULL, Name STRING UNIQUE NOT NULL, Description STRING, CanRead BOOLEAN NOT NULL DEFAULT (TRUE), CanWrite BOOLEAN NOT NULL DEFAULT (TRUE), CanCreate BOOLEAN NOT NULL DEFAULT (TRUE), CanDelete BOOLEAN NOT NULL DEFAULT (TRUE), Special BOOLEAN NOT NULL DEFAULT (TRUE));
-                INSERT INTO FF_Permissions (Id, Name, Description, CanRead, CanWrite, CanCreate, CanDelete, Special) VALUES ('8F458220-D3B5-4502-B3AC-BCDDDB2E9281', 'Admin', 'Admin Permssions', 'true', 'true', 'true', 'true', 'true');
-                INSERT INTO FF_Permissions (Id, Name, Description, CanRead, CanWrite, CanCreate, CanDelete, Special) VALUES ('8F458220-D3B5-4502-B3AC-BCDDDB2E9282', 'Viewer', 'Viewer Permissions', 'true', 'false', 'false', 'false', 'false');
-                INSERT INTO FF_Permissions (Id, Name, Description, CanRead, CanWrite, CanCreate, CanDelete, Special) VALUES ('8F458220-D3B5-4502-B3AC-BCDDDB2E9283', 'Editor', 'Editor Permissions', 'true', 'true', 'true', 'false', 'false');";
-        }
-
-        private static string CreateusersTableCommnad()
-        {
-            return $@"CREATE TABLE FF_Users(Id STRING (36, 36) PRIMARY KEY UNIQUE NOT NULL, Name STRING UNIQUE NOT NULL, FirstName TEXT NOT NULL, LastName STRING NOT NULL, Email STRING NOT NULL, Password BOOLEAN NOT NULL, ProfilePic BLOB, RegistrationDate DATETIME NOT NULL DEFAULT(datetime('Now')), LastLogInDate DATETIME NOT NULL DEFAULT(datetime('Now')), 
-                PermissionId STRING, State BOOLEAN NOT NULL DEFAULT(FALSE), TempFolder STRING NOT NULL DEFAULT('C:\temp'), CONSTRAINT PermissionsUserId_UsersId FOREIGN KEY(PermissionId) REFERENCES FF_Permissions(Id) ON DELETE SET DEFAULT ON UPDATE CASCADE);
-                INSERT INTO FF_Users(Id, Name, FirstName, LastName, Email, Password, ProfilePic, RegistrationDate, LastLogInDate, PermissionId, State, TempFolder) VALUES('B0214F29-A64A-4031-AC35-5DD305095F04', 'Admin', 'Admin', 'Admin', 'admin@company.com', 'password', {Utils.ImageToByte(Resources.UserIcon).ToString()}, '2020-05-11 10:48:02', '2020-05-11 10:48:02', '8F458220-D3B5-4502-B3AC-BCDDDB2E9281', 0, 'C:\temp');";
-        }
-
-        private static void InitilizeSystemConfigurationTable(DataSet dataSet)
-        {
-            // System Configuration
-            DataTable SysConfigTable = new DataTable(TableNames.FF_SystemConfiguration.ToString());
-            DataColumn idColumn = SysConfigTable.Columns.Add(SystemConfiguration.SystemConfigurationTableColumnNames.Id.ToString(), typeof(string));
-            idColumn.Caption = "Id";
-            idColumn.AllowDBNull = false;
-            idColumn.Unique = true;
-            DataColumn nameColumn = SysConfigTable.Columns.Add(SystemConfiguration.SystemConfigurationTableColumnNames.Name.ToString(), typeof(string));
-            nameColumn.Caption = "Comany Name";
-            nameColumn.AllowDBNull = false;
-            nameColumn.Unique = true;
-            DataColumn addressColumn = SysConfigTable.Columns.Add(SystemConfiguration.SystemConfigurationTableColumnNames.CompanyAddress.ToString(), typeof(string));
-            addressColumn.Caption = "Address";
-            addressColumn.AllowDBNull = true;
-            DataColumn emailColumn = SysConfigTable.Columns.Add(SystemConfiguration.SystemConfigurationTableColumnNames.Email.ToString(), typeof(string));
-            emailColumn.AllowDBNull = false;
-            emailColumn.Caption = "System Email";
-            DataColumn installColumn = SysConfigTable.Columns.Add(SystemConfiguration.SystemConfigurationTableColumnNames.InstallLocataion.ToString(), typeof(string));
-            installColumn.Caption = "Installation Location";
-            installColumn.AllowDBNull = true;
-            DataColumn appVerColumn = SysConfigTable.Columns.Add(SystemConfiguration.SystemConfigurationTableColumnNames.AppVersion.ToString(), typeof(string));
-            appVerColumn.Caption = "Application Version";
-            appVerColumn.AllowDBNull = false;
-            appVerColumn.DefaultValue = "1.0.0";
-            DataColumn dbVersionColumn = SysConfigTable.Columns.Add(SystemConfiguration.SystemConfigurationTableColumnNames.DataBaseVersion.ToString(), typeof(string));
-            dbVersionColumn.Caption = "Database Version";
-            dbVersionColumn.AllowDBNull = false;
-            dbVersionColumn.DefaultValue = "1.0.0";
-
-            dataSet.Tables.Add(SysConfigTable);
         }
 
         public static void InitilizeFamilyComponentTypesTable(DataSet dataSet)

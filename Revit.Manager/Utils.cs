@@ -1,4 +1,5 @@
 ﻿using Autodesk.Revit.DB;
+using ModBox.FamFactory.Revit.Manager.Properties;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -731,7 +732,7 @@ namespace ModBox.FamFactory.Revit.Manager
             }
         }
 
-        public static bool CreateSQliteDataBase(string databasePath, string[] createTableStrings)
+        public static bool CreateSQliteDataBase(string databasePath)
         {
             bool saved = false;
             System.Data.SQLite.SQLiteConnection.CreateFile(databasePath);
@@ -741,13 +742,9 @@ namespace ModBox.FamFactory.Revit.Manager
                 using (sqlConnection = GetSQlteConnectionString(databasePath))
                 {
                     sqlConnection.Open();
-                    foreach (string commandstring in createTableStrings)
+                    using (System.Data.SQLite.SQLiteCommand command = new System.Data.SQLite.SQLiteCommand(Resources.FamFactoryDBTables, sqlConnection))
                     {
-                        using (System.Data.SQLite.SQLiteCommand command = new System.Data.SQLite.SQLiteCommand(commandstring, sqlConnection))
-                        {
-                            command.ExecuteNonQuery();
-                            
-                        }
+                        command.ExecuteNonQuery();
                     }
                     sqlConnection.Close();
                 }
