@@ -731,65 +731,78 @@ namespace ModBox.FamFactory.Revit.Manager
             }
         }
 
-        public static bool CreateDataBase(DataSet dataSet)
+        public static bool CreateSQliteDataBase(string databasePath, string[] createTableStrings)
         {
             bool saved = false;
-
-            using (SqlConnection connection = new SqlConnection(GetConnectionString()))
+            System.Data.SQLite.SQLiteConnection.CreateFile(databasePath);
+            System.Data.SQLite.SQLiteConnection sqlConnection = null;
+            try
             {
-                SqlDataAdapter adapter = new SqlDataAdapter(new SqlCommand(string.Format("CREATE DATABASE '{0}'", dataSet.DataSetName)));
-                SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
-
-                adapter.cre
-
-                connection.Open();
-
-                adapter.Fill(dataSet);
-
-                connection.Close();
-
-                //code to modify data in DataSet here
-
-                //builder.GetUpdateCommand();
-
-                //Without the SqlCommandBuilder this line would fail
-                //adapter.Update(dataSet, tableName);
-
-                //return dataSet;
+                using (sqlConnection = GetSQlteConnectionString(databasePath))
+                {
+                    sqlConnection.Open();
+                    foreach (string commandstring in createTableStrings)
+                    {
+                        using (System.Data.SQLite.SQLiteCommand command = new System.Data.SQLite.SQLiteCommand(commandstring, sqlConnection))
+                        {
+                            command.ExecuteNonQuery();
+                            
+                        }
+                    }
+                    sqlConnection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (sqlConnection != null)
+                {
+                    sqlConnection.Close();
+                }
+                throw new Exception("Failed to Update FamFactoryTemplateItems!", ex);
             }
             return saved;
         }
 
-        public static bool SaveChanges(DataSet dataSet)
+        public static bool SaveChanges(DataTable dataTable)
         {
             bool saved = false;
-
-            using (SqlConnection connection = new SqlConnection(GetConnectionString()))
+            SqlConnection sqlConnection = new SqlConnection("");
+            try
             {
-                SqlDataAdapter adapter = new SqlDataAdapter(new SqlCommand(string.Format("Select * from '{0}'", dataSet.DataSetName)));
-                SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
-
-                connection.Open();
-
-                adapter.Fill(dataSet);
-
-                //code to modify data in DataSet here
-
-                //builder.GetUpdateCommand();
-
-                //Without the SqlCommandBuilder this line would fail
-                //adapter.Update(dataSet, tableName);
-
-                //return dataSet;
+                SqlDataAdapter mySqlDataAdapter = new SqlDataAdapter(string.Format("Select * From {0}", dataTable.TableName), sqlConnection);
+                using (SqlConnection con = mySqlDataAdapter.SelectCommand.Connection)
+                {
+                    using (SqlCommand command = mySqlDataAdapter.SelectCommand)
+                    {
+                        con.Open();
+                        using (SqlDataReader myReader = command.ExecuteReader())
+                        {
+                            dataTable.Clear();
+                            dataTable.Load(myReader);
+                            con.Close();
+                        }
+                    }
+                }
             }
-                return saved;
+            catch (Exception ex)
+            {
+                sqlConnection.Close();
+                throw new Exception("Failed to Update FamFactoryTemplateItems!", ex);
+            }
+            return saved;
         }
 
-        private static string GetConnectionString()
+        private static System.Data.SQLite.SQLiteConnection GetSQlteConnectionString(string dataBasePath)
         {
             // To avoid storing the connection string in your code,
             // you can retrieve it from a configuration file.
-            return "Data Source=(localdb)\\FamFactoryDb;Integrated Security=true;";
+
+            System.Data.SQLite.SQLiteConnectionStringBuilder connSB = new System.Data.SQLite.SQLiteConnectionStringBuilder();
+            connSB.DataSource = dataBasePath;
+            connSB.FailIfMissing = false;
+            System.Data.SQLite.SQLiteConnection sqLiteConnection1 = new System.Data.SQLite.SQLiteConnection(connSB.ConnectionString);
+
+            return sqLiteConnection1;
         }
     }
 }

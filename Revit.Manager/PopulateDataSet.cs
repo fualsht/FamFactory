@@ -13,23 +13,38 @@ namespace ModBox.FamFactory.Revit.Manager
     {
         public static void InitilizeDataSet(DataSet dataSet)
         {
-            InitilizePermissions(dataSet);
-            InitilizeEmailProfiles(dataSet);
-            InitilizeSystemConfigurationTable(dataSet);
-            InitilizeUsersTable(dataSet);
-            InitilizeFamilyComponentTypesTable(dataSet);
-            InitilizeFamilyComponentsTable(dataSet);
-            InitilizeFamilyTemplatesTable(dataSet);
-            InitilizeFamilyTemplateReferencePlaneTable(dataSet);
-            InitilizeFamilyComponentReferencePlanesTable(dataSet);
-            InitilizeFamilyTemplateGeometryTable(dataSet);
-            InitilizeFamilyComponentsGeometryTable(dataSet);
-            InitilizeFamilyTemplateParametersTable(dataSet);
-            InitilizeFamilyComponentsParametersTable(dataSet);
+            List<string> commands = new List<string>();
             
+            DataTable tableTest = new DataTable();
+            DataColumn dataColumn = tableTest.Columns.Add("Image", typeof(byte[]));
+            DataRow row = tableTest.NewRow();
+            
+            byte[] ar =Utils.ImageToByte(Resources.UserIcon);
+            row[0] = ar;
+
+            commands.Add(CreatePermissionsTableCommnad());
+            commands.Add(CreateusersTableCommnad());
+
+
+            //InitilizeEmailProfiles(dataSet);
+            //InitilizeSystemConfigurationTable(dataSet);
+            //InitilizeUsersTable(dataSet);
+            //InitilizeFamilyComponentTypesTable(dataSet);
+            //InitilizeFamilyComponentsTable(dataSet);
+            //InitilizeFamilyTemplatesTable(dataSet);
+            //InitilizeFamilyTemplateReferencePlaneTable(dataSet);
+            //InitilizeFamilyComponentReferencePlanesTable(dataSet);
+            //InitilizeFamilyTemplateGeometryTable(dataSet);
+            //InitilizeFamilyComponentsGeometryTable(dataSet);
+            //InitilizeFamilyTemplateParametersTable(dataSet);
+            //InitilizeFamilyComponentsParametersTable(dataSet);
+
+
+            Utils.CreateSQliteDataBase(@"C:\temp\FamFactoryDB", commands.ToArray());
+
+
             InstallSampleData(dataSet);
-            Utils.CreateDataBase(dataSet);
-            Utils.SaveChanges(dataSet);
+            //Utils.SaveChanges(dataSet);
         }
 
         private static void InitilizeEmailProfiles(DataSet dataSet)
@@ -68,132 +83,19 @@ namespace ModBox.FamFactory.Revit.Manager
             dataSet.Tables.Add(EmailprofilesTable);
         }
 
-        private static void InitilizePermissions(DataSet dataSet)
+        private static string CreatePermissionsTableCommnad()
         {
-            DataTable permissionsTable = new DataTable(TableNames.FF_Permissions.ToString());
-            DataColumn IdColumn = permissionsTable.Columns.Add(Permission.PermissionColumnNames.Id.ToString(), typeof(string));
-            IdColumn.AllowDBNull = false;
-            IdColumn.Unique = true;
-            IdColumn.Caption = "Id";
-            DataColumn NameColumn = permissionsTable.Columns.Add(Permission.PermissionColumnNames.Name.ToString(), typeof(string));
-            NameColumn.AllowDBNull = false;
-            NameColumn.DefaultValue = "New User";
-            NameColumn.Unique = true;
-            DataColumn DescriptionColumn = permissionsTable.Columns.Add(Permission.PermissionColumnNames.Description.ToString(), typeof(string));
-            DataColumn CreateColumn = permissionsTable.Columns.Add(Permission.PermissionColumnNames.CanCreate.ToString(), typeof(bool));
-            CreateColumn.AllowDBNull = false;
-            CreateColumn.DefaultValue = false;
-            DataColumn ReadColumn = permissionsTable.Columns.Add(Permission.PermissionColumnNames.CanRead.ToString(), typeof(bool));
-            ReadColumn.AllowDBNull = false;
-            ReadColumn.DefaultValue = true;
-            DataColumn WriteColumn = permissionsTable.Columns.Add(Permission.PermissionColumnNames.CanWrite.ToString(), typeof(bool));
-            WriteColumn.AllowDBNull = false;
-            WriteColumn.DefaultValue = false;
-            DataColumn DeleteColumn = permissionsTable.Columns.Add(Permission.PermissionColumnNames.CanDelete.ToString(), typeof(bool));
-            DeleteColumn.AllowDBNull = false;
-            DeleteColumn.DefaultValue = false;
-            DataColumn SpecialColumn = permissionsTable.Columns.Add(Permission.PermissionColumnNames.Special.ToString(), typeof(bool));
-            SpecialColumn.AllowDBNull = false;
-            SpecialColumn.DefaultValue = false;
-
-            permissionsTable.PrimaryKey = new DataColumn[] { IdColumn, NameColumn };
-
-            //Admin Level
-            DataRow adminPermissionDatarow = permissionsTable.NewRow();
-            adminPermissionDatarow["Id"] = Guid.NewGuid();
-            adminPermissionDatarow["Name"] = "Admin";
-            adminPermissionDatarow["Description"] = "Admin permissions with full permissions.";
-            adminPermissionDatarow["CanCreate"] = true;
-            adminPermissionDatarow["CanRead"] = true;
-            adminPermissionDatarow["CanWrite"] = true;
-            adminPermissionDatarow["CanDelete"] = true;
-            adminPermissionDatarow["Special"] = true;
-            permissionsTable.Rows.Add(adminPermissionDatarow);
-
-            //Viewer Level
-            DataRow viewPermissionDatarow = permissionsTable.NewRow();
-            viewPermissionDatarow["Id"] = Guid.NewGuid();
-            viewPermissionDatarow["Name"] = "Viewer";
-            viewPermissionDatarow["Description"] = "Admin permissions with full permissions.";
-            viewPermissionDatarow["CanCreate"] = false;
-            viewPermissionDatarow["CanRead"] = true;
-            viewPermissionDatarow["CanWrite"] = false;
-            viewPermissionDatarow["CanDelete"] = false;
-            viewPermissionDatarow["Special"] = false;
-            permissionsTable.Rows.Add(viewPermissionDatarow);
-
-            //Editor Level
-            DataRow userPermissionDatarow = permissionsTable.NewRow();
-            userPermissionDatarow["Id"] = Guid.NewGuid();
-            userPermissionDatarow["Name"] = "Editor";
-            userPermissionDatarow["Description"] = "Admin permissions with full permissions.";
-            userPermissionDatarow["CanCreate"] = true;
-            userPermissionDatarow["CanRead"] = true;
-            userPermissionDatarow["CanWrite"] = true;
-            userPermissionDatarow["CanDelete"] = true;
-            userPermissionDatarow["Special"] = false;
-            permissionsTable.Rows.Add(userPermissionDatarow);
-            dataSet.Tables.Add(permissionsTable);
+            return @"CREATE TABLE FF_Permissions (Id STRING (36, 36) PRIMARY KEY UNIQUE NOT NULL, Name STRING UNIQUE NOT NULL, Description STRING, CanRead BOOLEAN NOT NULL DEFAULT (TRUE), CanWrite BOOLEAN NOT NULL DEFAULT (TRUE), CanCreate BOOLEAN NOT NULL DEFAULT (TRUE), CanDelete BOOLEAN NOT NULL DEFAULT (TRUE), Special BOOLEAN NOT NULL DEFAULT (TRUE));
+                INSERT INTO FF_Permissions (Id, Name, Description, CanRead, CanWrite, CanCreate, CanDelete, Special) VALUES ('8F458220-D3B5-4502-B3AC-BCDDDB2E9281', 'Admin', 'Admin Permssions', 'true', 'true', 'true', 'true', 'true');
+                INSERT INTO FF_Permissions (Id, Name, Description, CanRead, CanWrite, CanCreate, CanDelete, Special) VALUES ('8F458220-D3B5-4502-B3AC-BCDDDB2E9282', 'Viewer', 'Viewer Permissions', 'true', 'false', 'false', 'false', 'false');
+                INSERT INTO FF_Permissions (Id, Name, Description, CanRead, CanWrite, CanCreate, CanDelete, Special) VALUES ('8F458220-D3B5-4502-B3AC-BCDDDB2E9283', 'Editor', 'Editor Permissions', 'true', 'true', 'true', 'false', 'false');";
         }
 
-        private static void InitilizeUsersTable(DataSet dataSet)
+        private static string CreateusersTableCommnad()
         {
-            // Users Table
-            DataTable usersTable = new DataTable(TableNames.FF_Users.ToString());
-            DataColumn IdColumn = usersTable.Columns.Add(User.UsersTableColumnNames.Id.ToString(), typeof(string));
-            IdColumn.Caption = "Id";
-            IdColumn.AllowDBNull = false;
-            IdColumn.Unique = true;
-            DataColumn nameColumn = usersTable.Columns.Add(User.UsersTableColumnNames.Name.ToString(), typeof(string));
-            nameColumn.Caption = "Username";
-            nameColumn.AllowDBNull = false;
-            nameColumn.Unique = true;
-            DataColumn firstNameColumn = usersTable.Columns.Add(User.UsersTableColumnNames.FirstName.ToString(), typeof(string));
-            firstNameColumn.Caption = "First Name";
-            firstNameColumn.AllowDBNull = false;
-            firstNameColumn.DefaultValue = "First Name";
-            DataColumn lastNameColumn = usersTable.Columns.Add(User.UsersTableColumnNames.LastName.ToString(), typeof(string));
-            lastNameColumn.Caption = "Last Name";
-            lastNameColumn.AllowDBNull = false;
-            lastNameColumn.DefaultValue = "Last Name";
-            DataColumn emailColumn = usersTable.Columns.Add(User.UsersTableColumnNames.Email.ToString(), typeof(string));
-            lastNameColumn.Caption = "Email";
-            lastNameColumn.AllowDBNull = false;
-            lastNameColumn.DefaultValue = "user@email.com";
-            DataColumn passwordColumn = usersTable.Columns.Add(User.UsersTableColumnNames.Password.ToString(), typeof(string));
-            lastNameColumn.Caption = "Passowrd";
-            DataColumn profilePicColumn = usersTable.Columns.Add(User.UsersTableColumnNames.ProfilePic.ToString(), typeof(byte[]));
-            lastNameColumn.Caption = "Profile Picture";
-            lastNameColumn.AllowDBNull = false;
-            lastNameColumn.DefaultValue = Utils.ImageToByte(Resources.UserIcon);
-            DataColumn regColumn = usersTable.Columns.Add(User.UsersTableColumnNames.RegistrationDate.ToString(), typeof(DateTime));
-            regColumn.Caption = "Registration Date";
-            regColumn.AllowDBNull = false;
-            regColumn.DefaultValue = DateTime.Now;
-            DataColumn permissionIdColumn = usersTable.Columns.Add(User.UsersTableColumnNames.PermissionId.ToString(), typeof(string));
-            permissionIdColumn.Caption = "Permission";
-            permissionIdColumn.AllowDBNull = true;
-            permissionIdColumn.DefaultValue = dataSet.Tables[TableNames.FF_Permissions.ToString()].Select("Name = 'Editor'").FirstOrDefault()["Id"];
-            DataColumn lastLogInDateColumn = usersTable.Columns.Add(User.UsersTableColumnNames.LastLogInDate.ToString(), typeof(DateTime));
-            lastNameColumn.Caption = "Last Login Date";
-            DataColumn stateColumn = usersTable.Columns.Add(User.UsersTableColumnNames.State.ToString(), typeof(EntityStates));
-            lastNameColumn.Caption = "State";
-            lastNameColumn.AllowDBNull = false;
-            lastNameColumn.DefaultValue = EntityStates.Enabled;
-            DataColumn TempFolderColumn = usersTable.Columns.Add(User.UsersTableColumnNames.TempFolder.ToString(), typeof(string));
-            TempFolderColumn.Caption = "Temp Folder";
-            TempFolderColumn.AllowDBNull = false;
-            TempFolderColumn.DefaultValue = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + "\\FamFactory\\Temp";
-
-            //Create and add Primary Keys for Datatable
-            usersTable.PrimaryKey = new DataColumn[] { IdColumn, nameColumn };
-            // Add DataTable to DataSet befroe adding Datarelations.
-            dataSet.Tables.Add(usersTable);
-            //Create the DataRelation.
-            DataRelation dataRelation = new DataRelation(TableRelations.PermissionsUserId_UsersId.ToString(), 
-                dataSet.Tables[TableNames.FF_Permissions.ToString()].Columns["Id"], 
-                dataSet.Tables[TableNames.FF_Users.ToString()].Columns[User.UsersTableColumnNames.PermissionId.ToString()]);
-            dataSet.Relations.Add(dataRelation);
+            return $@"CREATE TABLE FF_Users(Id STRING (36, 36) PRIMARY KEY UNIQUE NOT NULL, Name STRING UNIQUE NOT NULL, FirstName TEXT NOT NULL, LastName STRING NOT NULL, Email STRING NOT NULL, Password BOOLEAN NOT NULL, ProfilePic BLOB, RegistrationDate DATETIME NOT NULL DEFAULT(datetime('Now')), LastLogInDate DATETIME NOT NULL DEFAULT(datetime('Now')), 
+                PermissionId STRING, State BOOLEAN NOT NULL DEFAULT(FALSE), TempFolder STRING NOT NULL DEFAULT('C:\temp'), CONSTRAINT PermissionsUserId_UsersId FOREIGN KEY(PermissionId) REFERENCES FF_Permissions(Id) ON DELETE SET DEFAULT ON UPDATE CASCADE);
+                INSERT INTO FF_Users(Id, Name, FirstName, LastName, Email, Password, ProfilePic, RegistrationDate, LastLogInDate, PermissionId, State, TempFolder) VALUES('B0214F29-A64A-4031-AC35-5DD305095F04', 'Admin', 'Admin', 'Admin', 'admin@company.com', 'password', {Utils.ImageToByte(Resources.UserIcon).ToString()}, '2020-05-11 10:48:02', '2020-05-11 10:48:02', '8F458220-D3B5-4502-B3AC-BCDDDB2E9281', 0, 'C:\temp');";
         }
 
         private static void InitilizeSystemConfigurationTable(DataSet dataSet)
