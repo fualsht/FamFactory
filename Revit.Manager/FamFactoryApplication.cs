@@ -14,7 +14,7 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public FamFactoryApplication()
         {
-            PopulateDataSet.InitilizeDataSet(set);
+            FamFactoryDataSet.InitilizeDatabase("");
             famFactoryViewModel = new FamFactoryViewModel(set);
         }
     }

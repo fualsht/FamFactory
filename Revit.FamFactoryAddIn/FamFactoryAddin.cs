@@ -94,7 +94,7 @@ namespace ModBox.FamFactory.Revit
         {
             RevitApplicationService = sender as Autodesk.Revit.ApplicationServices.Application;
             DataContext = new DataSet("FamFactoryDataBase");
-            PopulateDataSet.InitilizeDataSet(DataContext);
+            FamFactoryDataSet.InitilizeDatabase("FamFactoryDataBase");
             famFactoryManager = new FamFactoryViewModel(DataContext, RevitApplicationService);
             
             //installationConfiguration = new DataProvidor.Installation.InstallationConfiguration();

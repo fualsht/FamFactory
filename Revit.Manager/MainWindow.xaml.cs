@@ -24,7 +24,7 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             InitializeComponent();
             DataSet set = new DataSet("New");
-            PopulateDataSet.InitilizeDataSet(set);
+            FamFactoryDataSet.InitilizeDatabase(set);
             FamFactoryViewModel famFactoryViewModel = new FamFactoryViewModel(set);
             this.DataContext = famFactoryViewModel;
         }

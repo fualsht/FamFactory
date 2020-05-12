@@ -9,76 +9,98 @@ using System.Threading.Tasks;
 
 namespace ModBox.FamFactory.Revit.Manager
 {
-    public static class PopulateDataSet
+    public static class FamFactoryDataSet
     {
-        public static void InitilizeDataSet(DataSet dataSet)
+        DataSet dataSet;
+        public static void InitilizeDatabase(string dataSet)
         {
-            Utils.CreateSQliteDataBase(@"C:\temp\FamFactoryDB");
-            InstallSampleData(dataSet);
+            Utils.CreateSQliteDataBase(dataSet);
         }
 
         public static void InitilizeFamilyComponentTypesTable(DataSet dataSet)
         {
-            // System Configuration
-            DataTable FamilyComponentTypes = new DataTable(TableNames.FF_FamilyComponentTypes.ToString());
-            DataColumn idColumn = FamilyComponentTypes.Columns.Add(FamilyComponentType.FamilyComponentTypesTableColumnNames.Id.ToString(), typeof(string));
-            idColumn.Caption = "Id";
-            idColumn.AllowDBNull = false;
-            idColumn.Unique = true;
-            DataColumn nameColumn = FamilyComponentTypes.Columns.Add(FamilyComponentType.FamilyComponentTypesTableColumnNames.Name.ToString(), typeof(string));
-            nameColumn.Caption = "Name";
-            nameColumn.AllowDBNull = false;
-            nameColumn.Unique = true;
-            DataColumn addressColumn = FamilyComponentTypes.Columns.Add(FamilyComponentType.FamilyComponentTypesTableColumnNames.Description.ToString(), typeof(string));
-            addressColumn.AllowDBNull = true;
-            DataColumn ThumbnailColumn = FamilyComponentTypes.Columns.Add(FamilyComponentType.FamilyComponentTypesTableColumnNames.Thumbnail.ToString(), typeof(byte[]));
-            ThumbnailColumn.AllowDBNull = true;
-
-            DataRow drow = FamilyComponentTypes.NewRow();
-            drow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Id.ToString()] = Guid.NewGuid().ToString();
-            drow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Name.ToString()] = "Doors";
-            drow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Description.ToString()] = "";
-            drow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Thumbnail.ToString()] = Utils.ImageToByte(Resources.key);
-            FamilyComponentTypes.Rows.Add(drow);
+            //DataRow drow = FamilyComponentTypes.NewRow();
+            //drow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Id.ToString()] = Guid.NewGuid().ToString();
+            //drow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Name.ToString()] = "Doors";
+            //drow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Description.ToString()] = "";
+            //drow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Thumbnail.ToString()] = Utils.ImageToByte(Resources.key);
+            //FamilyComponentTypes.Rows.Add(drow);
             
-            DataRow drow1 = FamilyComponentTypes.NewRow();
-            drow1[FamilyComponentType.FamilyComponentTypesTableColumnNames.Id.ToString()] = Guid.NewGuid().ToString();
-            drow1[FamilyComponentType.FamilyComponentTypesTableColumnNames.Name.ToString()] = "Windows";
-            drow1[FamilyComponentType.FamilyComponentTypesTableColumnNames.Description.ToString()] = "";
-            drow1[FamilyComponentType.FamilyComponentTypesTableColumnNames.Thumbnail.ToString()] = Utils.ImageToByte(Resources.key);
-            FamilyComponentTypes.Rows.Add(drow1);
+            //DataRow drow1 = FamilyComponentTypes.NewRow();
+            //drow1[FamilyComponentType.FamilyComponentTypesTableColumnNames.Id.ToString()] = Guid.NewGuid().ToString();
+            //drow1[FamilyComponentType.FamilyComponentTypesTableColumnNames.Name.ToString()] = "Windows";
+            //drow1[FamilyComponentType.FamilyComponentTypesTableColumnNames.Description.ToString()] = "";
+            //drow1[FamilyComponentType.FamilyComponentTypesTableColumnNames.Thumbnail.ToString()] = Utils.ImageToByte(Resources.key);
+            //FamilyComponentTypes.Rows.Add(drow1);
 
-            DataRow drow2 = FamilyComponentTypes.NewRow();
-            drow2[FamilyComponentType.FamilyComponentTypesTableColumnNames.Id.ToString()] = Guid.NewGuid().ToString();
-            drow2[FamilyComponentType.FamilyComponentTypesTableColumnNames.Name.ToString()] = "Profiels";
-            drow2[FamilyComponentType.FamilyComponentTypesTableColumnNames.Description.ToString()] = "";
-            drow2[FamilyComponentType.FamilyComponentTypesTableColumnNames.Thumbnail.ToString()] = Utils.ImageToByte(Resources.key);
-            FamilyComponentTypes.Rows.Add(drow2);
+            //DataRow drow2 = FamilyComponentTypes.NewRow();
+            //drow2[FamilyComponentType.FamilyComponentTypesTableColumnNames.Id.ToString()] = Guid.NewGuid().ToString();
+            //drow2[FamilyComponentType.FamilyComponentTypesTableColumnNames.Name.ToString()] = "Profiels";
+            //drow2[FamilyComponentType.FamilyComponentTypesTableColumnNames.Description.ToString()] = "";
+            //drow2[FamilyComponentType.FamilyComponentTypesTableColumnNames.Thumbnail.ToString()] = Utils.ImageToByte(Resources.key);
+            //FamilyComponentTypes.Rows.Add(drow2);
 
-            DataRow drow3 = FamilyComponentTypes.NewRow();
-            drow3[FamilyComponentType.FamilyComponentTypesTableColumnNames.Id.ToString()] = Guid.NewGuid().ToString();
-            drow3[FamilyComponentType.FamilyComponentTypesTableColumnNames.Name.ToString()] = "Tap";
-            drow3[FamilyComponentType.FamilyComponentTypesTableColumnNames.Description.ToString()] = "";
-            drow3[FamilyComponentType.FamilyComponentTypesTableColumnNames.Thumbnail.ToString()] = Utils.ImageToByte(Resources.key);
-            FamilyComponentTypes.Rows.Add(drow3);
+            //DataRow drow3 = FamilyComponentTypes.NewRow();
+            //drow3[FamilyComponentType.FamilyComponentTypesTableColumnNames.Id.ToString()] = Guid.NewGuid().ToString();
+            //drow3[FamilyComponentType.FamilyComponentTypesTableColumnNames.Name.ToString()] = "Tap";
+            //drow3[FamilyComponentType.FamilyComponentTypesTableColumnNames.Description.ToString()] = "";
+            //drow3[FamilyComponentType.FamilyComponentTypesTableColumnNames.Thumbnail.ToString()] = Utils.ImageToByte(Resources.key);
+            //FamilyComponentTypes.Rows.Add(drow3);
 
-            DataRow drow4 = FamilyComponentTypes.NewRow();
-            drow4[FamilyComponentType.FamilyComponentTypesTableColumnNames.Id.ToString()] = Guid.NewGuid().ToString();
-            drow4[FamilyComponentType.FamilyComponentTypesTableColumnNames.Name.ToString()] = "Plug";
-            drow4[FamilyComponentType.FamilyComponentTypesTableColumnNames.Description.ToString()] = "";
-            drow4[FamilyComponentType.FamilyComponentTypesTableColumnNames.Thumbnail.ToString()] = Utils.ImageToByte(Resources.key);
-            FamilyComponentTypes.Rows.Add(drow4);
+            //DataRow drow4 = FamilyComponentTypes.NewRow();
+            //drow4[FamilyComponentType.FamilyComponentTypesTableColumnNames.Id.ToString()] = Guid.NewGuid().ToString();
+            //drow4[FamilyComponentType.FamilyComponentTypesTableColumnNames.Name.ToString()] = "Plug";
+            //drow4[FamilyComponentType.FamilyComponentTypesTableColumnNames.Description.ToString()] = "";
+            //drow4[FamilyComponentType.FamilyComponentTypesTableColumnNames.Thumbnail.ToString()] = Utils.ImageToByte(Resources.key);
+            //FamilyComponentTypes.Rows.Add(drow4);
 
-            DataRow drow5 = FamilyComponentTypes.NewRow();
-            drow5[FamilyComponentType.FamilyComponentTypesTableColumnNames.Id.ToString()] = Guid.NewGuid().ToString();
-            drow5[FamilyComponentType.FamilyComponentTypesTableColumnNames.Name.ToString()] = "Waste Trap";
-            drow5[FamilyComponentType.FamilyComponentTypesTableColumnNames.Description.ToString()] = "";
-            drow5[FamilyComponentType.FamilyComponentTypesTableColumnNames.Thumbnail.ToString()] = Utils.ImageToByte(Resources.key);
-            FamilyComponentTypes.Rows.Add(drow5);
-
-            dataSet.Tables.Add(FamilyComponentTypes);
+            //DataRow drow5 = FamilyComponentTypes.NewRow();
+            //drow5[FamilyComponentType.FamilyComponentTypesTableColumnNames.Id.ToString()] = Guid.NewGuid().ToString();
+            //drow5[FamilyComponentType.FamilyComponentTypesTableColumnNames.Name.ToString()] = "Waste Trap";
+            //drow5[FamilyComponentType.FamilyComponentTypesTableColumnNames.Description.ToString()] = "";
+            //drow5[FamilyComponentType.FamilyComponentTypesTableColumnNames.Thumbnail.ToString()] = Utils.ImageToByte(Resources.key);
+            //FamilyComponentTypes.Rows.Add(drow5);
         }
         
+        public static DataSet LoadDataSet(System.Data.SQLite.SQLiteConnection sqliteConnection, DataSet dSet = null)
+        {
+            DataSet dataset;
+            if (dSet == null)
+                dataset = DefaultDataSet();
+            else
+                dataset = dSet;
+
+            System.Data.SQLite.SQLiteDataAdapter  sqlDataAdapter = new System.Data.SQLite.SQLiteDataAdapter(string.Format("Select * From {0}"), sqliteConnection);
+            using (System.Data.SQLite.SQLiteConnection con = sqlDataAdapter.SelectCommand.Connection)
+            {
+                using (System.Data.SQLite.SQLiteCommand command = sqlDataAdapter.SelectCommand)
+                {
+                    con.Open();
+                    using (System.Data.SQLite.SQLiteDataReader myReader = command.ExecuteReader())
+                    {
+                        dataset.Load(myReader, LoadOption.OverwriteChanges, new DataTable[] { });
+                        con.Close();
+                    }
+                }
+            }
+        }
+
+        public static void LoadDataTable(DataTable dataTable, System.Data.SQLite.SQLiteConnection sqliteConnection)
+        {
+            System.Data.SQLite.SQLiteDataAdapter sqlDataAdapter = new System.Data.SQLite.SQLiteDataAdapter(string.Format("Select * From {0}", dataTable.TableName), sqliteConnection);
+            using (System.Data.SQLite.SQLiteConnection con = sqlDataAdapter.SelectCommand.Connection)
+            {
+                using (System.Data.SQLite.SQLiteCommand command = sqlDataAdapter.SelectCommand)
+                {
+                    con.Open();
+                    using (System.Data.SQLite.SQLiteDataReader myReader = command.ExecuteReader())
+                    {
+                        dataTable.Load(myReader, LoadOption.OverwriteChanges);
+                        con.Close();
+                    }
+                }
+            }
+        }
 
         private static void InstallSampleData(DataSet dataSet)
         {
