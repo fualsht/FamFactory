@@ -734,11 +734,10 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public static bool CreateSQliteDataBase(string databasePath)
         {
-            bool saved = false;
-            System.Data.SQLite.SQLiteConnection.CreateFile(databasePath);
             System.Data.SQLite.SQLiteConnection sqlConnection = null;
             try
             {
+                System.Data.SQLite.SQLiteConnection.CreateFile(databasePath);
                 using (sqlConnection = GetSQlteConnectionString(databasePath))
                 {
                     sqlConnection.Open();
@@ -747,6 +746,7 @@ namespace ModBox.FamFactory.Revit.Manager
                         command.ExecuteNonQuery();
                     }
                     sqlConnection.Close();
+                    return true;
                 }
             }
             catch (Exception ex)
@@ -755,9 +755,9 @@ namespace ModBox.FamFactory.Revit.Manager
                 {
                     sqlConnection.Close();
                 }
-                throw new Exception("Failed to Update FamFactoryTemplateItems!", ex);
+                string s = ex.Message;
+                return false;
             }
-            return saved;
         }
 
         public static bool SaveChanges(DataTable dataTable)
