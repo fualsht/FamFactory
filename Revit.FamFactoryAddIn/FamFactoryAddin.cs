@@ -20,10 +20,13 @@ namespace ModBox.FamFactory.Revit
     public class FamFactoryAddin : IExternalApplication
     {
         static readonly string assemplyPath = System.Reflection.Assembly.GetAssembly(typeof(FamFactoryAddin)).Location;
+        
 
-        public static FamFactoryDataSet famFactoryDataSet;
+        public static DataSet famFactoryDataSet;
         public static FamFactoryViewModel famFactoryManager;
+        
         internal Autodesk.Revit.ApplicationServices.Application RevitApplicationService;
+        internal System.Data.SQLite.SQLiteConnection sQLiteConnection;
         //public static ModBox.FamFactory.DataProvidor.Installation.InstallationConfiguration installationConfiguration;
         //public static ModBox.FamFactory.DataProvidor.Objects.FamFactoryUser activeUser;
         //public static ModBox.FamFactory.ObjectControls.FamFactoryViewModel famFactoryViewModel;
@@ -93,8 +96,12 @@ namespace ModBox.FamFactory.Revit
         private void ControlledApplication_ApplicationInitialized(object sender, Autodesk.Revit.DB.Events.ApplicationInitializedEventArgs e)
         {
             RevitApplicationService = sender as Autodesk.Revit.ApplicationServices.Application;
-            famFactoryDataSet = new FamFactoryDataSet(@"c:\temp\famFactoryDatabase.db");
-            famFactoryManager = new FamFactoryViewModel(famFactoryDataSet.FFDataSet, RevitApplicationService);
+            Utils.CreateSQliteDataBase(@"c:\temp\famFactoryDatabase.db", Resources.FamFactoryDBTables);
+            sQLiteConnection = Utils.GetSQlteConnection(@"c:\temp\famFactoryDatabase.db");
+            famFactoryDataSet = new DataSet("famFactoryDatabase");
+            
+            FamFactoryDataSet.InitilizeDataSet(famFactoryDataSet); // (@"c:\temp\famFactoryDatabase.db");
+            famFactoryManager = new FamFactoryViewModel(famFactoryDataSet, sQLiteConnection, RevitApplicationService);
             
             //installationConfiguration = new DataProvidor.Installation.InstallationConfiguration();
             //installationConfiguration.Load("config.xml");

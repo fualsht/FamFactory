@@ -9,12 +9,12 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamFactoryApplication
     {
-        FamFactoryDataSet set { get; set; } = new FamFactoryDataSet("FamFactoryDataContext");
+        DataSet set { get; set; } = new DataSet("FamFactoryDataContext");
         public FamFactoryViewModel famFactoryViewModel { get; set; }
 
         public FamFactoryApplication()
         {
-            famFactoryViewModel = new FamFactoryViewModel(set.FFDataSet);
+            famFactoryViewModel = new FamFactoryViewModel(set, Utils.GetSQlteConnection(@"c:\temp\famFactoryDatabase.db"));
         }
     }
 }

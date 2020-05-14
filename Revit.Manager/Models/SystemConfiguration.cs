@@ -9,7 +9,7 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class SystemConfiguration : ModelBase<SystemConfiguration>
     {
-        public enum SystemConfigurationTableColumnNames { Id, Name, CompanyAddress, Email, InstallLocataion, AppVersion, DataBaseVersion }
+        public enum SystemConfigurationTableColumnNames { Id, Name, CompanyAddress, Email, InstallLocation, AppVersion, DataBaseVersion }
         public string Id
         {
             get { return InternalDataRowView[SystemConfigurationTableColumnNames.Id.ToString()].ToString(); }
@@ -32,8 +32,8 @@ namespace ModBox.FamFactory.Revit.Manager
         }
         public string InstallLocataion
         {
-            get { return InternalDataRowView[SystemConfigurationTableColumnNames.InstallLocataion.ToString()].ToString(); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[SystemConfigurationTableColumnNames.InstallLocataion.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return InternalDataRowView[SystemConfigurationTableColumnNames.InstallLocation.ToString()].ToString(); }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[SystemConfigurationTableColumnNames.InstallLocation.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public string AppVersion
         {

@@ -24,13 +24,14 @@ namespace ModBox.FamFactory.Revit.Manager
         FamFactoryComponentViewModel _FamilyComponentViewModel;
         public FamFactoryComponentViewModel FamilyComponentViewModel { get { return _FamilyComponentViewModel; } }
 
-        public FamFactoryViewModel(DataSet dataset) : base(dataset)
+        public FamFactoryViewModel(DataSet dataset, System.Data.SQLite.SQLiteConnection sQLiteConnection) : base(dataset, sQLiteConnection)
         {
             StartApplication();
         }
 
-        public FamFactoryViewModel(DataSet dataset, Autodesk.Revit.ApplicationServices.Application adskApplication) : base(dataset, adskApplication)
+        public FamFactoryViewModel(DataSet dataset, System.Data.SQLite.SQLiteConnection sQLiteConnection, Autodesk.Revit.ApplicationServices.Application adskApplication) : base(dataset, sQLiteConnection, adskApplication)
         {
+            Utils.UpdateDataSetFromDataSource(SQLiteConnection, InternalDataSet);
             StartApplication();
         }
 
@@ -38,11 +39,11 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             try
             {
-                _UsersViewModel = new UsersViewModel(InternalDataSet);
+                _UsersViewModel = new UsersViewModel(InternalDataSet, SQLiteConnection);
                 NotifyPropertyChanged("UsersViewModel");
-                _FamilyTemplatesViewModel = new FamilyTemplatesViewModel(InternalDataSet, ADSKApplciation);
+                _FamilyTemplatesViewModel = new FamilyTemplatesViewModel(InternalDataSet, SQLiteConnection, ADSKApplciation);
                 NotifyPropertyChanged("FamilyTemplatesViewModel");
-                _FamilyComponentViewModel = new FamFactoryComponentViewModel(InternalDataSet, ADSKApplciation);
+                _FamilyComponentViewModel = new FamFactoryComponentViewModel(InternalDataSet, SQLiteConnection, ADSKApplciation);
                 NotifyPropertyChanged("FamilyComponentViewModel");
 
                 Pages.SystemConfigurationView systemConfigurationView = new Pages.SystemConfigurationView(this);

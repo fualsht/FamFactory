@@ -732,7 +732,7 @@ namespace ModBox.FamFactory.Revit.Manager
             }
         }
 
-        public static bool CreateSQliteDataBase(string filePath)
+        public static bool CreateSQliteDataBase(string filePath, string script)
         {
             System.Data.SQLite.SQLiteConnection connection = GetSQlteConnection(filePath);
             try
@@ -741,7 +741,7 @@ namespace ModBox.FamFactory.Revit.Manager
                 using (connection)
                 {
                     connection.Open();
-                    using (System.Data.SQLite.SQLiteCommand command = new System.Data.SQLite.SQLiteCommand(Resources.FamFactoryDBTables, connection))
+                    using (System.Data.SQLite.SQLiteCommand command = new System.Data.SQLite.SQLiteCommand(script, connection))
                     {
                         command.ExecuteNonQuery();
                     }
@@ -760,20 +760,22 @@ namespace ModBox.FamFactory.Revit.Manager
             }
         }
 
-        public static void ReadDataSet(System.Data.SQLite.SQLiteConnection connection, DataSet dataSet)
+        public static void UpdateDataSetFromDataSource(System.Data.SQLite.SQLiteConnection connection, DataSet dataSet)
         {
             try
             {
                 using (connection)
                 {
-                    System.Data.SQLite.SQLiteDataAdapter adapter = new System.Data.SQLite.SQLiteDataAdapter("Select * From FF_Permissions; Select * From 'FF_Users';", connection);
-                    System.Data.SQLite.SQLiteCommand command1 = adapter.SelectCommand;
                     connection.Open();
-                    adapter.Fill(dataSet);
-                    adapter.FillSchema(dataSet, SchemaType.Mapped);
-                    System.Data.SQLite.SQLiteDataReader reader = command1.ExecuteReader();                    
-                    //dataSet.Load(reader, LoadOption.OverwriteChanges, "FF_Users");
-                    connection.Close();                    
+                    foreach (DataTable table in dataSet.Tables)
+                    {
+                        System.Data.SQLite.SQLiteCommand cmd = new System.Data.SQLite.SQLiteCommand(String.Format("Select * From '{0}'", table.TableName), connection);
+                        using (System.Data.SQLite.SQLiteDataReader reader = cmd.ExecuteReader())
+                        {
+                            table.Load(reader);
+                        }
+                    }
+                    connection.Close();
                 }
             }
             catch (Exception ex)
@@ -827,5 +829,6 @@ namespace ModBox.FamFactory.Revit.Manager
 
             return sqLiteConnection1;
         }
+
     }
 }

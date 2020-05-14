@@ -65,7 +65,7 @@ CREATE TABLE FF_FamilyTemplates (Id STRING (36, 36) PRIMARY KEY UNIQUE NOT NULL,
                                   CutsWithVoidWhenLoaded BOOLEAN NOT NULL DEFAULT (false), 
                                   IsShared BOOLEAN NOT NULL DEFAULT (false), 
                                   RoomCalculationPoint BOOLEAN NOT NULL DEFAULT (false), 
-                                  FileName STRING, 
+                                  FileName STRING,
                                   CanHostRebarColumn BOOLEAN DEFAULT (false) NOT NULL,
                                   CONSTRAINT FamilyTemplateCreatedByUserId_UserId FOREIGN KEY (CreatedByUserId) REFERENCES FF_Users (Id));
 

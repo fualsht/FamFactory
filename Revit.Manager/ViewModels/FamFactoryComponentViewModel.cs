@@ -12,13 +12,13 @@ namespace ModBox.FamFactory.Revit.Manager
     public class FamFactoryComponentViewModel : ViewModelBase<FamilyComponent>
     {
         DataView ComponentDataView;
-        public FamFactoryComponentViewModel(DataSet dataSet): base(dataSet)
+        public FamFactoryComponentViewModel(DataSet dataSet, System.Data.SQLite.SQLiteConnection sQLiteConnection) : base(dataSet,sQLiteConnection)
         {
             ComponentDataView = InternalDataSet.Tables[TableNames.FF_FamilyComponents.ToString()].DefaultView;
             RefreshCollection();
         }
 
-        public FamFactoryComponentViewModel(DataSet dataSet, object application) : base(dataSet, application)
+        public FamFactoryComponentViewModel(DataSet dataSet, System.Data.SQLite.SQLiteConnection sQLiteConnection, object application) : base(dataSet, sQLiteConnection, application)
         {
             ComponentDataView = InternalDataSet.Tables[TableNames.FF_FamilyComponents.ToString()].DefaultView;
             RefreshCollection();

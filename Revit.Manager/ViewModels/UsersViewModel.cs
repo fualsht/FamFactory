@@ -14,7 +14,7 @@ namespace ModBox.FamFactory.Revit.Manager
     {
         DataView UsersDataView;
 
-        public UsersViewModel(DataSet dataSet) : base(dataSet)
+        public UsersViewModel(DataSet dataSet, System.Data.SQLite.SQLiteConnection connection) : base(dataSet, connection)
         {
             UsersDataView = InternalDataSet.Tables[TableNames.FF_Users.ToString()].DefaultView;
             RefreshCollection();
@@ -112,6 +112,7 @@ namespace ModBox.FamFactory.Revit.Manager
         public override void SaveElement(User element)
         {
             element.EndEdit();
+            //Utils.SaveTable(connection, UsersDataView.Table);
             RefreshCollection();
         }
 

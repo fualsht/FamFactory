@@ -22,6 +22,9 @@ namespace ModBox.FamFactory.Revit.Manager
         ObservableCollection<T> _SelectionHistory;
         public ObservableCollection<T> SelectionHistory { get { return _SelectionHistory; } }
 
+        System.Data.SQLite.SQLiteConnection _SQLiteConnection;
+        public System.Data.SQLite.SQLiteConnection SQLiteConnection { get { return _SQLiteConnection; } }
+
         public event EventHandler SelectedElementChanged;
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -50,7 +53,7 @@ namespace ModBox.FamFactory.Revit.Manager
 
 
 
-        public ViewModelBase(DataSet dataSet)
+        public ViewModelBase(DataSet dataSet, System.Data.SQLite.SQLiteConnection sQLiteConnection)
         {
             _InternalCollection = new ObservableCollection<T>();
             NotifyPropertyChanged("InternalCollection");
@@ -58,9 +61,11 @@ namespace ModBox.FamFactory.Revit.Manager
             NotifyPropertyChanged("SelectionHistory");
             _InternalDataContext = dataSet;
             NotifyPropertyChanged("InternalDataContext");
+            _SQLiteConnection = sQLiteConnection;
+            NotifyPropertyChanged("sQLiteConnection");
         }
 
-        public ViewModelBase(DataSet dataSet, object application)
+        public ViewModelBase(DataSet dataSet, System.Data.SQLite.SQLiteConnection sQLiteConnection, object application)
         {
             _InternalCollection = new ObservableCollection<T>();
             NotifyPropertyChanged("InternalCollection");
@@ -69,7 +74,9 @@ namespace ModBox.FamFactory.Revit.Manager
             _InternalDataContext = dataSet;
             NotifyPropertyChanged("InternalDataContext");
             _adskApplciation = application;
-            NotifyPropertyChanged("ADSKApplciation");
+            NotifyPropertyChanged("ADSKApplciation"); 
+            _SQLiteConnection = sQLiteConnection;
+            NotifyPropertyChanged("sQLiteConnection");
         }
 
         RelayCommand _NextElementCommand;

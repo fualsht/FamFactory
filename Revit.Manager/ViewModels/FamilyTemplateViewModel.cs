@@ -12,12 +12,12 @@ namespace ModBox.FamFactory.Revit.Manager
     public class FamilyTemplatesViewModel : ViewModelBase<FamilyTemplate>
     {
         DataView TemplateDataView;
-        public FamilyTemplatesViewModel(DataSet dataset) : base(dataset)
+        public FamilyTemplatesViewModel(DataSet dataset, System.Data.SQLite.SQLiteConnection sQLiteConnection) : base(dataset, sQLiteConnection)
         {
             TemplateDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].DefaultView; 
             RefreshCollection();
         }
-        public FamilyTemplatesViewModel(DataSet dataset, object application) : base(dataset, application)
+        public FamilyTemplatesViewModel(DataSet dataset, System.Data.SQLite.SQLiteConnection sQLiteConnection, object application) : base(dataset, sQLiteConnection, application)
         {
             TemplateDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].DefaultView;
             RefreshCollection();
