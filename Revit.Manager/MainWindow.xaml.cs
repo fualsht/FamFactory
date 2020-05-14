@@ -20,12 +20,11 @@ namespace ModBox.FamFactory.Revit.Manager
     /// </summary>
     public partial class MainWindow : Window
     {
+        FamFactoryDataSet dSet = new FamFactoryDataSet("FamFactoryDatabase");
         public MainWindow()
         {
             InitializeComponent();
-            DataSet set = new DataSet("New");
-            FamFactoryDataSet.InitilizeDatabase(set);
-            FamFactoryViewModel famFactoryViewModel = new FamFactoryViewModel(set);
+            FamFactoryViewModel famFactoryViewModel = new FamFactoryViewModel(dSet.FFDataSet);
             this.DataContext = famFactoryViewModel;
         }
         public MainWindow(FamFactoryViewModel dataContext)

@@ -21,7 +21,7 @@ namespace ModBox.FamFactory.Revit
     {
         static readonly string assemplyPath = System.Reflection.Assembly.GetAssembly(typeof(FamFactoryAddin)).Location;
 
-        public static DataSet DataContext;
+        public static FamFactoryDataSet famFactoryDataSet;
         public static FamFactoryViewModel famFactoryManager;
         internal Autodesk.Revit.ApplicationServices.Application RevitApplicationService;
         //public static ModBox.FamFactory.DataProvidor.Installation.InstallationConfiguration installationConfiguration;
@@ -93,9 +93,8 @@ namespace ModBox.FamFactory.Revit
         private void ControlledApplication_ApplicationInitialized(object sender, Autodesk.Revit.DB.Events.ApplicationInitializedEventArgs e)
         {
             RevitApplicationService = sender as Autodesk.Revit.ApplicationServices.Application;
-            DataContext = new DataSet("FamFactoryDataBase");
-            FamFactoryDataSet.InitilizeDatabase("FamFactoryDataBase");
-            famFactoryManager = new FamFactoryViewModel(DataContext, RevitApplicationService);
+            famFactoryDataSet = new FamFactoryDataSet(@"c:\temp\famFactoryDatabase.db");
+            famFactoryManager = new FamFactoryViewModel(famFactoryDataSet.FFDataSet, RevitApplicationService);
             
             //installationConfiguration = new DataProvidor.Installation.InstallationConfiguration();
             //installationConfiguration.Load("config.xml");

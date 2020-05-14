@@ -732,31 +732,57 @@ namespace ModBox.FamFactory.Revit.Manager
             }
         }
 
-        public static bool CreateSQliteDataBase(string databasePath)
+        public static bool CreateSQliteDataBase(string filePath)
         {
-            System.Data.SQLite.SQLiteConnection sqlConnection = null;
+            System.Data.SQLite.SQLiteConnection connection = GetSQlteConnection(filePath);
             try
             {
-                System.Data.SQLite.SQLiteConnection.CreateFile(databasePath);
-                using (sqlConnection = GetSQlteConnectionString(databasePath))
+                System.Data.SQLite.SQLiteConnection.CreateFile(filePath);
+                using (connection)
                 {
-                    sqlConnection.Open();
-                    using (System.Data.SQLite.SQLiteCommand command = new System.Data.SQLite.SQLiteCommand(Resources.FamFactoryDBTables, sqlConnection))
+                    connection.Open();
+                    using (System.Data.SQLite.SQLiteCommand command = new System.Data.SQLite.SQLiteCommand(Resources.FamFactoryDBTables, connection))
                     {
                         command.ExecuteNonQuery();
                     }
-                    sqlConnection.Close();
+                    connection.Close();
                     return true;
                 }
             }
             catch (Exception ex)
             {
-                if (sqlConnection != null)
+                if (connection != null)
                 {
-                    sqlConnection.Close();
+                    connection.Close();
                 }
                 string s = ex.Message;
                 return false;
+            }
+        }
+
+        public static void ReadDataSet(System.Data.SQLite.SQLiteConnection connection, DataSet dataSet)
+        {
+            try
+            {
+                using (connection)
+                {
+                    System.Data.SQLite.SQLiteDataAdapter adapter = new System.Data.SQLite.SQLiteDataAdapter("Select * From FF_Permissions; Select * From 'FF_Users';", connection);
+                    System.Data.SQLite.SQLiteCommand command1 = adapter.SelectCommand;
+                    connection.Open();
+                    adapter.Fill(dataSet);
+                    adapter.FillSchema(dataSet, SchemaType.Mapped);
+                    System.Data.SQLite.SQLiteDataReader reader = command1.ExecuteReader();                    
+                    //dataSet.Load(reader, LoadOption.OverwriteChanges, "FF_Users");
+                    connection.Close();                    
+                }
+            }
+            catch (Exception ex)
+            {
+                if (connection != null)
+                {
+                    connection.Close();
+                }
+                string s = ex.Message;
             }
         }
 
@@ -789,7 +815,7 @@ namespace ModBox.FamFactory.Revit.Manager
             return saved;
         }
 
-        private static System.Data.SQLite.SQLiteConnection GetSQlteConnectionString(string dataBasePath)
+        public static System.Data.SQLite.SQLiteConnection GetSQlteConnection(string dataBasePath)
         {
             // To avoid storing the connection string in your code,
             // you can retrieve it from a configuration file.

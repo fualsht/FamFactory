@@ -9,12 +9,19 @@ using System.Threading.Tasks;
 
 namespace ModBox.FamFactory.Revit.Manager
 {
-    public static class FamFactoryDataSet
+    public class FamFactoryDataSet
     {
-        DataSet dataSet;
-        public static void InitilizeDatabase(string dataSet)
+        private DataSet _FFDataSet; 
+        public readonly System.Data.SQLite.SQLiteConnection connection;
+
+        public DataSet FFDataSet { get { return _FFDataSet; } set { _FFDataSet = value; } }
+
+        public FamFactoryDataSet(string filePath)
         {
-            Utils.CreateSQliteDataBase(dataSet);
+            FFDataSet = new DataSet("FamFactoryDatabase");
+            connection = new System.Data.SQLite.SQLiteConnection(Utils.GetSQlteConnection(filePath));
+            Utils.CreateSQliteDataBase(filePath);
+            Utils.ReadDataSet(connection, FFDataSet);
         }
 
         public static void InitilizeFamilyComponentTypesTable(DataSet dataSet)
@@ -64,25 +71,26 @@ namespace ModBox.FamFactory.Revit.Manager
         
         public static DataSet LoadDataSet(System.Data.SQLite.SQLiteConnection sqliteConnection, DataSet dSet = null)
         {
-            DataSet dataset;
-            if (dSet == null)
-                dataset = DefaultDataSet();
-            else
-                dataset = dSet;
+            //DataSet dataset;
+            //if (dSet == null)
+            //    dataset = DefaultDataSet();
+            //else
+            //    dataset = dSet;
 
-            System.Data.SQLite.SQLiteDataAdapter  sqlDataAdapter = new System.Data.SQLite.SQLiteDataAdapter(string.Format("Select * From {0}"), sqliteConnection);
-            using (System.Data.SQLite.SQLiteConnection con = sqlDataAdapter.SelectCommand.Connection)
-            {
-                using (System.Data.SQLite.SQLiteCommand command = sqlDataAdapter.SelectCommand)
-                {
-                    con.Open();
-                    using (System.Data.SQLite.SQLiteDataReader myReader = command.ExecuteReader())
-                    {
-                        dataset.Load(myReader, LoadOption.OverwriteChanges, new DataTable[] { });
-                        con.Close();
-                    }
-                }
-            }
+            //System.Data.SQLite.SQLiteDataAdapter  sqlDataAdapter = new System.Data.SQLite.SQLiteDataAdapter(string.Format("Select * From {0}"), sqliteConnection);
+            //using (System.Data.SQLite.SQLiteConnection con = sqlDataAdapter.SelectCommand.Connection)
+            //{
+            //    using (System.Data.SQLite.SQLiteCommand command = sqlDataAdapter.SelectCommand)
+            //    {
+            //        con.Open();
+            //        using (System.Data.SQLite.SQLiteDataReader myReader = command.ExecuteReader())
+            //        {
+            //            dataset.Load(myReader, LoadOption.OverwriteChanges, new DataTable[] { });
+            //            con.Close();
+            //        }
+            //    }
+            //}
+            throw new NotImplementedException();
         }
 
         public static void LoadDataTable(DataTable dataTable, System.Data.SQLite.SQLiteConnection sqliteConnection)
