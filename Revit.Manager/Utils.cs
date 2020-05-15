@@ -771,9 +771,7 @@ namespace ModBox.FamFactory.Revit.Manager
                     {
                         System.Data.SQLite.SQLiteCommand cmd = new System.Data.SQLite.SQLiteCommand(String.Format("Select * From '{0}'", table.TableName), connection);
                         using (System.Data.SQLite.SQLiteDataReader reader = cmd.ExecuteReader())
-                        {
                             table.Load(reader);
-                        }
                     }
                     connection.Close();
                 }

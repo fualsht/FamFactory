@@ -10,8 +10,9 @@ namespace ModBox.FamFactory.Revit.Manager
 { 
     public class FamilyTemplate : ModelBase<FamilyTemplate>
     {
-        public enum ParameterColumnNames { Id, Name, Description, IsReleased, FamilyCategory, CanHostRebar, RoundConnectorDimention, PartType, OmnoClassNumber,
-            OmniClassTitle, WorkPlaneBased, AlwaysVertical, CutsWithVoidWhenLoaded, IsShared, RoomCalculationPoint, FileName, Thumbnail, Version, FileSize, DateCreated, DateModified, FamilyFile }
+        public enum ParameterColumnNames { Id, Name, Description, IsReleased, FamilyCategory, CanHostRebar, RoundConnectorDimention, PartType, OmniClassNumber,
+            OmniClassTitle, WorkPlaneBased, AlwaysVertical, CutsWithVoidWhenLoaded, IsShared, RoomCalculationPoint, FileName, Thumbnail, Version, FileSize, DateCreated, DateModified, FamilyFile, CreatedByUserId
+        }
 
         public string Id
         {
@@ -55,8 +56,8 @@ namespace ModBox.FamFactory.Revit.Manager
         }
         public string OmnoClassNumber
         {
-            get { return InternalDataRowView[ParameterColumnNames.OmnoClassNumber.ToString()].ToString(); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.OmnoClassNumber.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return InternalDataRowView[ParameterColumnNames.OmniClassNumber.ToString()].ToString(); }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.OmniClassNumber.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public string OmniClassTitle
         {
@@ -123,7 +124,11 @@ namespace ModBox.FamFactory.Revit.Manager
             get { return (byte[])InternalDataRowView[ParameterColumnNames.FamilyFile.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.FamilyFile.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
-
+        public string CreatedByUserId
+        {
+            get { return InternalDataRowView[ParameterColumnNames.CreatedByUserId.ToString()].ToString(); }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.CreatedByUserId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+        }
         public ObservableCollection<ReferencePlane> RefferencePlaneItems { get; set; }
         public ObservableCollection<FamilyGeometry> FamilyGeometryItems { get; set; }
         public ObservableCollection<Parameter> ParameterItems { get; set; }

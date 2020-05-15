@@ -86,7 +86,6 @@ namespace ModBox.FamFactory.Revit.Manager
                 SelectedElement = FamilyTemplate.NewTemplate(TemplateDataView);
                 SelectedElement.FileName = file.Name;
                 SelectedElement.FileSize = file.Length;
-                SelectedElement.Thumbnail = Utils.ImageToByte(Resources.key);
                 SelectedElement.Thumbnail = Utils.ThumbnailFromView(doc, "Thumbnail");
 
                 if (doc.OwnerFamily.FamilyCategory != null)
@@ -94,6 +93,12 @@ namespace ModBox.FamFactory.Revit.Manager
                 else
                     SelectedElement.FamilyCategory = "None";
 
+                
+                foreach (Autodesk.Revit.DB.FamilyType type in doc.FamilyManager.Types)
+                {
+                    type.AsInteger(doc.FamilyManager.get_Parameter(Autodesk.Revit.DB.BuiltInParameter.FAMILY_ALWAYS_VERTICAL));
+                }
+                
                 SelectedElement.EndEdit();
 
                 Utils.GetFamilyTemplateParameters(SelectedElement, doc);
