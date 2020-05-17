@@ -29,9 +29,9 @@ namespace ModBox.FamFactory.Revit.Manager
             get { return InternalDataRowView[ParameterColumnNames.Description.ToString()].ToString(); }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.Description.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
-        public string IsReleased
+        public bool IsReleased
         {
-            get { return InternalDataRowView[ParameterColumnNames.IsReleased.ToString()].ToString(); }
+            get { return (bool)InternalDataRowView[ParameterColumnNames.IsReleased.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.IsReleased.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public string FamilyCategory
@@ -39,9 +39,9 @@ namespace ModBox.FamFactory.Revit.Manager
             get { return InternalDataRowView[ParameterColumnNames.FamilyCategory.ToString()].ToString(); }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.FamilyCategory.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
-        public string CanHostRebar
+        public bool CanHostRebar
         {
-            get { return InternalDataRowView[ParameterColumnNames.CanHostRebar.ToString()].ToString(); }
+            get { return (bool)InternalDataRowView[ParameterColumnNames.CanHostRebar.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.CanHostRebar.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public string RoundConnectorDimention
@@ -64,19 +64,19 @@ namespace ModBox.FamFactory.Revit.Manager
             get { return InternalDataRowView[ParameterColumnNames.OmniClassTitle.ToString()].ToString(); }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.OmniClassTitle.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
-        public string WorkPlaneBased
+        public bool WorkPlaneBased
         {
-            get { return InternalDataRowView[ParameterColumnNames.WorkPlaneBased.ToString()].ToString(); }
+            get { return (bool)InternalDataRowView[ParameterColumnNames.WorkPlaneBased.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.WorkPlaneBased.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
-        public string AlwaysVertical
+        public bool AlwaysVertical
         {
-            get { return InternalDataRowView[ParameterColumnNames.AlwaysVertical.ToString()].ToString(); }
+            get { return (bool)InternalDataRowView[ParameterColumnNames.AlwaysVertical.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.AlwaysVertical.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
-        public string CutsWithVoidWhenLoaded
+        public bool CutsWithVoidWhenLoaded
         {
-            get { return InternalDataRowView[ParameterColumnNames.CutsWithVoidWhenLoaded.ToString()].ToString(); }
+            get { return (bool)InternalDataRowView[ParameterColumnNames.CutsWithVoidWhenLoaded.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.CutsWithVoidWhenLoaded.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public bool IsShared
@@ -84,9 +84,9 @@ namespace ModBox.FamFactory.Revit.Manager
             get { return (bool)InternalDataRowView[ParameterColumnNames.IsShared.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.IsShared.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
-        public string RoomCalculationPoint
+        public bool RoomCalculationPoint
         {
-            get { return InternalDataRowView[ParameterColumnNames.RoomCalculationPoint.ToString()].ToString(); }
+            get { return (bool)InternalDataRowView[ParameterColumnNames.RoomCalculationPoint.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.RoomCalculationPoint.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public string FileName

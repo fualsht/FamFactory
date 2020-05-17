@@ -828,5 +828,26 @@ namespace ModBox.FamFactory.Revit.Manager
             return sqLiteConnection1;
         }
 
+       //public static string FamilyParamValueString(FamilyType t, FamilyParameter fp)
+       // {
+       //     string value = t.AsValueString(fp);
+       //     switch (fp.StorageType)
+       //     {
+       //         case StorageType.Double:
+       //             value = Util.RealString((double)t.AsDouble(fp))
+       //               + " (double)";
+       //             break;
+
+       //         case StorageType.Integer:
+       //             value = t.AsInteger(fp).ToString() + " (int)";
+       //             break;
+
+       //         case StorageType.String:
+       //             value = "'" + t.AsString(fp)
+       //               + "' (string)";
+       //             break;
+       //     }
+       //     return value;
+       // }
     }
 }

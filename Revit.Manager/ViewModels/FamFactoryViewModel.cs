@@ -14,6 +14,7 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamFactoryViewModel : ViewModelBase<Page>
     {
+        private User _ActiveUser;
 
         UsersViewModel _UsersViewModel;
         public UsersViewModel UsersViewModel { get { return _UsersViewModel; } }
@@ -99,9 +100,9 @@ namespace ModBox.FamFactory.Revit.Manager
             return true;
         }
 
-        public override void NewElement()
+        public override object NewElement(User user)
         {
-
+            return null;
         }
 
         public override void SaveElement(Page element)

@@ -13,6 +13,9 @@ namespace ModBox.FamFactory.Revit.Manager
         static object _adskApplciation;
         internal static object ADSKApplciation { get { return _adskApplciation; } }
 
+        static User _ActiveUser;
+        public User ActiveUser { get { return _ActiveUser; } }
+
         DataSet _InternalDataContext;
         public DataSet InternalDataSet { get { return _InternalDataContext; } }
 
@@ -25,7 +28,7 @@ namespace ModBox.FamFactory.Revit.Manager
         System.Data.SQLite.SQLiteConnection _SQLiteConnection;
         public System.Data.SQLite.SQLiteConnection SQLiteConnection { get { return _SQLiteConnection; } }
 
-        public event EventHandler SelectedElementChanged;
+        public event EventHandler OnSelectionChagned = new EventHandler((e, a) => { });
         public event PropertyChangedEventHandler PropertyChanged;
 
         private T _SelectedElement;
@@ -44,7 +47,7 @@ namespace ModBox.FamFactory.Revit.Manager
                 NotifyPropertyChanged();
                 _SelectedElementIndex = InternalCollection.IndexOf(value);
                 NotifyPropertyChanged("SelectedElementIndex");
-                OnSelectedElementChanged(new EventArgs());
+                OnSelectionChagned(this, new EventArgs());
             }
         }
 
@@ -94,7 +97,7 @@ namespace ModBox.FamFactory.Revit.Manager
         RelayCommand _AddElementCommand;
         public ICommand AddElementCommand
         {
-            get => _AddElementCommand ?? (_AddElementCommand = new RelayCommand(param => this.NewElement(), param => this.CanCreateNewElement()));
+            get => _AddElementCommand ?? (_AddElementCommand = new RelayCommand(param => this.NewElement(ActiveUser), param => this.CanCreateNewElement()));
         }
 
         RelayCommand _DeleteElementCommand;
@@ -179,7 +182,7 @@ namespace ModBox.FamFactory.Revit.Manager
             ((IModelBase<T>)element).Delete();
         }
 
-        public abstract void NewElement();
+        public abstract object NewElement(User user);
 
         public abstract void SaveElement(T element);
 
@@ -202,15 +205,6 @@ namespace ModBox.FamFactory.Revit.Manager
         internal protected void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected virtual void OnSelectedElementChanged(EventArgs e)
-        {
-            EventHandler eventHandler = SelectedElementChanged;
-            if (eventHandler != null)
-            {
-                eventHandler(this, e);
-            }
         }
     }
 }

@@ -10,6 +10,7 @@ namespace ModBox.FamFactory.Revit.Manager
         DataSet InternalDataSet { get; }
         ObservableCollection<T> InternalCollection { get; }
         ObservableCollection<T> SelectionHistory { get; }
+        User ActiveUser { get; }
         ICommand NextElementCommand { get; }
         ICommand PreviousElementCommand { get; }
         ICommand AddElementCommand { get; }
@@ -22,7 +23,7 @@ namespace ModBox.FamFactory.Revit.Manager
         void GoToElement(T element);
         void AddElement(T T, bool setactive);
         bool CanAddElement();
-        void NewElement();
+        object NewElement(User user);
         void CancelElementChanges();
         void DeleteElement(T element);
         void SaveElement(T element);
