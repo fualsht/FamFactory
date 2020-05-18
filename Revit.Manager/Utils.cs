@@ -295,7 +295,7 @@ namespace ModBox.FamFactory.Revit.Manager
                 foreach (Autodesk.Revit.DB.FamilyParameter item in doc.FamilyManager.Parameters)
                 {
                     Parameter parameter = Parameter.newParameter(famTemplate.FamilyTemplateParametersView);
-                    parameter.FamilyId = famTemplate.Id;
+                    parameter.FamilyTemplateId = famTemplate.Id;
                     parameter.Name = item.Definition.Name;
                     parameter.ElementId = item.Id.IntegerValue;
                     parameter.IsShared = item.IsShared;
@@ -540,7 +540,7 @@ namespace ModBox.FamFactory.Revit.Manager
                 foreach (Autodesk.Revit.DB.FamilyParameter item in doc.FamilyManager.Parameters)
                 {
                     Parameter parameter = Parameter.newParameter(famComponent.FamilyComponentParametersView);
-                    parameter.FamilyId = famComponent.Id;
+                    parameter.FamilyTemplateId = famComponent.Id;
                     parameter.Name = item.Definition.Name;
                     parameter.ElementId = item.Id.IntegerValue;
                     parameter.IsShared = item.IsShared;

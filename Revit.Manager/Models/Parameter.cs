@@ -18,7 +18,7 @@ namespace ModBox.FamFactory.Revit.Manager
             set { InternalDataRowView[ParameterColumnNames.Id.ToString()] = value; NotifyPropertyChanged(); }
         }
 
-        public string FamilyId
+        public string FamilyTemplateId
         {
             get { return InternalDataRowView[ParameterColumnNames.FamilyId.ToString()].ToString(); }
             set { InternalDataRowView[ParameterColumnNames.FamilyId.ToString()] = value; NotifyPropertyChanged(); }

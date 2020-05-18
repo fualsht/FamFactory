@@ -427,7 +427,7 @@ namespace ModBox.FamFactory.Revit.Manager
             CanHostRebarColumn.AllowDBNull = false;
             CanHostRebarColumn.DefaultValue = false;
 
-            DataColumn RoundConnectorDimentionColumn = FamilyTemplatesTable.Columns.Add(FamilyTemplate.ParameterColumnNames.RoundConnectorDimention.ToString(), typeof(string));
+            DataColumn RoundConnectorDimentionColumn = FamilyTemplatesTable.Columns.Add(FamilyTemplate.ParameterColumnNames.RoundConnectorDimension.ToString(), typeof(string));
             RoundConnectorDimentionColumn.AllowDBNull = false;
             RoundConnectorDimentionColumn.DefaultValue = "Diameter";
             RoundConnectorDimentionColumn.Unique = false;
@@ -519,7 +519,7 @@ namespace ModBox.FamFactory.Revit.Manager
             IdColumn.AllowDBNull = false;
             IdColumn.Unique = true;
 
-            DataColumn FamilyTemplateIdColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.FamilyTemplateId.ToString(), typeof(string));
+            DataColumn FamilyTemplateIdColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.FamilyId.ToString(), typeof(string));
             FamilyTemplateIdColumn.AllowDBNull = false;
             FamilyTemplateIdColumn.Unique = false;
 
@@ -605,7 +605,7 @@ namespace ModBox.FamFactory.Revit.Manager
 
             DataRelation ReferencePlanesDataRelation = new DataRelation(TableRelations.ReferencePlanesFamilyTemplateId_FamilyTemplatesId.ToString(),
               dataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].Columns[FamilyTemplate.ParameterColumnNames.Id.ToString()],
-              dataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()].Columns[ReferencePlane.ReferencePlaneTableColumnNames.FamilyTemplateId.ToString()]);
+              dataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()].Columns[ReferencePlane.ReferencePlaneTableColumnNames.FamilyId.ToString()]);
             dataSet.Relations.Add(ReferencePlanesDataRelation);
         }
 
@@ -617,7 +617,7 @@ namespace ModBox.FamFactory.Revit.Manager
             IdColumn.AllowDBNull = false;
             IdColumn.Unique = true;
 
-            DataColumn FamilyIdColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.FamilyTemplateId.ToString(), typeof(string));
+            DataColumn FamilyIdColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.FamilyId.ToString(), typeof(string));
             FamilyIdColumn.AllowDBNull = false;
             FamilyIdColumn.Unique = false;
 
@@ -702,7 +702,7 @@ namespace ModBox.FamFactory.Revit.Manager
 
             DataRelation ReferencePlanesDataRelation = new DataRelation(TableRelations.ReferencePlanesFamilyComponentId_FamilyComponentsId.ToString(),
                 dataSet.Tables[TableNames.FF_FamilyComponents.ToString()].Columns[ReferencePlane.ReferencePlaneTableColumnNames.Id.ToString()],
-                dataSet.Tables[TableNames.FF_FamilyComponentReferencePlanes.ToString()].Columns[ReferencePlane.ReferencePlaneTableColumnNames.FamilyTemplateId.ToString()]);
+                dataSet.Tables[TableNames.FF_FamilyComponentReferencePlanes.ToString()].Columns[ReferencePlane.ReferencePlaneTableColumnNames.FamilyId.ToString()]);
             dataSet.Relations.Add(ReferencePlanesDataRelation);
         }
 

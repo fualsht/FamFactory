@@ -104,9 +104,9 @@ namespace ModBox.FamFactory.Revit.Manager
             return canSaveUser;
         }
 
-        public override void NewElement()
+        public override object NewElement(User user)
         {
-            SelectedElement = User.NewUser(UsersDataView);
+            return User.NewUser(UsersDataView);
         }
 
         public override void SaveElement(User element)

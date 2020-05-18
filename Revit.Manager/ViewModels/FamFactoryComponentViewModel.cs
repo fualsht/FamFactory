@@ -12,7 +12,7 @@ namespace ModBox.FamFactory.Revit.Manager
     public class FamFactoryComponentViewModel : ViewModelBase<FamilyComponent>
     {
         DataView ComponentDataView;
-        public FamFactoryComponentViewModel(DataSet dataSet, System.Data.SQLite.SQLiteConnection sQLiteConnection) : base(dataSet,sQLiteConnection)
+        public FamFactoryComponentViewModel(DataSet dataSet, System.Data.SQLite.SQLiteConnection sQLiteConnection, User user) : base(dataSet, sQLiteConnection, user)
         {
             ComponentDataView = InternalDataSet.Tables[TableNames.FF_FamilyComponents.ToString()].DefaultView;
             RefreshCollection();
@@ -76,8 +76,9 @@ namespace ModBox.FamFactory.Revit.Manager
             return true;
         }
 
-        public override void NewElement()
+        public override object NewElement(User user)
         {
+            FamilyComponent component = null;
             System.Windows.Forms.OpenFileDialog dialogue = new System.Windows.Forms.OpenFileDialog();
             if (dialogue.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
@@ -106,6 +107,7 @@ namespace ModBox.FamFactory.Revit.Manager
                 SelectedElement.FamilyFile = Utils.FileToByteArray(file.FullName);
                 RefreshCollection();
             }
+            return component;
         }
 
         public override void SaveElement(FamilyComponent element)

@@ -102,7 +102,7 @@ namespace ModBox.FamFactory.Revit
             
             FamFactoryDataSet.InitilizeDataSet(famFactoryDataSet); // (@"c:\temp\famFactoryDatabase.db");
             famFactoryManager = new FamFactoryViewModel(famFactoryDataSet, sQLiteConnection, RevitApplicationService);
-            
+            famFactoryManager.LogIn(famFactoryManager.UsersViewModel.InternalCollection[0]);
             //installationConfiguration = new DataProvidor.Installation.InstallationConfiguration();
             //installationConfiguration.Load("config.xml");
             //famFactoryDBContext = ModBox.FamFactory.DataProvidor.FamFactoryDBContext.Instance(installationConfiguration.connectionData);

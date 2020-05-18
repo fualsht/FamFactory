@@ -14,8 +14,6 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamFactoryViewModel : ViewModelBase<Page>
     {
-        private User _ActiveUser;
-
         UsersViewModel _UsersViewModel;
         public UsersViewModel UsersViewModel { get { return _UsersViewModel; } }
 
@@ -27,12 +25,12 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public FamFactoryViewModel(DataSet dataset, System.Data.SQLite.SQLiteConnection sQLiteConnection) : base(dataset, sQLiteConnection)
         {
+            Utils.UpdateDataSetFromDataSource(sQLiteConnection, InternalDataSet);
             StartApplication();
         }
 
         public FamFactoryViewModel(DataSet dataset, System.Data.SQLite.SQLiteConnection sQLiteConnection, Autodesk.Revit.ApplicationServices.Application adskApplication) : base(dataset, sQLiteConnection, adskApplication)
         {
-            Utils.UpdateDataSetFromDataSource(SQLiteConnection, InternalDataSet);
             StartApplication();
         }
 
@@ -40,21 +38,20 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             try
             {
+                Utils.UpdateDataSetFromDataSource(SQLiteConnection, InternalDataSet);
                 _UsersViewModel = new UsersViewModel(InternalDataSet, SQLiteConnection);
-                NotifyPropertyChanged("UsersViewModel");
                 _FamilyTemplatesViewModel = new FamilyTemplatesViewModel(InternalDataSet, SQLiteConnection, ADSKApplciation);
-                NotifyPropertyChanged("FamilyTemplatesViewModel");
                 _FamilyComponentViewModel = new FamFactoryComponentViewModel(InternalDataSet, SQLiteConnection, ADSKApplciation);
-                NotifyPropertyChanged("FamilyComponentViewModel");
 
                 Pages.SystemConfigurationView systemConfigurationView = new Pages.SystemConfigurationView(this);
                 Pages.UsersView usersView = new Pages.UsersView(this);
                 Pages.FamilyTemplatesView FamTempView = new Pages.FamilyTemplatesView(this);
                 Pages.FamilyComponentView familyComponentView = new Pages.FamilyComponentView(this);
+
                 AddElement(usersView);
                 AddElement(systemConfigurationView);
-                AddElement(FamTempView);
-                AddElement(familyComponentView, true);
+                AddElement(FamTempView, true);
+                AddElement(familyComponentView);
             }
             catch (Exception e)
             {
@@ -123,6 +120,15 @@ namespace ModBox.FamFactory.Revit.Manager
         public override bool CanCancelElementChanges()
         {
             return true;
+        }
+
+        public void LogIn(User user)
+        {
+            SetActiveUser(user);
+            UsersViewModel.SetActiveUser(user);
+            FamilyTemplatesViewModel.SetActiveUser(user);
+            FamilyComponentViewModel.SetActiveUser(user);
+
         }
     }
 }

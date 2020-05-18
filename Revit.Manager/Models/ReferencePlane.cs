@@ -9,7 +9,7 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class ReferencePlane : ModelBase<ReferencePlane>
     {
-        public enum ReferencePlaneTableColumnNames { Id, FamilyTemplateId, ElementId, UniqueId, LevelId, ViewId, Category, DirectionX, DirectionY, DirectionZ, 
+        public enum ReferencePlaneTableColumnNames { Id, FamilyId, ElementId, UniqueId, LevelId, ViewId, Category, DirectionX, DirectionY, DirectionZ, 
             BubbleEndX, BubbleEndY, BubbleEndZ, NormalX, NormalY, NormalZ, FreeEndX, FreeEndY, FreeEndZ, Name, IsActive, }
         public string Id
         {
@@ -17,10 +17,10 @@ namespace ModBox.FamFactory.Revit.Manager
             set { InternalDataRowView[ReferencePlaneTableColumnNames.Id.ToString()] = value; NotifyPropertyChanged(); }
         }
 
-        public string FamiltyId
+        public string FamiltyTemplateId
         {
-            get { return InternalDataRowView[ReferencePlaneTableColumnNames.FamilyTemplateId.ToString()].ToString(); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ReferencePlaneTableColumnNames.FamilyTemplateId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return InternalDataRowView[ReferencePlaneTableColumnNames.FamilyId.ToString()].ToString(); }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ReferencePlaneTableColumnNames.FamilyId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
 
         public string Name

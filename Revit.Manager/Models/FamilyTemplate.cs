@@ -10,7 +10,7 @@ namespace ModBox.FamFactory.Revit.Manager
 { 
     public class FamilyTemplate : ModelBase<FamilyTemplate>
     {
-        public enum ParameterColumnNames { Id, Name, Description, IsReleased, FamilyCategory, CanHostRebar, RoundConnectorDimention, PartType, OmniClassNumber,
+        public enum ParameterColumnNames { Id, Name, Description, IsReleased, FamilyCategory, CanHostRebar, RoundConnectorDimension, PartType, OmniClassNumber,
             OmniClassTitle, WorkPlaneBased, AlwaysVertical, CutsWithVoidWhenLoaded, IsShared, RoomCalculationPoint, FileName, Thumbnail, Version, FileSize, DateCreated, DateModified, FamilyFile, CreatedByUserId
         }
 
@@ -46,8 +46,8 @@ namespace ModBox.FamFactory.Revit.Manager
         }
         public string RoundConnectorDimention
         {
-            get { return InternalDataRowView[ParameterColumnNames.RoundConnectorDimention.ToString()].ToString(); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.RoundConnectorDimention.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return InternalDataRowView[ParameterColumnNames.RoundConnectorDimension.ToString()].ToString(); }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.RoundConnectorDimension.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public string PartType
         {

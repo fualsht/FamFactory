@@ -33,5 +33,6 @@ namespace ModBox.FamFactory.Revit.Manager
         bool CanSaveElement();
         bool CanGoToNext();
         bool CanGoBack();
+        void SetActiveUser(User user);
     }
 }
