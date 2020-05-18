@@ -786,33 +786,30 @@ namespace ModBox.FamFactory.Revit.Manager
             }
         }
 
-        public static bool SaveChanges(DataTable dataTable)
+        public static bool SaveChanges(System.Data.SQLite.SQLiteConnection connection, DataTable dataTable)
         {
-            bool saved = false;
-            SqlConnection sqlConnection = new SqlConnection("");
             try
             {
-                SqlDataAdapter mySqlDataAdapter = new SqlDataAdapter(string.Format("Select * From {0}", dataTable.TableName), sqlConnection);
-                using (SqlConnection con = mySqlDataAdapter.SelectCommand.Connection)
+                using (System.Data.SQLite.SQLiteDataAdapter adapter = new System.Data.SQLite.SQLiteDataAdapter(string.Format("Select * from '{0}'", dataTable.TableName), connection))
                 {
-                    using (SqlCommand command = mySqlDataAdapter.SelectCommand)
+                    using (System.Data.SQLite.SQLiteCommandBuilder sqliteCmdBuilder = new System.Data.SQLite.SQLiteCommandBuilder(adapter))
                     {
-                        con.Open();
-                        using (SqlDataReader myReader = command.ExecuteReader())
-                        {
-                            dataTable.Clear();
-                            dataTable.Load(myReader);
-                            con.Close();
-                        }
+                        adapter.InsertCommand = sqliteCmdBuilder.GetInsertCommand();
+                        adapter.DeleteCommand = sqliteCmdBuilder.GetDeleteCommand();
+                        adapter.UpdateCommand = sqliteCmdBuilder.GetUpdateCommand();
+                        DataTable table = dataTable.GetChanges();
+                        connection.Open();
+                        adapter.Update(table);
+                        connection.Close();
+                        return true;
                     }
                 }
             }
             catch (Exception ex)
             {
-                sqlConnection.Close();
+                connection.Close();
                 throw new Exception("Failed to Update FamFactoryTemplateItems!", ex);
             }
-            return saved;
         }
 
         public static System.Data.SQLite.SQLiteConnection GetSQlteConnection(string dataBasePath)

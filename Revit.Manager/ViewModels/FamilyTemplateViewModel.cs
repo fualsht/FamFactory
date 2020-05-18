@@ -99,24 +99,24 @@ namespace ModBox.FamFactory.Revit.Manager
                 FileInfo file = new FileInfo(dialogue.FileName);
                 Autodesk.Revit.DB.Document doc = ((Autodesk.Revit.ApplicationServices.Application)ADSKApplciation).OpenDocumentFile(file.FullName);
 
-                SelectedElement = FamilyTemplate.NewTemplate(TemplateDataView);
-                SelectedElement.FileName = file.Name;
-                SelectedElement.FileSize = file.Length;
-                SelectedElement.DateCreated = DateTime.Now;
-                SelectedElement.DateModified = DateTime.Now;
-                SelectedElement.IsReleased = false;
-                SelectedElement.CreatedByUserId = user.Id;
+                template = FamilyTemplate.NewTemplate(TemplateDataView);
+                template.FileName = file.Name;
+                template.FileSize = file.Length;
+                template.DateCreated = DateTime.Now;
+                template.DateModified = DateTime.Now;
+                template.IsReleased = false;
+                template.CreatedByUserId = user.Id;
 
                 byte[] image = Utils.ThumbnailFromView(doc, "Thumbnail");
                 if (image == null)
-                    SelectedElement.Thumbnail = new byte[byte.MaxValue];
+                    template.Thumbnail = new byte[byte.MaxValue];
                 else
-                    SelectedElement.Thumbnail = image;
+                    template.Thumbnail = image;
 
                 if (doc.OwnerFamily.FamilyCategory != null)
-                    SelectedElement.FamilyCategory = doc.OwnerFamily.FamilyCategory.Name;
+                    template.FamilyCategory = doc.OwnerFamily.FamilyCategory.Name;
                 else
-                    SelectedElement.FamilyCategory = "None";
+                    template.FamilyCategory = "None";
 
                 Autodesk.Revit.DB.ElementId alwaysVerticalId = new Autodesk.Revit.DB.ElementId(Autodesk.Revit.DB.BuiltInParameter.FAMILY_ALWAYS_VERTICAL);
                 Autodesk.Revit.DB.ElementId canHostRebarlId = new Autodesk.Revit.DB.ElementId(Autodesk.Revit.DB.BuiltInParameter.FAMILY_CAN_HOST_REBAR);
@@ -132,51 +132,52 @@ namespace ModBox.FamFactory.Revit.Manager
                 foreach (Autodesk.Revit.DB.Parameter parameter in doc.OwnerFamily.Parameters)
                 {    
                     if (parameter.Id == alwaysVerticalId)
-                        SelectedElement.AlwaysVertical = Convert.ToBoolean( parameter.AsInteger());
+                        template.AlwaysVertical = Convert.ToBoolean( parameter.AsInteger());
 
                     if (parameter.Id == canHostRebarlId)
-                        SelectedElement.CanHostRebar = Convert.ToBoolean(parameter.AsInteger());
+                        template.CanHostRebar = Convert.ToBoolean(parameter.AsInteger());
 
                     if (parameter.Id == cutsWalllId)
-                        SelectedElement.CutsWithVoidWhenLoaded = Convert.ToBoolean(parameter.AsInteger());
+                        template.CutsWithVoidWhenLoaded = Convert.ToBoolean(parameter.AsInteger());
                     
                     if (parameter.Id == sharedId)
-                        SelectedElement.IsShared = Convert.ToBoolean(parameter.AsInteger());
+                        template.IsShared = Convert.ToBoolean(parameter.AsInteger());
 
                     if (parameter.Id == omniClassNameId)
-                        SelectedElement.OmniClassTitle = parameter.AsString();
+                        template.OmniClassTitle = parameter.AsString();
 
                     if (parameter.Id == OmniClassCodeId)
-                        SelectedElement.OmnoClassNumber = parameter.AsValueString();
+                        template.OmnoClassNumber = parameter.AsValueString();
 
                     if (parameter.Id == parttypeId)
-                        SelectedElement.PartType = parameter.AsValueString();
+                        template.PartType = parameter.AsValueString();
 
                     if (parameter.Id == roomCalculationpointId)
-                        SelectedElement.RoomCalculationPoint = Convert.ToBoolean(parameter.AsInteger());
+                        template.RoomCalculationPoint = Convert.ToBoolean(parameter.AsInteger());
 
                     if (parameter.Id == roundCOnnectorDescriptionId)
-                        SelectedElement.RoundConnectorDimention = parameter.AsValueString();
+                        template.RoundConnectorDimention = parameter.AsValueString();
 
                     if (parameter.Id == workPlaneBasedId)
-                        SelectedElement.WorkPlaneBased = Convert.ToBoolean(parameter.AsInteger());
+                        template.WorkPlaneBased = Convert.ToBoolean(parameter.AsInteger());
                 }
 
-                if (SelectedElement.PartType == string.Empty)
-                    SelectedElement.PartType = "N/A";
+                if (template.PartType == string.Empty)
+                    template.PartType = "N/A";
 
-                if (SelectedElement.RoundConnectorDimention == string.Empty)
-                    SelectedElement.PartType = "N/A";
+                if (template.RoundConnectorDimention == string.Empty)
+                    template.PartType = "N/A";
 
-                SelectedElement.EndEdit();
+                template.EndEdit();
 
-                Utils.GetFamilyTemplateParameters(SelectedElement, doc);
-                Utils.GetFamilyTemplateReferencePlanes(SelectedElement, doc);
-                Utils.GetFamilyTemplateFeatures(SelectedElement, doc);
+                Utils.GetFamilyTemplateParameters(template, doc);
+                Utils.GetFamilyTemplateReferencePlanes(template, doc);
+                Utils.GetFamilyTemplateFeatures(template, doc);
 
                 doc.Close(false);
                 
-                SelectedElement.FamilyFile = Utils.FileToByteArray(file.FullName);
+                template.FamilyFile = Utils.FileToByteArray(file.FullName);
+                SelectedElement = template;
                 RefreshCollection();
             }
             return template;
@@ -184,7 +185,11 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public override void SaveElement(FamilyTemplate element)
         {
-
+            element.EndEdit();
+            Utils.SaveChanges(SQLiteConnection, TemplateDataView.Table);
+            Utils.SaveChanges(SQLiteConnection, InternalDataSet.Tables[TableNames.FF_FamilyTemplateParameters.ToString()]); 
+            Utils.SaveChanges(SQLiteConnection, InternalDataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()]);
+            Utils.SaveChanges(SQLiteConnection, InternalDataSet.Tables[TableNames.FF_FamilyTemplateGeometry.ToString()]);
         }
 
         private void FamilyTemplatesViewModel_OnSelectionChagned(object sender, EventArgs e)

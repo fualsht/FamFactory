@@ -40,7 +40,7 @@
         <Border Grid.Column="1" Style="{DynamicResource SectionBorder}">
             <StackPanel Orientation="Horizontal" >
                 <Button Content="New" Width="60" Style="{DynamicResource DefaultButton}" Command="{Binding AddElementCommand, Mode=OneWay}" />
-                <Button Content="Save" Width="60" Style="{DynamicResource DefaultButton}"/>
+                <Button Content="Save" Width="60" Style="{DynamicResource DefaultButton}" Command="{Binding SaveElementCommand, Mode=OneWay}"/>
                 <Button Content="Delete" Width="60" Style="{DynamicResource DefaultButton}"/>
             </StackPanel>
         </Border>
