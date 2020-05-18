@@ -188,7 +188,7 @@ namespace ModBox.FamFactory.Revit.Manager
             // Add DataTable to DataSet befroe adding Datarelations.
             dataSet.Tables.Add(usersTable);
             //Create the DataRelation.
-            DataRelation dataRelation = new DataRelation(TableRelations.PermissionsUserId_UsersId.ToString(),
+            DataRelation dataRelation = new DataRelation(TableRelations.UsersPermissionId_PermissionId.ToString(),
                 dataSet.Tables[TableNames.FF_Permissions.ToString()].Columns["Id"],
                 dataSet.Tables[TableNames.FF_Users.ToString()].Columns[User.UsersTableColumnNames.PermissionId.ToString()]);
             dataSet.Relations.Add(dataRelation);
@@ -386,7 +386,7 @@ namespace ModBox.FamFactory.Revit.Manager
 
                 dataSet.Tables.Add(FamilyComponentsTable);
 
-                DataRelation FamilyTemplateReferencePlanesDataRelation = new DataRelation(TableRelations.FamilyComponentFamilyComponentTypeId_FamilyComponentId.ToString(),
+                DataRelation FamilyTemplateReferencePlanesDataRelation = new DataRelation(TableRelations.FamilyComponentsFamilyFamilyComponentTypeId_FamilyComponentsId.ToString(),
                     dataSet.Tables[TableNames.FF_FamilyComponentTypes.ToString()].Columns[FamilyComponentType.FamilyComponentTypesTableColumnNames.Id.ToString()],
                     dataSet.Tables[TableNames.FF_FamilyComponents.ToString()].Columns[FamilyComponent.FamilyComponentsTableColumnNames.FamilyComponentTypeId.ToString()]);
                 dataSet.Relations.Add(FamilyTemplateReferencePlanesDataRelation);
@@ -505,7 +505,7 @@ namespace ModBox.FamFactory.Revit.Manager
 
             dataSet.Tables.Add(FamilyTemplatesTable);
 
-            DataRelation usersDataRelation = new DataRelation(TableRelations.FamilyTemplateCreatedByUserId_UserId.ToString(),
+            DataRelation usersDataRelation = new DataRelation(TableRelations.FamilyTemplatesCreatedByUserId_UsersId.ToString(),
                 dataSet.Tables[TableNames.FF_Users.ToString()].Columns[User.UsersTableColumnNames.Id.ToString()],
                 dataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].Columns[FamilyTemplate.ParameterColumnNames.CreatedByUserId.ToString()]);
             dataSet.Relations.Add(usersDataRelation);
@@ -603,7 +603,7 @@ namespace ModBox.FamFactory.Revit.Manager
 
             dataSet.Tables.Add(referencePlaneTable);
 
-            DataRelation ReferencePlanesDataRelation = new DataRelation(TableRelations.ReferencePlanesFamilyTemplateId_FamilyTemplatesId.ToString(),
+            DataRelation ReferencePlanesDataRelation = new DataRelation(TableRelations.FamilyTemplateReferencePlaneFamilyId_FamilyTemplatesId.ToString(),
               dataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].Columns[FamilyTemplate.ParameterColumnNames.Id.ToString()],
               dataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()].Columns[ReferencePlane.ReferencePlaneTableColumnNames.FamilyId.ToString()]);
             dataSet.Relations.Add(ReferencePlanesDataRelation);
@@ -700,7 +700,7 @@ namespace ModBox.FamFactory.Revit.Manager
 
             dataSet.Tables.Add(referencePlaneTable);
 
-            DataRelation ReferencePlanesDataRelation = new DataRelation(TableRelations.ReferencePlanesFamilyComponentId_FamilyComponentsId.ToString(),
+            DataRelation ReferencePlanesDataRelation = new DataRelation(TableRelations.FamilyComponentReferencePlaneFamilyId_FamilyComponentsId.ToString(),
                 dataSet.Tables[TableNames.FF_FamilyComponents.ToString()].Columns[ReferencePlane.ReferencePlaneTableColumnNames.Id.ToString()],
                 dataSet.Tables[TableNames.FF_FamilyComponentReferencePlanes.ToString()].Columns[ReferencePlane.ReferencePlaneTableColumnNames.FamilyId.ToString()]);
             dataSet.Relations.Add(ReferencePlanesDataRelation);
@@ -796,7 +796,7 @@ namespace ModBox.FamFactory.Revit.Manager
 
             dataSet.Tables.Add(GeometryTable);
 
-            DataRelation geometryDataRelation = new DataRelation(TableRelations.GeometryFamilyTemplateid_FamilyTemplateId.ToString(),
+            DataRelation geometryDataRelation = new DataRelation(TableRelations.FamilyTemplateGeometryFamilyId_FamilyTemplatesId.ToString(),
                 dataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].Columns["Id"],
                 dataSet.Tables[TableNames.FF_FamilyTemplateGeometry.ToString()].Columns[FamilyGeometry.FamilyGeometryColumnNames.FamilyId.ToString()]);
             dataSet.Relations.Add(geometryDataRelation);
@@ -892,7 +892,7 @@ namespace ModBox.FamFactory.Revit.Manager
 
             dataSet.Tables.Add(GeometryTable);
 
-            DataRelation geometryDataRelation = new DataRelation(TableRelations.GeometryFamilyComponentid_FamilyComponentId.ToString(),
+            DataRelation geometryDataRelation = new DataRelation(TableRelations.FamilyComponentGeometryFamilyId_FamilyComponentsId.ToString(),
                 dataSet.Tables[TableNames.FF_FamilyComponents.ToString()].Columns["Id"],
                 dataSet.Tables[TableNames.FF_FamilyComponentGeometry.ToString()].Columns[FamilyGeometry.FamilyGeometryColumnNames.FamilyId.ToString()]);
             dataSet.Relations.Add(geometryDataRelation);
@@ -1008,7 +1008,7 @@ namespace ModBox.FamFactory.Revit.Manager
             ParametersTable.PrimaryKey = new DataColumn[] { IdColumn, NameColumn };
             dataSet.Tables.Add(ParametersTable);
 
-            DataRelation parametersDataRelation = new DataRelation(TableRelations.ParametersFamilyTemplateId_FamilyTemplatesId.ToString(),
+            DataRelation parametersDataRelation = new DataRelation(TableRelations.FamilyTemplateParametersFamilyId_FamilyTemplatesId.ToString(),
                 dataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].Columns["Id"],
                 dataSet.Tables[TableNames.FF_FamilyTemplateParameters.ToString()].Columns[Parameter.ParameterColumnNames.FamilyId.ToString()]);
             dataSet.Relations.Add(parametersDataRelation);
@@ -1124,7 +1124,7 @@ namespace ModBox.FamFactory.Revit.Manager
             ParametersTable.PrimaryKey = new DataColumn[] { IdColumn, NameColumn };
             dataSet.Tables.Add(ParametersTable);
 
-            DataRelation parametersDataRelation = new DataRelation(TableRelations.ParametersFamilyComponentId_FamilyComponentsId.ToString(),
+            DataRelation parametersDataRelation = new DataRelation(TableRelations.FamilyComponentParametersFamilyId_FamilyComponentsId.ToString(),
                 dataSet.Tables[TableNames.FF_FamilyComponents.ToString()].Columns["Id"],
                 dataSet.Tables[TableNames.FF_FamilyComponentParameters.ToString()].Columns[Parameter.ParameterColumnNames.FamilyId.ToString()]);
             dataSet.Relations.Add(parametersDataRelation);

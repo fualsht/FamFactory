@@ -26,7 +26,7 @@ CREATE TABLE FF_Permissions (Id STRING (36, 36) PRIMARY KEY UNIQUE NOT NULL,   
 CREATE TABLE FF_Users(Id STRING (36, 36) PRIMARY KEY UNIQUE NOT NULL,                       Name STRING UNIQUE NOT NULL,                       FirstName TEXT NOT NULL,                       LastName STRING NOT NULL,                       Email STRING NOT NULL,                       Password BOOLEAN NOT NULL,                       ProfilePic BLOB,                       RegistrationDate DATETIME NOT NULL DEFAULT(datetime('Now')),                       LastLogInDate DATETIME NOT NULL DEFAULT(datetime('Now')),
                       PermissionId STRING, State BOOLEAN NOT NULL DEFAULT(FALSE),
                       TempFolder STRING NOT NULL DEFAULT('C:\temp'),
-                      CONSTRAINT PermissionsUserId_UsersId FOREIGN KEY(PermissionId) REFERENCES FF_Permissions(Id) ON DELETE SET DEFAULT ON UPDATE CASCADE);
+                      CONSTRAINT UsersPermissionId_PermissionId FOREIGN KEY(PermissionId) REFERENCES FF_Permissions(Id));
 
 -- Table: FF_SystemConfiguration
 CREATE TABLE FF_SystemConfiguration (Id STRING (36, 36) PRIMARY KEY UNIQUE NOT NULL, 
@@ -67,7 +67,7 @@ CREATE TABLE FF_FamilyTemplates (Id STRING (36, 36) PRIMARY KEY UNIQUE NOT NULL,
                                   RoomCalculationPoint BOOLEAN NOT NULL DEFAULT (false), 
                                   FileName STRING NOT NULL, 
                                   CanHostRebar BOOLEAN DEFAULT (false) NOT NULL,
-                                  CONSTRAINT FamilyTemplateCreatedByUserId_UserId FOREIGN KEY (CreatedByUserId) REFERENCES FF_Users (Id));
+                                  CONSTRAINT FamilyTemplatesCreatedByUserId_UsersId FOREIGN KEY (CreatedByUserId) REFERENCES FF_Users (Id));
 
 
 -- Table: FF_FamilyComponents
@@ -94,13 +94,13 @@ CREATE TABLE FF_FamilyComponents (Id STRING (36, 36) PRIMARY KEY UNIQUE NOT NULL
                                   IsShared BOOLEAN NOT NULL DEFAULT (false), 
                                   RoomCalculationPoint BOOLEAN NOT NULL DEFAULT (false), 
                                   FileName STRING, 
-                                  CONSTRAINT FamilyComponentFamilyComponentTypeId_FamilyComponentId FOREIGN KEY (FamilyComponentTypeId) REFERENCES FF_FamilyComponentTypes (Id), 
-                                  CONSTRAINT FamilyComponentCreatedByUserId_UserId FOREIGN KEY (CreatedByUserId) REFERENCES FF_Users (Id));
+                                  CONSTRAINT FamilyComponentsFamilyFamilyComponentTypeId_FamilyComponentsId FOREIGN KEY (FamilyComponentTypeId) REFERENCES FF_FamilyComponentTypes (Id), 
+                                  CONSTRAINT FamilyComponentsCreatedByUserId_UsersId FOREIGN KEY (CreatedByUserId) REFERENCES FF_Users (Id));
 
 
 -- Table: FF_FamilyTemplateReferencePlanes
 CREATE TABLE FF_FamilyTemplateReferencePlanes (Id STRING (36, 36) PRIMARY KEY NOT NULL UNIQUE, 
-                                               FamilyTemplateId STRING (36, 36) NOT NULL, 
+                                               FamilyId STRING (36, 36) NOT NULL, 
                                                Name STRING NOT NULL UNIQUE, 
                                                ElementId INTEGER NOT NULL DEFAULT (- 1), 
                                                UniqueId STRING, LevelId INTEGER NOT NULL DEFAULT (- 1), 
@@ -119,11 +119,11 @@ CREATE TABLE FF_FamilyTemplateReferencePlanes (Id STRING (36, 36) PRIMARY KEY NO
                                                FreeEndY DOUBLE NOT NULL DEFAULT (0), 
                                                FreeEndZ DOUBLE NOT NULL DEFAULT (0), 
                                                IsActive BOOLEAN DEFAULT (false) NOT NULL, 
-                                               CONSTRAINT ReferencePlanesFamilyTemplateId_FamilyTemplateId FOREIGN KEY (FamilyTemplateId) REFERENCES FF_FamilyTemplates (Id));
+                                               CONSTRAINT FamilyTemplateReferencePlaneFamilyId_FamilyTemplatesId FOREIGN KEY (FamilyId) REFERENCES FF_FamilyTemplates (Id));
 
 
 CREATE TABLE FF_FamilyComponentReferencePlanes (Id STRING (36, 36) PRIMARY KEY NOT NULL UNIQUE, 
-                                                FamilyComponentId STRING (36, 36) NOT NULL, 
+                                                FamilyId STRING (36, 36) NOT NULL, 
                                                 Name STRING NOT NULL UNIQUE, 
                                                 ElementId INTEGER NOT NULL DEFAULT (- 1), 
                                                 UniqueId STRING, 
@@ -143,11 +143,11 @@ CREATE TABLE FF_FamilyComponentReferencePlanes (Id STRING (36, 36) PRIMARY KEY N
                                                 FreeEndY DOUBLE NOT NULL DEFAULT (0), 
                                                 FreeEndZ DOUBLE NOT NULL DEFAULT (0), 
                                                 IsActive BOOLEAN NOT NULL DEFAULT (false),
-                                                CONSTRAINT ReferencePlanesFamilyComponentId_FamilyComponentId FOREIGN KEY (FamilyComponentId) REFERENCES FF_FamilyComponents (Id));
+                                                CONSTRAINT FamilyComponentReferencePlaneFamilyId_FamilyComponentsId FOREIGN KEY (FamilyId) REFERENCES FF_FamilyComponents (Id));
 
 -- Table: FF_FamilyTemplateParameters
 CREATE TABLE FF_FamilyTemplateParameters (Id STRING (36, 36) UNIQUE PRIMARY KEY NOT NULL, 
-                                          FamilyTemplateId STRING (36, 36) NOT NULL, 
+                                          FamilyId STRING (36, 36) NOT NULL, 
                                           Name STRING NOT NULL, 
                                           ElementId INTEGER NOT NULL DEFAULT (- 1), 
                                           ElementGUID STRING NOT NULL, 
@@ -167,11 +167,11 @@ CREATE TABLE FF_FamilyTemplateParameters (Id STRING (36, 36) UNIQUE PRIMARY KEY 
                                           UserModifiable BOOLEAN NOT NULL DEFAULT (false), 
                                           IsDeterminedByFormula BOOLEAN NOT NULL DEFAULT (false), 
                                           Formula STRING, 
-                                          CONSTRAINT ParametersFamilyTemplateId_FamilyTemplatesId FOREIGN KEY (FamilyTemplateId) REFERENCES FF_FamilyTemplates (Id));
+                                          CONSTRAINT FamilyTemplateParametersFamilyId_FamilyTemplatesId FOREIGN KEY (FamilyId) REFERENCES FF_FamilyTemplates (Id));
 
 -- Table: FF_FamilyComponentParameters
 CREATE TABLE FF_FamilyComponentParameters (Id STRING (36, 36) UNIQUE PRIMARY KEY NOT NULL, 
-                                           FamilyComponentId STRING (36, 36) NOT NULL, 
+                                           FamilyId STRING (36, 36) NOT NULL, 
                                            Name STRING NOT NULL, 
                                            ElementId INTEGER NOT NULL DEFAULT (- 1), 
                                            ElementGUID STRING NOT NULL, 
@@ -191,12 +191,12 @@ CREATE TABLE FF_FamilyComponentParameters (Id STRING (36, 36) UNIQUE PRIMARY KEY
                                            UserModifiable BOOLEAN NOT NULL DEFAULT (false), 
                                            IsDeterminedByFormula BOOLEAN NOT NULL DEFAULT (false), 
                                            Formula STRING, 
-                                           CONSTRAINT ParametersFamilyComponentId_FamilyComponentsId FOREIGN KEY (FamilyComponentId) REFERENCES FF_FamilyComponents (Id));
+                                           CONSTRAINT FamilyComponentParametersFamilyId_FamilyComponentsId FOREIGN KEY (FamilyId) REFERENCES FF_FamilyComponents (Id));
 
 
 -- Table: FF_FamilyTemplateGeometry
 CREATE TABLE FF_FamilyTemplateGeometry (Id STRING (36, 36) NOT NULL UNIQUE PRIMARY KEY,
-                                        FamilyTemplateId STRING (36, 36) NOT NULL, 
+                                        FamilyId STRING (36, 36) NOT NULL, 
                                         Name STRING NOT NULL UNIQUE, 
                                         ElementId STRING (36, 36) NOT NULL, 
                                         Description STRING, 
@@ -212,11 +212,11 @@ CREATE TABLE FF_FamilyTemplateGeometry (Id STRING (36, 36) NOT NULL UNIQUE PRIMA
                                         OwnerViewId INTEGER NOT NULL DEFAULT (- 1), 
                                         LevelId INTEGER NOT NULL DEFAULT (- 1), 
                                         IsSolid BOOLEAN NOT NULL DEFAULT (true), 
-                                        CONSTRAINT FamilyTemplateFamilyGeometryId_FamilyTemplateId FOREIGN KEY (FamilyTemplateId) REFERENCES FF_FamilyTemplates (Id));
+                                        CONSTRAINT FamilyTemplateGeometryFamilyId_FamilyTemplatesId FOREIGN KEY (FamilyId) REFERENCES FF_FamilyTemplates (Id));
 
 -- Table: FF_FamilyComponentGeometry
 CREATE TABLE FF_FamilyComponentGeometry (Id STRING (36, 36) NOT NULL UNIQUE PRIMARY KEY, 
-                                         FamilyComponentId STRING (36, 36) NOT NULL, 
+                                         FamilyId STRING (36, 36) NOT NULL, 
                                          Name STRING NOT NULL UNIQUE, 
                                          ElementId STRING (36, 36) NOT NULL, 
                                          Description STRING, 
@@ -232,7 +232,7 @@ CREATE TABLE FF_FamilyComponentGeometry (Id STRING (36, 36) NOT NULL UNIQUE PRIM
                                          OwnerViewId INTEGER NOT NULL DEFAULT (- 1), 
                                          LevelId INTEGER NOT NULL DEFAULT (- 1), 
                                          IsSolid BOOLEAN NOT NULL DEFAULT (true), 
-                                         CONSTRAINT FamilyComponentFamilyGeometryId_FamilyComponentId FOREIGN KEY (FamilyComponentId) REFERENCES FF_FamilyComponents (Id));
+                                         CONSTRAINT FamilyComponentGeometryFamilyId_FamilyComponentsId FOREIGN KEY (FamilyId) REFERENCES FF_FamilyComponents (Id));
 
 
 COMMIT TRANSACTION;

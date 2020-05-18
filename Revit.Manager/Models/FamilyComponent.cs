@@ -150,9 +150,9 @@ namespace ModBox.FamFactory.Revit.Manager
             RefferencePlaneItems = new ObservableCollection<ReferencePlane>();
             FamilyGeometryItems = new ObservableCollection<FamilyGeometry>();
             ParameterItems = new ObservableCollection<Parameter>();
-            _FamilyComponentParametersView = InternalDataRowView.CreateChildView(TableRelations.ParametersFamilyComponentId_FamilyComponentsId.ToString());
-            _FamilyComponentReferencePlanesView = InternalDataRowView.CreateChildView(TableRelations.ReferencePlanesFamilyComponentId_FamilyComponentsId.ToString());
-            _FamilyComponentGeometryView = InternalDataRowView.CreateChildView(TableRelations.GeometryFamilyComponentid_FamilyComponentId.ToString());
+            _FamilyComponentParametersView = InternalDataRowView.CreateChildView(TableRelations.FamilyComponentParametersFamilyId_FamilyComponentsId.ToString());
+            _FamilyComponentReferencePlanesView = InternalDataRowView.CreateChildView(TableRelations.FamilyComponentReferencePlaneFamilyId_FamilyComponentsId.ToString());
+            _FamilyComponentGeometryView = InternalDataRowView.CreateChildView(TableRelations.FamilyComponentGeometryFamilyId_FamilyComponentsId.ToString());
             _FamilyComponentTypesView = InternalDataRowView.DataView.Table.DataSet.Tables[TableNames.FF_FamilyComponentTypes.ToString()].DefaultView;
             RefreshChildRows();
         }

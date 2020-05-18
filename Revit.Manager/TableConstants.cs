@@ -8,8 +8,9 @@ namespace ModBox.FamFactory
 {
     public enum TableNames  {  FF_Permissions,  FF_EmailProfiles, FF_SystemConfiguration, FF_FamilyComponentTypes, FF_FamilyComponents, FF_Users, FF_FamilyTemplates, FF_FamilyTemplateReferencePlanes, 
         FF_FamilyTemplateGeometry, FF_FamilyTemplateParameters, FF_FamilyComponentReferencePlanes, FF_FamilyComponentGeometry, FF_FamilyComponentParameters }
-    public enum TableRelations  { PermissionsUserId_UsersId, ParametersFamilyTemplateId_FamilyTemplatesId, ReferencePlanesFamilyTemplateId_FamilyTemplatesId, GeometryFamilyTemplateid_FamilyTemplateId,
-    ParametersFamilyComponentId_FamilyComponentsId, ReferencePlanesFamilyComponentId_FamilyComponentsId, GeometryFamilyComponentid_FamilyComponentId, FamilyComponentFamilyComponentTypeId_FamilyComponentId,
-        FamilyComponentCreatedByUserId_UserId, FamilyTemplateCreatedByUserId_UserId
+    public enum TableRelations  {
+        UsersPermissionId_PermissionId, FamilyTemplatesCreatedByUserId_UsersId, FamilyComponentsFamilyFamilyComponentTypeId_FamilyComponentsId, FamilyComponentsCreatedByUserId_UsersId,
+            FamilyTemplateReferencePlaneFamilyId_FamilyTemplatesId, FamilyComponentReferencePlaneFamilyId_FamilyComponentsId, FamilyTemplateParametersFamilyId_FamilyTemplatesId,
+        FamilyComponentParametersFamilyId_FamilyComponentsId, FamilyTemplateGeometryFamilyId_FamilyTemplatesId, FamilyComponentGeometryFamilyId_FamilyComponentsId
     }
 }
