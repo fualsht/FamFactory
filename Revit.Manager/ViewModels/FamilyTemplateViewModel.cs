@@ -94,6 +94,9 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             FamilyTemplate template = null;
             System.Windows.Forms.OpenFileDialog dialogue = new System.Windows.Forms.OpenFileDialog();
+            dialogue.Filter = "rft files (*.rft)|*.rft|All files (*.*)|*.*";
+            dialogue.RestoreDirectory = true;
+
             if (dialogue.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 FileInfo file = new FileInfo(dialogue.FileName);

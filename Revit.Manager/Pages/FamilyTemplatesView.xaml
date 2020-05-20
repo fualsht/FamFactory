@@ -50,7 +50,7 @@
         <Border Style="{DynamicResource SectionBorder}" Grid.Row="1" Grid.Column="1" DataContext="{Binding SelectedElement}">
             <ScrollViewer Grid.Row="1" Grid.ColumnSpan="2" Style="{DynamicResource DefaultScrollVIewerStyle}">
                 <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Vertical" >
-                    <GroupBox Grid.Column="1" Style="{DynamicResource DefaultGroupBoxStyle}" Header="Family Template">
+                    <GroupBox Grid.Column="1" Style="{DynamicResource DefaultGroupBoxStyle}" Header="Family Component">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" MinWidth="150" MaxWidth="250"/>
@@ -58,10 +58,10 @@
                             </Grid.ColumnDefinitions>
                             <Image Source="{Binding Thumbnail}" Stretch="UniformToFill" MaxHeight="250" MaxWidth="250"/>
                             <StackPanel Grid.Column="1">
-                                <TextBox Style="{DynamicResource TitleCationTextBoxStyle}" Tag="Template Name" Text="{Binding Name}" IsReadOnly="True"/>
-                                <TextBox Style="{DynamicResource TitleCationTextBoxStyle}" Tag="Template Category" Text="{Binding FamilyCategory}" IsReadOnly="True"/>
+                                <TextBox Style="{DynamicResource TitleCationTextBoxStyle}" Tag="Template Name" Text="{Binding Name}"/>
                                 <TextBox Style="{DynamicResource TitleCationTextBoxStyle}" Tag="Description" Text="{Binding Description}"/>
-                                <CheckBox Style="{DynamicResource CheckboxWithTitle}" IsChecked="{Binding IsReleased}" Tag="Released"/>
+                                <TextBox Style="{DynamicResource TitleCationTextBoxStyle}" Tag="Template Category" Text="{Binding FamilyCategory}" IsReadOnly="True"/>
+                                <CheckBox Style="{DynamicResource CheckboxWithTitle}" IsChecked="{Binding IsReleased}" Tag="Released" HorizontalAlignment="Right"/>
                             </StackPanel>
                         </Grid>
                     </GroupBox>

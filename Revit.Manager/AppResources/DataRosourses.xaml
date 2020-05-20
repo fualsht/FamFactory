@@ -4,4 +4,6 @@
 
     <local:FamFactoryApplication x:Key="FFVM"/>
     <local:FileSizeConverter x:Key="FileSizeConvert"/>
+    <local:RevitUnitTypeEnumToStringConverter x:Key="UnitTypeToStringConvert"/>
+    
 </ResourceDictionary>

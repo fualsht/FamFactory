@@ -124,7 +124,6 @@ namespace ModBox.FamFactory.Revit.Manager
             UsersViewModel.SetActiveUser(user);
             FamilyTemplatesViewModel.SetActiveUser(user);
             FamilyComponentViewModel.SetActiveUser(user);
-
         }
     }
 }

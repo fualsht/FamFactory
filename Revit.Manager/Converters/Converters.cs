@@ -47,4 +47,18 @@ namespace ModBox.FamFactory.Revit.Manager
             return false;
         }
     }
+
+    public class RevitUnitTypeEnumToStringConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            Autodesk.Revit.DB.UnitType type = (Autodesk.Revit.DB.UnitType)value;
+            return type.ToString();
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

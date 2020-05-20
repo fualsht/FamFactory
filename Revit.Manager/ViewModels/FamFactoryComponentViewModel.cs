@@ -80,6 +80,8 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             FamilyComponent component = null;
             System.Windows.Forms.OpenFileDialog dialogue = new System.Windows.Forms.OpenFileDialog();
+            dialogue.Filter = "Revit Families (*.rfa)|*.rfa|All files (*.*)|*.*";
+            dialogue.RestoreDirectory = true;
             if (dialogue.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 FileInfo file = new FileInfo(dialogue.FileName);

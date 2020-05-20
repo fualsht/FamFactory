@@ -87,7 +87,7 @@
     <Compile Include="Models\FamilyComponentType.cs" />
     <Compile Include="Models\FamilyGeometry.cs" />
     <Compile Include="Models\FamilyTemplate.cs" />
-    <Compile Include="Converters\ModelBase.cs" />
+    <Compile Include="BaseClasses\ModelBase.cs" />
     <Compile Include="Models\Parameter.cs" />
     <Compile Include="Models\Permission.cs" />
     <Compile Include="Models\ReferencePlane.cs" />
