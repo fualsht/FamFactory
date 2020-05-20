@@ -63,13 +63,9 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             MainWindow window = new MainWindow(this);
             if(window.ShowDialog() == true)
-            {
                 return true;
-            }
             else
-            {
                 return false;
-            }
         }
 
         public override bool CanAddElement()

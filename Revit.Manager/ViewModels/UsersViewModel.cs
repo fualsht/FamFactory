@@ -55,15 +55,14 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public override bool CanDeleteElement()
         {
-            bool canDeleteUser = true;
 
             if (SelectedElement == null)
-                canDeleteUser = false;
+                return false;
 
             if (SelectedElement.Name == "Admin")
-                canDeleteUser = false;
+                return false;
 
-            return canDeleteUser;
+            return true;
         }
 
         public override bool CanGoBack()

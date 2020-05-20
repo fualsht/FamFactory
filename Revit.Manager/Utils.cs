@@ -737,17 +737,22 @@ namespace ModBox.FamFactory.Revit.Manager
             System.Data.SQLite.SQLiteConnection connection = GetSQlteConnection(filePath);
             try
             {
-                System.Data.SQLite.SQLiteConnection.CreateFile(filePath);
-                using (connection)
+                if (!System.IO.File.Exists(filePath))
                 {
-                    connection.Open();
-                    using (System.Data.SQLite.SQLiteCommand command = new System.Data.SQLite.SQLiteCommand(script, connection))
+                    System.Data.SQLite.SQLiteConnection.CreateFile(filePath);
+                    using (connection)
                     {
-                        command.ExecuteNonQuery();
+                        connection.Open();
+                        using (System.Data.SQLite.SQLiteCommand command = new System.Data.SQLite.SQLiteCommand(script, connection))
+                        {
+                            command.ExecuteNonQuery();
+                        }
+                        connection.Close();
+                        return true;
                     }
-                    connection.Close();
-                    return true;
                 }
+                else
+                    return true;
             }
             catch (Exception ex)
             {
@@ -764,16 +769,18 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             try
             {
-                using (connection)
+                using (System.Data.SQLite.SQLiteConnection connec = new System.Data.SQLite.SQLiteConnection(connection))
                 {
-                    connection.Open();
+                    connec.Open();
                     foreach (DataTable table in dataSet.Tables)
                     {
-                        System.Data.SQLite.SQLiteCommand cmd = new System.Data.SQLite.SQLiteCommand(String.Format("Select * From '{0}'", table.TableName), connection);
-                        using (System.Data.SQLite.SQLiteDataReader reader = cmd.ExecuteReader())
-                            table.Load(reader);
+                        using (System.Data.SQLite.SQLiteCommand cmd = new System.Data.SQLite.SQLiteCommand(String.Format("Select * From '{0}'", table.TableName), connec))
+                        {
+                            using (System.Data.SQLite.SQLiteDataReader reader = cmd.ExecuteReader())
+                                table.Load(reader);
+                        }
                     }
-                    connection.Close();
+                    connec.Close();
                 }
             }
             catch (Exception ex)
@@ -786,22 +793,53 @@ namespace ModBox.FamFactory.Revit.Manager
             }
         }
 
-        public static bool SaveChanges(System.Data.SQLite.SQLiteConnection connection, DataTable dataTable)
+        public static void UpdateDataTableFromDataSource(System.Data.SQLite.SQLiteConnection connection, DataTable datatable)
         {
             try
             {
-                using (System.Data.SQLite.SQLiteDataAdapter adapter = new System.Data.SQLite.SQLiteDataAdapter(string.Format("Select * from '{0}'", dataTable.TableName), connection))
+                using (System.Data.SQLite.SQLiteConnection connec = new System.Data.SQLite.SQLiteConnection(connection))
                 {
-                    using (System.Data.SQLite.SQLiteCommandBuilder sqliteCmdBuilder = new System.Data.SQLite.SQLiteCommandBuilder(adapter))
+                    connec.Open();
+                    using (System.Data.SQLite.SQLiteCommand cmd = new System.Data.SQLite.SQLiteCommand(String.Format("Select * From '{0}'", datatable.TableName), connec))
                     {
-                        adapter.InsertCommand = sqliteCmdBuilder.GetInsertCommand();
-                        adapter.DeleteCommand = sqliteCmdBuilder.GetDeleteCommand();
-                        adapter.UpdateCommand = sqliteCmdBuilder.GetUpdateCommand();
-                        DataTable table = dataTable.GetChanges();
-                        connection.Open();
-                        adapter.Update(table);
-                        connection.Close();
-                        return true;
+                        using (System.Data.SQLite.SQLiteDataReader reader = cmd.ExecuteReader())
+                            datatable.Load(reader);
+                    }
+                    connec.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (connection != null)
+                {
+                    connection.Close();
+                }
+                string s = ex.Message;
+            }
+        }
+
+        public static bool SaveTableChangesToDatbase(System.Data.SQLite.SQLiteConnection connection, DataTable dataTable)
+        {
+            try
+            {
+                using (System.Data.SQLite.SQLiteConnection con = new System.Data.SQLite.SQLiteConnection(connection))
+                {
+                    using (System.Data.SQLite.SQLiteDataAdapter adapter = new System.Data.SQLite.SQLiteDataAdapter(string.Format("Select * from '{0}'", dataTable.TableName), con))
+                    {
+                        using (System.Data.SQLite.SQLiteCommandBuilder sqliteCmdBuilder = new System.Data.SQLite.SQLiteCommandBuilder(adapter))
+                        {
+                            adapter.InsertCommand = sqliteCmdBuilder.GetInsertCommand();
+                            adapter.DeleteCommand = sqliteCmdBuilder.GetDeleteCommand();
+                            adapter.UpdateCommand = sqliteCmdBuilder.GetUpdateCommand();
+                            DataTable table = dataTable.GetChanges();
+                            if (table != null)
+                            {
+                                con.Open();
+                                adapter.Update(table);
+                                con.Close();
+                            }
+                            return true;
+                        }
                     }
                 }
             }
@@ -816,13 +854,11 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             // To avoid storing the connection string in your code,
             // you can retrieve it from a configuration file.
-
             System.Data.SQLite.SQLiteConnectionStringBuilder connSB = new System.Data.SQLite.SQLiteConnectionStringBuilder();
             connSB.DataSource = dataBasePath;
             connSB.FailIfMissing = false;
-            System.Data.SQLite.SQLiteConnection sqLiteConnection1 = new System.Data.SQLite.SQLiteConnection(connSB.ConnectionString);
-
-            return sqLiteConnection1;
+            return new System.Data.SQLite.SQLiteConnection(connSB.ConnectionString);
+            
         }
 
        //public static string FamilyParamValueString(FamilyType t, FamilyParameter fp)

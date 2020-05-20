@@ -23,7 +23,7 @@ CREATE TABLE FF_Permissions (Id STRING (36, 36) PRIMARY KEY UNIQUE NOT NULL,   
                              Special BOOLEAN NOT NULL DEFAULT (TRUE));
 
 -- Table: FF_Users
-CREATE TABLE FF_Users(Id STRING (36, 36) PRIMARY KEY UNIQUE NOT NULL,                       Name STRING UNIQUE NOT NULL,                       FirstName TEXT NOT NULL,                       LastName STRING NOT NULL,                       Email STRING NOT NULL,                       Password BOOLEAN NOT NULL,                       ProfilePic BLOB,                       RegistrationDate DATETIME NOT NULL DEFAULT(datetime('Now')),                       LastLogInDate DATETIME NOT NULL DEFAULT(datetime('Now')),
+CREATE TABLE FF_Users(Id STRING (36, 36) PRIMARY KEY UNIQUE NOT NULL,                       Name STRING UNIQUE NOT NULL,                       FirstName STRING NOT NULL,                       LastName STRING NOT NULL,                       Email STRING NOT NULL,                       Password STRING NOT NULL,                       ProfilePic BLOB,                       RegistrationDate DATETIME NOT NULL DEFAULT(datetime('Now')),                       LastLogInDate DATETIME NOT NULL DEFAULT(datetime('Now')),
                       PermissionId STRING, State BOOLEAN NOT NULL DEFAULT(FALSE),
                       TempFolder STRING NOT NULL DEFAULT('C:\temp'),
                       CONSTRAINT UsersPermissionId_PermissionId FOREIGN KEY(PermissionId) REFERENCES FF_Permissions(Id));
@@ -101,7 +101,7 @@ CREATE TABLE FF_FamilyComponents (Id STRING (36, 36) PRIMARY KEY UNIQUE NOT NULL
 -- Table: FF_FamilyTemplateReferencePlanes
 CREATE TABLE FF_FamilyTemplateReferencePlanes (Id STRING (36, 36) PRIMARY KEY NOT NULL UNIQUE, 
                                                FamilyId STRING (36, 36) NOT NULL, 
-                                               Name STRING NOT NULL UNIQUE, 
+                                               Name STRING NOT NULL, 
                                                ElementId INTEGER NOT NULL DEFAULT (- 1), 
                                                UniqueId STRING, LevelId INTEGER NOT NULL DEFAULT (- 1), 
                                                ViewId INTEGER DEFAULT (- 1) NOT NULL, 
@@ -124,7 +124,7 @@ CREATE TABLE FF_FamilyTemplateReferencePlanes (Id STRING (36, 36) PRIMARY KEY NO
 
 CREATE TABLE FF_FamilyComponentReferencePlanes (Id STRING (36, 36) PRIMARY KEY NOT NULL UNIQUE, 
                                                 FamilyId STRING (36, 36) NOT NULL, 
-                                                Name STRING NOT NULL UNIQUE, 
+                                                Name STRING NOT NULL, 
                                                 ElementId INTEGER NOT NULL DEFAULT (- 1), 
                                                 UniqueId STRING, 
                                                 LevelId INTEGER NOT NULL DEFAULT (- 1), 
@@ -197,7 +197,7 @@ CREATE TABLE FF_FamilyComponentParameters (Id STRING (36, 36) UNIQUE PRIMARY KEY
 -- Table: FF_FamilyTemplateGeometry
 CREATE TABLE FF_FamilyTemplateGeometry (Id STRING (36, 36) NOT NULL UNIQUE PRIMARY KEY,
                                         FamilyId STRING (36, 36) NOT NULL, 
-                                        Name STRING NOT NULL UNIQUE, 
+                                        Name STRING NOT NULL, 
                                         ElementId STRING (36, 36) NOT NULL, 
                                         Description STRING, 
                                         GeometryType STRING NOT NULL DEFAULT ('SWEEP'), 
@@ -217,7 +217,7 @@ CREATE TABLE FF_FamilyTemplateGeometry (Id STRING (36, 36) NOT NULL UNIQUE PRIMA
 -- Table: FF_FamilyComponentGeometry
 CREATE TABLE FF_FamilyComponentGeometry (Id STRING (36, 36) NOT NULL UNIQUE PRIMARY KEY, 
                                          FamilyId STRING (36, 36) NOT NULL, 
-                                         Name STRING NOT NULL UNIQUE, 
+                                         Name STRING NOT NULL, 
                                          ElementId STRING (36, 36) NOT NULL, 
                                          Description STRING, 
                                          GeometryType STRING NOT NULL DEFAULT ('SWEEP'), 
