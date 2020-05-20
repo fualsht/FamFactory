@@ -24,7 +24,7 @@ namespace ModBox.FamFactory.Revit.Manager
         public MainWindow()
         {
             InitializeComponent();
-            FamFactoryViewModel famFactoryViewModel = new FamFactoryViewModel(dSet, Utils.GetSQlteConnection(@"c:\temp\famFactoryDatabase.db"));
+            FamFactoryViewModel famFactoryViewModel = new FamFactoryViewModel(dSet, FamFactoryDataSet.GetSQlteConnection(@"c:\temp\famFactoryDatabase.db"));
             this.DataContext = famFactoryViewModel;
         }
         public MainWindow(FamFactoryViewModel dataContext)

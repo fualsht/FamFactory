@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:ModBox.FamFactory.Revit.Manager"
       mc:Ignorable="d" MaxHeight="1000"
       Title="FamilyTemplatesView" Background="White" d:DataContext="{Binding Source={StaticResource FFVM}, Path=famFactoryViewModel}" >
     <Page.Resources>
@@ -11,6 +12,7 @@
                 <ResourceDictionary Source="/FamFactoryManager;component/AppResources/DataRosourses.xaml"/>
                 <ResourceDictionary Source="/FamFactoryManager;component/AppResources/MergedDictionaries.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <local:RevitUnitTypeEnumToStringConverter x:Key="FamTypeConverter"/>
         </ResourceDictionary>
     </Page.Resources>
     <Grid DataContext="{Binding FamilyTemplatesViewModel, Mode=OneWay}">

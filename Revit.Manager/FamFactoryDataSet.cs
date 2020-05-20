@@ -13,21 +13,6 @@ namespace ModBox.FamFactory.Revit.Manager
     {
         public static void InitilizeDataSet(System.Data.SQLite.SQLiteConnection connection, DataSet dataSet)
         {
-            bool isFirstLaunch = true;
-            using (System.Data.SQLite.SQLiteConnection con = new System.Data.SQLite.SQLiteConnection(connection))
-            {
-                try
-                {
-                    con.Open();
-                    isFirstLaunch = false;
-                    con.Close();
-                }
-                catch
-                {
-                    isFirstLaunch = true;
-                }
-            }
-
             InitilizePermissions(dataSet);
             InitilizeEmailProfiles(dataSet);
             InitilizeSystemConfigurationTable(dataSet);
@@ -41,18 +26,6 @@ namespace ModBox.FamFactory.Revit.Manager
             InitilizeFamilyComponentsGeometryTable(dataSet);
             InitilizeFamilyTemplateParametersTable(dataSet);
             InitilizeFamilyComponentsParametersTable(dataSet);
-
-            if (isFirstLaunch)
-            {
-                InstallSampleData(dataSet);
-                using (System.Data.SQLite.SQLiteConnection connect = new System.Data.SQLite.SQLiteConnection(connection))
-                {
-                    foreach (DataTable table in dataSet.Tables)
-                    {
-                        Utils.SaveTableChangesToDatbase(connect, table);
-                    }
-                }
-            }
         }
 
         private static void InitilizeEmailProfiles(DataSet dataSet)
@@ -231,7 +204,7 @@ namespace ModBox.FamFactory.Revit.Manager
             ThumbnailColumn.AllowDBNull = true;
 
             FamilyComponentTypes.PrimaryKey = new DataColumn[] { idColumn };
-            
+
             dataSet.Tables.Add(FamilyComponentTypes);
         }
 
@@ -1077,7 +1050,7 @@ namespace ModBox.FamFactory.Revit.Manager
             dataSet.Relations.Add(parametersDataRelation);
         }
 
-        private static void InstallSampleData(DataSet dataSet)
+        public static void InstallSampleData(System.Data.SQLite.SQLiteConnection connection, DataSet dataSet)
         {
             //Email Profile
             DataTable EmailprofilesTable = dataSet.Tables[TableNames.FF_EmailProfiles.ToString()];
@@ -1157,6 +1130,143 @@ namespace ModBox.FamFactory.Revit.Manager
             SystemConfigDataRow[SystemConfiguration.SystemConfigurationTableColumnNames.AppVersion.ToString()] = "v.1.0.0";
             SystemConfigDataRow[SystemConfiguration.SystemConfigurationTableColumnNames.DataBaseVersion.ToString()] = "v.1.0.0";
             SysConfigTable.Rows.Add(SystemConfigDataRow);
+
+            using (System.Data.SQLite.SQLiteConnection connect = new System.Data.SQLite.SQLiteConnection(connection))
+            {
+                foreach (DataTable table in dataSet.Tables)
+                {
+                    FamFactoryDataSet.SaveTableChangesToDatbase(connect, table);
+                }
+            }
+        }
+
+        public static bool CreateSQliteDataBase(string filePath, string script)
+        {
+            System.Data.SQLite.SQLiteConnection connection = GetSQlteConnection(filePath);
+            try
+            {
+                if (!System.IO.File.Exists(filePath))
+                {
+                    System.Data.SQLite.SQLiteConnection.CreateFile(filePath);
+                    using (connection)
+                    {
+                        connection.Open();
+                        using (System.Data.SQLite.SQLiteCommand command = new System.Data.SQLite.SQLiteCommand(script, connection))
+                        {
+                            command.ExecuteNonQuery();
+                        }
+                        connection.Close();
+                        return true;
+                    }
+                }
+                else
+                    return true;
+            }
+            catch (Exception ex)
+            {
+                if (connection != null)
+                {
+                    connection.Close();
+                }
+                string s = ex.Message;
+                return false;
+            }
+        }
+
+        public static void UpdateDataSetFromDataSource(System.Data.SQLite.SQLiteConnection connection, DataSet dataSet)
+        {
+            try
+            {
+                using (System.Data.SQLite.SQLiteConnection connec = new System.Data.SQLite.SQLiteConnection(connection))
+                {
+                    connec.Open();
+                    foreach (DataTable table in dataSet.Tables)
+                    {
+                        using (System.Data.SQLite.SQLiteCommand cmd = new System.Data.SQLite.SQLiteCommand(String.Format("Select * From '{0}'", table.TableName), connec))
+                        {
+                            using (System.Data.SQLite.SQLiteDataReader reader = cmd.ExecuteReader())
+                                table.Load(reader);
+                        }
+                    }
+                    connec.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (connection != null)
+                {
+                    connection.Close();
+                }
+                string s = ex.Message;
+            }
+        }
+
+        public static void UpdateDataTableFromDataSource(System.Data.SQLite.SQLiteConnection connection, DataTable datatable)
+        {
+            try
+            {
+                using (System.Data.SQLite.SQLiteConnection connec = new System.Data.SQLite.SQLiteConnection(connection))
+                {
+                    connec.Open();
+                    using (System.Data.SQLite.SQLiteCommand cmd = new System.Data.SQLite.SQLiteCommand(String.Format("Select * From '{0}'", datatable.TableName), connec))
+                    {
+                        using (System.Data.SQLite.SQLiteDataReader reader = cmd.ExecuteReader())
+                            datatable.Load(reader);
+                    }
+                    connec.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (connection != null)
+                {
+                    connection.Close();
+                }
+                string s = ex.Message;
+            }
+        }
+
+        public static bool SaveTableChangesToDatbase(System.Data.SQLite.SQLiteConnection connection, DataTable dataTable)
+        {
+            try
+            {
+                using (System.Data.SQLite.SQLiteConnection con = new System.Data.SQLite.SQLiteConnection(connection))
+                {
+                    using (System.Data.SQLite.SQLiteDataAdapter adapter = new System.Data.SQLite.SQLiteDataAdapter(string.Format("Select * from '{0}'", dataTable.TableName), con))
+                    {
+                        using (System.Data.SQLite.SQLiteCommandBuilder sqliteCmdBuilder = new System.Data.SQLite.SQLiteCommandBuilder(adapter))
+                        {
+                            adapter.InsertCommand = sqliteCmdBuilder.GetInsertCommand();
+                            adapter.DeleteCommand = sqliteCmdBuilder.GetDeleteCommand();
+                            adapter.UpdateCommand = sqliteCmdBuilder.GetUpdateCommand();
+                            DataTable table = dataTable.GetChanges();
+                            if (table != null)
+                            {
+                                con.Open();
+                                adapter.Update(table);
+                                con.Close();
+                            }
+                            return true;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                connection.Close();
+                throw new Exception("Failed to Update FamFactoryTemplateItems!", ex);
+            }
+        }
+
+        public static System.Data.SQLite.SQLiteConnection GetSQlteConnection(string dataBasePath)
+        {
+            // To avoid storing the connection string in your code,
+            // you can retrieve it from a configuration file.
+            System.Data.SQLite.SQLiteConnectionStringBuilder connSB = new System.Data.SQLite.SQLiteConnectionStringBuilder();
+            connSB.DataSource = dataBasePath;
+            connSB.FailIfMissing = false;
+            return new System.Data.SQLite.SQLiteConnection(connSB.ConnectionString);
+
         }
     }
 }

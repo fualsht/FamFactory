@@ -96,13 +96,21 @@ namespace ModBox.FamFactory.Revit
         private void ControlledApplication_ApplicationInitialized(object sender, Autodesk.Revit.DB.Events.ApplicationInitializedEventArgs e)
         {
             RevitApplicationService = sender as Autodesk.Revit.ApplicationServices.Application;
-            Utils.CreateSQliteDataBase(@"c:\temp\famFactoryDatabase.db", Resources.FamFactoryDBTables);
-            sQLiteConnection = Utils.GetSQlteConnection(@"c:\temp\famFactoryDatabase.db");
+            sQLiteConnection = FamFactoryDataSet.GetSQlteConnection(@"c:\temp\famFactoryDatabase.db");
             famFactoryDataSet = new DataSet("famFactoryDatabase");
-            
-            FamFactoryDataSet.InitilizeDataSet(sQLiteConnection, famFactoryDataSet); // (@"c:\temp\famFactoryDatabase.db");
+
+            string file = @"c:\temp\famFactoryDatabase.db";
+            if (!System.IO.File.Exists(file))
+            {
+                FamFactoryDataSet.CreateSQliteDataBase(file, Resources.FamFactoryDBTables);
+                FamFactoryDataSet.InstallSampleData(sQLiteConnection, famFactoryDataSet);
+            }
+
+            FamFactoryDataSet.InitilizeDataSet(sQLiteConnection, famFactoryDataSet);
             famFactoryManager = new FamFactoryViewModel(famFactoryDataSet, sQLiteConnection, RevitApplicationService);
             famFactoryManager.LogIn(famFactoryManager.UsersViewModel.InternalCollection[0]);
+
+
             //installationConfiguration = new DataProvidor.Installation.InstallationConfiguration();
             //installationConfiguration.Load("config.xml");
             //famFactoryDBContext = ModBox.FamFactory.DataProvidor.FamFactoryDBContext.Instance(installationConfiguration.connectionData);

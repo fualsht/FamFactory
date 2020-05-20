@@ -25,7 +25,7 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public FamFactoryViewModel(DataSet dataset, System.Data.SQLite.SQLiteConnection sQLiteConnection) : base(dataset, sQLiteConnection)
         {
-            Utils.UpdateDataSetFromDataSource(sQLiteConnection, InternalDataSet);
+            FamFactoryDataSet.UpdateDataSetFromDataSource(sQLiteConnection, InternalDataSet);
             StartApplication();
         }
 
@@ -38,7 +38,7 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             try
             {
-                Utils.UpdateDataSetFromDataSource(SQLiteConnection, InternalDataSet);
+                FamFactoryDataSet.UpdateDataSetFromDataSource(SQLiteConnection, InternalDataSet);
                 _UsersViewModel = new UsersViewModel(InternalDataSet, SQLiteConnection);
                 _FamilyTemplatesViewModel = new FamilyTemplatesViewModel(InternalDataSet, SQLiteConnection, ADSKApplciation);
                 _FamilyComponentViewModel = new FamFactoryComponentViewModel(InternalDataSet, SQLiteConnection, ADSKApplciation);

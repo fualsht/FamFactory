@@ -189,10 +189,10 @@ namespace ModBox.FamFactory.Revit.Manager
         public override void SaveElement(FamilyTemplate element)
         {
             element.EndEdit();
-            Utils.SaveTableChangesToDatbase(SQLiteConnection, TemplateDataView.Table);
-            Utils.SaveTableChangesToDatbase(SQLiteConnection, InternalDataSet.Tables[TableNames.FF_FamilyTemplateParameters.ToString()]); 
-            Utils.SaveTableChangesToDatbase(SQLiteConnection, InternalDataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()]);
-            Utils.SaveTableChangesToDatbase(SQLiteConnection, InternalDataSet.Tables[TableNames.FF_FamilyTemplateGeometry.ToString()]);
+            FamFactoryDataSet.SaveTableChangesToDatbase(SQLiteConnection, TemplateDataView.Table);
+            FamFactoryDataSet.SaveTableChangesToDatbase(SQLiteConnection, InternalDataSet.Tables[TableNames.FF_FamilyTemplateParameters.ToString()]);
+            FamFactoryDataSet.SaveTableChangesToDatbase(SQLiteConnection, InternalDataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()]);
+            FamFactoryDataSet.SaveTableChangesToDatbase(SQLiteConnection, InternalDataSet.Tables[TableNames.FF_FamilyTemplateGeometry.ToString()]);
         }
 
         private void FamilyTemplatesViewModel_OnSelectionChagned(object sender, EventArgs e)

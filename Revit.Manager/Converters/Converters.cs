@@ -53,12 +53,12 @@ namespace ModBox.FamFactory.Revit.Manager
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             Autodesk.Revit.DB.UnitType type = (Autodesk.Revit.DB.UnitType)value;
-            return type.ToString();
+            return value;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            return value;
         }
     }
 }
