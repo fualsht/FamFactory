@@ -4,5 +4,9 @@
 
     <local:FamFactoryApplication x:Key="FFVM"/>
     <local:FileSizeConverter x:Key="FileSizeConvert"/>
-    <local:RevitUnitTypeEnumToStringConverter x:Key="FamTypeConverter"/>
+    <local:RevitUnitTypeEnumToStringConverter x:Key="FamUnitTypeConverter"/>
+    <local:RevitDisplayUnitTypeToStringConverter x:Key="FamDispUnitTypeConverter"/>
+    <local:RevitParameterTypeToStringConverter x:Key="FamParamTypeConverter"/>
+    <local:RevitStorageTypeToStringConverter x:Key="FamStorageTypeConverter"/>
+    <local:RevitParameterGroupToStringConverter x:Key="FamParamGroupConverter"/>
 </ResourceDictionary>

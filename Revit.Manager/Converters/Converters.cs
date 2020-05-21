@@ -53,7 +53,63 @@ namespace ModBox.FamFactory.Revit.Manager
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             Autodesk.Revit.DB.UnitType type = (Autodesk.Revit.DB.UnitType)value;
+            return type.ToString();
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
             return value;
+        }
+    }
+
+    public class RevitDisplayUnitTypeToStringConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            Autodesk.Revit.DB.DisplayUnitType type = (Autodesk.Revit.DB.DisplayUnitType)value;
+            return type.ToString();
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value;
+        }
+    }
+
+    public class RevitStorageTypeToStringConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            Autodesk.Revit.DB.StorageType type = (Autodesk.Revit.DB.StorageType)value;
+            return type.ToString();
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value;
+        }
+    }
+
+    public class RevitParameterTypeToStringConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            Autodesk.Revit.DB.ParameterType type = (Autodesk.Revit.DB.ParameterType)value;
+            return type.ToString();
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value;
+        }
+    }
+
+    public class RevitParameterGroupToStringConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            Autodesk.Revit.DB.BuiltInParameterGroup type = (Autodesk.Revit.DB.BuiltInParameterGroup)value;
+            return type.ToString();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
