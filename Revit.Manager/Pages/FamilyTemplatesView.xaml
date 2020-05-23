@@ -12,7 +12,6 @@
                 <ResourceDictionary Source="/FamFactoryManager;component/AppResources/DataRosourses.xaml"/>
                 <ResourceDictionary Source="/FamFactoryManager;component/AppResources/MergedDictionaries.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <local:RevitUnitTypeEnumToStringConverter x:Key="FamTypeConverter"/>
         </ResourceDictionary>
     </Page.Resources>
     <Grid DataContext="{Binding FamilyTemplatesViewModel, Mode=OneWay}">

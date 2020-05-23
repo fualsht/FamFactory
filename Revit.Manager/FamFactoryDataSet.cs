@@ -26,6 +26,8 @@ namespace ModBox.FamFactory.Revit.Manager
             InitilizeFamilyComponentsGeometryTable(dataSet);
             InitilizeFamilyTemplateParametersTable(dataSet);
             InitilizeFamilyComponentsParametersTable(dataSet);
+
+            
         }
 
         private static void InitilizeEmailProfiles(DataSet dataSet)
@@ -1140,7 +1142,7 @@ namespace ModBox.FamFactory.Revit.Manager
             }
         }
 
-        public static bool CreateSQliteDataBase(string filePath, string script)
+        public static bool CreateSQliteDataBase(string filePath, string script, DataSet set)
         {
             System.Data.SQLite.SQLiteConnection connection = GetSQlteConnection(filePath);
             try
@@ -1156,6 +1158,7 @@ namespace ModBox.FamFactory.Revit.Manager
                             command.ExecuteNonQuery();
                         }
                         connection.Close();
+                        FamFactoryDataSet.InitilizeDataSet(connection, set);
                         return true;
                     }
                 }

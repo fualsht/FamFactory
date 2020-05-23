@@ -102,13 +102,15 @@ namespace ModBox.FamFactory.Revit
             string file = @"c:\temp\famFactoryDatabase.db";
             if (!System.IO.File.Exists(file))
             {
-                FamFactoryDataSet.CreateSQliteDataBase(file, Resources.FamFactoryDBTables);
+                FamFactoryDataSet.CreateSQliteDataBase(file, Resources.FamFactoryDBTables, famFactoryDataSet);
                 FamFactoryDataSet.InstallSampleData(sQLiteConnection, famFactoryDataSet);
             }
+            else
+                FamFactoryDataSet.InitilizeDataSet(sQLiteConnection, famFactoryDataSet);
 
-            FamFactoryDataSet.InitilizeDataSet(sQLiteConnection, famFactoryDataSet);
             famFactoryManager = new FamFactoryViewModel(famFactoryDataSet, sQLiteConnection, RevitApplicationService);
-            famFactoryManager.LogIn(famFactoryManager.UsersViewModel.InternalCollection[0]);
+            User u = famFactoryManager.UsersViewModel.InternalCollection[0];
+            famFactoryManager.LogIn(u);
 
 
             //installationConfiguration = new DataProvidor.Installation.InstallationConfiguration();

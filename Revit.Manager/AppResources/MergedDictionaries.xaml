@@ -1,14 +1,12 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/FamFactoryManager;component/AppResources/DataRosourses.xaml"/>
         <ResourceDictionary Source="/FamFactoryManager;component/Styles/ThemeColors.xaml"/>
         <ResourceDictionary Source="/FamFactoryManager;component/Styles/GroupBoxs.xaml"/>
         <ResourceDictionary Source="/FamFactoryManager;component/Styles/TextBoxes.xaml"/>
         <ResourceDictionary Source="/FamFactoryManager;component/Styles/ComboBoxes.xaml"/>
         <ResourceDictionary Source="/FamFactoryManager;component/Styles/TextBlocks.xaml"/>
         <ResourceDictionary Source="/FamFactoryManager;component/Styles/ListBoxStyles.xaml"/>
-        <ResourceDictionary Source="/FamFactoryManager;component/Styles/ListViewStyles.xaml"/>
         <ResourceDictionary Source="/FamFactoryManager;component/Styles/BorderStyles.xaml"/>
         <ResourceDictionary Source="/FamFactoryManager;component/Styles/Buttons.xaml"/>
         <ResourceDictionary Source="/FamFactoryManager;component/Styles/ScrollViewers.xaml"/>

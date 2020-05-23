@@ -13,6 +13,7 @@
                 <ResourceDictionary Source="/FamFactoryManager;component/AppResources/DataRosourses.xaml"/>
                 <ResourceDictionary Source="/FamFactoryManager;component/AppResources/MergedDictionaries.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <local:FamFactoryApplication x:Key="FamFactoryApplication"/>
         </ResourceDictionary>
     </Page.Resources>
     <Grid>

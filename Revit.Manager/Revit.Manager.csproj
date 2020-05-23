@@ -93,6 +93,9 @@
     <Compile Include="Models\ReferencePlane.cs" />
     <Compile Include="Models\SystemConfiguration.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Pages\FamilyBuilder.xaml.cs">
+      <DependentUpon>FamilyBuilder.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\FamilyComponentView.xaml.cs">
       <DependentUpon>FamilyComponentView.xaml</DependentUpon>
     </Compile>
@@ -149,11 +152,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Styles\ListViewStyles.xaml">
+    <Page Include="AppResources\MergedDictionaries.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Page Include="AppResources\MergedDictionaries.xaml">
+    </Page>
+    <Page Include="Pages\FamilyBuilder.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -185,10 +188,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Resource>
-    <Resource Include="AppResources\DataRosourses.xaml">
+    <Page Include="AppResources\DataRosourses.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Resource>
+    </Page>
     <Page Include="MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
