@@ -234,5 +234,17 @@ CREATE TABLE FF_FamilyComponentGeometry (Id STRING (36, 36) NOT NULL UNIQUE PRIM
                                          IsSolid BOOLEAN NOT NULL DEFAULT (true), 
                                          CONSTRAINT FamilyComponentGeometryFamilyId_FamilyComponentsId FOREIGN KEY (FamilyId) REFERENCES FF_FamilyComponents (Id));
 
+-- Table: FF_FamilyTemplateComponents
+CREATE TABLE FF_FamilyTemplateComponents (Id STRING (36, 36) PRIMARY KEY UNIQUE NOT NULL, 
+                                          Name STRING NOT NULL, Description STRING, 
+                                          XRefferencePlaneId STRING (36, 36), 
+                                          YRefferencePlaneId STRING (36, 36), 
+                                          ZRefferencePlaneId STRING (36, 36), 
+                                          FamilyId STRING (36, 36) NOT NULL, 
+                                          CONSTRAINT FamilyTemplateComponentsFamilyId_FamilyTemplateId FOREIGN KEY (FamilyId) REFERENCES FF_FamilyTemplates (Id), 
+                                          CONSTRAINT FamilyTemplateComponentsXRefferencePlaneId_FamilyTemplateReferencePlanesId FOREIGN KEY (XRefferencePlaneId) REFERENCES FF_FamilyTemplateReferencePlanes (Id), 
+                                          CONSTRAINT FamilyTemplateComponentsYRefferencePlaneId_FamilyTemplateReferencePlanesId FOREIGN KEY (YRefferencePlaneId) REFERENCES FF_FamilyTemplateReferencePlanes (Id), 
+                                          CONSTRAINT FamilyTemplateComponentsZRefferencePlaneId_FamilyTemplateReferencePlanesId FOREIGN KEY (ZRefferencePlaneId) REFERENCES FF_FamilyTemplateReferencePlanes (Id));
+
 
 COMMIT TRANSACTION;

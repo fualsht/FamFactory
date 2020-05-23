@@ -26,8 +26,10 @@ namespace ModBox.FamFactory.Revit.Manager
             InitilizeFamilyComponentsGeometryTable(dataSet);
             InitilizeFamilyTemplateParametersTable(dataSet);
             InitilizeFamilyComponentsParametersTable(dataSet);
-
-            
+            InitilizeFamilyTemplateComponentsTable(dataSet);
+            InitilizeFamilyBuildsTable(dataSet);
+            InitilizeFamilyBuildComponentsTable(dataSet);
+            InitilizeFamilyBuildComponentBuildPositions(dataSet);
         }
 
         private static void InitilizeEmailProfiles(DataSet dataSet)
@@ -1052,6 +1054,223 @@ namespace ModBox.FamFactory.Revit.Manager
             dataSet.Relations.Add(parametersDataRelation);
         }
 
+        private static void InitilizeFamilyTemplateComponentsTable(DataSet dataSet)
+        {
+            DataTable FamilyTemplateComponentsTable = new DataTable(TableNames.FF_FamilyTemplateComponents.ToString());
+
+            DataColumn IdColumn = FamilyTemplateComponentsTable.Columns.Add(FamilyTemplateComponent.TemplateComponentColumnNames.Id.ToString(), typeof(string));
+            IdColumn.AllowDBNull = false;
+            IdColumn.Unique = true;
+
+            DataColumn FamilyIdColumn = FamilyTemplateComponentsTable.Columns.Add(FamilyTemplateComponent.TemplateComponentColumnNames.FamilyId.ToString(), typeof(string));
+            FamilyIdColumn.AllowDBNull = false;
+            FamilyIdColumn.Unique = false;
+
+            DataColumn NameColumn = FamilyTemplateComponentsTable.Columns.Add(FamilyTemplateComponent.TemplateComponentColumnNames.Name.ToString(), typeof(string));
+            NameColumn.AllowDBNull = false;
+            NameColumn.DefaultValue = "New Template Component";
+            NameColumn.Unique = false;
+
+            DataColumn DescriptionColumn = FamilyTemplateComponentsTable.Columns.Add(FamilyTemplateComponent.TemplateComponentColumnNames.Description.ToString(), typeof(string));
+            DescriptionColumn.AllowDBNull = false;
+            DescriptionColumn.Unique = false;
+
+            DataColumn XRefferencePlaneIdColumn = FamilyTemplateComponentsTable.Columns.Add(FamilyTemplateComponent.TemplateComponentColumnNames.XRefferencePlaneId.ToString(), typeof(string));
+            XRefferencePlaneIdColumn.AllowDBNull = true;
+            XRefferencePlaneIdColumn.Unique = false;
+
+            DataColumn YRefferencePlaneIdColumn = FamilyTemplateComponentsTable.Columns.Add(FamilyTemplateComponent.TemplateComponentColumnNames.YRefferencePlaneId.ToString(), typeof(string));
+            YRefferencePlaneIdColumn.AllowDBNull = true;
+            YRefferencePlaneIdColumn.Unique = false;
+
+            DataColumn ZRefferencePlaneIdColumn = FamilyTemplateComponentsTable.Columns.Add(FamilyTemplateComponent.TemplateComponentColumnNames.ZRefferencePlaneId.ToString(), typeof(string));
+            ZRefferencePlaneIdColumn.AllowDBNull = true;
+            ZRefferencePlaneIdColumn.Unique = false;
+
+            FamilyTemplateComponentsTable.PrimaryKey = new DataColumn[] { IdColumn };
+            dataSet.Tables.Add(FamilyTemplateComponentsTable);
+
+            DataRelation TemplateIdDataRelation = new DataRelation(TableRelations.FamilyTemplateComponentsFamilyId_FamilyTemplateId.ToString(),
+                dataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].Columns["Id"],
+                dataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].Columns[FamilyTemplateComponent.TemplateComponentColumnNames.FamilyId.ToString()]);
+            dataSet.Relations.Add(TemplateIdDataRelation);
+
+            DataRelation ReferencePlaneIdXDataRelation = new DataRelation(TableRelations.FamilyTemplateComponentsXRefferencePlaneId_FamilyTemplateReferencePlanesId.ToString(),
+                dataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].Columns["Id"],
+                dataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].Columns[FamilyTemplateComponent.TemplateComponentColumnNames.FamilyId.ToString()]);
+            dataSet.Relations.Add(ReferencePlaneIdXDataRelation);
+
+            DataRelation ReferencePlaneIdYDataRelation = new DataRelation(TableRelations.FamilyTemplateComponentsYRefferencePlaneId_FamilyTemplateReferencePlanesId.ToString(),
+                dataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].Columns["Id"],
+                dataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].Columns[FamilyTemplateComponent.TemplateComponentColumnNames.FamilyId.ToString()]);
+            dataSet.Relations.Add(ReferencePlaneIdYDataRelation);
+
+            DataRelation ReferencePlaneIdZDataRelation = new DataRelation(TableRelations.FamilyTemplateComponentsZRefferencePlaneId_FamilyTemplateReferencePlanesId.ToString(),
+                dataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].Columns["Id"],
+                dataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].Columns[FamilyTemplateComponent.TemplateComponentColumnNames.FamilyId.ToString()]);
+            dataSet.Relations.Add(ReferencePlaneIdZDataRelation);
+        }
+
+        private static void InitilizeFamilyBuildsTable(DataSet dataSet)
+        {
+            DataTable FamilyBuildsTable = new DataTable(TableNames.FF_FamilyBuilds.ToString());
+
+            DataColumn IdColumn = FamilyBuildsTable.Columns.Add(FamilyBuild.FamilyBuildsColumnNames.Id.ToString(), typeof(string));
+            IdColumn.AllowDBNull = false;
+            IdColumn.Unique = true;
+
+            DataColumn FamilyIdColumn = FamilyBuildsTable.Columns.Add(FamilyBuild.FamilyBuildsColumnNames.FamilyId.ToString(), typeof(string));
+            FamilyIdColumn.AllowDBNull = false;
+            FamilyIdColumn.Unique = false;
+
+            DataColumn NameColumn = FamilyBuildsTable.Columns.Add(FamilyBuild.FamilyBuildsColumnNames.Name.ToString(), typeof(string));
+            NameColumn.AllowDBNull = false;
+            NameColumn.DefaultValue = "New Template Component";
+            NameColumn.Unique = false;
+
+            DataColumn DescriptionColumn = FamilyBuildsTable.Columns.Add(FamilyBuild.FamilyBuildsColumnNames.Description.ToString(), typeof(string));
+            DescriptionColumn.AllowDBNull = false;
+            DescriptionColumn.Unique = false;
+
+            FamilyBuildsTable.PrimaryKey = new DataColumn[] { IdColumn };
+            dataSet.Tables.Add(FamilyBuildsTable);
+
+            DataRelation TemplateIdDataRelation = new DataRelation(TableRelations.FamilyBuildsFamilyId_FamilyTemplatesId.ToString(),
+                dataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].Columns["Id"],
+                dataSet.Tables[TableNames.FF_FamilyBuilds.ToString()].Columns[FamilyBuild.FamilyBuildsColumnNames.FamilyId.ToString()]);
+            dataSet.Relations.Add(TemplateIdDataRelation);
+        }
+
+        private static void InitilizeFamilyBuildComponentsTable(DataSet dataSet)
+        {
+            DataTable FamilyBuildComponentPositionsTable = new DataTable(TableNames.FF_FamilyBuildComponents.ToString());
+
+            DataColumn IdColumn = FamilyBuildComponentPositionsTable.Columns.Add(FamilyBuildComponent.FamilyBuildComponentsColumnNames.Id.ToString(), typeof(string));
+            IdColumn.AllowDBNull = false;
+            IdColumn.Unique = true;
+
+            DataColumn FamilyBuildIdColumn = FamilyBuildComponentPositionsTable.Columns.Add(FamilyBuildComponent.FamilyBuildComponentsColumnNames.FamilyBuildId.ToString(), typeof(string));
+            FamilyBuildIdColumn.AllowDBNull = false;
+            FamilyBuildIdColumn.Unique = false;
+
+            DataColumn FamilyComponentIdColumn = FamilyBuildComponentPositionsTable.Columns.Add(FamilyBuildComponent.FamilyBuildComponentsColumnNames.FamilyComponentId.ToString(), typeof(string));
+            FamilyComponentIdColumn.AllowDBNull = false;
+            FamilyComponentIdColumn.Unique = false;            
+
+            FamilyBuildComponentPositionsTable.PrimaryKey = new DataColumn[] { IdColumn };
+            dataSet.Tables.Add(FamilyBuildComponentPositionsTable);
+
+            DataRelation FamilyBuildComponentDataRelation = new DataRelation(TableRelations.FamilyBuildComponentFamilyComponentId_FamilyComponentsId.ToString(),
+                dataSet.Tables[TableNames.FF_FamilyComponents.ToString()].Columns["Id"],
+                dataSet.Tables[TableNames.FF_FamilyBuildComponents.ToString()].Columns[FamilyBuildComponent.FamilyBuildComponentsColumnNames.FamilyComponentId.ToString()]);
+            dataSet.Relations.Add(FamilyBuildComponentDataRelation);
+
+            DataRelation FamilyBuildDataRelation = new DataRelation(TableRelations.FamilyBuildsFamilyId_FamilyTemplatesId.ToString(),
+                dataSet.Tables[TableNames.FF_FamilyBuilds.ToString()].Columns["Id"],
+                dataSet.Tables[TableNames.FF_FamilyComponents.ToString()].Columns[FamilyBuildComponent.FamilyBuildComponentsColumnNames.FamilyBuildId.ToString()]);
+            dataSet.Relations.Add(FamilyBuildDataRelation);
+        }
+
+        public static void InitilizeFamilyBuildComponentBuildPositions(DataSet dataSet)
+        {
+            DataTable FamilyBuildComponentPositionsTable = new DataTable(TableNames.FF_FamilyBuildComponents.ToString());
+
+            DataColumn IdColumn = FamilyBuildComponentPositionsTable.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.Id.ToString(), typeof(string));
+            IdColumn.AllowDBNull = false;
+            IdColumn.Unique = true;
+
+            DataColumn FamilyBuildComponentIdColumn = FamilyBuildComponentPositionsTable.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.FamilyBuildComponentId.ToString(), typeof(string));
+            FamilyBuildComponentIdColumn.AllowDBNull = false;
+            FamilyBuildComponentIdColumn.Unique = false;
+
+            DataColumn TemplateReferencePlaneXIdColumn = FamilyBuildComponentPositionsTable.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.TemplateReferencePlaneXId.ToString(), typeof(string));
+            TemplateReferencePlaneXIdColumn.AllowDBNull = false;
+            TemplateReferencePlaneXIdColumn.Unique = false;
+
+            DataColumn TemplateReferencePlaneYIdColumn = FamilyBuildComponentPositionsTable.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.TemplateReferencePlaneYId.ToString(), typeof(string));
+            TemplateReferencePlaneYIdColumn.AllowDBNull = false;
+            TemplateReferencePlaneYIdColumn.Unique = false;
+
+            DataColumn TemplateReferencePlaneZIdColumn = FamilyBuildComponentPositionsTable.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.TemplateReferencePlaneZId.ToString(), typeof(string));
+            TemplateReferencePlaneZIdColumn.AllowDBNull = false;
+            TemplateReferencePlaneZIdColumn.Unique = false;
+
+            DataColumn ComponentRefernecePLaneXIdColumn = FamilyBuildComponentPositionsTable.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.ComponentRefernecePlaneXId.ToString(), typeof(string));
+            ComponentRefernecePLaneXIdColumn.AllowDBNull = false;
+            ComponentRefernecePLaneXIdColumn.Unique = false;
+
+            DataColumn ComponentRefernecePLaneYIdColumn = FamilyBuildComponentPositionsTable.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.ComponentRefernecePlaneYId.ToString(), typeof(string));
+            ComponentRefernecePLaneYIdColumn.AllowDBNull = false;
+            ComponentRefernecePLaneYIdColumn.Unique = false;
+
+            DataColumn ComponentRefernecePLaneZIdColumn = FamilyBuildComponentPositionsTable.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.ComponentRefernecePlaneZId.ToString(), typeof(string));
+            ComponentRefernecePLaneZIdColumn.AllowDBNull = false;
+            ComponentRefernecePLaneZIdColumn.Unique = false;
+
+            DataColumn XOffsetColumn = FamilyBuildComponentPositionsTable.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.XOffset.ToString(), typeof(double));
+            XOffsetColumn.AllowDBNull = false;
+            XOffsetColumn.Unique = false;
+            XOffsetColumn.DefaultValue = 0;
+
+            DataColumn YOffsetColumn = FamilyBuildComponentPositionsTable.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.YOffset.ToString(), typeof(double));
+            YOffsetColumn.AllowDBNull = false;
+            YOffsetColumn.Unique = false;
+            YOffsetColumn.DefaultValue = 0;
+
+            DataColumn ZOffsetColumn = FamilyBuildComponentPositionsTable.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.ZOffset.ToString(), typeof(double));
+            ZOffsetColumn.AllowDBNull = false;
+            ZOffsetColumn.Unique = false;
+            ZOffsetColumn.DefaultValue = 0;
+
+            DataColumn XRotateColumn = FamilyBuildComponentPositionsTable.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.XRotate.ToString(), typeof(double));
+            XRotateColumn.AllowDBNull = false;
+            XRotateColumn.Unique = false;
+            XRotateColumn.DefaultValue = 0;
+
+            DataColumn YRotateColumn = FamilyBuildComponentPositionsTable.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.YRotate.ToString(), typeof(double));
+            YRotateColumn.AllowDBNull = false;
+            YRotateColumn.Unique = false;
+            YRotateColumn.DefaultValue = 0;
+
+            DataColumn ZRotateColumn = FamilyBuildComponentPositionsTable.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.ZRotate.ToString(), typeof(double));
+            ZRotateColumn.AllowDBNull = false;
+            ZRotateColumn.Unique = false;
+            ZRotateColumn.DefaultValue = 0;
+
+            FamilyBuildComponentPositionsTable.PrimaryKey = new DataColumn[] { IdColumn };
+            dataSet.Tables.Add(FamilyBuildComponentPositionsTable);
+
+            DataRelation TemplateReferencePlaneXIdDataRelation = new DataRelation(TableRelations.FamilyBuildsFamilyId_FamilyTemplatesId.ToString(),
+                dataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()].Columns["Id"],
+                dataSet.Tables[TableNames.FF_FamilyBuildComponentPositions.ToString()].Columns[FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.TemplateReferencePlaneXId.ToString()]);
+            dataSet.Relations.Add(TemplateReferencePlaneXIdDataRelation);
+
+            DataRelation TemplateReferencePlaneYIdDataRelation = new DataRelation(TableRelations.FamilyBuildsFamilyId_FamilyTemplatesId.ToString(),
+                dataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()].Columns["Id"],
+                dataSet.Tables[TableNames.FF_FamilyBuildComponentPositions.ToString()].Columns[FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.TemplateReferencePlaneYId.ToString()]);
+            dataSet.Relations.Add(TemplateReferencePlaneYIdDataRelation);
+
+            DataRelation TemplateReferencePlaneZIdDataRelation = new DataRelation(TableRelations.FamilyBuildsFamilyId_FamilyTemplatesId.ToString(),
+                dataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()].Columns["Id"],
+                dataSet.Tables[TableNames.FF_FamilyBuildComponentPositions.ToString()].Columns[FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.TemplateReferencePlaneZId.ToString()]);
+            dataSet.Relations.Add(TemplateReferencePlaneZIdDataRelation);
+
+            DataRelation ComponentRefernecePlaneXIdDataRelation = new DataRelation(TableRelations.FamilyBuildsFamilyId_FamilyTemplatesId.ToString(),
+                dataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()].Columns["Id"],
+                dataSet.Tables[TableNames.FF_FamilyBuildComponentPositions.ToString()].Columns[FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.ComponentRefernecePlaneXId.ToString()]);
+            dataSet.Relations.Add(ComponentRefernecePlaneXIdDataRelation);
+
+            DataRelation ComponentRefernecePlaneYIdDataRelation = new DataRelation(TableRelations.FamilyBuildsFamilyId_FamilyTemplatesId.ToString(),
+                dataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()].Columns["Id"],
+                dataSet.Tables[TableNames.FF_FamilyBuildComponentPositions.ToString()].Columns[FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.ComponentRefernecePlaneYId.ToString()]);
+            dataSet.Relations.Add(ComponentRefernecePlaneYIdDataRelation);
+
+            DataRelation ComponentRefernecePlaneZIdDataRelation = new DataRelation(TableRelations.FamilyBuildsFamilyId_FamilyTemplatesId.ToString(),
+                dataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()].Columns["Id"],
+                dataSet.Tables[TableNames.FF_FamilyBuildComponentPositions.ToString()].Columns[FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.ComponentRefernecePlaneZId.ToString()]);
+            dataSet.Relations.Add(ComponentRefernecePlaneZIdDataRelation);
+        }
+
         public static void InstallSampleData(System.Data.SQLite.SQLiteConnection connection, DataSet dataSet)
         {
             //Email Profile
@@ -1269,7 +1488,6 @@ namespace ModBox.FamFactory.Revit.Manager
             connSB.DataSource = dataBasePath;
             connSB.FailIfMissing = false;
             return new System.Data.SQLite.SQLiteConnection(connSB.ConnectionString);
-
         }
     }
 }

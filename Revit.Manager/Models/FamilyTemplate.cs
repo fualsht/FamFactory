@@ -133,6 +133,8 @@ namespace ModBox.FamFactory.Revit.Manager
         public ObservableCollection<FamilyGeometry> FamilyGeometryItems { get; set; }
         public ObservableCollection<Parameter> ParameterItems { get; set; }
 
+        ObservableCollection<FamilyTemplateComponent> TemplateComponents { get; set; }
+
         DataView _FamilyTemplateReferencePlanesView;
         public DataView FamilyTemplateReferencePlanesView { get { return _FamilyTemplateReferencePlanesView; } }
 
@@ -142,14 +144,20 @@ namespace ModBox.FamFactory.Revit.Manager
         DataView _FamilyTemplateGeometryView;
         public DataView FamilyTemplateGeometryView { get { return _FamilyTemplateGeometryView; } }
 
+        DataView _FamilyTemplateComponentsView;
+        public DataView FamilyTemplateComponentsView { get { return _FamilyTemplateComponentsView; } }
+
         public FamilyTemplate(DataRowView view) : base(view)
         {
             RefferencePlaneItems = new ObservableCollection<ReferencePlane>();
             FamilyGeometryItems = new ObservableCollection<FamilyGeometry>();
             ParameterItems = new ObservableCollection<Parameter>();
+            TemplateComponents = new ObservableCollection<FamilyTemplateComponent>();
+
             _FamilyTemplateParametersView = InternalDataRowView.CreateChildView(TableRelations.FamilyTemplateParametersFamilyId_FamilyTemplatesId.ToString());
             _FamilyTemplateReferencePlanesView = InternalDataRowView.CreateChildView(TableRelations.FamilyTemplateReferencePlaneFamilyId_FamilyTemplatesId.ToString());
             _FamilyTemplateGeometryView = InternalDataRowView.CreateChildView(TableRelations.FamilyTemplateGeometryFamilyId_FamilyTemplatesId.ToString());
+            _FamilyTemplateComponentsView = InternalDataRowView.CreateChildView(TableRelations.FamilyTemplateComponentsFamilyId_FamilyTemplateId.ToString());
             RefreshChildRows();
         }
 
@@ -166,6 +174,10 @@ namespace ModBox.FamFactory.Revit.Manager
             FamilyGeometryItems.Clear();
             foreach (DataRowView item in FamilyTemplateGeometryView)
                 FamilyGeometryItems.Add(new FamilyGeometry(item));
+
+            TemplateComponents.Clear();
+            foreach (DataRowView item in FamilyTemplateComponentsView)
+                TemplateComponents.Add(new FamilyTemplateComponent(item));
         }
 
         public static FamilyTemplate NewTemplate(DataView rowView)

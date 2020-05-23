@@ -83,6 +83,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\EmailProfile.cs" />
+    <Compile Include="Models\FamilyBuild.cs" />
+    <Compile Include="Models\FamilyBuildComponent.cs" />
+    <Compile Include="Models\FamilyBuildComponentPosition.cs" />
+    <Compile Include="Models\FamilyTemplateComponent.cs" />
     <Compile Include="Models\FamilyComponent.cs" />
     <Compile Include="Models\FamilyComponentType.cs" />
     <Compile Include="Models\FamilyGeometry.cs" />
