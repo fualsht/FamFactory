@@ -10,7 +10,7 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamilyBuild : ModelBase<FamilyBuild>
     {
-        public enum FamilyBuildsColumnNames { Id, Name, Description, FamilyId }
+        public enum FamilyBuildsColumnNames { Id, Name, Description, FamilyTemplateId }
         public string Id { get { return InternalDataRowView[FamilyBuildsColumnNames.Id.ToString()].ToString(); } set { InternalDataRowView[FamilyBuildsColumnNames.Id.ToString()] = value; NotifyPropertyChanged(); } }
 
         public string Name

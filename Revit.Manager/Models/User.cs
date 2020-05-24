@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ModBox.FamFactory.Revit.Manager
 {
-    public enum EntityStates { Enabled, Disabled }
+    
     public class User : ModelBase<User>
     {
         public enum UsersTableColumnNames { Id, Name, FirstName, LastName, Email, Password, ProfilePic, RegistrationDate, LastLogInDate, PermissionId, State, TempFolder }

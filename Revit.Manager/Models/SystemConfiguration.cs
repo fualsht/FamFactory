@@ -9,7 +9,7 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class SystemConfiguration : ModelBase<SystemConfiguration>
     {
-        public enum SystemConfigurationTableColumnNames { Id, Name, CompanyAddress, Email, InstallLocation, AppVersion, DataBaseVersion }
+        public enum SystemConfigurationTableColumnNames { Id, Name, CompanyAddress, Email, InstallLocation, AppVersion, DataBaseVersion, CreatedBy, ModifiedBy }
         public string Id
         {
             get { return InternalDataRowView[SystemConfigurationTableColumnNames.Id.ToString()].ToString(); }

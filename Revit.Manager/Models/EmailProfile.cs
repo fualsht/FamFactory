@@ -9,7 +9,7 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class EmailProfile : ModelBase<EmailProfile>
     {
-        public enum EmailProfileColumnNames { Id, Name, Description, ServerAddress, Port, SSL, Username, Password, State }
+        public enum EmailProfileColumnNames { Id, Name, Description, ServerAddress, Port, SSL, Username, Password, State, CreatedBy, ModifiedBy }
 
         public string Id
         {
@@ -56,6 +56,17 @@ namespace ModBox.FamFactory.Revit.Manager
             get { return (EntityStates)InternalDataRowView[EmailProfileColumnNames.State.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[EmailProfileColumnNames.State.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
+        public string CreatedBy
+        {
+            get { return InternalDataRowView[EmailProfileColumnNames.CreatedBy.ToString()].ToString(); }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[EmailProfileColumnNames.CreatedBy.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+        }
+        public string ModifiedBy
+        {
+            get { return InternalDataRowView[EmailProfileColumnNames.ModifiedBy.ToString()].ToString(); }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[EmailProfileColumnNames.ModifiedBy.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+        }
+
 
         public EmailProfile(DataRowView rowView) : base( rowView)
         {

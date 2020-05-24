@@ -192,7 +192,7 @@ namespace ModBox.FamFactory.Revit.Manager
             FamFactoryDataSet.SaveTableChangesToDatbase(SQLiteConnection, TemplateDataView.Table);
             FamFactoryDataSet.SaveTableChangesToDatbase(SQLiteConnection, InternalDataSet.Tables[TableNames.FF_FamilyTemplateParameters.ToString()]);
             FamFactoryDataSet.SaveTableChangesToDatbase(SQLiteConnection, InternalDataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()]);
-            FamFactoryDataSet.SaveTableChangesToDatbase(SQLiteConnection, InternalDataSet.Tables[TableNames.FF_FamilyTemplateGeometry.ToString()]);
+            FamFactoryDataSet.SaveTableChangesToDatbase(SQLiteConnection, InternalDataSet.Tables[TableNames.FF_FamilyTemplateGeometries.ToString()]);
         }
 
         private void FamilyTemplatesViewModel_OnSelectionChagned(object sender, EventArgs e)

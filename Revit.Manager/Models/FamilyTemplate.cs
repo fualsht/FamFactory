@@ -155,8 +155,8 @@ namespace ModBox.FamFactory.Revit.Manager
             TemplateComponents = new ObservableCollection<FamilyTemplateComponent>();
 
             _FamilyTemplateParametersView = InternalDataRowView.CreateChildView(TableRelations.FamilyTemplateParametersFamilyId_FamilyTemplatesId.ToString());
-            _FamilyTemplateReferencePlanesView = InternalDataRowView.CreateChildView(TableRelations.FamilyTemplateReferencePlaneFamilyId_FamilyTemplatesId.ToString());
-            _FamilyTemplateGeometryView = InternalDataRowView.CreateChildView(TableRelations.FamilyTemplateGeometryFamilyId_FamilyTemplatesId.ToString());
+            _FamilyTemplateReferencePlanesView = InternalDataRowView.CreateChildView(TableRelations.FamilyTemplatesReferencePlaneFamilyId_FamilyTemplatesId.ToString());
+            _FamilyTemplateGeometryView = InternalDataRowView.CreateChildView(TableRelations.FamilyTemplateGeometriesFamilyId_FamilyTemplatesId.ToString());
             _FamilyTemplateComponentsView = InternalDataRowView.CreateChildView(TableRelations.FamilyTemplateComponentsFamilyId_FamilyTemplateId.ToString());
             RefreshChildRows();
         }
