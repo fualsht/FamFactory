@@ -8,51 +8,91 @@ namespace ModBox.FamFactory
 {
     public enum EntityStates { Enabled, Disabled }
 
-    public enum TableNames  {   FF_Permissions, 
-                                FF_Users, 
-                                FF_EmailProfiles, 
-                                FF_SystemConfigurations, 
-                                FF_FamilyComponentTypes, 
-                                FF_FamilyComponents, 
-                                FF_FamilyTemplates, 
-                                FF_FamilyTemplateReferencePlanes, 
-                                FF_FamilyTemplateGeometries, 
-                                FF_FamilyTemplateParameters, 
-                                FF_FamilyComponentReferencePlanes,
-                                FF_FamilyComponentGeometries, 
-                                FF_FamilyComponentParameters,
-                                FF_FamilyTemplateComponents, 
-                                FF_FamilyBuilds,
-                                FF_FamilyBuildComponents, 
-                                FF_FamilyBuildComponentPositions
+    public enum TableNames
+    {
+        FF_Permissions,
+        FF_Users,
+        FF_EmailProfiles,
+        FF_SystemConfigurations,
+        FF_FamilyComponentTypes,
+        FF_FamilyComponents,
+        FF_FamilyTemplates,
+        FF_FamilyTemplateReferencePlanes,
+        FF_FamilyTemplateGeometries,
+        FF_FamilyTemplateParameters,
+        FF_FamilyComponentReferencePlanes,
+        FF_FamilyComponentGeometries,
+        FF_FamilyComponentParameters,
+        FF_FamilyTemplateComponents,
+        FF_FamilyBuilds,
+        FF_FamilyBuildComponents,
+        FF_FamilyBuildComponentPositions
     }
-    public enum TableRelations  {
-                                UsersPermissionId_PermissionsId,
-                                EmailProfilesCreatedBy_UsersId,
-                                EmailProfilesModifiedBy_UsersId,
-                                SystemConfigurationsCreatedBy_UsersId,
-                                SystemConfigurationsModifiedBy_UsersId,
-                                FamilyTemplatesCreatedByUserId_UsersId, 
-                                FamilyComponentsFamilyComponentTypeId_FamilyComponentsId, 
-                                FamilyComponentsCreatedByUserId_UsersId,
-                                FamilyTemplatesReferencePlaneFamilyId_FamilyTemplatesId, 
-                                FamilyComponentsReferencePlaneId_FamilyComponentsId, 
-                                FamilyTemplateParametersFamilyId_FamilyTemplatesId,
-                                FamilyComponentParametersFamilyId_FamilyComponentsId, 
-                                FamilyTemplateGeometriesFamilyId_FamilyTemplatesId, 
-                                FamilyComponentGeometriesFamilyId_FamilyComponentsId, 
-                                FamilyTemplateComponentsFamilyId_FamilyTemplateId,
-                                FamilyTemplateComponentsXRefferencePlaneId_FamilyTemplateReferencePlanesId,
-                                FamilyTemplateComponentsYRefferencePlaneId_FamilyTemplateReferencePlanesId,
-                                FamilyTemplateComponentsZRefferencePlaneId_FamilyTemplateReferencePlanesId,
-                                FamilyBuildComponentsFamilyBuildId_FamilyBuildsId,
-                                FamilyBuildComponentsFamilyComponentId_FamilyComponentsId,
-                                FamilyBuildComponentPositionsFamilyBuildComponentId_FamilyBuildComponentsId,
-                                FamilyBuildComponentPositionsTemplateReferencePlaneXId_FamilyTemplateReferencePlanesId,
-                                FamilyBuildComponentPositionsTemplateReferencePlaneYId_FamilyTemplateReferencePlanesId,
-                                FamilyBuildComponentPositionsTemplateReferencePlaneZId_FamilyTemplateReferencePlanesId,
-                                FamilyBuildComponentPositionsComponentReferencePlaneXId_FamilyComponentReferencePlanesId,
-                                FamilyBuildComponentPositionsComponentReferencePlaneYId_FamilyComponentReferencePlanesId,
-                                FamilyBuildComponentPositionsComponentReferencePlaneZId_FamilyComponentReferencePlanesId
+    public enum TableRelations
+    {
+        Users_PermissionId__Permissions_Id,
+
+        EmailProfiles_CreatedById__Users_Id,
+        EmailProfiles_ModifiedById__Users_Id,
+
+        SystemConfigurations_CreatedById__Users_Id,
+        SystemConfigurations_ModifiedById__Users_Id,
+
+        FamilyTemplates_CreatedById__Users_Id,
+        FamilyTemplates_ModifiedById__Users_Id,
+
+        FamilyTemplateReferencePlanes_FamilyId__FamilyTemplates_Id,
+        FamilyTemplateReferencePlanes_CreatedById__Users_Id,
+        FamilyTemplateReferencePlanes_ModifiedById__Users_Id,
+
+        FamilyTemplateParameters_FamilyId__FamilyTemplates_Id,
+        FamilyTemplateParameters_CreatedById__Users_Id,
+        FamilyTemplateParameters_ModifiedById__Users_Id,
+
+        FamilyTemplateGeometries_FamilyId__FamilyTemplates_Id,
+        FamilyTemplateGeometries_CreatedById__Users_Id,
+        FamilyTemplateGeometries_ModifiedById__Users_Id,
+
+        FamilyComponents_FamilyComponentTypeId__FamilyComponents_Id,
+        FamilyComponents_CreatedById__Users_Id,
+        FamilyComponents_ModifiedById__Users_Id,
+
+        FamilyComponentReferencePlanes_FamilyId__FamilyComponents_Id,
+        FamilyComponentReferencePlanes_CreatedById__Users_Id,
+        FamilyComponentReferencePlanes_ModifiedById__Users_Id,
+
+        FamilyComponentParameters_FamilyId__FamilyComponents_Id,
+        FamilyComponentParameters_CreatedById__Users_Id,
+        FamilyComponentParameters_ModifiedById__Users_Id,
+
+        FamilyComponentGeometries_FamilyId__FamilyComponents_Id,
+        FamilyComponentGeometries_CreatedById__Users_Id,
+        FamilyComponentGeometries_ModifiedById__Users_Id,
+
+        FamilyTemplateComponents_FamilyId__FamilyTemplate_Id,
+        FamilyTemplateComponents_CreatedById__Users_Id,
+        FamilyTemplateComponents_ModifiedById__Users_Id,
+        FamilyTemplateComponents_XRefferencePlaneId__FamilyTemplateReferencePlanes_Id,
+        FamilyTemplateComponents_YRefferencePlaneId__FamilyTemplateReferencePlanes_Id,
+        FamilyTemplateComponents_ZRefferencePlaneId__FamilyTemplateReferencePlanes_Id,
+
+        FamilyBuilds_FamilyTemplateId__FamilyTemplates_Id,
+        FamilyBuilds_CreatedById__Users_Id,
+        FamilyBuilds_ModifiedById__Users_Id,
+
+        FamilyBuildComponents_FamilyBuildId__FamilyBuilds_Id,
+        FamilyBuildComponents_FamilyComponentId__FamilyComponents_Id,
+        FamilyBuildComponents_CreatedByIdId__Users_Id,
+        FamilyBuildComponents_ModifiedById__Users_Id,
+
+        FamilyBuildComponentPositions_FamilyBuildComponentId_FamilyBuildComponents_Id,
+        FamilyBuildComponentPositions_TemplateReferencePlaneXId__FamilyTemplateReferencePlanes_Id,
+        FamilyBuildComponentPositions_TemplateReferencePlaneYId__FamilyTemplateReferencePlanes_Id,
+        FamilyBuildComponentPositions_TemplateReferencePlaneZId__FamilyTemplateReferencePlanes_Id,
+        FamilyBuildComponentPositions_ComponentReferencePlaneXId__FamilyComponents_Id,
+        FamilyBuildComponentPositions_ComponentReferencePlaneYId__FamilyComponents_Id,
+        FamilyBuildComponentPositions_ComponentReferencePlaneZId__FamilyComponents_Id,
+        FamilyBuildComponentPositions_CreatedById__Users_Id,
+        FamilyBuildComponentPositions_ModifiedById__Users_Id
     }
 }

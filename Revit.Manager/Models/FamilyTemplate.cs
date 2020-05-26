@@ -10,8 +10,9 @@ namespace ModBox.FamFactory.Revit.Manager
 { 
     public class FamilyTemplate : ModelBase<FamilyTemplate>
     {
-        public enum ParameterColumnNames { Id, Name, Description, IsReleased, FamilyCategory, CanHostRebar, RoundConnectorDimension, PartType, OmniClassNumber,
-            OmniClassTitle, WorkPlaneBased, AlwaysVertical, CutsWithVoidWhenLoaded, IsShared, RoomCalculationPoint, FileName, Thumbnail, Version, FileSize, DateCreated, DateModified, FamilyFile, CreatedByUserId
+        public enum ParameterColumnNames { Id, Name, Description, IsReleased, FamilyCategory, CanHostRebar, RoundConnectorDimension, 
+            PartType, OmniClassNumber, OmniClassTitle, WorkPlaneBased, AlwaysVertical, CutsWithVoidWhenLoaded, IsShared, 
+            RoomCalculationPoint, FileName, Thumbnail, Version, FileSize, DateCreated, DateModified, FamilyFile, CreatedById, ModifiedById
         }
 
         public string Id
@@ -124,11 +125,17 @@ namespace ModBox.FamFactory.Revit.Manager
             get { return (byte[])InternalDataRowView[ParameterColumnNames.FamilyFile.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.FamilyFile.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
-        public string CreatedByUserId
+        public string CreatedById
         {
-            get { return InternalDataRowView[ParameterColumnNames.CreatedByUserId.ToString()].ToString(); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.CreatedByUserId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return InternalDataRowView[ParameterColumnNames.CreatedById.ToString()].ToString(); }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.CreatedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
+        public string ModifiedById
+        {
+            get { return InternalDataRowView[ParameterColumnNames.ModifiedById.ToString()].ToString(); }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.ModifiedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+        }
+
         public ObservableCollection<ReferencePlane> RefferencePlaneItems { get; set; }
         public ObservableCollection<FamilyGeometry> FamilyGeometryItems { get; set; }
         public ObservableCollection<Parameter> ParameterItems { get; set; }
@@ -154,10 +161,10 @@ namespace ModBox.FamFactory.Revit.Manager
             ParameterItems = new ObservableCollection<Parameter>();
             TemplateComponents = new ObservableCollection<FamilyTemplateComponent>();
 
-            _FamilyTemplateParametersView = InternalDataRowView.CreateChildView(TableRelations.FamilyTemplateParametersFamilyId_FamilyTemplatesId.ToString());
-            _FamilyTemplateReferencePlanesView = InternalDataRowView.CreateChildView(TableRelations.FamilyTemplatesReferencePlaneFamilyId_FamilyTemplatesId.ToString());
-            _FamilyTemplateGeometryView = InternalDataRowView.CreateChildView(TableRelations.FamilyTemplateGeometriesFamilyId_FamilyTemplatesId.ToString());
-            _FamilyTemplateComponentsView = InternalDataRowView.CreateChildView(TableRelations.FamilyTemplateComponentsFamilyId_FamilyTemplateId.ToString());
+            _FamilyTemplateParametersView = InternalDataRowView.CreateChildView(TableRelations.FamilyTemplateParameters_FamilyId__FamilyTemplates_Id.ToString());
+            _FamilyTemplateReferencePlanesView = InternalDataRowView.CreateChildView(TableRelations.FamilyTemplateReferencePlanes_FamilyId__FamilyTemplates_Id.ToString());
+            _FamilyTemplateGeometryView = InternalDataRowView.CreateChildView(TableRelations.FamilyTemplateGeometries_FamilyId__FamilyTemplates_Id.ToString());
+            _FamilyTemplateComponentsView = InternalDataRowView.CreateChildView(TableRelations.FamilyTemplateComponents_FamilyId__FamilyTemplate_Id.ToString());
             RefreshChildRows();
         }
 

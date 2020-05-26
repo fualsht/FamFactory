@@ -14,7 +14,7 @@ namespace ModBox.FamFactory.Revit.Manager
     
     public class User : ModelBase<User>
     {
-        public enum UsersTableColumnNames { Id, Name, FirstName, LastName, Email, Password, ProfilePic, RegistrationDate, LastLogInDate, PermissionId, State, TempFolder }
+        public enum UsersTableColumnNames { Id, Name, FirstName, LastName, Email, Password, ProfilePic, DateCreated, DateModified, LastLogInDate, PermissionId, State, TempFolder }
         public string Id { get { return InternalDataRowView[UsersTableColumnNames.Id.ToString()].ToString(); } 
             set { InternalDataRowView[UsersTableColumnNames.Id.ToString()] = value; NotifyPropertyChanged(); } }
         public string Name { get { return InternalDataRowView[UsersTableColumnNames.Name.ToString()].ToString(); } 
@@ -30,8 +30,12 @@ namespace ModBox.FamFactory.Revit.Manager
         public object ProfilePic { get { return InternalDataRowView[UsersTableColumnNames.ProfilePic.ToString()]; } 
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[UsersTableColumnNames.ProfilePic.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); } }
 
-        public object RegistrationDate { get { return InternalDataRowView[UsersTableColumnNames.RegistrationDate.ToString()]; } 
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[UsersTableColumnNames.RegistrationDate.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); } }
+        public object DateCreated { get { return InternalDataRowView[UsersTableColumnNames.DateCreated.ToString()]; } 
+        set { InternalDataRowView.BeginEdit(); InternalDataRowView[UsersTableColumnNames.DateCreated.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); } }
+
+        public object DateModified { get { return InternalDataRowView[UsersTableColumnNames.DateModified.ToString()]; }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[UsersTableColumnNames.DateModified.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }        }
+
 
         public Permission Permission { 
             get 
@@ -82,7 +86,7 @@ namespace ModBox.FamFactory.Revit.Manager
             User user = new User(row);
             user.Id = Guid.NewGuid().ToString();
             user.ProfilePic = Utils.ImageToByte(Resources.UserIcon);
-            user.RegistrationDate = DateTime.Now;
+            user.DateCreated = DateTime.Now;
             user.State = EntityStates.Enabled;
             user.LastLogInDate = DateTime.Now;
             return user;

@@ -106,7 +106,7 @@ namespace ModBox.FamFactory.Revit
                 FamFactoryDataSet.InstallSampleData(sQLiteConnection, famFactoryDataSet);
             }
             else
-                FamFactoryDataSet.InitilizeDataSet(sQLiteConnection, famFactoryDataSet);
+                FamFactoryDataSet.InitilizeDataSet(famFactoryDataSet);
 
             famFactoryManager = new FamFactoryViewModel(famFactoryDataSet, sQLiteConnection, RevitApplicationService);
             User u = famFactoryManager.UsersViewModel.InternalCollection[0];

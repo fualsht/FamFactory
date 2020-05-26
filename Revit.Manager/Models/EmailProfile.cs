@@ -9,7 +9,7 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class EmailProfile : ModelBase<EmailProfile>
     {
-        public enum EmailProfileColumnNames { Id, Name, Description, ServerAddress, Port, SSL, Username, Password, State, CreatedBy, ModifiedBy }
+        public enum EmailProfileColumnNames { Id, Name, Description, ServerAddress, Port, SSL, Username, Password, State, CreatedById, ModifiedById, DateCreated, DateModified }
 
         public string Id
         {
@@ -56,17 +56,26 @@ namespace ModBox.FamFactory.Revit.Manager
             get { return (EntityStates)InternalDataRowView[EmailProfileColumnNames.State.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[EmailProfileColumnNames.State.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
-        public string CreatedBy
+        public string CreatedById
         {
-            get { return InternalDataRowView[EmailProfileColumnNames.CreatedBy.ToString()].ToString(); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[EmailProfileColumnNames.CreatedBy.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return InternalDataRowView[EmailProfileColumnNames.CreatedById.ToString()].ToString(); }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[EmailProfileColumnNames.CreatedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
-        public string ModifiedBy
+        public string ModifiedById
         {
-            get { return InternalDataRowView[EmailProfileColumnNames.ModifiedBy.ToString()].ToString(); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[EmailProfileColumnNames.ModifiedBy.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return InternalDataRowView[EmailProfileColumnNames.ModifiedById.ToString()].ToString(); }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[EmailProfileColumnNames.ModifiedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
-
+        public object DateCreated
+        {
+            get { return InternalDataRowView[EmailProfileColumnNames.ModifiedById.ToString()]; }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[EmailProfileColumnNames.ModifiedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+        }
+        public object DateModified
+        {
+            get { return InternalDataRowView[EmailProfileColumnNames.ModifiedById.ToString()]; }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[EmailProfileColumnNames.ModifiedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+        }
 
         public EmailProfile(DataRowView rowView) : base( rowView)
         {

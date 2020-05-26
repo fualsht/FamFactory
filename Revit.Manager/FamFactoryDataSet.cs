@@ -20,7 +20,7 @@ namespace ModBox.FamFactory.Revit.Manager
             InitilizeFamilyComponentTypesTable(dataSet);
             InitilizeFamilyComponentsTable(dataSet);
             InitilizeFamilyTemplatesTable(dataSet);
-            InitilizeFamilyTemplateReferencePlaneTable(dataSet);
+            InitilizeFamilyTemplateReferencePlanesTable(dataSet);
             InitilizeFamilyComponentReferencePlanesTable(dataSet);
             InitilizeFamilyTemplateGeometryTable(dataSet);
             InitilizeFamilyComponentsGeometryTable(dataSet);
@@ -38,10 +38,8 @@ namespace ModBox.FamFactory.Revit.Manager
             DataColumn IdColumn = permissionsTable.Columns.Add(Permission.PermissionColumnNames.Id.ToString(), typeof(string));
             IdColumn.AllowDBNull = false;
             IdColumn.Unique = true;
-            IdColumn.Caption = "Id";
             DataColumn NameColumn = permissionsTable.Columns.Add(Permission.PermissionColumnNames.Name.ToString(), typeof(string));
             NameColumn.AllowDBNull = false;
-            NameColumn.DefaultValue = "New User";
             NameColumn.Unique = true;
             DataColumn DescriptionColumn = permissionsTable.Columns.Add(Permission.PermissionColumnNames.Description.ToString(), typeof(string));
             DataColumn CreateColumn = permissionsTable.Columns.Add(Permission.PermissionColumnNames.CanCreate.ToString(), typeof(bool));
@@ -70,46 +68,31 @@ namespace ModBox.FamFactory.Revit.Manager
             // Users Table
             DataTable usersTable = new DataTable(TableNames.FF_Users.ToString());
             DataColumn IdColumn = usersTable.Columns.Add(User.UsersTableColumnNames.Id.ToString(), typeof(string));
-            IdColumn.Caption = "Id";
             IdColumn.AllowDBNull = false;
             IdColumn.Unique = true;
             DataColumn nameColumn = usersTable.Columns.Add(User.UsersTableColumnNames.Name.ToString(), typeof(string));
-            nameColumn.Caption = "Username";
             nameColumn.AllowDBNull = false;
             nameColumn.Unique = true;
             DataColumn firstNameColumn = usersTable.Columns.Add(User.UsersTableColumnNames.FirstName.ToString(), typeof(string));
-            firstNameColumn.Caption = "First Name";
             firstNameColumn.AllowDBNull = false;
-            firstNameColumn.DefaultValue = "First Name";
             DataColumn lastNameColumn = usersTable.Columns.Add(User.UsersTableColumnNames.LastName.ToString(), typeof(string));
-            lastNameColumn.Caption = "Last Name";
             lastNameColumn.AllowDBNull = false;
-            lastNameColumn.DefaultValue = "Last Name";
             DataColumn emailColumn = usersTable.Columns.Add(User.UsersTableColumnNames.Email.ToString(), typeof(string));
-            emailColumn.Caption = "Email";
             emailColumn.AllowDBNull = false;
-            emailColumn.DefaultValue = "user@email.com";
             DataColumn passwordColumn = usersTable.Columns.Add(User.UsersTableColumnNames.Password.ToString(), typeof(string));
-            passwordColumn.Caption = "Passowrd";
             DataColumn profilePicColumn = usersTable.Columns.Add(User.UsersTableColumnNames.ProfilePic.ToString(), typeof(byte[]));
-            profilePicColumn.Caption = "Profile Picture";
             profilePicColumn.AllowDBNull = false;
             profilePicColumn.DefaultValue = Utils.ImageToByte(Resources.UserIcon);
-            DataColumn regColumn = usersTable.Columns.Add(User.UsersTableColumnNames.RegistrationDate.ToString(), typeof(DateTime));
-            regColumn.Caption = "Registration Date";
-            regColumn.AllowDBNull = false;
-            regColumn.DefaultValue = DateTime.Now;
+            DataColumn dateCreatdColumn = usersTable.Columns.Add(User.UsersTableColumnNames.DateCreated.ToString(), typeof(DateTime));
+            dateCreatdColumn.AllowDBNull = false;
+            dateCreatdColumn.DefaultValue = DateTime.Now;
             DataColumn permissionIdColumn = usersTable.Columns.Add(User.UsersTableColumnNames.PermissionId.ToString(), typeof(string));
-            permissionIdColumn.Caption = "Permission";
             permissionIdColumn.AllowDBNull = true;
             DataColumn lastLogInDateColumn = usersTable.Columns.Add(User.UsersTableColumnNames.LastLogInDate.ToString(), typeof(DateTime));
-            lastLogInDateColumn.Caption = "Last Login Date";
             DataColumn stateColumn = usersTable.Columns.Add(User.UsersTableColumnNames.State.ToString(), typeof(EntityStates));
-            stateColumn.Caption = "State";
             stateColumn.AllowDBNull = false;
             stateColumn.DefaultValue = EntityStates.Enabled;
             DataColumn TempFolderColumn = usersTable.Columns.Add(User.UsersTableColumnNames.TempFolder.ToString(), typeof(string));
-            TempFolderColumn.Caption = "Temp Folder";
             TempFolderColumn.AllowDBNull = false;
             TempFolderColumn.DefaultValue = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + "\\FamFactory\\Temp";
 
@@ -119,7 +102,7 @@ namespace ModBox.FamFactory.Revit.Manager
             dataSet.Tables.Add(usersTable);
 
             //Create the DataRelation.
-            DataRelation dataRelation = new DataRelation(TableRelations.UsersPermissionId_PermissionsId.ToString(),
+            DataRelation dataRelation = new DataRelation(TableRelations.Users_PermissionId__Permissions_Id.ToString(),
                 dataSet.Tables[TableNames.FF_Permissions.ToString()].Columns["Id"],
                 dataSet.Tables[TableNames.FF_Users.ToString()].Columns[User.UsersTableColumnNames.PermissionId.ToString()]);
             dataSet.Relations.Add(dataRelation);
@@ -152,25 +135,29 @@ namespace ModBox.FamFactory.Revit.Manager
             DataColumn StateColumn = EmailprofilesTable.Columns.Add(EmailProfile.EmailProfileColumnNames.State.ToString(), typeof(EntityStates));
             StateColumn.AllowDBNull = false;
             StateColumn.DefaultValue = EntityStates.Enabled;
-            DataColumn CreatedByColumn = EmailprofilesTable.Columns.Add(EmailProfile.EmailProfileColumnNames.CreatedBy.ToString(), typeof(EntityStates));
+            DataColumn CreatedByColumn = EmailprofilesTable.Columns.Add(EmailProfile.EmailProfileColumnNames.CreatedById.ToString(), typeof(EntityStates));
             CreatedByColumn.AllowDBNull = false;
-            DataColumn ModifiedByColumn = EmailprofilesTable.Columns.Add(EmailProfile.EmailProfileColumnNames.ModifiedBy.ToString(), typeof(EntityStates));
+            DataColumn ModifiedByColumn = EmailprofilesTable.Columns.Add(EmailProfile.EmailProfileColumnNames.ModifiedById.ToString(), typeof(EntityStates));
             ModifiedByColumn.AllowDBNull = false;
+            DataColumn DateCreatedColumn = EmailprofilesTable.Columns.Add(EmailProfile.EmailProfileColumnNames.DateCreated.ToString(), typeof(EntityStates));
+            DateCreatedColumn.AllowDBNull = false;
+            DataColumn DateModifiedColumn = EmailprofilesTable.Columns.Add(EmailProfile.EmailProfileColumnNames.DateModified.ToString(), typeof(EntityStates));
+            DateModifiedColumn.AllowDBNull = false;
 
             EmailprofilesTable.PrimaryKey = new DataColumn[] { IdColumn };
 
             dataSet.Tables.Add(EmailprofilesTable);
 
             //Create the DataRelation.
-            DataRelation createdByRelation = new DataRelation(TableRelations.EmailProfilesCreatedBy_UsersId.ToString(),
+            DataRelation createdByRelation = new DataRelation(TableRelations.EmailProfiles_CreatedById__Users_Id.ToString(),
                 dataSet.Tables[TableNames.FF_Users.ToString()].Columns["Id"],
-                dataSet.Tables[TableNames.FF_EmailProfiles.ToString()].Columns[EmailProfile.EmailProfileColumnNames.CreatedBy.ToString()]);
+                dataSet.Tables[TableNames.FF_EmailProfiles.ToString()].Columns[EmailProfile.EmailProfileColumnNames.CreatedById.ToString()]);
             dataSet.Relations.Add(createdByRelation);
 
             //Create the DataRelation.
-            DataRelation modifiedByRelation = new DataRelation(TableRelations.EmailProfilesModifiedBy_UsersId.ToString(),
+            DataRelation modifiedByRelation = new DataRelation(TableRelations.EmailProfiles_ModifiedById__Users_Id.ToString(),
                 dataSet.Tables[TableNames.FF_Users.ToString()].Columns["Id"],
-                dataSet.Tables[TableNames.FF_EmailProfiles.ToString()].Columns[EmailProfile.EmailProfileColumnNames.ModifiedBy.ToString()]);
+                dataSet.Tables[TableNames.FF_EmailProfiles.ToString()].Columns[EmailProfile.EmailProfileColumnNames.ModifiedById.ToString()]);
             dataSet.Relations.Add(modifiedByRelation);
         }
 
@@ -184,35 +171,39 @@ namespace ModBox.FamFactory.Revit.Manager
             DataColumn nameColumn = SysConfigTable.Columns.Add(SystemConfiguration.SystemConfigurationTableColumnNames.Name.ToString(), typeof(string));
             nameColumn.AllowDBNull = false;
             nameColumn.Unique = true;
-            nameColumn.DefaultValue = "New System";
             DataColumn addressColumn = SysConfigTable.Columns.Add(SystemConfiguration.SystemConfigurationTableColumnNames.CompanyAddress.ToString(), typeof(string));
             addressColumn.AllowDBNull = true;
             DataColumn emailColumn = SysConfigTable.Columns.Add(SystemConfiguration.SystemConfigurationTableColumnNames.Email.ToString(), typeof(string));
             emailColumn.AllowDBNull = false;
-            emailColumn.DefaultValue = "admin@company.com";
             DataColumn installColumn = SysConfigTable.Columns.Add(SystemConfiguration.SystemConfigurationTableColumnNames.InstallLocation.ToString(), typeof(string));
             installColumn.AllowDBNull = false;
             DataColumn appVerColumn = SysConfigTable.Columns.Add(SystemConfiguration.SystemConfigurationTableColumnNames.AppVersion.ToString(), typeof(string));
             appVerColumn.AllowDBNull = false;
-            appVerColumn.DefaultValue = "v.1.0.0";
             DataColumn dbVersionColumn = SysConfigTable.Columns.Add(SystemConfiguration.SystemConfigurationTableColumnNames.DataBaseVersion.ToString(), typeof(string));
             dbVersionColumn.AllowDBNull = false;
-            dbVersionColumn.DefaultValue = "v.1.0.0";
+            DataColumn dateCreatdColumn = SysConfigTable.Columns.Add(SystemConfiguration.SystemConfigurationTableColumnNames.DateCreated.ToString(), typeof(string));
+            dateCreatdColumn.AllowDBNull = false;
+            DataColumn dateModifiedColumn = SysConfigTable.Columns.Add(SystemConfiguration.SystemConfigurationTableColumnNames.DateModified.ToString(), typeof(string));
+            dateModifiedColumn.AllowDBNull = false;
+            DataColumn createdByIdColumn = SysConfigTable.Columns.Add(SystemConfiguration.SystemConfigurationTableColumnNames.CreatedById.ToString(), typeof(string));
+            createdByIdColumn.AllowDBNull = false;
+            DataColumn modifiedByIdColumn = SysConfigTable.Columns.Add(SystemConfiguration.SystemConfigurationTableColumnNames.ModifiedById.ToString(), typeof(string));
+            modifiedByIdColumn.AllowDBNull = false;
 
             SysConfigTable.PrimaryKey = new DataColumn[] { idColumn };
 
             dataSet.Tables.Add(SysConfigTable);
 
             //Create the DataRelation.
-            DataRelation createdByRelation = new DataRelation(TableRelations.SystemConfigurationsCreatedBy_UsersId.ToString(),
+            DataRelation createdByRelation = new DataRelation(TableRelations.SystemConfigurations_CreatedById__Users_Id.ToString(),
                 dataSet.Tables[TableNames.FF_Users.ToString()].Columns["Id"],
-                dataSet.Tables[TableNames.FF_EmailProfiles.ToString()].Columns[SystemConfiguration.SystemConfigurationTableColumnNames.CreatedBy.ToString()]);
+                dataSet.Tables[TableNames.FF_EmailProfiles.ToString()].Columns[SystemConfiguration.SystemConfigurationTableColumnNames.CreatedById.ToString()]);
             dataSet.Relations.Add(createdByRelation);
 
             //Create the DataRelation.
-            DataRelation modifiedByRelation = new DataRelation(TableRelations.SystemConfigurationsModifiedBy_UsersId.ToString(),
+            DataRelation modifiedByRelation = new DataRelation(TableRelations.SystemConfigurations_ModifiedById__Users_Id.ToString(),
                 dataSet.Tables[TableNames.FF_Users.ToString()].Columns["Id"],
-                dataSet.Tables[TableNames.FF_EmailProfiles.ToString()].Columns[SystemConfiguration.SystemConfigurationTableColumnNames.ModifiedBy.ToString()]);
+                dataSet.Tables[TableNames.FF_EmailProfiles.ToString()].Columns[SystemConfiguration.SystemConfigurationTableColumnNames.ModifiedById.ToString()]);
             dataSet.Relations.Add(modifiedByRelation);
         }
 
@@ -221,17 +212,23 @@ namespace ModBox.FamFactory.Revit.Manager
             // System Configuration
             DataTable FamilyComponentTypes = new DataTable(TableNames.FF_FamilyComponentTypes.ToString());
             DataColumn idColumn = FamilyComponentTypes.Columns.Add(FamilyComponentType.FamilyComponentTypesTableColumnNames.Id.ToString(), typeof(string));
-            idColumn.Caption = "Id";
             idColumn.AllowDBNull = false;
             idColumn.Unique = true;
             DataColumn nameColumn = FamilyComponentTypes.Columns.Add(FamilyComponentType.FamilyComponentTypesTableColumnNames.Name.ToString(), typeof(string));
-            nameColumn.Caption = "Name";
             nameColumn.AllowDBNull = false;
             nameColumn.Unique = true;
             DataColumn addressColumn = FamilyComponentTypes.Columns.Add(FamilyComponentType.FamilyComponentTypesTableColumnNames.Description.ToString(), typeof(string));
             addressColumn.AllowDBNull = true;
             DataColumn ThumbnailColumn = FamilyComponentTypes.Columns.Add(FamilyComponentType.FamilyComponentTypesTableColumnNames.Thumbnail.ToString(), typeof(byte[]));
             ThumbnailColumn.AllowDBNull = true;
+            DataColumn dateCreatdColumn = FamilyComponentTypes.Columns.Add(FamilyComponentType.FamilyComponentTypesTableColumnNames.DateCreated.ToString(), typeof(string));
+            dateCreatdColumn.AllowDBNull = false;
+            DataColumn dateModifiedColumn = FamilyComponentTypes.Columns.Add(FamilyComponentType.FamilyComponentTypesTableColumnNames.DateModified.ToString(), typeof(string));
+            dateModifiedColumn.AllowDBNull = false;
+            DataColumn createdByIdColumn = FamilyComponentTypes.Columns.Add(FamilyComponentType.FamilyComponentTypesTableColumnNames.CreatedById.ToString(), typeof(string));
+            createdByIdColumn.AllowDBNull = false;
+            DataColumn modifiedByIdColumn = FamilyComponentTypes.Columns.Add(FamilyComponentType.FamilyComponentTypesTableColumnNames.ModifiedById.ToString(), typeof(string));
+            modifiedByIdColumn.AllowDBNull = false;
 
             FamilyComponentTypes.PrimaryKey = new DataColumn[] { idColumn };
 
@@ -281,8 +278,11 @@ namespace ModBox.FamFactory.Revit.Manager
                 DateModifiedColumn.AllowDBNull = false;
                 DateModifiedColumn.DefaultValue = DateTime.Now;
 
-                DataColumn CreatedByUserIdColumn = FamilyComponentsTable.Columns.Add(FamilyComponent.FamilyComponentsTableColumnNames.CreatedByUserId.ToString(), typeof(string));
+                DataColumn CreatedByUserIdColumn = FamilyComponentsTable.Columns.Add(FamilyComponent.FamilyComponentsTableColumnNames.CreatedById.ToString(), typeof(string));
                 CreatedByUserIdColumn.AllowDBNull = true;
+
+                DataColumn ModifiedByUserIdColumn = FamilyComponentsTable.Columns.Add(FamilyComponent.FamilyComponentsTableColumnNames.ModifiedById.ToString(), typeof(string));
+                ModifiedByUserIdColumn.AllowDBNull = true;
 
                 DataColumn VersionColumn = FamilyComponentsTable.Columns.Add(FamilyComponent.FamilyComponentsTableColumnNames.Version.ToString(), typeof(string));
                 VersionColumn.AllowDBNull = false;
@@ -336,15 +336,20 @@ namespace ModBox.FamFactory.Revit.Manager
 
                 dataSet.Tables.Add(FamilyComponentsTable);
 
-                DataRelation FamilyComponentTypeDataRelation = new DataRelation(TableRelations.FamilyComponentsFamilyComponentTypeId_FamilyComponentsId.ToString(),
+                DataRelation FamilyComponentTypeDataRelation = new DataRelation(TableRelations.FamilyComponents_FamilyComponentTypeId__FamilyComponents_Id.ToString(),
                     dataSet.Tables[TableNames.FF_FamilyComponentTypes.ToString()].Columns[FamilyComponentType.FamilyComponentTypesTableColumnNames.Id.ToString()],
                     dataSet.Tables[TableNames.FF_FamilyComponents.ToString()].Columns[FamilyComponent.FamilyComponentsTableColumnNames.FamilyComponentTypeId.ToString()]);
                 dataSet.Relations.Add(FamilyComponentTypeDataRelation);
 
-                DataRelation FamilyComponentsUsersDataRelation = new DataRelation(TableRelations.FamilyComponentsCreatedByUserId_UsersId.ToString(),
-                    dataSet.Tables[TableNames.FF_FamilyComponentTypes.ToString()].Columns[FamilyComponentType.FamilyComponentTypesTableColumnNames.Id.ToString()],
-                    dataSet.Tables[TableNames.FF_FamilyComponents.ToString()].Columns[FamilyComponent.FamilyComponentsTableColumnNames.FamilyComponentTypeId.ToString()]);
-                dataSet.Relations.Add(FamilyComponentsUsersDataRelation);
+                DataRelation FamilyComponentsCreatedByDataRelation = new DataRelation(TableRelations.FamilyComponents_CreatedById__Users_Id.ToString(),
+                    dataSet.Tables[TableNames.FF_Users.ToString()].Columns[User.UsersTableColumnNames.Id.ToString()],
+                    dataSet.Tables[TableNames.FF_FamilyComponents.ToString()].Columns[FamilyComponent.FamilyComponentsTableColumnNames.CreatedById.ToString()]);
+                dataSet.Relations.Add(FamilyComponentsCreatedByDataRelation);
+
+                DataRelation FamilyComponentsModifiedByDataRelation = new DataRelation(TableRelations.FamilyComponents_ModifiedById__Users_Id.ToString(),
+                    dataSet.Tables[TableNames.FF_Users.ToString()].Columns[User.UsersTableColumnNames.Id.ToString()],
+                    dataSet.Tables[TableNames.FF_FamilyComponents.ToString()].Columns[FamilyComponent.FamilyComponentsTableColumnNames.ModifiedById.ToString()]);
+                dataSet.Relations.Add(FamilyComponentsModifiedByDataRelation);
             }
             catch (Exception ex)
             {
@@ -360,11 +365,9 @@ namespace ModBox.FamFactory.Revit.Manager
             DataColumn IdColumn = FamilyTemplatesTable.Columns.Add(FamilyTemplate.ParameterColumnNames.Id.ToString(), typeof(string));
             IdColumn.AllowDBNull = false;
             IdColumn.Unique = true;
-            IdColumn.Caption = "Id";
 
             DataColumn NameColumn = FamilyTemplatesTable.Columns.Add(FamilyTemplate.ParameterColumnNames.Name.ToString(), typeof(string));
             NameColumn.AllowDBNull = false;
-            NameColumn.DefaultValue = "New Template";
             NameColumn.Unique = false;
 
             DataColumn DescriptionColumn = FamilyTemplatesTable.Columns.Add(FamilyTemplate.ParameterColumnNames.Description.ToString(), typeof(string));
@@ -384,7 +387,6 @@ namespace ModBox.FamFactory.Revit.Manager
 
             DataColumn RoundConnectorDimentionColumn = FamilyTemplatesTable.Columns.Add(FamilyTemplate.ParameterColumnNames.RoundConnectorDimension.ToString(), typeof(string));
             RoundConnectorDimentionColumn.AllowDBNull = false;
-            RoundConnectorDimentionColumn.DefaultValue = "Diameter";
             RoundConnectorDimentionColumn.Unique = false;
 
             DataColumn PartTypeColumn = FamilyTemplatesTable.Columns.Add(FamilyTemplate.ParameterColumnNames.PartType.ToString(), typeof(string));
@@ -421,7 +423,6 @@ namespace ModBox.FamFactory.Revit.Manager
 
             DataColumn FileNameColumn = FamilyTemplatesTable.Columns.Add(FamilyTemplate.ParameterColumnNames.FileName.ToString(), typeof(string));
             FileNameColumn.AllowDBNull = false;
-            FileNameColumn.DefaultValue = "New File";
 
             DataColumn ThumbnailColumn = FamilyTemplatesTable.Columns.Add(FamilyTemplate.ParameterColumnNames.Thumbnail.ToString(), typeof(byte[]));
             ThumbnailColumn.AllowDBNull = true;
@@ -430,7 +431,6 @@ namespace ModBox.FamFactory.Revit.Manager
 
             DataColumn VersionColumn = FamilyTemplatesTable.Columns.Add(FamilyTemplate.ParameterColumnNames.Version.ToString(), typeof(string));
             VersionColumn.AllowDBNull = false;
-            VersionColumn.DefaultValue = "v.0.0.0";
             VersionColumn.Unique = false;
 
             DataColumn FileSizeColumn = FamilyTemplatesTable.Columns.Add(FamilyTemplate.ParameterColumnNames.FileSize.ToString(), typeof(long));
@@ -440,12 +440,12 @@ namespace ModBox.FamFactory.Revit.Manager
 
             DataColumn DateCreatedColumn = FamilyTemplatesTable.Columns.Add(FamilyTemplate.ParameterColumnNames.DateCreated.ToString(), typeof(DateTime));
             DateCreatedColumn.AllowDBNull = false;
-            DateCreatedColumn.DefaultValue = new DateTime();
+            DateCreatedColumn.DefaultValue = DateTime.Now;
             DateCreatedColumn.Unique = false;
 
             DataColumn DateModifiedColumn = FamilyTemplatesTable.Columns.Add(FamilyTemplate.ParameterColumnNames.DateModified.ToString(), typeof(DateTime));
             DateModifiedColumn.AllowDBNull = false;
-            DateModifiedColumn.DefaultValue = new DateTime();
+            DateModifiedColumn.DefaultValue = DateTime.Now;
             DateModifiedColumn.Unique = false;
 
             DataColumn FamilyFileColumn = FamilyTemplatesTable.Columns.Add(FamilyTemplate.ParameterColumnNames.FamilyFile.ToString(), typeof(byte[]));
@@ -453,20 +453,28 @@ namespace ModBox.FamFactory.Revit.Manager
             FamilyFileColumn.DefaultValue = new byte[byte.MinValue];
             FamilyFileColumn.Unique = false;
 
-            DataColumn CreatedByUserIdColumn = FamilyTemplatesTable.Columns.Add(FamilyTemplate.ParameterColumnNames.CreatedByUserId.ToString(), typeof(string));
-            CreatedByUserIdColumn.AllowDBNull = false;
-            CreatedByUserIdColumn.DefaultValue = new byte[byte.MinValue];
-            CreatedByUserIdColumn.Unique = false;
+            DataColumn CreatedByIdColumn = FamilyTemplatesTable.Columns.Add(FamilyTemplate.ParameterColumnNames.CreatedById.ToString(), typeof(string));
+            CreatedByIdColumn.AllowDBNull = false;
+            CreatedByIdColumn.Unique = false;
+
+            DataColumn ModifiedByIdColumn = FamilyTemplatesTable.Columns.Add(FamilyTemplate.ParameterColumnNames.ModifiedById.ToString(), typeof(string));
+            ModifiedByIdColumn.AllowDBNull = false;
+            ModifiedByIdColumn.Unique = false;
 
             dataSet.Tables.Add(FamilyTemplatesTable);
 
-            DataRelation usersDataRelation = new DataRelation(TableRelations.FamilyTemplatesCreatedByUserId_UsersId.ToString(),
+            DataRelation usersDataRelation = new DataRelation(TableRelations.FamilyTemplates_CreatedById__Users_Id.ToString(),
                 dataSet.Tables[TableNames.FF_Users.ToString()].Columns[User.UsersTableColumnNames.Id.ToString()],
-                dataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].Columns[FamilyTemplate.ParameterColumnNames.CreatedByUserId.ToString()]);
+                dataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].Columns[FamilyTemplate.ParameterColumnNames.CreatedById.ToString()]);
             dataSet.Relations.Add(usersDataRelation);
+
+            DataRelation usersModDataRelation = new DataRelation(TableRelations.FamilyTemplates_ModifiedById__Users_Id.ToString(),
+                dataSet.Tables[TableNames.FF_Users.ToString()].Columns[User.UsersTableColumnNames.Id.ToString()],
+                dataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].Columns[FamilyTemplate.ParameterColumnNames.ModifiedById.ToString()]);
+            dataSet.Relations.Add(usersModDataRelation);
         }
 
-        private static void InitilizeFamilyTemplateReferencePlaneTable(DataSet dataSet)
+        private static void InitilizeFamilyTemplateReferencePlanesTable(DataSet dataSet)
         {
             DataTable referencePlaneTable = new DataTable(TableNames.FF_FamilyTemplateReferencePlanes.ToString());
 
@@ -544,313 +552,397 @@ namespace ModBox.FamFactory.Revit.Manager
 
             DataColumn FreeEndYColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.FreeEndY.ToString(), typeof(double));
             FreeEndYColumn.AllowDBNull = false;
-            FreeEndYColumn.DefaultValue = 0;
 
             DataColumn FreeEndZColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.FreeEndZ.ToString(), typeof(double));
             FreeEndZColumn.AllowDBNull = false;
-            FreeEndZColumn.DefaultValue = 0;
 
             DataColumn IsActiveColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.IsActive.ToString(), typeof(bool));
             IsActiveColumn.AllowDBNull = false;
             IsActiveColumn.DefaultValue = false;
 
+            DataColumn DateCreatedColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.DateCreated.ToString(), typeof(DateTime));
+            DateCreatedColumn.AllowDBNull = false;
+
+            DataColumn DateModifiedColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.DateModified.ToString(), typeof(DateTime));
+            DateModifiedColumn.AllowDBNull = false;
+
+            DataColumn CreatedByIdColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.DateCreated.ToString(), typeof(string));
+            CreatedByIdColumn.AllowDBNull = false;
+
+            DataColumn ModifiedByIdColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.DateModified.ToString(), typeof(string));
+            ModifiedByIdColumn.AllowDBNull = false;
+
             referencePlaneTable.PrimaryKey = new DataColumn[] { IdColumn, NameColumn };
 
             dataSet.Tables.Add(referencePlaneTable);
 
-            DataRelation ReferencePlanesDataRelation = new DataRelation(TableRelations.FamilyTemplatesReferencePlaneFamilyId_FamilyTemplatesId.ToString(),
+            DataRelation famIdDataRelation = new DataRelation(TableRelations.FamilyTemplateReferencePlanes_FamilyId__FamilyTemplates_Id.ToString(),
               dataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].Columns[FamilyTemplate.ParameterColumnNames.Id.ToString()],
               dataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()].Columns[ReferencePlane.ReferencePlaneTableColumnNames.FamilyId.ToString()]);
-            dataSet.Relations.Add(ReferencePlanesDataRelation);
+            dataSet.Relations.Add(famIdDataRelation);
+
+            DataRelation createdByDataRelation = new DataRelation(TableRelations.FamilyTemplateReferencePlanes_CreatedById__Users_Id.ToString(),
+              dataSet.Tables[TableNames.FF_Users.ToString()].Columns[User.UsersTableColumnNames.Id.ToString()],
+              dataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()].Columns[ReferencePlane.ReferencePlaneTableColumnNames.CreatedById.ToString()]);
+            dataSet.Relations.Add(createdByDataRelation);
+
+            DataRelation ModifiedByDataRelation = new DataRelation(TableRelations.FamilyTemplateReferencePlanes_ModifiedById__Users_Id.ToString(),
+              dataSet.Tables[TableNames.FF_Users.ToString()].Columns[User.UsersTableColumnNames.Id.ToString()],
+              dataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()].Columns[ReferencePlane.ReferencePlaneTableColumnNames.ModifiedById.ToString()]);
+            dataSet.Relations.Add(ModifiedByDataRelation);
         }
 
         private static void InitilizeFamilyComponentReferencePlanesTable(DataSet dataSet)
         {
-            DataTable referencePlaneTable = new DataTable(TableNames.FF_FamilyComponentReferencePlanes.ToString());
+            DataTable tbl = new DataTable(TableNames.FF_FamilyComponentReferencePlanes.ToString());
 
-            DataColumn IdColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.Id.ToString(), typeof(string));
+            DataColumn IdColumn = tbl.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.Id.ToString(), typeof(string));
             IdColumn.AllowDBNull = false;
             IdColumn.Unique = true;
 
-            DataColumn FamilyIdColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.FamilyId.ToString(), typeof(string));
+            DataColumn FamilyIdColumn = tbl.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.FamilyId.ToString(), typeof(string));
             FamilyIdColumn.AllowDBNull = false;
             FamilyIdColumn.Unique = false;
 
-            DataColumn NameColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.Name.ToString(), typeof(string));
+            DataColumn NameColumn = tbl.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.Name.ToString(), typeof(string));
             NameColumn.AllowDBNull = false;
             NameColumn.Unique = false;
 
-            DataColumn RevitIdColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.ElementId.ToString(), typeof(int));
+            DataColumn RevitIdColumn = tbl.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.ElementId.ToString(), typeof(int));
             RevitIdColumn.AllowDBNull = false;
 
-            DataColumn UniquColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.UniqueId.ToString(), typeof(string));
+            DataColumn UniquColumn = tbl.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.UniqueId.ToString(), typeof(string));
             UniquColumn.AllowDBNull = false;
             UniquColumn.DefaultValue = false;
 
-            DataColumn LevelColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.LevelId.ToString(), typeof(int));
+            DataColumn LevelColumn = tbl.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.LevelId.ToString(), typeof(int));
             LevelColumn.AllowDBNull = false;
             LevelColumn.DefaultValue = 0;
 
-            DataColumn ViewIdColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.ViewId.ToString(), typeof(int));
+            DataColumn ViewIdColumn = tbl.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.ViewId.ToString(), typeof(int));
             ViewIdColumn.AllowDBNull = false;
             ViewIdColumn.DefaultValue = 0;
 
-            DataColumn CategoryColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.Category.ToString(), typeof(string));
+            DataColumn CategoryColumn = tbl.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.Category.ToString(), typeof(string));
             CategoryColumn.AllowDBNull = false;
             CategoryColumn.DefaultValue = "";
 
-            DataColumn DirectionXColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.DirectionX.ToString(), typeof(double));
+            DataColumn DirectionXColumn = tbl.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.DirectionX.ToString(), typeof(double));
             DirectionXColumn.AllowDBNull = false;
             DirectionXColumn.DefaultValue = 0;
 
-            DataColumn DirectionYColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.DirectionY.ToString(), typeof(double));
+            DataColumn DirectionYColumn = tbl.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.DirectionY.ToString(), typeof(double));
             DirectionYColumn.AllowDBNull = false;
             DirectionYColumn.DefaultValue = 0;
 
-            DataColumn DirectionZColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.DirectionZ.ToString(), typeof(double));
+            DataColumn DirectionZColumn = tbl.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.DirectionZ.ToString(), typeof(double));
             DirectionZColumn.AllowDBNull = false;
             DirectionZColumn.DefaultValue = 0;
 
-            DataColumn BubbleEndXColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.BubbleEndX.ToString(), typeof(double));
+            DataColumn BubbleEndXColumn = tbl.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.BubbleEndX.ToString(), typeof(double));
             BubbleEndXColumn.AllowDBNull = false;
             BubbleEndXColumn.DefaultValue = 0;
 
-            DataColumn BubbleEndYColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.BubbleEndY.ToString(), typeof(double));
+            DataColumn BubbleEndYColumn = tbl.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.BubbleEndY.ToString(), typeof(double));
             BubbleEndYColumn.AllowDBNull = false;
             BubbleEndYColumn.DefaultValue = 0;
 
-            DataColumn BubbleEndZColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.BubbleEndZ.ToString(), typeof(double));
+            DataColumn BubbleEndZColumn = tbl.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.BubbleEndZ.ToString(), typeof(double));
             BubbleEndZColumn.AllowDBNull = false;
             BubbleEndZColumn.DefaultValue = 0;
 
-            DataColumn NormalXColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.NormalX.ToString(), typeof(double));
+            DataColumn NormalXColumn = tbl.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.NormalX.ToString(), typeof(double));
             NormalXColumn.AllowDBNull = false;
             NormalXColumn.DefaultValue = 0;
 
-            DataColumn NormalYColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.NormalY.ToString(), typeof(double));
+            DataColumn NormalYColumn = tbl.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.NormalY.ToString(), typeof(double));
             NormalYColumn.AllowDBNull = false;
             NormalYColumn.DefaultValue = 0;
 
-            DataColumn NormalZColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.NormalZ.ToString(), typeof(double));
+            DataColumn NormalZColumn = tbl.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.NormalZ.ToString(), typeof(double));
             NormalZColumn.AllowDBNull = false;
             NormalZColumn.DefaultValue = 0;
 
-            DataColumn FreeEndXColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.FreeEndX.ToString(), typeof(double));
+            DataColumn FreeEndXColumn = tbl.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.FreeEndX.ToString(), typeof(double));
             FreeEndXColumn.AllowDBNull = false;
             FreeEndXColumn.DefaultValue = 0;
 
-            DataColumn FreeEndYColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.FreeEndY.ToString(), typeof(double));
+            DataColumn FreeEndYColumn = tbl.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.FreeEndY.ToString(), typeof(double));
             FreeEndYColumn.AllowDBNull = false;
             FreeEndYColumn.DefaultValue = 0;
 
-            DataColumn FreeEndZColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.FreeEndZ.ToString(), typeof(double));
+            DataColumn FreeEndZColumn = tbl.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.FreeEndZ.ToString(), typeof(double));
             FreeEndZColumn.AllowDBNull = false;
             FreeEndZColumn.DefaultValue = 0;
 
-            DataColumn IsActiveColumn = referencePlaneTable.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.IsActive.ToString(), typeof(bool));
+            DataColumn IsActiveColumn = tbl.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.IsActive.ToString(), typeof(bool));
             IsActiveColumn.AllowDBNull = false;
             IsActiveColumn.DefaultValue = false;
 
-            referencePlaneTable.PrimaryKey = new DataColumn[] { IdColumn, NameColumn };
+            DataColumn DateCreatedColumn = tbl.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.DateCreated.ToString(), typeof(DateTime));
+            DateCreatedColumn.AllowDBNull = false;
 
-            dataSet.Tables.Add(referencePlaneTable);
+            DataColumn DateModifiedColumn = tbl.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.DateModified.ToString(), typeof(DateTime));
+            DateModifiedColumn.AllowDBNull = false;
 
-            DataRelation ReferencePlanesDataRelation = new DataRelation(TableRelations.FamilyComponentsReferencePlaneId_FamilyComponentsId.ToString(),
+            DataColumn CreatedByIdColumn = tbl.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.DateCreated.ToString(), typeof(string));
+            CreatedByIdColumn.AllowDBNull = false;
+
+            DataColumn ModifiedByIdColumn = tbl.Columns.Add(ReferencePlane.ReferencePlaneTableColumnNames.DateModified.ToString(), typeof(string));
+            ModifiedByIdColumn.AllowDBNull = false;
+
+            tbl.PrimaryKey = new DataColumn[] { IdColumn, NameColumn };
+
+            dataSet.Tables.Add(tbl);
+
+            DataRelation ReferencePlanesDataRelation = new DataRelation(TableRelations.FamilyComponentReferencePlanes_FamilyId__FamilyComponents_Id.ToString(),
                 dataSet.Tables[TableNames.FF_FamilyComponents.ToString()].Columns[ReferencePlane.ReferencePlaneTableColumnNames.Id.ToString()],
                 dataSet.Tables[TableNames.FF_FamilyComponentReferencePlanes.ToString()].Columns[ReferencePlane.ReferencePlaneTableColumnNames.FamilyId.ToString()]);
             dataSet.Relations.Add(ReferencePlanesDataRelation);
+
+            DataRelation RCreatedByDataRelation = new DataRelation(TableRelations.FamilyComponentReferencePlanes_FamilyId__FamilyComponents_Id.ToString(),
+                dataSet.Tables[TableNames.FF_FamilyComponents.ToString()].Columns[ReferencePlane.ReferencePlaneTableColumnNames.Id.ToString()],
+                dataSet.Tables[TableNames.FF_FamilyComponentReferencePlanes.ToString()].Columns[ReferencePlane.ReferencePlaneTableColumnNames.FamilyId.ToString()]);
+            dataSet.Relations.Add(RCreatedByDataRelation);
+
+            DataRelation ModifiedByDataRelation = new DataRelation(TableRelations.FamilyComponentReferencePlanes_FamilyId__FamilyComponents_Id.ToString(),
+                dataSet.Tables[TableNames.FF_FamilyComponents.ToString()].Columns[ReferencePlane.ReferencePlaneTableColumnNames.Id.ToString()],
+                dataSet.Tables[TableNames.FF_FamilyComponentReferencePlanes.ToString()].Columns[ReferencePlane.ReferencePlaneTableColumnNames.FamilyId.ToString()]);
+            dataSet.Relations.Add(ModifiedByDataRelation);
         }
 
         private static void InitilizeFamilyTemplateGeometryTable(DataSet dataSet)
         {
-            DataTable GeometryTable = new DataTable(TableNames.FF_FamilyTemplateGeometries.ToString());
+            DataTable tbl = new DataTable(TableNames.FF_FamilyTemplateGeometries.ToString());
 
-            DataColumn IdColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.Id.ToString(), typeof(string));
+            DataColumn IdColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.Id.ToString(), typeof(string));
             IdColumn.AllowDBNull = false;
             IdColumn.Unique = true;
-            IdColumn.Caption = "Id";
 
-            DataColumn FamilyIdColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.FamilyId.ToString(), typeof(string));
+            DataColumn FamilyIdColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.FamilyId.ToString(), typeof(string));
             FamilyIdColumn.AllowDBNull = false;
             FamilyIdColumn.Unique = false;
 
-            DataColumn NameColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.Name.ToString(), typeof(string));
+            DataColumn NameColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.Name.ToString(), typeof(string));
             NameColumn.AllowDBNull = false;
             NameColumn.DefaultValue = "New Sweep";
             NameColumn.Unique = false;
 
-            DataColumn ElementIdColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.ElementId.ToString(), typeof(int));
+            DataColumn ElementIdColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.ElementId.ToString(), typeof(int));
             ElementIdColumn.AllowDBNull = false;
             ElementIdColumn.DefaultValue = -1;
             ElementIdColumn.Unique = false;
 
-            DataColumn DescriptionColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.Description.ToString(), typeof(string));
+            DataColumn DescriptionColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.Description.ToString(), typeof(string));
             DescriptionColumn.AllowDBNull = false;
             DescriptionColumn.DefaultValue = "";
             DescriptionColumn.Unique = false;
 
-            DataColumn GeometryTypeColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.GeometryType.ToString(), typeof(string));
+            DataColumn GeometryTypeColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.GeometryType.ToString(), typeof(string));
             GeometryTypeColumn.AllowDBNull = false;
             GeometryTypeColumn.DefaultValue = "Sweep";
             GeometryTypeColumn.Unique = false;
 
-            DataColumn MaterialIdColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.MaterialId.ToString(), typeof(int));
+            DataColumn MaterialIdColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.MaterialId.ToString(), typeof(int));
             MaterialIdColumn.AllowDBNull = false;
             MaterialIdColumn.DefaultValue = -1;
             MaterialIdColumn.Unique = false;
 
-            DataColumn IsActiveColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.IsActive.ToString(), typeof(bool));
+            DataColumn IsActiveColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.IsActive.ToString(), typeof(bool));
             IsActiveColumn.AllowDBNull = false;
             IsActiveColumn.DefaultValue = true;
             IsActiveColumn.Unique = false;
 
-            DataColumn ProfileFamily1IdColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily1Id.ToString(), typeof(int));
+            DataColumn ProfileFamily1IdColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily1Id.ToString(), typeof(int));
             ProfileFamily1IdColumn.AllowDBNull = false;
             ProfileFamily1IdColumn.DefaultValue = -1;
             ProfileFamily1IdColumn.Unique = false;
 
-            DataColumn ProfileFamily2IdColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily2Id.ToString(), typeof(int));
+            DataColumn ProfileFamily2IdColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily2Id.ToString(), typeof(int));
             ProfileFamily2IdColumn.AllowDBNull = false;
             ProfileFamily2IdColumn.DefaultValue = -1;
             ProfileFamily2IdColumn.Unique = false;
 
-            DataColumn HostIdColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.HostId.ToString(), typeof(int));
+            DataColumn HostIdColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.HostId.ToString(), typeof(int));
             HostIdColumn.AllowDBNull = false;
             HostIdColumn.DefaultValue = -1;
             HostIdColumn.Unique = false;
 
-            DataColumn CategoryColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.Category.ToString(), typeof(string));
+            DataColumn CategoryColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.Category.ToString(), typeof(string));
             CategoryColumn.AllowDBNull = false;
             CategoryColumn.DefaultValue = "";
             CategoryColumn.Unique = false;
 
-            DataColumn SubCategoryColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.SubCategory.ToString(), typeof(string));
+            DataColumn SubCategoryColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.SubCategory.ToString(), typeof(string));
             SubCategoryColumn.AllowDBNull = false;
             SubCategoryColumn.DefaultValue = "";
             SubCategoryColumn.Unique = false;
 
-            DataColumn UniqueIdColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.UniqueId.ToString(), typeof(int));
+            DataColumn UniqueIdColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.UniqueId.ToString(), typeof(int));
             UniqueIdColumn.AllowDBNull = false;
             UniqueIdColumn.DefaultValue = -1;
             UniqueIdColumn.Unique = false;
 
-            DataColumn OwnerViewIdColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.OwnerViewId.ToString(), typeof(int));
+            DataColumn OwnerViewIdColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.OwnerViewId.ToString(), typeof(int));
             OwnerViewIdColumn.AllowDBNull = false;
             OwnerViewIdColumn.DefaultValue = -1;
             OwnerViewIdColumn.Unique = false;
 
-            DataColumn LevelIdColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.LevelId.ToString(), typeof(int));
+            DataColumn LevelIdColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.LevelId.ToString(), typeof(int));
             LevelIdColumn.AllowDBNull = false;
             LevelIdColumn.DefaultValue = -1;
             LevelIdColumn.Unique = false;
 
-            DataColumn IsSolidColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.IsSolid.ToString(), typeof(bool));
+            DataColumn IsSolidColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.IsSolid.ToString(), typeof(bool));
             LevelIdColumn.AllowDBNull = false;
             LevelIdColumn.DefaultValue = true;
             LevelIdColumn.Unique = false;
 
-            dataSet.Tables.Add(GeometryTable);
+            DataColumn DateCreatedColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.DateCreated.ToString(), typeof(DateTime));
+            DateCreatedColumn.AllowDBNull = false;
 
-            DataRelation geometryDataRelation = new DataRelation(TableRelations.FamilyTemplateGeometriesFamilyId_FamilyTemplatesId.ToString(),
+            DataColumn DateModifiedColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.DateModified.ToString(), typeof(DateTime));
+            DateModifiedColumn.AllowDBNull = false;
+
+            DataColumn CreatedByIdColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.DateCreated.ToString(), typeof(string));
+            CreatedByIdColumn.AllowDBNull = false;
+
+            DataColumn ModifiedByIdColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.DateModified.ToString(), typeof(string));
+            ModifiedByIdColumn.AllowDBNull = false;
+
+            dataSet.Tables.Add(tbl);
+
+            DataRelation geometryDataRelation = new DataRelation(TableRelations.FamilyTemplateGeometries_FamilyId__FamilyTemplates_Id.ToString(),
                 dataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].Columns["Id"],
                 dataSet.Tables[TableNames.FF_FamilyTemplateGeometries.ToString()].Columns[FamilyGeometry.FamilyGeometryColumnNames.FamilyId.ToString()]);
             dataSet.Relations.Add(geometryDataRelation);
+
+            DataRelation CreatedByDataRelation = new DataRelation(TableRelations.FamilyTemplateGeometries_CreatedById__Users_Id.ToString(),
+               dataSet.Tables[TableNames.FF_Users.ToString()].Columns[FamilyGeometry.FamilyGeometryColumnNames.Id.ToString()],
+               dataSet.Tables[TableNames.FF_FamilyComponentReferencePlanes.ToString()].Columns[FamilyGeometry.FamilyGeometryColumnNames.CreatedById.ToString()]);
+            dataSet.Relations.Add(CreatedByDataRelation);
+
+            DataRelation ModifiedByDataRelation = new DataRelation(TableRelations.FamilyTemplateGeometries_ModifiedById__Users_Id.ToString(),
+                dataSet.Tables[TableNames.FF_Users.ToString()].Columns[FamilyGeometry.FamilyGeometryColumnNames.Id.ToString()],
+                dataSet.Tables[TableNames.FF_FamilyComponentReferencePlanes.ToString()].Columns[FamilyGeometry.FamilyGeometryColumnNames.ModifiedById.ToString()]);
+            dataSet.Relations.Add(ModifiedByDataRelation);
         }
 
         private static void InitilizeFamilyComponentsGeometryTable(DataSet dataSet)
         {
-            DataTable GeometryTable = new DataTable(TableNames.FF_FamilyComponentGeometries.ToString());
+            DataTable tbl = new DataTable(TableNames.FF_FamilyTemplateGeometries.ToString());
 
-            DataColumn IdColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.Id.ToString(), typeof(string));
+            DataColumn IdColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.Id.ToString(), typeof(string));
             IdColumn.AllowDBNull = false;
             IdColumn.Unique = true;
-            IdColumn.Caption = "Id";
 
-            DataColumn FamilyIdColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.FamilyId.ToString(), typeof(string));
+            DataColumn FamilyIdColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.FamilyId.ToString(), typeof(string));
             FamilyIdColumn.AllowDBNull = false;
             FamilyIdColumn.Unique = false;
 
-            DataColumn NameColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.Name.ToString(), typeof(string));
+            DataColumn NameColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.Name.ToString(), typeof(string));
             NameColumn.AllowDBNull = false;
             NameColumn.DefaultValue = "New Sweep";
             NameColumn.Unique = false;
 
-            DataColumn ElementIdColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.ElementId.ToString(), typeof(int));
+            DataColumn ElementIdColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.ElementId.ToString(), typeof(int));
             ElementIdColumn.AllowDBNull = false;
             ElementIdColumn.DefaultValue = -1;
             ElementIdColumn.Unique = false;
 
-            DataColumn DescriptionColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.Description.ToString(), typeof(string));
+            DataColumn DescriptionColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.Description.ToString(), typeof(string));
             DescriptionColumn.AllowDBNull = false;
             DescriptionColumn.DefaultValue = "";
             DescriptionColumn.Unique = false;
 
-            DataColumn GeometryTypeColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.GeometryType.ToString(), typeof(string));
+            DataColumn GeometryTypeColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.GeometryType.ToString(), typeof(string));
             GeometryTypeColumn.AllowDBNull = false;
             GeometryTypeColumn.DefaultValue = "Sweep";
             GeometryTypeColumn.Unique = false;
 
-            DataColumn MaterialIdColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.MaterialId.ToString(), typeof(int));
+            DataColumn MaterialIdColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.MaterialId.ToString(), typeof(int));
             MaterialIdColumn.AllowDBNull = false;
             MaterialIdColumn.DefaultValue = -1;
             MaterialIdColumn.Unique = false;
 
-            DataColumn IsActiveColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.IsActive.ToString(), typeof(bool));
+            DataColumn IsActiveColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.IsActive.ToString(), typeof(bool));
             IsActiveColumn.AllowDBNull = false;
             IsActiveColumn.DefaultValue = true;
             IsActiveColumn.Unique = false;
 
-            DataColumn ProfileFamily1IdColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily1Id.ToString(), typeof(int));
+            DataColumn ProfileFamily1IdColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily1Id.ToString(), typeof(int));
             ProfileFamily1IdColumn.AllowDBNull = false;
             ProfileFamily1IdColumn.DefaultValue = -1;
             ProfileFamily1IdColumn.Unique = false;
 
-            DataColumn ProfileFamily2IdColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily2Id.ToString(), typeof(int));
+            DataColumn ProfileFamily2IdColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.ProfileFamily2Id.ToString(), typeof(int));
             ProfileFamily2IdColumn.AllowDBNull = false;
             ProfileFamily2IdColumn.DefaultValue = -1;
             ProfileFamily2IdColumn.Unique = false;
 
-            DataColumn HostIdColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.HostId.ToString(), typeof(int));
+            DataColumn HostIdColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.HostId.ToString(), typeof(int));
             HostIdColumn.AllowDBNull = false;
             HostIdColumn.DefaultValue = -1;
             HostIdColumn.Unique = false;
 
-            DataColumn CategoryColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.Category.ToString(), typeof(string));
+            DataColumn CategoryColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.Category.ToString(), typeof(string));
             CategoryColumn.AllowDBNull = false;
             CategoryColumn.DefaultValue = "";
             CategoryColumn.Unique = false;
 
-            DataColumn SubCategoryColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.SubCategory.ToString(), typeof(string));
+            DataColumn SubCategoryColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.SubCategory.ToString(), typeof(string));
             SubCategoryColumn.AllowDBNull = false;
             SubCategoryColumn.DefaultValue = "";
             SubCategoryColumn.Unique = false;
 
-            DataColumn UniqueIdColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.UniqueId.ToString(), typeof(int));
+            DataColumn UniqueIdColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.UniqueId.ToString(), typeof(int));
             UniqueIdColumn.AllowDBNull = false;
             UniqueIdColumn.DefaultValue = -1;
             UniqueIdColumn.Unique = false;
 
-            DataColumn OwnerViewIdColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.OwnerViewId.ToString(), typeof(int));
+            DataColumn OwnerViewIdColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.OwnerViewId.ToString(), typeof(int));
             OwnerViewIdColumn.AllowDBNull = false;
             OwnerViewIdColumn.DefaultValue = -1;
             OwnerViewIdColumn.Unique = false;
 
-            DataColumn LevelIdColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.LevelId.ToString(), typeof(int));
+            DataColumn LevelIdColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.LevelId.ToString(), typeof(int));
             LevelIdColumn.AllowDBNull = false;
             LevelIdColumn.DefaultValue = -1;
             LevelIdColumn.Unique = false;
 
-            DataColumn IsSolidColumn = GeometryTable.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.IsSolid.ToString(), typeof(bool));
+            DataColumn IsSolidColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.IsSolid.ToString(), typeof(bool));
             LevelIdColumn.AllowDBNull = false;
             LevelIdColumn.DefaultValue = true;
             LevelIdColumn.Unique = false;
 
-            dataSet.Tables.Add(GeometryTable);
+            DataColumn DateCreatedColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.DateCreated.ToString(), typeof(DateTime));
+            DateCreatedColumn.AllowDBNull = false;
 
-            DataRelation geometryDataRelation = new DataRelation(TableRelations.FamilyComponentGeometriesFamilyId_FamilyComponentsId.ToString(),
-                dataSet.Tables[TableNames.FF_FamilyComponents.ToString()].Columns["Id"],
-                dataSet.Tables[TableNames.FF_FamilyComponentGeometries.ToString()].Columns[FamilyGeometry.FamilyGeometryColumnNames.FamilyId.ToString()]);
+            DataColumn DateModifiedColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.DateModified.ToString(), typeof(DateTime));
+            DateModifiedColumn.AllowDBNull = false;
+
+            DataColumn CreatedByIdColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.DateCreated.ToString(), typeof(string));
+            CreatedByIdColumn.AllowDBNull = false;
+
+            DataColumn ModifiedByIdColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.DateModified.ToString(), typeof(string));
+            ModifiedByIdColumn.AllowDBNull = false;
+
+            dataSet.Tables.Add(tbl);
+
+            DataRelation geometryDataRelation = new DataRelation(TableRelations.FamilyComponentGeometries_FamilyId__FamilyComponents_Id.ToString(),
+                dataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].Columns["Id"],
+                dataSet.Tables[TableNames.FF_FamilyTemplateGeometries.ToString()].Columns[FamilyGeometry.FamilyGeometryColumnNames.FamilyId.ToString()]);
             dataSet.Relations.Add(geometryDataRelation);
+
+            DataRelation CreatedByDataRelation = new DataRelation(TableRelations.FamilyComponentGeometries_CreatedById__Users_Id.ToString(),
+               dataSet.Tables[TableNames.FF_Users.ToString()].Columns[User.UsersTableColumnNames.Id.ToString()],
+               dataSet.Tables[TableNames.FF_FamilyComponentReferencePlanes.ToString()].Columns[FamilyGeometry.FamilyGeometryColumnNames.CreatedById.ToString()]);
+            dataSet.Relations.Add(CreatedByDataRelation);
+
+            DataRelation ModifiedByDataRelation = new DataRelation(TableRelations.FamilyComponentGeometries_ModifiedById__Users_Id.ToString(),
+                dataSet.Tables[TableNames.FF_Users.ToString()].Columns[User.UsersTableColumnNames.Id.ToString()],
+                dataSet.Tables[TableNames.FF_FamilyComponentReferencePlanes.ToString()].Columns[FamilyGeometry.FamilyGeometryColumnNames.ModifiedById.ToString()]);
+            dataSet.Relations.Add(ModifiedByDataRelation);
         }
 
         private static void InitilizeFamilyTemplateParametersTable(DataSet dataSet)
@@ -860,7 +952,6 @@ namespace ModBox.FamFactory.Revit.Manager
             DataColumn IdColumn = ParametersTable.Columns.Add(Parameter.ParameterColumnNames.Id.ToString(), typeof(string));
             IdColumn.AllowDBNull = false;
             IdColumn.Unique = true;
-            IdColumn.Caption = "Id";
 
             DataColumn FamilyTemplateIdColumn = ParametersTable.Columns.Add(Parameter.ParameterColumnNames.FamilyId.ToString(), typeof(string));
             FamilyTemplateIdColumn.AllowDBNull = false;
@@ -868,7 +959,6 @@ namespace ModBox.FamFactory.Revit.Manager
 
             DataColumn NameColumn = ParametersTable.Columns.Add(Parameter.ParameterColumnNames.Name.ToString(), typeof(string));
             NameColumn.AllowDBNull = false;
-            NameColumn.DefaultValue = "New Sweep";
             NameColumn.Unique = false;
 
             DataColumn ElementIdColumn = ParametersTable.Columns.Add(Parameter.ParameterColumnNames.ElementId.ToString(), typeof(int));
@@ -960,13 +1050,35 @@ namespace ModBox.FamFactory.Revit.Manager
             FormulaColumn.DefaultValue = string.Empty;
             FormulaColumn.Unique = false;
 
+            DataColumn DateCreatedColumn = ParametersTable.Columns.Add(Parameter.ParameterColumnNames.DateCreated.ToString(), typeof(DateTime));
+            DateCreatedColumn.AllowDBNull = false;
+
+            DataColumn DateModifiedColumn = ParametersTable.Columns.Add(Parameter.ParameterColumnNames.DateModified.ToString(), typeof(DateTime));
+            DateModifiedColumn.AllowDBNull = false;
+
+            DataColumn CreatedByIdColumn = ParametersTable.Columns.Add(Parameter.ParameterColumnNames.DateCreated.ToString(), typeof(string));
+            CreatedByIdColumn.AllowDBNull = false;
+
+            DataColumn ModifiedByIdColumn = ParametersTable.Columns.Add(Parameter.ParameterColumnNames.DateModified.ToString(), typeof(string));
+            ModifiedByIdColumn.AllowDBNull = false;
+
             ParametersTable.PrimaryKey = new DataColumn[] { IdColumn, NameColumn };
             dataSet.Tables.Add(ParametersTable);
 
-            DataRelation parametersDataRelation = new DataRelation(TableRelations.FamilyTemplateParametersFamilyId_FamilyTemplatesId.ToString(),
-                dataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].Columns["Id"],
-                dataSet.Tables[TableNames.FF_FamilyTemplateParameters.ToString()].Columns[Parameter.ParameterColumnNames.FamilyId.ToString()]);
+            DataRelation parametersDataRelation = new DataRelation(TableRelations.FamilyTemplateParameters_FamilyId__FamilyTemplates_Id.ToString(),
+               dataSet.Tables[TableNames.FF_FamilyComponents.ToString()].Columns["Id"],
+               dataSet.Tables[TableNames.FF_FamilyComponentParameters.ToString()].Columns[Parameter.ParameterColumnNames.FamilyId.ToString()]);
             dataSet.Relations.Add(parametersDataRelation);
+
+            DataRelation CreatedByDataRelation = new DataRelation(TableRelations.FamilyTemplateParameters_CreatedById__Users_Id.ToString(),
+                dataSet.Tables[TableNames.FF_Users.ToString()].Columns["Id"],
+                dataSet.Tables[TableNames.FF_FamilyComponentParameters.ToString()].Columns[Parameter.ParameterColumnNames.CreatedById.ToString()]);
+            dataSet.Relations.Add(CreatedByDataRelation);
+
+            DataRelation ModifiedByDataRelation = new DataRelation(TableRelations.FamilyTemplateParameters_ModifiedById__Users_Id.ToString(),
+                dataSet.Tables[TableNames.FF_Users.ToString()].Columns["Id"],
+                dataSet.Tables[TableNames.FF_FamilyComponentParameters.ToString()].Columns[Parameter.ParameterColumnNames.ModifiedById.ToString()]);
+            dataSet.Relations.Add(ModifiedByDataRelation);
         }
 
         private static void InitilizeFamilyComponentsParametersTable(DataSet dataSet)
@@ -976,15 +1088,13 @@ namespace ModBox.FamFactory.Revit.Manager
             DataColumn IdColumn = ParametersTable.Columns.Add(Parameter.ParameterColumnNames.Id.ToString(), typeof(string));
             IdColumn.AllowDBNull = false;
             IdColumn.Unique = true;
-            IdColumn.Caption = "Id";
 
-            DataColumn FamilyIdColumn = ParametersTable.Columns.Add(Parameter.ParameterColumnNames.FamilyId.ToString(), typeof(string));
-            FamilyIdColumn.AllowDBNull = false;
-            FamilyIdColumn.Unique = false;
+            DataColumn FamilyTemplateIdColumn = ParametersTable.Columns.Add(Parameter.ParameterColumnNames.FamilyId.ToString(), typeof(string));
+            FamilyTemplateIdColumn.AllowDBNull = false;
+            FamilyTemplateIdColumn.Unique = false;
 
             DataColumn NameColumn = ParametersTable.Columns.Add(Parameter.ParameterColumnNames.Name.ToString(), typeof(string));
             NameColumn.AllowDBNull = false;
-            NameColumn.DefaultValue = "New Sweep";
             NameColumn.Unique = false;
 
             DataColumn ElementIdColumn = ParametersTable.Columns.Add(Parameter.ParameterColumnNames.ElementId.ToString(), typeof(int));
@@ -1076,13 +1186,35 @@ namespace ModBox.FamFactory.Revit.Manager
             FormulaColumn.DefaultValue = string.Empty;
             FormulaColumn.Unique = false;
 
+            DataColumn DateCreatedColumn = ParametersTable.Columns.Add(Parameter.ParameterColumnNames.DateCreated.ToString(), typeof(DateTime));
+            DateCreatedColumn.AllowDBNull = false;
+
+            DataColumn DateModifiedColumn = ParametersTable.Columns.Add(Parameter.ParameterColumnNames.DateModified.ToString(), typeof(DateTime));
+            DateModifiedColumn.AllowDBNull = false;
+
+            DataColumn CreatedByIdColumn = ParametersTable.Columns.Add(Parameter.ParameterColumnNames.DateCreated.ToString(), typeof(string));
+            CreatedByIdColumn.AllowDBNull = false;
+
+            DataColumn ModifiedByIdColumn = ParametersTable.Columns.Add(Parameter.ParameterColumnNames.DateModified.ToString(), typeof(string));
+            ModifiedByIdColumn.AllowDBNull = false;
+
             ParametersTable.PrimaryKey = new DataColumn[] { IdColumn, NameColumn };
             dataSet.Tables.Add(ParametersTable);
 
-            DataRelation parametersDataRelation = new DataRelation(TableRelations.FamilyComponentParametersFamilyId_FamilyComponentsId.ToString(),
+            DataRelation parametersDataRelation = new DataRelation(TableRelations.FamilyComponentParameters_FamilyId__FamilyComponents_Id.ToString(),
                 dataSet.Tables[TableNames.FF_FamilyComponents.ToString()].Columns["Id"],
                 dataSet.Tables[TableNames.FF_FamilyComponentParameters.ToString()].Columns[Parameter.ParameterColumnNames.FamilyId.ToString()]);
             dataSet.Relations.Add(parametersDataRelation);
+
+            DataRelation CreatedByDataRelation = new DataRelation(TableRelations.FamilyComponentParameters_CreatedById__Users_Id.ToString(),
+                dataSet.Tables[TableNames.FF_Users.ToString()].Columns["Id"],
+                dataSet.Tables[TableNames.FF_FamilyComponentParameters.ToString()].Columns[Parameter.ParameterColumnNames.CreatedById.ToString()]);
+            dataSet.Relations.Add(CreatedByDataRelation);
+
+            DataRelation ModifiedByDataRelation = new DataRelation(TableRelations.FamilyComponentParameters_ModifiedById__Users_Id.ToString(),
+                dataSet.Tables[TableNames.FF_Users.ToString()].Columns["Id"],
+                dataSet.Tables[TableNames.FF_FamilyComponentParameters.ToString()].Columns[Parameter.ParameterColumnNames.ModifiedById.ToString()]);
+            dataSet.Relations.Add(ModifiedByDataRelation);
         }
 
         private static void InitilizeFamilyTemplateComponentsTable(DataSet dataSet)
@@ -1118,28 +1250,50 @@ namespace ModBox.FamFactory.Revit.Manager
             ZRefferencePlaneIdColumn.AllowDBNull = true;
             ZRefferencePlaneIdColumn.Unique = false;
 
+            DataColumn DateCreatedColumn = FamilyTemplateComponentsTable.Columns.Add(FamilyTemplateComponent.TemplateComponentColumnNames.DateCreated.ToString(), typeof(DateTime));
+            DateCreatedColumn.AllowDBNull = false;
+
+            DataColumn DateModifiedColumn = FamilyTemplateComponentsTable.Columns.Add(FamilyTemplateComponent.TemplateComponentColumnNames.DateModified.ToString(), typeof(DateTime));
+            DateModifiedColumn.AllowDBNull = false;
+
+            DataColumn CreatedByIdColumn = FamilyTemplateComponentsTable.Columns.Add(FamilyTemplateComponent.TemplateComponentColumnNames.CreatedById.ToString(), typeof(string));
+            CreatedByIdColumn.AllowDBNull = false;
+
+            DataColumn ModifiedByIdColumn = FamilyTemplateComponentsTable.Columns.Add(FamilyTemplateComponent.TemplateComponentColumnNames.ModifiedById.ToString(), typeof(string));
+            ModifiedByIdColumn.AllowDBNull = false;
+
             FamilyTemplateComponentsTable.PrimaryKey = new DataColumn[] { IdColumn };
             dataSet.Tables.Add(FamilyTemplateComponentsTable);
 
-            DataRelation TemplateIdDataRelation = new DataRelation(TableRelations.FamilyTemplateComponentsFamilyId_FamilyTemplateId.ToString(),
+            DataRelation TemplateIdDataRelation = new DataRelation(TableRelations.FamilyTemplateComponents_FamilyId__FamilyTemplate_Id.ToString(),
                 dataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].Columns["Id"],
                 dataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].Columns[FamilyTemplateComponent.TemplateComponentColumnNames.FamilyId.ToString()]);
             dataSet.Relations.Add(TemplateIdDataRelation);
 
-            DataRelation ReferencePlaneIdXDataRelation = new DataRelation(TableRelations.FamilyTemplateComponentsXRefferencePlaneId_FamilyTemplateReferencePlanesId.ToString(),
+            DataRelation ReferencePlaneIdXDataRelation = new DataRelation(TableRelations.FamilyTemplateComponents_XRefferencePlaneId__FamilyTemplateReferencePlanes_Id.ToString(),
                 dataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].Columns["Id"],
-                dataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].Columns[FamilyTemplateComponent.TemplateComponentColumnNames.FamilyId.ToString()]);
+                dataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].Columns[FamilyTemplateComponent.TemplateComponentColumnNames.XRefferencePlaneId.ToString()]);
             dataSet.Relations.Add(ReferencePlaneIdXDataRelation);
 
-            DataRelation ReferencePlaneIdYDataRelation = new DataRelation(TableRelations.FamilyTemplateComponentsYRefferencePlaneId_FamilyTemplateReferencePlanesId.ToString(),
+            DataRelation ReferencePlaneIdYDataRelation = new DataRelation(TableRelations.FamilyTemplateComponents_YRefferencePlaneId__FamilyTemplateReferencePlanes_Id.ToString(),
                 dataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].Columns["Id"],
-                dataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].Columns[FamilyTemplateComponent.TemplateComponentColumnNames.FamilyId.ToString()]);
+                dataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].Columns[FamilyTemplateComponent.TemplateComponentColumnNames.YRefferencePlaneId.ToString()]);
             dataSet.Relations.Add(ReferencePlaneIdYDataRelation);
 
-            DataRelation ReferencePlaneIdZDataRelation = new DataRelation(TableRelations.FamilyTemplateComponentsZRefferencePlaneId_FamilyTemplateReferencePlanesId.ToString(),
+            DataRelation ReferencePlaneIdZDataRelation = new DataRelation(TableRelations.FamilyTemplateComponents_ZRefferencePlaneId__FamilyTemplateReferencePlanes_Id.ToString(),
                 dataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].Columns["Id"],
-                dataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].Columns[FamilyTemplateComponent.TemplateComponentColumnNames.FamilyId.ToString()]);
+                dataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].Columns[FamilyTemplateComponent.TemplateComponentColumnNames.ZRefferencePlaneId.ToString()]);
             dataSet.Relations.Add(ReferencePlaneIdZDataRelation);
+
+            DataRelation CreatedByDataRelation = new DataRelation(TableRelations.FamilyTemplateComponents_CreatedById__Users_Id.ToString(),
+                dataSet.Tables[TableNames.FF_Users.ToString()].Columns["Id"],
+                dataSet.Tables[TableNames.FF_FamilyComponentParameters.ToString()].Columns[FamilyTemplateComponent.TemplateComponentColumnNames.CreatedById.ToString()]);
+            dataSet.Relations.Add(CreatedByDataRelation);
+
+            DataRelation ModifiedByDataRelation = new DataRelation(TableRelations.FamilyComponentParameters_ModifiedById__Users_Id.ToString(),
+                dataSet.Tables[TableNames.FF_Users.ToString()].Columns["Id"],
+                dataSet.Tables[TableNames.FF_FamilyComponentParameters.ToString()].Columns[FamilyTemplateComponent.TemplateComponentColumnNames.ModifiedById.ToString()]);
+            dataSet.Relations.Add(ModifiedByDataRelation);
         }
 
         private static void InitilizeFamilyBuildsTable(DataSet dataSet)
@@ -1162,13 +1316,35 @@ namespace ModBox.FamFactory.Revit.Manager
             DescriptionColumn.AllowDBNull = true;
             DescriptionColumn.Unique = false;
 
+            DataColumn DateCreatedColumn = FamilyBuildsTable.Columns.Add(FamilyBuild.FamilyBuildsColumnNames.DateCreated.ToString(), typeof(DateTime));
+            DateCreatedColumn.AllowDBNull = false;
+
+            DataColumn DateModifiedColumn = FamilyBuildsTable.Columns.Add(FamilyBuild.FamilyBuildsColumnNames.DateModified.ToString(), typeof(DateTime));
+            DateModifiedColumn.AllowDBNull = false;
+
+            DataColumn CreatedByIdColumn = FamilyBuildsTable.Columns.Add(FamilyBuild.FamilyBuildsColumnNames.CreatedById.ToString(), typeof(string));
+            CreatedByIdColumn.AllowDBNull = false;
+
+            DataColumn ModifiedByIdColumn = FamilyBuildsTable.Columns.Add(FamilyBuild.FamilyBuildsColumnNames.ModifiedById.ToString(), typeof(string));
+            ModifiedByIdColumn.AllowDBNull = false;
+
             FamilyBuildsTable.PrimaryKey = new DataColumn[] { IdColumn };
             dataSet.Tables.Add(FamilyBuildsTable);
 
-            DataRelation TemplateIdDataRelation = new DataRelation(TableRelations.FamilyBuildComponentsFamilyBuildId_FamilyBuildsId.ToString(),
+            DataRelation TemplateIdDataRelation = new DataRelation(TableRelations.FamilyBuilds_FamilyTemplateId__FamilyTemplates_Id.ToString(),
                 dataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].Columns["Id"],
                 dataSet.Tables[TableNames.FF_FamilyBuilds.ToString()].Columns[FamilyBuild.FamilyBuildsColumnNames.FamilyTemplateId.ToString()]);
             dataSet.Relations.Add(TemplateIdDataRelation);
+
+            DataRelation CreatedByDataRelation = new DataRelation(TableRelations.FamilyBuilds_CreatedById__Users_Id.ToString(),
+                dataSet.Tables[TableNames.FF_Users.ToString()].Columns["Id"],
+                dataSet.Tables[TableNames.FF_FamilyComponentParameters.ToString()].Columns[FamilyBuild.FamilyBuildsColumnNames.CreatedById.ToString()]);
+            dataSet.Relations.Add(CreatedByDataRelation);
+
+            DataRelation ModifiedByDataRelation = new DataRelation(TableRelations.FamilyBuilds_ModifiedById__Users_Id.ToString(),
+                dataSet.Tables[TableNames.FF_Users.ToString()].Columns["Id"],
+                dataSet.Tables[TableNames.FF_FamilyComponentParameters.ToString()].Columns[FamilyBuild.FamilyBuildsColumnNames.ModifiedById.ToString()]);
+            dataSet.Relations.Add(ModifiedByDataRelation);
         }
 
         private static void InitilizeFamilyBuildComponentsTable(DataSet dataSet)
@@ -1185,125 +1361,169 @@ namespace ModBox.FamFactory.Revit.Manager
 
             DataColumn FamilyComponentIdColumn = FamilyBuildComponentsTable.Columns.Add(FamilyBuildComponent.FamilyBuildComponentsColumnNames.FamilyComponentId.ToString(), typeof(string));
             FamilyComponentIdColumn.AllowDBNull = false;
-            FamilyComponentIdColumn.Unique = false;            
+            FamilyComponentIdColumn.Unique = false;
+
+            DataColumn DateCreatedColumn = FamilyBuildComponentsTable.Columns.Add(FamilyBuildComponent.FamilyBuildComponentsColumnNames.DateCreated.ToString(), typeof(DateTime));
+            DateCreatedColumn.AllowDBNull = false;
+
+            DataColumn DateModifiedColumn = FamilyBuildComponentsTable.Columns.Add(FamilyBuildComponent.FamilyBuildComponentsColumnNames.DateModified.ToString(), typeof(DateTime));
+            DateModifiedColumn.AllowDBNull = false;
+
+            DataColumn CreatedByIdColumn = FamilyBuildComponentsTable.Columns.Add(FamilyBuildComponent.FamilyBuildComponentsColumnNames.CreatedById.ToString(), typeof(string));
+            CreatedByIdColumn.AllowDBNull = false;
+
+            DataColumn ModifiedByIdColumn = FamilyBuildComponentsTable.Columns.Add(FamilyBuildComponent.FamilyBuildComponentsColumnNames.ModifiedById.ToString(), typeof(string));
+            ModifiedByIdColumn.AllowDBNull = false;
 
             FamilyBuildComponentsTable.PrimaryKey = new DataColumn[] { IdColumn };
             dataSet.Tables.Add(FamilyBuildComponentsTable);
 
-            DataRelation FamilyBuildComponentDataRelation = new DataRelation(TableRelations.FamilyBuildComponentsFamilyComponentId_FamilyComponentsId.ToString(),
-                dataSet.Tables[TableNames.FF_FamilyComponents.ToString()].Columns["Id"],
-                dataSet.Tables[TableNames.FF_FamilyBuildComponents.ToString()].Columns[FamilyBuildComponent.FamilyBuildComponentsColumnNames.FamilyComponentId.ToString()]);
-            dataSet.Relations.Add(FamilyBuildComponentDataRelation);
+            DataRelation FamilyBuildDataRelation = new DataRelation(TableRelations.FamilyBuildComponents_FamilyBuildId__FamilyBuilds_Id.ToString(),
+                dataSet.Tables[TableNames.FF_FamilyBuilds.ToString()].Columns["Id"],
+                dataSet.Tables[TableNames.FF_FamilyBuildComponents.ToString()].Columns[FamilyBuildComponent.FamilyBuildComponentsColumnNames.FamilyBuildId.ToString()]);
+            dataSet.Relations.Add(FamilyBuildDataRelation);
 
-            DataRelation FamilyBuildDataRelation = new DataRelation(TableRelations.FamilyBuildComponentsFamilyBuildId_FamilyBuildsId.ToString(),
+            DataRelation FamilyBuildComponentsDataRelation = new DataRelation(TableRelations.FamilyBuildComponents_FamilyComponentId__FamilyComponents_Id.ToString(),
                 dataSet.Tables[TableNames.FF_FamilyBuilds.ToString()].Columns["Id"],
                 dataSet.Tables[TableNames.FF_FamilyComponents.ToString()].Columns[FamilyBuildComponent.FamilyBuildComponentsColumnNames.FamilyBuildId.ToString()]);
-            dataSet.Relations.Add(FamilyBuildDataRelation);
+            dataSet.Relations.Add(FamilyBuildComponentsDataRelation);
+
+            DataRelation createdDataRelation = new DataRelation(TableRelations.FamilyBuildComponents_FamilyBuildId__FamilyBuilds_Id.ToString(),
+                dataSet.Tables[TableNames.FF_Users.ToString()].Columns["Id"],
+                dataSet.Tables[TableNames.FF_FamilyBuildComponents.ToString()].Columns[FamilyBuildComponent.FamilyBuildComponentsColumnNames.CreatedById.ToString()]);
+            dataSet.Relations.Add(createdDataRelation);
+
+            DataRelation modifiedDataRelation = new DataRelation(TableRelations.FamilyBuildComponents_FamilyComponentId__FamilyComponents_Id.ToString(),
+                dataSet.Tables[TableNames.FF_Users.ToString()].Columns["Id"],
+                dataSet.Tables[TableNames.FF_FamilyComponents.ToString()].Columns[FamilyBuildComponent.FamilyBuildComponentsColumnNames.ModifiedById.ToString()]);
+            dataSet.Relations.Add(modifiedDataRelation);
         }
 
         private static void InitilizeFamilyBuildComponentPositionsTable(DataSet dataSet)
         {
-            DataTable FamilyBuildComponentPositionsTable = new DataTable(TableNames.FF_FamilyBuildComponentPositions.ToString());
+            DataTable buildPositions = new DataTable(TableNames.FF_FamilyBuildComponentPositions.ToString());
 
-            DataColumn IdColumn = FamilyBuildComponentPositionsTable.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.Id.ToString(), typeof(string));
+            DataColumn IdColumn = buildPositions.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.Id.ToString(), typeof(string));
             IdColumn.AllowDBNull = false;
             IdColumn.Unique = true;
 
-            DataColumn FamilyBuildComponentIdColumn = FamilyBuildComponentPositionsTable.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.FamilyBuildComponentId.ToString(), typeof(string));
+            DataColumn FamilyBuildComponentIdColumn = buildPositions.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.FamilyBuildComponentId.ToString(), typeof(string));
             FamilyBuildComponentIdColumn.AllowDBNull = false;
             FamilyBuildComponentIdColumn.Unique = false;
 
-            DataColumn TemplateReferencePlaneXIdColumn = FamilyBuildComponentPositionsTable.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.TemplateReferencePlaneXId.ToString(), typeof(string));
+            DataColumn TemplateReferencePlaneXIdColumn = buildPositions.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.TemplateReferencePlaneXId.ToString(), typeof(string));
             TemplateReferencePlaneXIdColumn.AllowDBNull = false;
             TemplateReferencePlaneXIdColumn.Unique = false;
 
-            DataColumn TemplateReferencePlaneYIdColumn = FamilyBuildComponentPositionsTable.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.TemplateReferencePlaneYId.ToString(), typeof(string));
+            DataColumn TemplateReferencePlaneYIdColumn = buildPositions.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.TemplateReferencePlaneYId.ToString(), typeof(string));
             TemplateReferencePlaneYIdColumn.AllowDBNull = false;
             TemplateReferencePlaneYIdColumn.Unique = false;
 
-            DataColumn TemplateReferencePlaneZIdColumn = FamilyBuildComponentPositionsTable.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.TemplateReferencePlaneZId.ToString(), typeof(string));
+            DataColumn TemplateReferencePlaneZIdColumn = buildPositions.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.TemplateReferencePlaneZId.ToString(), typeof(string));
             TemplateReferencePlaneZIdColumn.AllowDBNull = false;
             TemplateReferencePlaneZIdColumn.Unique = false;
 
-            DataColumn ComponentRefernecePLaneXIdColumn = FamilyBuildComponentPositionsTable.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.ComponentRefernecePlaneXId.ToString(), typeof(string));
+            DataColumn ComponentRefernecePLaneXIdColumn = buildPositions.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.ComponentRefernecePlaneXId.ToString(), typeof(string));
             ComponentRefernecePLaneXIdColumn.AllowDBNull = false;
             ComponentRefernecePLaneXIdColumn.Unique = false;
 
-            DataColumn ComponentRefernecePLaneYIdColumn = FamilyBuildComponentPositionsTable.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.ComponentRefernecePlaneYId.ToString(), typeof(string));
+            DataColumn ComponentRefernecePLaneYIdColumn = buildPositions.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.ComponentRefernecePlaneYId.ToString(), typeof(string));
             ComponentRefernecePLaneYIdColumn.AllowDBNull = false;
             ComponentRefernecePLaneYIdColumn.Unique = false;
 
-            DataColumn ComponentRefernecePLaneZIdColumn = FamilyBuildComponentPositionsTable.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.ComponentRefernecePlaneZId.ToString(), typeof(string));
+            DataColumn ComponentRefernecePLaneZIdColumn = buildPositions.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.ComponentRefernecePlaneZId.ToString(), typeof(string));
             ComponentRefernecePLaneZIdColumn.AllowDBNull = false;
             ComponentRefernecePLaneZIdColumn.Unique = false;
 
-            DataColumn XOffsetColumn = FamilyBuildComponentPositionsTable.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.XOffset.ToString(), typeof(double));
+            DataColumn XOffsetColumn = buildPositions.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.XOffset.ToString(), typeof(double));
             XOffsetColumn.AllowDBNull = false;
             XOffsetColumn.Unique = false;
             XOffsetColumn.DefaultValue = 0;
 
-            DataColumn YOffsetColumn = FamilyBuildComponentPositionsTable.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.YOffset.ToString(), typeof(double));
+            DataColumn YOffsetColumn = buildPositions.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.YOffset.ToString(), typeof(double));
             YOffsetColumn.AllowDBNull = false;
             YOffsetColumn.Unique = false;
             YOffsetColumn.DefaultValue = 0;
 
-            DataColumn ZOffsetColumn = FamilyBuildComponentPositionsTable.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.ZOffset.ToString(), typeof(double));
+            DataColumn ZOffsetColumn = buildPositions.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.ZOffset.ToString(), typeof(double));
             ZOffsetColumn.AllowDBNull = false;
             ZOffsetColumn.Unique = false;
             ZOffsetColumn.DefaultValue = 0;
 
-            DataColumn XRotateColumn = FamilyBuildComponentPositionsTable.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.XRotate.ToString(), typeof(double));
+            DataColumn XRotateColumn = buildPositions.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.XRotate.ToString(), typeof(double));
             XRotateColumn.AllowDBNull = false;
             XRotateColumn.Unique = false;
             XRotateColumn.DefaultValue = 0;
 
-            DataColumn YRotateColumn = FamilyBuildComponentPositionsTable.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.YRotate.ToString(), typeof(double));
+            DataColumn YRotateColumn = buildPositions.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.YRotate.ToString(), typeof(double));
             YRotateColumn.AllowDBNull = false;
             YRotateColumn.Unique = false;
             YRotateColumn.DefaultValue = 0;
 
-            DataColumn ZRotateColumn = FamilyBuildComponentPositionsTable.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.ZRotate.ToString(), typeof(double));
+            DataColumn ZRotateColumn = buildPositions.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.ZRotate.ToString(), typeof(double));
             ZRotateColumn.AllowDBNull = false;
             ZRotateColumn.Unique = false;
             ZRotateColumn.DefaultValue = 0;
 
-            FamilyBuildComponentPositionsTable.PrimaryKey = new DataColumn[] { IdColumn };
-            dataSet.Tables.Add(FamilyBuildComponentPositionsTable);
+            DataColumn DateCreatedColumn = buildPositions.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.DateCreated.ToString(), typeof(DateTime));
+            DateCreatedColumn.AllowDBNull = false;
 
-            DataRelation FamilyBuildComponentDataRelation = new DataRelation(TableRelations.FamilyBuildComponentPositionsFamilyBuildComponentId_FamilyBuildComponentsId.ToString(),
+            DataColumn DateModifiedColumn = buildPositions.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.DateModified.ToString(), typeof(DateTime));
+            DateModifiedColumn.AllowDBNull = false;
+
+            DataColumn CreatedByIdColumn = buildPositions.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.CreatedById.ToString(), typeof(string));
+            CreatedByIdColumn.AllowDBNull = false;
+
+            DataColumn ModifiedByIdColumn = buildPositions.Columns.Add(FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.ModifiedById.ToString(), typeof(string));
+            ModifiedByIdColumn.AllowDBNull = false;
+
+            buildPositions.PrimaryKey = new DataColumn[] { IdColumn };
+            dataSet.Tables.Add(buildPositions);
+
+            DataRelation FamilyBuildComponentDataRelation = new DataRelation(TableRelations.FamilyBuildComponentPositions_FamilyBuildComponentId_FamilyBuildComponents_Id.ToString(),
                 dataSet.Tables[TableNames.FF_FamilyBuildComponents.ToString()].Columns["Id"],
                 dataSet.Tables[TableNames.FF_FamilyBuildComponentPositions.ToString()].Columns[FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.FamilyBuildComponentId.ToString()]);
             dataSet.Relations.Add(FamilyBuildComponentDataRelation);
 
-            DataRelation TemplateReferencePlaneXIdDataRelation = new DataRelation(TableRelations.FamilyBuildComponentPositionsTemplateReferencePlaneXId_FamilyTemplateReferencePlanesId.ToString(),
+            DataRelation TemplateReferencePlaneXIdDataRelation = new DataRelation(TableRelations.FamilyBuildComponentPositions_TemplateReferencePlaneXId__FamilyTemplateReferencePlanes_Id.ToString(),
                 dataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()].Columns["Id"],
                 dataSet.Tables[TableNames.FF_FamilyBuildComponentPositions.ToString()].Columns[FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.TemplateReferencePlaneXId.ToString()]);
             dataSet.Relations.Add(TemplateReferencePlaneXIdDataRelation);
 
-            DataRelation TemplateReferencePlaneYIdDataRelation = new DataRelation(TableRelations.FamilyBuildComponentPositionsTemplateReferencePlaneYId_FamilyTemplateReferencePlanesId.ToString(),
+            DataRelation TemplateReferencePlaneYIdDataRelation = new DataRelation(TableRelations.FamilyBuildComponentPositions_TemplateReferencePlaneYId__FamilyTemplateReferencePlanes_Id.ToString(),
                 dataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()].Columns["Id"],
                 dataSet.Tables[TableNames.FF_FamilyBuildComponentPositions.ToString()].Columns[FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.TemplateReferencePlaneYId.ToString()]);
             dataSet.Relations.Add(TemplateReferencePlaneYIdDataRelation);
 
-            DataRelation TemplateReferencePlaneZIdDataRelation = new DataRelation(TableRelations.FamilyBuildComponentPositionsTemplateReferencePlaneZId_FamilyTemplateReferencePlanesId.ToString(),
+            DataRelation TemplateReferencePlaneZIdDataRelation = new DataRelation(TableRelations.FamilyBuildComponentPositions_TemplateReferencePlaneZId__FamilyTemplateReferencePlanes_Id.ToString(),
                 dataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()].Columns["Id"],
                 dataSet.Tables[TableNames.FF_FamilyBuildComponentPositions.ToString()].Columns[FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.TemplateReferencePlaneZId.ToString()]);
             dataSet.Relations.Add(TemplateReferencePlaneZIdDataRelation);
 
-            DataRelation ComponentRefernecePlaneXIdDataRelation = new DataRelation(TableRelations.FamilyBuildComponentPositionsComponentReferencePlaneXId_FamilyComponentReferencePlanesId.ToString(),
+            DataRelation ComponentRefernecePlaneXIdDataRelation = new DataRelation(TableRelations.FamilyBuildComponentPositions_TemplateReferencePlaneXId__FamilyTemplateReferencePlanes_Id.ToString(),
                 dataSet.Tables[TableNames.FF_FamilyComponentReferencePlanes.ToString()].Columns["Id"],
                 dataSet.Tables[TableNames.FF_FamilyBuildComponentPositions.ToString()].Columns[FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.ComponentRefernecePlaneXId.ToString()]);
             dataSet.Relations.Add(ComponentRefernecePlaneXIdDataRelation);
 
-            DataRelation ComponentRefernecePlaneYIdDataRelation = new DataRelation(TableRelations.FamilyBuildComponentPositionsComponentReferencePlaneYId_FamilyComponentReferencePlanesId.ToString(),
+            DataRelation ComponentRefernecePlaneYIdDataRelation = new DataRelation(TableRelations.FamilyBuildComponentPositions_TemplateReferencePlaneYId__FamilyTemplateReferencePlanes_Id.ToString(),
                 dataSet.Tables[TableNames.FF_FamilyComponentReferencePlanes.ToString()].Columns["Id"],
                 dataSet.Tables[TableNames.FF_FamilyBuildComponentPositions.ToString()].Columns[FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.ComponentRefernecePlaneYId.ToString()]);
             dataSet.Relations.Add(ComponentRefernecePlaneYIdDataRelation);
 
-            DataRelation ComponentRefernecePlaneZIdDataRelation = new DataRelation(TableRelations.FamilyBuildComponentPositionsComponentReferencePlaneZId_FamilyComponentReferencePlanesId.ToString(),
+            DataRelation ComponentRefernecePlaneZIdDataRelation = new DataRelation(TableRelations.FamilyBuildComponentPositions_TemplateReferencePlaneZId__FamilyTemplateReferencePlanes_Id.ToString(),
                 dataSet.Tables[TableNames.FF_FamilyComponentReferencePlanes.ToString()].Columns["Id"],
                 dataSet.Tables[TableNames.FF_FamilyBuildComponentPositions.ToString()].Columns[FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.ComponentRefernecePlaneZId.ToString()]);
             dataSet.Relations.Add(ComponentRefernecePlaneZIdDataRelation);
+
+            DataRelation CreatedByDataRelation = new DataRelation(TableRelations.FamilyBuildComponentPositions_TemplateReferencePlaneYId__FamilyTemplateReferencePlanes_Id.ToString(),
+                dataSet.Tables[TableNames.FF_Users.ToString()].Columns["Id"],
+                dataSet.Tables[TableNames.FF_FamilyBuildComponentPositions.ToString()].Columns[FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.CreatedById.ToString()]);
+            dataSet.Relations.Add(CreatedByDataRelation);
+
+            DataRelation ModifiedByDataRelation = new DataRelation(TableRelations.FamilyBuildComponentPositions_TemplateReferencePlaneZId__FamilyTemplateReferencePlanes_Id.ToString(),
+                dataSet.Tables[TableNames.FF_Users.ToString()].Columns["Id"],
+                dataSet.Tables[TableNames.FF_FamilyBuildComponentPositions.ToString()].Columns[FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.ModifiedById.ToString()]);
+            dataSet.Relations.Add(ModifiedByDataRelation);
         }
 
         public static void InstallSampleData(System.Data.SQLite.SQLiteConnection connection, DataSet dataSet)
@@ -1371,7 +1591,7 @@ namespace ModBox.FamFactory.Revit.Manager
             adminUserDataRow[User.UsersTableColumnNames.ProfilePic.ToString()] = Utils.ImageToByte(Resources.UserIcon);
             adminUserDataRow[User.UsersTableColumnNames.PermissionId.ToString()] = dataSet.Tables[TableNames.FF_Permissions.ToString()].Select("Name = 'Editor'").FirstOrDefault()["Id"];
             adminUserDataRow[User.UsersTableColumnNames.LastLogInDate.ToString()] = DateTime.Now;
-            adminUserDataRow[User.UsersTableColumnNames.State.ToString()] = Manager.EntityStates.Enabled;
+            adminUserDataRow[User.UsersTableColumnNames.State.ToString()] = EntityStates.Enabled;
             adminUserDataRow[User.UsersTableColumnNames.TempFolder.ToString()] = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + "\\FamFactory\\Temp";
             usersTable.Rows.Add(adminUserDataRow);
 
@@ -1412,7 +1632,7 @@ namespace ModBox.FamFactory.Revit.Manager
                             command.ExecuteNonQuery();
                         }
                         connection.Close();
-                        FamFactoryDataSet.InitilizeDataSet(connection, set);
+                        FamFactoryDataSet.InitilizeDataSet(set);
                         return true;
                     }
                 }

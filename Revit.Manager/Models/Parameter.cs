@@ -9,8 +9,9 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class Parameter : ModelBase<Parameter>
     {
-        public enum ParameterColumnNames { Id, FamilyId, Name, ElementId, ElementGUID, HasValue, IsReadOnly, IsShared, IsInstance, StorageType, 
-            IsEditable, IsActive, HostId, IsReporting, BuiltInParamGroup, ParameterType, UnitType, DisplayUnitType, UserModifiable, IsDeterminedByFormula, Formula }
+        public enum ParameterColumnNames { Id, FamilyId, Name, ElementId, ElementGUID, HasValue, IsReadOnly, IsShared, IsInstance, 
+            StorageType, IsEditable, IsActive, HostId, IsReporting, BuiltInParamGroup, ParameterType, UnitType, DisplayUnitType, 
+            UserModifiable, IsDeterminedByFormula, Formula, DateCreated, DateModified, CreatedById, ModifiedById }
 
         public string Id
         {
@@ -125,6 +126,26 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             get { return InternalDataRowView[ParameterColumnNames.Formula.ToString()].ToString(); }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.Formula.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+        }
+        public string DateCreated
+        {
+            get { return InternalDataRowView[ParameterColumnNames.DateCreated.ToString()].ToString(); }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.DateCreated.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+        }
+        public string DateModified
+        {
+            get { return InternalDataRowView[ParameterColumnNames.DateModified.ToString()].ToString(); }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.DateModified.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+        }
+        public string CreatedBy
+        {
+            get { return InternalDataRowView[ParameterColumnNames.CreatedById.ToString()].ToString(); }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.CreatedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+        }
+        public string ModifiedBy
+        {
+            get { return InternalDataRowView[ParameterColumnNames.ModifiedById.ToString()].ToString(); }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.ModifiedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
 
         public Parameter(DataRowView rowView) : base(rowView)

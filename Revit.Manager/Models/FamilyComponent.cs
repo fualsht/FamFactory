@@ -10,8 +10,10 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamilyComponent : ModelBase<FamilyComponent>
     {
-        public enum FamilyComponentsTableColumnNames { Id, Name, Description, FamilyComponentTypeId, FamilyCategory, FamilyFile, Thumbnail, FileSize, DateCreated, DateModified, CreatedByUserId, Version, 
-            IsReleased, RoundConnectorDimention, PartType, OmniClassNumber, OmniClassTitle, WorkPlaneBased, AlwaysVertical, CutsWithVoidWhenLoaded, IsShared, RoomCalculationPoint, FileName }
+        public enum FamilyComponentsTableColumnNames { Id, Name, Description, FamilyComponentTypeId, FamilyCategory, FamilyFile, 
+            Thumbnail, FileSize, DateCreated, DateModified, CreatedById, ModifiedById, Version, IsReleased, RoundConnectorDimention, PartType, 
+            OmniClassNumber, OmniClassTitle, WorkPlaneBased, AlwaysVertical, CutsWithVoidWhenLoaded, IsShared, RoomCalculationPoint, 
+            FileName }
 
         public string Id
         {
@@ -65,8 +67,13 @@ namespace ModBox.FamFactory.Revit.Manager
         }
         public string CreatedBy
         {
-            get { return InternalDataRowView[FamilyComponentsTableColumnNames.CreatedByUserId.ToString()].ToString(); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[FamilyComponentsTableColumnNames.CreatedByUserId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return InternalDataRowView[FamilyComponentsTableColumnNames.CreatedById.ToString()].ToString(); }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[FamilyComponentsTableColumnNames.CreatedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+        }
+        public string ModifiedBy
+        {
+            get { return InternalDataRowView[FamilyComponentsTableColumnNames.ModifiedById.ToString()].ToString(); }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[FamilyComponentsTableColumnNames.ModifiedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public Version Version
         {
@@ -150,9 +157,9 @@ namespace ModBox.FamFactory.Revit.Manager
             RefferencePlaneItems = new ObservableCollection<ReferencePlane>();
             FamilyGeometryItems = new ObservableCollection<FamilyGeometry>();
             ParameterItems = new ObservableCollection<Parameter>();
-            _FamilyComponentParametersView = InternalDataRowView.CreateChildView(TableRelations.FamilyComponentParametersFamilyId_FamilyComponentsId.ToString());
-            _FamilyComponentReferencePlanesView = InternalDataRowView.CreateChildView(TableRelations.FamilyComponentsReferencePlaneId_FamilyComponentsId.ToString());
-            _FamilyComponentGeometryView = InternalDataRowView.CreateChildView(TableRelations.FamilyComponentGeometriesFamilyId_FamilyComponentsId.ToString());
+            _FamilyComponentParametersView = InternalDataRowView.CreateChildView(TableRelations.FamilyComponentParameters_FamilyId__FamilyComponents_Id.ToString());
+            _FamilyComponentReferencePlanesView = InternalDataRowView.CreateChildView(TableRelations.FamilyComponentReferencePlanes_FamilyId__FamilyComponents_Id.ToString());
+            _FamilyComponentGeometryView = InternalDataRowView.CreateChildView(TableRelations.FamilyComponentGeometries_FamilyId__FamilyComponents_Id.ToString());
             _FamilyComponentTypesView = InternalDataRowView.DataView.Table.DataSet.Tables[TableNames.FF_FamilyComponentTypes.ToString()].DefaultView;
             RefreshChildRows();
         }

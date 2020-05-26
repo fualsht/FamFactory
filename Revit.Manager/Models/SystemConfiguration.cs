@@ -9,7 +9,7 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class SystemConfiguration : ModelBase<SystemConfiguration>
     {
-        public enum SystemConfigurationTableColumnNames { Id, Name, CompanyAddress, Email, InstallLocation, AppVersion, DataBaseVersion, CreatedBy, ModifiedBy }
+        public enum SystemConfigurationTableColumnNames { Id, Name, CompanyAddress, Email, InstallLocation, AppVersion, DataBaseVersion, CreatedById, ModifiedById, DateCreated, DateModified }
         public string Id
         {
             get { return InternalDataRowView[SystemConfigurationTableColumnNames.Id.ToString()].ToString(); }
@@ -43,6 +43,26 @@ namespace ModBox.FamFactory.Revit.Manager
         public string DataBaseVersion
         {
             get { return InternalDataRowView[SystemConfigurationTableColumnNames.DataBaseVersion.ToString()].ToString(); }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[SystemConfigurationTableColumnNames.DataBaseVersion.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+        }
+        public string CreatedById
+        {
+            get { return InternalDataRowView[SystemConfigurationTableColumnNames.CreatedById.ToString()].ToString(); }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[SystemConfigurationTableColumnNames.DataBaseVersion.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+        }
+        public string ModifiedBy
+        {
+            get { return InternalDataRowView[SystemConfigurationTableColumnNames.ModifiedById.ToString()].ToString(); }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[SystemConfigurationTableColumnNames.DataBaseVersion.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+        }
+        public object DateCreated
+        {
+            get { return InternalDataRowView[SystemConfigurationTableColumnNames.DateCreated.ToString()]; }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[SystemConfigurationTableColumnNames.DataBaseVersion.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+        }
+        public object DateModified
+        {
+            get { return InternalDataRowView[SystemConfigurationTableColumnNames.DateModified.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[SystemConfigurationTableColumnNames.DataBaseVersion.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
 
