@@ -1,5 +1,5 @@
 --
--- File generated with SQLiteStudio v3.2.1 on Tue May 26 12:18:50 2020
+-- File generated with SQLiteStudio v3.2.1 on Wed May 27 23:07:40 2020
 --
 -- Text encoding used: System
 --
@@ -158,6 +158,8 @@ CREATE TABLE FF_FamilyBuilds (
     DateModified     DATETIME        NOT NULL,
     CreatedById      STRING (36, 36) NOT NULL,
     ModifiedById     STRING (36, 36) NOT NULL,
+    State            INT             NOT NULL
+                                     DEFAULT (0),
     CONSTRAINT FamilyBuilds_FamilyTemplateId__FamilyTemplates_Id FOREIGN KEY (
         FamilyTemplateId
     )
@@ -386,6 +388,7 @@ CREATE TABLE FF_FamilyComponents (
     RoomCalculationPoint    BOOLEAN         NOT NULL
                                             DEFAULT (false),
     FileName                STRING,
+    State                   INT             NOT NULL DEFAULT (0),
     CONSTRAINT FamilyComponents_FamilyComponentTypeId__FamilyComponents_Id FOREIGN KEY (
         FamilyComponentTypeId
     )
@@ -678,6 +681,7 @@ CREATE TABLE FF_FamilyTemplates (
     FileName                STRING          NOT NULL,
     CanHostRebar            BOOLEAN         DEFAULT (false) 
                                             NOT NULL,
+    State               INT             NOT NULL DEFAULT (0),
     CONSTRAINT FamilyTemplates_CreatedById__Users_Id FOREIGN KEY (
         CreatedById
     )
@@ -711,14 +715,11 @@ CREATE TABLE FF_Permissions (
                                 DEFAULT (TRUE) 
 );
 
-INSERT INTO FF_Permissions (Id, Name, Description, CanRead, CanWrite, CanCreate, CanDelete, Special) VALUES ('01f218cb-c24f-4b65-a227-93bf2fa1f0df', 'Admin', 'Admin permissions with full permissions.', 1, 1, 1, 1, 1);
-INSERT INTO FF_Permissions (Id, Name, Description, CanRead, CanWrite, CanCreate, CanDelete, Special) VALUES ('ba913205-c7e2-4e8b-bef3-0c8d5f515487', 'Viewer', 'Admin permissions with full permissions.', 1, 0, 0, 0, 0);
-INSERT INTO FF_Permissions (Id, Name, Description, CanRead, CanWrite, CanCreate, CanDelete, Special) VALUES ('258cc643-6113-4365-858f-df0f68f07324', 'Editor', 'Admin permissions with full permissions.', 1, 1, 1, 1, 0);
 
--- Table: FF_SystemConfiguration
-DROP TABLE IF EXISTS FF_SystemConfiguration;
+-- Table: FF_SystemConfigurations
+DROP TABLE IF EXISTS FF_SystemConfigurations;
 
-CREATE TABLE FF_SystemConfiguration (
+CREATE TABLE FF_SystemConfigurations (
     Id              STRING (36, 36) PRIMARY KEY
                                     UNIQUE
                                     NOT NULL,
@@ -737,6 +738,8 @@ CREATE TABLE FF_SystemConfiguration (
     DateModified    DATETIME        NOT NULL ON CONFLICT IGNORE,
     CreatedById     STRING (36, 36) NOT NULL ON CONFLICT IGNORE,
     ModifiedById    STRING (36, 36) NOT NULL ON CONFLICT IGNORE,
+    State           INT             NOT NULL
+                                    DEFAULT (0),
     CONSTRAINT SystemConfigurations_CreatedById__Users_Id FOREIGN KEY (
         CreatedById
     )
@@ -765,8 +768,7 @@ CREATE TABLE FF_Users (
     DateCreated  DATETIME        NOT NULL ON CONFLICT IGNORE,
     LogInDate    DATETIME        NOT NULL ON CONFLICT IGNORE,
     PermissionId STRING,
-    State        BOOLEAN         NOT NULL
-                                 DEFAULT (FALSE),
+    State        Int             NOT NULL DEFAULT (0),
     TempFolder   STRING          NOT NULL
                                  DEFAULT ('C:\temp'),
     DateModified DATETIME        NOT NULL ON CONFLICT IGNORE,

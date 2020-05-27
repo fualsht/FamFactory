@@ -67,31 +67,45 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             // Users Table
             DataTable usersTable = new DataTable(TableNames.FF_Users.ToString());
+
             DataColumn IdColumn = usersTable.Columns.Add(User.UsersTableColumnNames.Id.ToString(), typeof(string));
             IdColumn.AllowDBNull = false;
             IdColumn.Unique = true;
+
             DataColumn nameColumn = usersTable.Columns.Add(User.UsersTableColumnNames.Name.ToString(), typeof(string));
             nameColumn.AllowDBNull = false;
             nameColumn.Unique = true;
+
             DataColumn firstNameColumn = usersTable.Columns.Add(User.UsersTableColumnNames.FirstName.ToString(), typeof(string));
             firstNameColumn.AllowDBNull = false;
+
             DataColumn lastNameColumn = usersTable.Columns.Add(User.UsersTableColumnNames.LastName.ToString(), typeof(string));
             lastNameColumn.AllowDBNull = false;
+
             DataColumn emailColumn = usersTable.Columns.Add(User.UsersTableColumnNames.Email.ToString(), typeof(string));
             emailColumn.AllowDBNull = false;
+
             DataColumn passwordColumn = usersTable.Columns.Add(User.UsersTableColumnNames.Password.ToString(), typeof(string));
+
             DataColumn profilePicColumn = usersTable.Columns.Add(User.UsersTableColumnNames.ProfilePic.ToString(), typeof(byte[]));
             profilePicColumn.AllowDBNull = false;
             profilePicColumn.DefaultValue = Utils.ImageToByte(Resources.UserIcon);
+
             DataColumn dateCreatdColumn = usersTable.Columns.Add(User.UsersTableColumnNames.DateCreated.ToString(), typeof(DateTime));
             dateCreatdColumn.AllowDBNull = false;
-            dateCreatdColumn.DefaultValue = DateTime.Now;
+
+            DataColumn datemodColumn = usersTable.Columns.Add(User.UsersTableColumnNames.DateModified.ToString(), typeof(DateTime));
+            datemodColumn.AllowDBNull = false;
+
             DataColumn permissionIdColumn = usersTable.Columns.Add(User.UsersTableColumnNames.PermissionId.ToString(), typeof(string));
             permissionIdColumn.AllowDBNull = true;
-            DataColumn lastLogInDateColumn = usersTable.Columns.Add(User.UsersTableColumnNames.LastLogInDate.ToString(), typeof(DateTime));
+
+            DataColumn lastLogInDateColumn = usersTable.Columns.Add(User.UsersTableColumnNames.LogInDate.ToString(), typeof(DateTime));
+
             DataColumn stateColumn = usersTable.Columns.Add(User.UsersTableColumnNames.State.ToString(), typeof(EntityStates));
             stateColumn.AllowDBNull = false;
             stateColumn.DefaultValue = EntityStates.Enabled;
+
             DataColumn TempFolderColumn = usersTable.Columns.Add(User.UsersTableColumnNames.TempFolder.ToString(), typeof(string));
             TempFolderColumn.AllowDBNull = false;
             TempFolderColumn.DefaultValue = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + "\\FamFactory\\Temp";
@@ -111,36 +125,49 @@ namespace ModBox.FamFactory.Revit.Manager
         private static void InitilizeEmailProfiles(DataSet dataSet)
         {
             DataTable EmailprofilesTable = new DataTable(TableNames.FF_EmailProfiles.ToString());
+
             DataColumn IdColumn = EmailprofilesTable.Columns.Add(EmailProfile.EmailProfileColumnNames.Id.ToString(), typeof(string));
             IdColumn.AllowDBNull = false;
             IdColumn.Unique = true;
+
             DataColumn NameColumn = EmailprofilesTable.Columns.Add(EmailProfile.EmailProfileColumnNames.Name.ToString(), typeof(string));
             NameColumn.AllowDBNull = false;
             NameColumn.Unique = true;
+
             DataColumn DescriptionColumn = EmailprofilesTable.Columns.Add(EmailProfile.EmailProfileColumnNames.Description.ToString(), typeof(string));
+
             DataColumn ServerColumn = EmailprofilesTable.Columns.Add(EmailProfile.EmailProfileColumnNames.ServerAddress.ToString(), typeof(string));
             ServerColumn.AllowDBNull = false;
+
             DataColumn PortColumn = EmailprofilesTable.Columns.Add(EmailProfile.EmailProfileColumnNames.Port.ToString(), typeof(int));
             PortColumn.AllowDBNull = false;
             PortColumn.DefaultValue = 25;
+
             DataColumn SSLColumn = EmailprofilesTable.Columns.Add(EmailProfile.EmailProfileColumnNames.SSL.ToString(), typeof(bool));
             SSLColumn.AllowDBNull = false;
             SSLColumn.DefaultValue = false;
+
             DataColumn UserNameColumn = EmailprofilesTable.Columns.Add(EmailProfile.EmailProfileColumnNames.Username.ToString(), typeof(string));
             UserNameColumn.AllowDBNull = false;
             UserNameColumn.DefaultValue = false;
+
             DataColumn PasswordColumn = EmailprofilesTable.Columns.Add(EmailProfile.EmailProfileColumnNames.Password.ToString(), typeof(string));
             PasswordColumn.AllowDBNull = false;
             PasswordColumn.DefaultValue = false;
+
             DataColumn StateColumn = EmailprofilesTable.Columns.Add(EmailProfile.EmailProfileColumnNames.State.ToString(), typeof(EntityStates));
             StateColumn.AllowDBNull = false;
             StateColumn.DefaultValue = EntityStates.Enabled;
+
             DataColumn CreatedByColumn = EmailprofilesTable.Columns.Add(EmailProfile.EmailProfileColumnNames.CreatedById.ToString(), typeof(string));
             CreatedByColumn.AllowDBNull = false;
+
             DataColumn ModifiedByColumn = EmailprofilesTable.Columns.Add(EmailProfile.EmailProfileColumnNames.ModifiedById.ToString(), typeof(string));
             ModifiedByColumn.AllowDBNull = false;
+
             DataColumn DateCreatedColumn = EmailprofilesTable.Columns.Add(EmailProfile.EmailProfileColumnNames.DateCreated.ToString(), typeof(DateTime));
             DateCreatedColumn.AllowDBNull = false;
+
             DataColumn DateModifiedColumn = EmailprofilesTable.Columns.Add(EmailProfile.EmailProfileColumnNames.DateModified.ToString(), typeof(DateTime));
             DateModifiedColumn.AllowDBNull = false;
 
@@ -165,30 +192,45 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             // System Configuration
             DataTable SysConfigTable = new DataTable(TableNames.FF_SystemConfigurations.ToString());
+
             DataColumn idColumn = SysConfigTable.Columns.Add(SystemConfiguration.SystemConfigurationTableColumnNames.Id.ToString(), typeof(string));
             idColumn.AllowDBNull = false;
             idColumn.Unique = true;
+
             DataColumn nameColumn = SysConfigTable.Columns.Add(SystemConfiguration.SystemConfigurationTableColumnNames.Name.ToString(), typeof(string));
             nameColumn.AllowDBNull = false;
             nameColumn.Unique = true;
+
             DataColumn addressColumn = SysConfigTable.Columns.Add(SystemConfiguration.SystemConfigurationTableColumnNames.CompanyAddress.ToString(), typeof(string));
             addressColumn.AllowDBNull = true;
+
             DataColumn emailColumn = SysConfigTable.Columns.Add(SystemConfiguration.SystemConfigurationTableColumnNames.Email.ToString(), typeof(string));
             emailColumn.AllowDBNull = false;
+
             DataColumn installColumn = SysConfigTable.Columns.Add(SystemConfiguration.SystemConfigurationTableColumnNames.InstallLocation.ToString(), typeof(string));
             installColumn.AllowDBNull = false;
+
             DataColumn appVerColumn = SysConfigTable.Columns.Add(SystemConfiguration.SystemConfigurationTableColumnNames.AppVersion.ToString(), typeof(string));
             appVerColumn.AllowDBNull = false;
+
             DataColumn dbVersionColumn = SysConfigTable.Columns.Add(SystemConfiguration.SystemConfigurationTableColumnNames.DataBaseVersion.ToString(), typeof(string));
             dbVersionColumn.AllowDBNull = false;
+
             DataColumn dateCreatdColumn = SysConfigTable.Columns.Add(SystemConfiguration.SystemConfigurationTableColumnNames.DateCreated.ToString(), typeof(DateTime));
             dateCreatdColumn.AllowDBNull = false;
+
             DataColumn dateModifiedColumn = SysConfigTable.Columns.Add(SystemConfiguration.SystemConfigurationTableColumnNames.DateModified.ToString(), typeof(DateTime));
             dateModifiedColumn.AllowDBNull = false;
+
             DataColumn createdByIdColumn = SysConfigTable.Columns.Add(SystemConfiguration.SystemConfigurationTableColumnNames.CreatedById.ToString(), typeof(string));
             createdByIdColumn.AllowDBNull = false;
+
             DataColumn modifiedByIdColumn = SysConfigTable.Columns.Add(SystemConfiguration.SystemConfigurationTableColumnNames.ModifiedById.ToString(), typeof(string));
             modifiedByIdColumn.AllowDBNull = false;
+
+            DataColumn stateColumn = SysConfigTable.Columns.Add(SystemConfiguration.SystemConfigurationTableColumnNames.State.ToString(), typeof(EntityStates));
+            stateColumn.AllowDBNull = false;
+            stateColumn.DefaultValue = EntityStates.Enabled;
 
             SysConfigTable.PrimaryKey = new DataColumn[] { idColumn };
 
@@ -211,24 +253,36 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             // System Configuration
             DataTable FamilyComponentTypes = new DataTable(TableNames.FF_FamilyComponentTypes.ToString());
+
             DataColumn idColumn = FamilyComponentTypes.Columns.Add(FamilyComponentType.FamilyComponentTypesTableColumnNames.Id.ToString(), typeof(string));
             idColumn.AllowDBNull = false;
             idColumn.Unique = true;
+
             DataColumn nameColumn = FamilyComponentTypes.Columns.Add(FamilyComponentType.FamilyComponentTypesTableColumnNames.Name.ToString(), typeof(string));
             nameColumn.AllowDBNull = false;
             nameColumn.Unique = true;
+
             DataColumn addressColumn = FamilyComponentTypes.Columns.Add(FamilyComponentType.FamilyComponentTypesTableColumnNames.Description.ToString(), typeof(string));
             addressColumn.AllowDBNull = true;
+
             DataColumn ThumbnailColumn = FamilyComponentTypes.Columns.Add(FamilyComponentType.FamilyComponentTypesTableColumnNames.Thumbnail.ToString(), typeof(byte[]));
             ThumbnailColumn.AllowDBNull = true;
+
             DataColumn dateCreatdColumn = FamilyComponentTypes.Columns.Add(FamilyComponentType.FamilyComponentTypesTableColumnNames.DateCreated.ToString(), typeof(DateTime));
             dateCreatdColumn.AllowDBNull = false;
+
             DataColumn dateModifiedColumn = FamilyComponentTypes.Columns.Add(FamilyComponentType.FamilyComponentTypesTableColumnNames.DateModified.ToString(), typeof(DateTime));
             dateModifiedColumn.AllowDBNull = false;
+
             DataColumn createdByIdColumn = FamilyComponentTypes.Columns.Add(FamilyComponentType.FamilyComponentTypesTableColumnNames.CreatedById.ToString(), typeof(string));
             createdByIdColumn.AllowDBNull = false;
+
             DataColumn modifiedByIdColumn = FamilyComponentTypes.Columns.Add(FamilyComponentType.FamilyComponentTypesTableColumnNames.ModifiedById.ToString(), typeof(string));
             modifiedByIdColumn.AllowDBNull = false;
+
+            DataColumn stateColumn = FamilyComponentTypes.Columns.Add(FamilyComponentType.FamilyComponentTypesTableColumnNames.State.ToString(), typeof(EntityStates));
+            stateColumn.AllowDBNull = false;
+            stateColumn.DefaultValue = EntityStates.Enabled;
 
             FamilyComponentTypes.PrimaryKey = new DataColumn[] { idColumn };
 
@@ -331,6 +385,10 @@ namespace ModBox.FamFactory.Revit.Manager
                 DataColumn FileNameColumn = FamilyComponentsTable.Columns.Add(FamilyComponent.FamilyComponentsTableColumnNames.FileName.ToString(), typeof(string));
                 FileNameColumn.AllowDBNull = false;
                 FileNameColumn.DefaultValue = string.Empty;
+
+                DataColumn stateColumn = FamilyComponentsTable.Columns.Add(FamilyComponent.FamilyComponentsTableColumnNames.State.ToString(), typeof(EntityStates));
+                stateColumn.AllowDBNull = false;
+                stateColumn.DefaultValue = EntityStates.Enabled;
 
                 FamilyComponentsTable.PrimaryKey = new DataColumn[] { idColumn };
 
@@ -460,6 +518,10 @@ namespace ModBox.FamFactory.Revit.Manager
             DataColumn ModifiedByIdColumn = FamilyTemplatesTable.Columns.Add(FamilyTemplate.ParameterColumnNames.ModifiedById.ToString(), typeof(string));
             ModifiedByIdColumn.AllowDBNull = false;
             ModifiedByIdColumn.Unique = false;
+
+            DataColumn stateColumn = FamilyTemplatesTable.Columns.Add(FamilyTemplate.ParameterColumnNames.State.ToString(), typeof(EntityStates));
+            stateColumn.AllowDBNull = false;
+            stateColumn.DefaultValue = EntityStates.Enabled;
 
             dataSet.Tables.Add(FamilyTemplatesTable);
 
@@ -1328,6 +1390,10 @@ namespace ModBox.FamFactory.Revit.Manager
             DataColumn ModifiedByIdColumn = FamilyBuildsTable.Columns.Add(FamilyBuild.FamilyBuildsColumnNames.ModifiedById.ToString(), typeof(string));
             ModifiedByIdColumn.AllowDBNull = false;
 
+            DataColumn stateColumn = FamilyBuildsTable.Columns.Add(FamilyBuild.FamilyBuildsColumnNames.State.ToString(), typeof(EntityStates));
+            stateColumn.AllowDBNull = false;
+            stateColumn.DefaultValue = EntityStates.Enabled;
+
             FamilyBuildsTable.PrimaryKey = new DataColumn[] { IdColumn };
             dataSet.Tables.Add(FamilyBuildsTable);
 
@@ -1526,57 +1592,43 @@ namespace ModBox.FamFactory.Revit.Manager
             dataSet.Relations.Add(ModifiedByDataRelation);
         }
 
-        public static void InstallSampleData(System.Data.SQLite.SQLiteConnection connection, DataSet dataSet)
+        public static void InstallRequierments(System.Data.SQLite.SQLiteConnection connection, DataSet dataSet)
         {
-            //Email Profile
-            DataTable EmailprofilesTable = dataSet.Tables[TableNames.FF_EmailProfiles.ToString()];
-            DataRow EmailProfileDatarow = EmailprofilesTable.NewRow();
-            EmailProfileDatarow[EmailProfile.EmailProfileColumnNames.Id.ToString()] = Guid.NewGuid();
-            EmailProfileDatarow[EmailProfile.EmailProfileColumnNames.Name.ToString()] = "Admin";
-            EmailProfileDatarow[EmailProfile.EmailProfileColumnNames.Description.ToString()] = "Admin permissions with full permissions.";
-            EmailProfileDatarow[EmailProfile.EmailProfileColumnNames.ServerAddress.ToString()] = "mail.server.com";
-            EmailProfileDatarow[EmailProfile.EmailProfileColumnNames.Port.ToString()] = 25;
-            EmailProfileDatarow[EmailProfile.EmailProfileColumnNames.SSL.ToString()] = false;
-            EmailProfileDatarow[EmailProfile.EmailProfileColumnNames.Username.ToString()] = "";
-            EmailProfileDatarow[EmailProfile.EmailProfileColumnNames.Password.ToString()] = "";
-            EmailProfileDatarow[EmailProfile.EmailProfileColumnNames.State.ToString()] = true;
-            EmailprofilesTable.Rows.Add(EmailProfileDatarow);
-
             //Admin Level
             DataTable permissionsTable = dataSet.Tables[TableNames.FF_Permissions.ToString()];
             DataRow adminPermissionDatarow = permissionsTable.NewRow();
-            adminPermissionDatarow["Id"] = Guid.NewGuid();
-            adminPermissionDatarow["Name"] = "Admin";
-            adminPermissionDatarow["Description"] = "Admin permissions with full permissions.";
-            adminPermissionDatarow["CanCreate"] = true;
-            adminPermissionDatarow["CanRead"] = true;
-            adminPermissionDatarow["CanWrite"] = true;
-            adminPermissionDatarow["CanDelete"] = true;
-            adminPermissionDatarow["Special"] = true;
+            adminPermissionDatarow[Permission.PermissionColumnNames.Id.ToString()] = Guid.NewGuid();
+            adminPermissionDatarow[Permission.PermissionColumnNames.Name.ToString()] = "Admin";
+            adminPermissionDatarow[Permission.PermissionColumnNames.Description.ToString()] = "Admin permissions with full permissions.";
+            adminPermissionDatarow[Permission.PermissionColumnNames.CanCreate.ToString()] = true;
+            adminPermissionDatarow[Permission.PermissionColumnNames.CanRead.ToString()] = true;
+            adminPermissionDatarow[Permission.PermissionColumnNames.CanWrite.ToString()] = true;
+            adminPermissionDatarow[Permission.PermissionColumnNames.CanDelete.ToString()] = true;
+            adminPermissionDatarow[Permission.PermissionColumnNames.Special.ToString()] = true;
             permissionsTable.Rows.Add(adminPermissionDatarow);
 
             //Viewer Level
             DataRow viewPermissionDatarow = permissionsTable.NewRow();
-            viewPermissionDatarow["Id"] = Guid.NewGuid();
-            viewPermissionDatarow["Name"] = "Viewer";
-            viewPermissionDatarow["Description"] = "Admin permissions with full permissions.";
-            viewPermissionDatarow["CanCreate"] = false;
-            viewPermissionDatarow["CanRead"] = true;
-            viewPermissionDatarow["CanWrite"] = false;
-            viewPermissionDatarow["CanDelete"] = false;
-            viewPermissionDatarow["Special"] = false;
+            viewPermissionDatarow[Permission.PermissionColumnNames.Id.ToString()] = Guid.NewGuid();
+            viewPermissionDatarow[Permission.PermissionColumnNames.Name.ToString()] = "Viewer";
+            viewPermissionDatarow[Permission.PermissionColumnNames.Description.ToString()] = "Admin permissions with full permissions.";
+            viewPermissionDatarow[Permission.PermissionColumnNames.CanCreate.ToString()] = false;
+            viewPermissionDatarow[Permission.PermissionColumnNames.CanRead.ToString()] = true;
+            viewPermissionDatarow[Permission.PermissionColumnNames.CanWrite.ToString()] = false;
+            viewPermissionDatarow[Permission.PermissionColumnNames.CanDelete.ToString()] = false;
+            viewPermissionDatarow[Permission.PermissionColumnNames.Special.ToString()] = false;
             permissionsTable.Rows.Add(viewPermissionDatarow);
 
             //Editor Level
             DataRow userPermissionDatarow = permissionsTable.NewRow();
-            userPermissionDatarow["Id"] = Guid.NewGuid();
-            userPermissionDatarow["Name"] = "Editor";
-            userPermissionDatarow["Description"] = "Admin permissions with full permissions.";
-            userPermissionDatarow["CanCreate"] = true;
-            userPermissionDatarow["CanRead"] = true;
-            userPermissionDatarow["CanWrite"] = true;
-            userPermissionDatarow["CanDelete"] = true;
-            userPermissionDatarow["Special"] = false;
+            userPermissionDatarow[Permission.PermissionColumnNames.Id.ToString()] = Guid.NewGuid();
+            userPermissionDatarow[Permission.PermissionColumnNames.Name.ToString()] = "Editor";
+            userPermissionDatarow[Permission.PermissionColumnNames.Description.ToString()] = "Admin permissions with full permissions.";
+            userPermissionDatarow[Permission.PermissionColumnNames.CanCreate.ToString()] = true;
+            userPermissionDatarow[Permission.PermissionColumnNames.CanRead.ToString()] = true;
+            userPermissionDatarow[Permission.PermissionColumnNames.CanWrite.ToString()] = true;
+            userPermissionDatarow[Permission.PermissionColumnNames.CanDelete.ToString()] = true;
+            userPermissionDatarow[Permission.PermissionColumnNames.Special.ToString()] = false;
             permissionsTable.Rows.Add(userPermissionDatarow);
 
             //Users
@@ -1590,9 +1642,12 @@ namespace ModBox.FamFactory.Revit.Manager
             adminUserDataRow[User.UsersTableColumnNames.Password.ToString()] = Utils.GetPasswordHash(SHA256.Create("SHA256"), "Password");
             adminUserDataRow[User.UsersTableColumnNames.ProfilePic.ToString()] = Utils.ImageToByte(Resources.UserIcon);
             adminUserDataRow[User.UsersTableColumnNames.PermissionId.ToString()] = dataSet.Tables[TableNames.FF_Permissions.ToString()].Select("Name = 'Editor'").FirstOrDefault()["Id"];
-            adminUserDataRow[User.UsersTableColumnNames.LastLogInDate.ToString()] = DateTime.Now;
+            adminUserDataRow[User.UsersTableColumnNames.LogInDate.ToString()] = DateTime.Now;
             adminUserDataRow[User.UsersTableColumnNames.State.ToString()] = EntityStates.Enabled;
             adminUserDataRow[User.UsersTableColumnNames.TempFolder.ToString()] = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + "\\FamFactory\\Temp";
+            adminUserDataRow[User.UsersTableColumnNames.DateCreated.ToString()] = DateTime.Now;
+            adminUserDataRow[User.UsersTableColumnNames.DateModified.ToString()] = DateTime.Now;
+            adminUserDataRow[User.UsersTableColumnNames.State.ToString()] = EntityStates.Enabled;
             usersTable.Rows.Add(adminUserDataRow);
 
             // System Configuration
@@ -1605,7 +1660,30 @@ namespace ModBox.FamFactory.Revit.Manager
             SystemConfigDataRow[SystemConfiguration.SystemConfigurationTableColumnNames.InstallLocation.ToString()] = "C:\\programfiles\\FamFactory";
             SystemConfigDataRow[SystemConfiguration.SystemConfigurationTableColumnNames.AppVersion.ToString()] = "v.1.0.0";
             SystemConfigDataRow[SystemConfiguration.SystemConfigurationTableColumnNames.DataBaseVersion.ToString()] = "v.1.0.0";
+            SystemConfigDataRow[SystemConfiguration.SystemConfigurationTableColumnNames.DateCreated.ToString()] = DateTime.Now;
+            SystemConfigDataRow[SystemConfiguration.SystemConfigurationTableColumnNames.DateModified.ToString()] = DateTime.Now;
+            SystemConfigDataRow[SystemConfiguration.SystemConfigurationTableColumnNames.State.ToString()] = EntityStates.Enabled;
+            SystemConfigDataRow[SystemConfiguration.SystemConfigurationTableColumnNames.CreatedById.ToString()] = dataSet.Tables[TableNames.FF_Users.ToString()].Rows[0][User.UsersTableColumnNames.Id.ToString()];
+            SystemConfigDataRow[SystemConfiguration.SystemConfigurationTableColumnNames.ModifiedById.ToString()] = dataSet.Tables[TableNames.FF_Users.ToString()].Rows[0][User.UsersTableColumnNames.Id.ToString()];
             SysConfigTable.Rows.Add(SystemConfigDataRow);
+
+            //Email Profile
+            DataTable EmailprofilesTable = dataSet.Tables[TableNames.FF_EmailProfiles.ToString()];
+            DataRow EmailProfileDatarow = EmailprofilesTable.NewRow();
+            EmailProfileDatarow[EmailProfile.EmailProfileColumnNames.Id.ToString()] = Guid.NewGuid();
+            EmailProfileDatarow[EmailProfile.EmailProfileColumnNames.Name.ToString()] = "Admin";
+            EmailProfileDatarow[EmailProfile.EmailProfileColumnNames.Description.ToString()] = "Admin permissions with full permissions.";
+            EmailProfileDatarow[EmailProfile.EmailProfileColumnNames.ServerAddress.ToString()] = "mail.server.com";
+            EmailProfileDatarow[EmailProfile.EmailProfileColumnNames.Port.ToString()] = 25;
+            EmailProfileDatarow[EmailProfile.EmailProfileColumnNames.SSL.ToString()] = false;
+            EmailProfileDatarow[EmailProfile.EmailProfileColumnNames.Username.ToString()] = "";
+            EmailProfileDatarow[EmailProfile.EmailProfileColumnNames.Password.ToString()] = "";
+            EmailProfileDatarow[EmailProfile.EmailProfileColumnNames.DateCreated.ToString()] = DateTime.Now;
+            EmailProfileDatarow[EmailProfile.EmailProfileColumnNames.DateModified.ToString()] = DateTime.Now;
+            EmailProfileDatarow[EmailProfile.EmailProfileColumnNames.State.ToString()] = EntityStates.Enabled;
+            EmailProfileDatarow[EmailProfile.EmailProfileColumnNames.CreatedById.ToString()] = dataSet.Tables[TableNames.FF_Users.ToString()].Rows[0][User.UsersTableColumnNames.Id.ToString()];
+            EmailProfileDatarow[EmailProfile.EmailProfileColumnNames.ModifiedById.ToString()] = dataSet.Tables[TableNames.FF_Users.ToString()].Rows[0][User.UsersTableColumnNames.Id.ToString()];
+            EmailprofilesTable.Rows.Add(EmailProfileDatarow);
 
             using (System.Data.SQLite.SQLiteConnection connect = new System.Data.SQLite.SQLiteConnection(connection))
             {

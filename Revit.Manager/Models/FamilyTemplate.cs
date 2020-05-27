@@ -11,7 +11,7 @@ namespace ModBox.FamFactory.Revit.Manager
     public class FamilyTemplate : ModelBase<FamilyTemplate>
     {
         public enum ParameterColumnNames { Id, Name, Description, IsReleased, FamilyCategory, CanHostRebar, RoundConnectorDimension, 
-            PartType, OmniClassNumber, OmniClassTitle, WorkPlaneBased, AlwaysVertical, CutsWithVoidWhenLoaded, IsShared, 
+            PartType, OmniClassNumber, OmniClassTitle, WorkPlaneBased, AlwaysVertical, CutsWithVoidWhenLoaded, IsShared, State,
             RoomCalculationPoint, FileName, Thumbnail, Version, FileSize, DateCreated, DateModified, FamilyFile, CreatedById, ModifiedById
         }
 
@@ -134,6 +134,11 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             get { return InternalDataRowView[ParameterColumnNames.ModifiedById.ToString()].ToString(); }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.ModifiedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+        }
+        public EntityStates State
+        {
+            get { return (EntityStates)InternalDataRowView[ParameterColumnNames.State.ToString()]; }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.State.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
 
         public ObservableCollection<ReferencePlane> RefferencePlaneItems { get; set; }

@@ -10,7 +10,7 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamilyBuild : ModelBase<FamilyBuild>
     {
-        public enum FamilyBuildsColumnNames { Id, Name, Description, FamilyTemplateId, DateCreated, DateModified, CreatedById, ModifiedById }
+        public enum FamilyBuildsColumnNames { Id, Name, Description, FamilyTemplateId, DateCreated, DateModified, CreatedById, ModifiedById, State }
         public string Id { get { return InternalDataRowView[FamilyBuildsColumnNames.Id.ToString()].ToString(); } set { InternalDataRowView[FamilyBuildsColumnNames.Id.ToString()] = value; NotifyPropertyChanged(); } }
 
         public string Name
@@ -52,6 +52,12 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             get { return InternalDataRowView[FamilyBuildsColumnNames.ModifiedById.ToString()].ToString(); }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[FamilyBuildsColumnNames.ModifiedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+        }
+
+        public EntityStates State
+        {
+            get { return (EntityStates)InternalDataRowView[FamilyBuildsColumnNames.State.ToString()]; }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[FamilyBuildsColumnNames.State.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
 
         public FamilyBuild(DataRowView rowView) : base(rowView)

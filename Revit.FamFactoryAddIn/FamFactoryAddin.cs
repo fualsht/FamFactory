@@ -103,7 +103,7 @@ namespace ModBox.FamFactory.Revit
             if (!System.IO.File.Exists(file))
             {
                 FamFactoryDataSet.CreateSQliteDataBase(file, Resources.FamFactoryDBTables, famFactoryDataSet);
-                FamFactoryDataSet.InstallSampleData(sQLiteConnection, famFactoryDataSet);
+                FamFactoryDataSet.InstallRequierments(sQLiteConnection, famFactoryDataSet);
             }
             else
                 FamFactoryDataSet.InitilizeDataSet(famFactoryDataSet);

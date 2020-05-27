@@ -9,7 +9,7 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamilyComponentType : ModelBase<FamilyComponentType>
     {
-        public enum FamilyComponentTypesTableColumnNames { Id, Name, Description, Thumbnail, DateCreated, DateModified, CreatedById, ModifiedById }
+        public enum FamilyComponentTypesTableColumnNames { Id, Name, Description, Thumbnail, DateCreated, DateModified, CreatedById, ModifiedById, State }
         public FamilyComponentType(DataRowView rowView) : base(rowView)
         {
             

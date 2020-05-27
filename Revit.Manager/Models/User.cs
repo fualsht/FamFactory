@@ -14,7 +14,7 @@ namespace ModBox.FamFactory.Revit.Manager
     
     public class User : ModelBase<User>
     {
-        public enum UsersTableColumnNames { Id, Name, FirstName, LastName, Email, Password, ProfilePic, DateCreated, DateModified, LastLogInDate, PermissionId, State, TempFolder }
+        public enum UsersTableColumnNames { Id, Name, FirstName, LastName, Email, Password, ProfilePic, DateCreated, DateModified, LogInDate, PermissionId, State, TempFolder }
         public string Id { get { return InternalDataRowView[UsersTableColumnNames.Id.ToString()].ToString(); } 
             set { InternalDataRowView[UsersTableColumnNames.Id.ToString()] = value; NotifyPropertyChanged(); } }
         public string Name { get { return InternalDataRowView[UsersTableColumnNames.Name.ToString()].ToString(); } 
@@ -49,8 +49,8 @@ namespace ModBox.FamFactory.Revit.Manager
             }
         }
 
-        public object LastLogInDate { get { return InternalDataRowView[UsersTableColumnNames.LastLogInDate.ToString()]; }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[UsersTableColumnNames.LastLogInDate.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); } }
+        public object LastLogInDate { get { return InternalDataRowView[UsersTableColumnNames.LogInDate.ToString()]; }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[UsersTableColumnNames.LogInDate.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); } }
 
         public EntityStates State { get { return (EntityStates)InternalDataRowView[UsersTableColumnNames.State.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[UsersTableColumnNames.State.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); } }

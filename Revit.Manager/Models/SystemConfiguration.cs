@@ -9,7 +9,7 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class SystemConfiguration : ModelBase<SystemConfiguration>
     {
-        public enum SystemConfigurationTableColumnNames { Id, Name, CompanyAddress, Email, InstallLocation, AppVersion, DataBaseVersion, CreatedById, ModifiedById, DateCreated, DateModified }
+        public enum SystemConfigurationTableColumnNames { Id, Name, CompanyAddress, Email, InstallLocation, AppVersion, DataBaseVersion, CreatedById, ModifiedById, DateCreated, DateModified, State }
         public string Id
         {
             get { return InternalDataRowView[SystemConfigurationTableColumnNames.Id.ToString()].ToString(); }
@@ -64,6 +64,11 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             get { return InternalDataRowView[SystemConfigurationTableColumnNames.DateModified.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[SystemConfigurationTableColumnNames.DataBaseVersion.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+        }
+        public EntityStates State
+        {
+            get { return (EntityStates)InternalDataRowView[SystemConfigurationTableColumnNames.State.ToString()]; }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[SystemConfigurationTableColumnNames.State.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
 
         public SystemConfiguration(DataRowView rowView) : base(rowView)
