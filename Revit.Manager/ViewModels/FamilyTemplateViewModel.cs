@@ -108,7 +108,7 @@ namespace ModBox.FamFactory.Revit.Manager
                 template.DateCreated = DateTime.Now;
                 template.DateModified = DateTime.Now;
                 template.IsReleased = false;
-                template.CreatedByUserId = user.Id;
+                template.CreatedById = user.Id;
 
                 byte[] image = Utils.ThumbnailFromView(doc, "Thumbnail");
                 if (image == null)

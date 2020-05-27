@@ -82,7 +82,7 @@ namespace ModBox.FamFactory
 
         FamilyBuildComponents_FamilyBuildId__FamilyBuilds_Id,
         FamilyBuildComponents_FamilyComponentId__FamilyComponents_Id,
-        FamilyBuildComponents_CreatedByIdId__Users_Id,
+        FamilyBuildComponents_CreatedById__Users_Id,
         FamilyBuildComponents_ModifiedById__Users_Id,
 
         FamilyBuildComponentPositions_FamilyBuildComponentId_FamilyBuildComponents_Id,
