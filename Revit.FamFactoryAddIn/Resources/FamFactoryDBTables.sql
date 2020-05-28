@@ -28,10 +28,10 @@ CREATE TABLE FF_EmailProfiles (
     Password      STRING,
     State         BOOLEAN         NOT NULL
                                   DEFAULT (false),
-    DateCreated   DATETIME        NOT NULL ON CONFLICT IGNORE,
-    DateModified  DATETIME        NOT NULL ON CONFLICT IGNORE,
-    CreatedById   STRING (36, 36) NOT NULL ON CONFLICT IGNORE,
-    ModifiedById  STRING (36, 36) NOT NULL ON CONFLICT IGNORE,
+    DateCreated   DATETIME        NOT NULL,
+    DateModified  DATETIME        NOT NULL,
+    CreatedById   STRING (36, 36) NOT NULL,
+    ModifiedById  STRING (36, 36) NOT NULL,
     CONSTRAINT EmailProfiles_CreatedById__Users_Id FOREIGN KEY (
         CreatedById
     )
@@ -207,9 +207,9 @@ CREATE TABLE FF_FamilyComponentGeometries (
                                      DEFAULT ( -1),
     IsSolid          BOOLEAN         NOT NULL
                                      DEFAULT (true),
-    DateCreated      DATETIME        NOT NULL ON CONFLICT IGNORE,
-    DateModified     DATETIME        NOT NULL ON CONFLICT IGNORE,
-    CreatedById      STRING (36, 36) NOT NULL ON CONFLICT IGNORE,
+    DateCreated      DATETIME        NOT NULL,
+    DateModified     DATETIME        NOT NULL,
+    CreatedById      STRING (36, 36) NOT NULL,
     ModifiedById     STRING (36, 36),
     CONSTRAINT FamilyComponentGeometries_FamilyId__FamilyComponents_Id FOREIGN KEY (
         FamilyId
@@ -268,10 +268,10 @@ CREATE TABLE FF_FamilyComponentParameters (
     IsDeterminedByFormula BOOLEAN           NOT NULL
                                             DEFAULT (false),
     Formula               STRING,
-    DateCreated           DATETIME (36, 36) NOT NULL ON CONFLICT IGNORE,
-    DateModified          DATETIME          NOT NULL ON CONFLICT IGNORE,
-    CreatedById           STRING (36, 36)   NOT NULL ON CONFLICT IGNORE,
-    ModifiedById          STRING (36, 36)   NOT NULL ON CONFLICT IGNORE,
+    DateCreated           DATETIME (36, 36) NOT NULL,
+    DateModified          DATETIME          NOT NULL,
+    CreatedById           STRING (36, 36)   NOT NULL,
+    ModifiedById          STRING (36, 36)   NOT NULL,
     CONSTRAINT FamilyComponentParameters_FamilyId__FamilyComponents_Id FOREIGN KEY (
         FamilyId
     )
@@ -330,10 +330,10 @@ CREATE TABLE FF_FamilyComponentReferencePlanes (
                                  DEFAULT (0),
     IsActive     BOOLEAN         NOT NULL
                                  DEFAULT (false),
-    CreatedById  STRING (36, 36) NOT NULL ON CONFLICT IGNORE,
-    ModifiedById STRING (36, 36) NOT NULL ON CONFLICT IGNORE,
-    DateCreated  DATETIME        NOT NULL ON CONFLICT IGNORE,
-    DateModified DATETIME        NOT NULL ON CONFLICT IGNORE,
+    CreatedById  STRING (36, 36) NOT NULL,
+    ModifiedById STRING (36, 36) NOT NULL,
+    DateCreated  DATETIME        NOT NULL,
+    DateModified DATETIME        NOT NULL,
     CONSTRAINT FamilyComponentReferencePlanes_FamilyId__FamilyComponents_Id FOREIGN KEY (
         FamilyId
     )
@@ -368,7 +368,7 @@ CREATE TABLE FF_FamilyComponents (
     DateCreated             DATETIME        NOT NULL,
     DateModified            DATETIME        NOT NULL,
     CreatedById             STRING (36, 36) NOT NULL,
-    ModifiedById            STRING (36, 36) NOT NULL ON CONFLICT IGNORE,
+    ModifiedById            STRING (36, 36) NOT NULL,
     Version                 STRING          NOT NULL
                                             DEFAULT ('v.1.0.0'),
     IsReleased              BOOLEAN         NOT NULL
@@ -388,6 +388,8 @@ CREATE TABLE FF_FamilyComponents (
     RoomCalculationPoint    BOOLEAN         NOT NULL
                                             DEFAULT (false),
     FileName                STRING,
+    CanHostRebar            BOOLEAN         NOT NULL
+                                            DEFAULT (false),
     State                   INT             NOT NULL DEFAULT (0),
     CONSTRAINT FamilyComponents_FamilyComponentTypeId__FamilyComponents_Id FOREIGN KEY (
         FamilyComponentTypeId
@@ -416,9 +418,9 @@ CREATE TABLE FF_FamilyComponentTypes (
                                  DEFAULT ('New Type'),
     Description  STRING,
     Thumbnail    BLOB,
-    DateCreated  DATETIME        NOT NULL ON CONFLICT IGNORE,
-    DateModified DATETIME        NOT NULL ON CONFLICT IGNORE,
-    CreatedBy    STRING (36, 36) NOT NULL ON CONFLICT IGNORE,
+    DateCreated  DATETIME        NOT NULL,
+    DateModified DATETIME        NOT NULL,
+    CreatedBy    STRING (36, 36) NOT NULL,
     ModifiedBy   STRING (36, 36) NOT NULL ON CONFLICT IGNORE
 );
 
@@ -499,20 +501,20 @@ CREATE TABLE FF_FamilyTemplateGeometries (
                                      DEFAULT ( -1),
     IsSolid          BOOLEAN         NOT NULL
                                      DEFAULT (true),
-    CreatedBy        STRING (36, 36) NOT NULL ON CONFLICT IGNORE,
-    ModifiedBy       STRING (36, 36) NOT NULL ON CONFLICT IGNORE,
-    DateCreated      DATETIME        NOT NULL ON CONFLICT IGNORE,
-    DateModified     DATETIME        NOT NULL ON CONFLICT IGNORE,
+    CreatedById      STRING (36, 36) NOT NULL,
+    ModifiedById     STRING (36, 36) NOT NULL,
+    DateCreated      DATETIME        NOT NULL,
+    DateModified     DATETIME        NOT NULL,
     CONSTRAINT FamilyTemplateGeometries_FamilyId__FamilyTemplates_Id FOREIGN KEY (
         FamilyId
     )
     REFERENCES FF_FamilyTemplates (Id),
     CONSTRAINT FamilyTemplateGeometries_CreatedById__Users_Id FOREIGN KEY (
-        CreatedBy
+        CreatedById
     )
     REFERENCES FF_Users (Id),
     CONSTRAINT FamilyTemplateGeometries_ModifiedById__Users_Id FOREIGN KEY (
-        ModifiedBy
+        ModifiedById
     )
     REFERENCES FF_Users (Id) 
 );
@@ -560,10 +562,10 @@ CREATE TABLE FF_FamilyTemplateParameters (
     IsDeterminedByFormula BOOLEAN         NOT NULL
                                           DEFAULT (false),
     Formula               STRING,
-    DateCreated           DATETIME        NOT NULL ON CONFLICT IGNORE,
-    DateModified          DATETIME        NOT NULL ON CONFLICT IGNORE,
-    CreatedById           STRING (36, 36) NOT NULL ON CONFLICT IGNORE,
-    ModifiedById          STRING (36, 36) NOT NULL ON CONFLICT IGNORE,
+    DateCreated           DATETIME        NOT NULL,
+    DateModified          DATETIME        NOT NULL,
+    CreatedById           STRING (36, 36) NOT NULL,
+    ModifiedById          STRING (36, 36) NOT NULL,
     CONSTRAINT FamilyTemplateParameters_FamilyId__FamilyTemplates_Id FOREIGN KEY (
         FamilyId
     )
@@ -622,10 +624,10 @@ CREATE TABLE FF_FamilyTemplateReferencePlanes (
                                  DEFAULT (0),
     IsActive     BOOLEAN         DEFAULT (false) 
                                  NOT NULL,
-    DateCreated  DATETIME        NOT NULL ON CONFLICT IGNORE,
-    DateModified DATETIME        NOT NULL ON CONFLICT IGNORE,
-    CreatedById  STRING (36, 36) NOT NULL ON CONFLICT IGNORE,
-    ModifiedById STRING (36, 36) NOT NULL ON CONFLICT IGNORE,
+    DateCreated  DATETIME        NOT NULL,
+    DateModified DATETIME        NOT NULL,
+    CreatedById  STRING (36, 36) NOT NULL,
+    ModifiedById STRING (36, 36) NOT NULL,
     CONSTRAINT FamilyTemplateReferencePlanes_FamilyId__FamilyTemplates_Id FOREIGN KEY (
         FamilyId
     )
@@ -659,7 +661,7 @@ CREATE TABLE FF_FamilyTemplates (
     DateCreated             DATETIME        NOT NULL,
     DateModified            DATETIME        NOT NULL,
     CreatedById             STRING (36, 36) NOT NULL,
-    ModifiedById            STRING (36, 36) NOT NULL ON CONFLICT IGNORE,
+    ModifiedById            STRING (36, 36) NOT NULL,
     Version                 STRING          NOT NULL
                                             DEFAULT ('v.1.0.0'),
     IsReleased              BOOLEAN         NOT NULL
@@ -734,10 +736,10 @@ CREATE TABLE FF_SystemConfigurations (
                                     DEFAULT ('v.1.0.0'),
     DataBaseVersion STRING          NOT NULL
                                     DEFAULT ('v.1.0.0'),
-    DateCreated     DATETIME        NOT NULL ON CONFLICT IGNORE,
-    DateModified    DATETIME        NOT NULL ON CONFLICT IGNORE,
-    CreatedById     STRING (36, 36) NOT NULL ON CONFLICT IGNORE,
-    ModifiedById    STRING (36, 36) NOT NULL ON CONFLICT IGNORE,
+    DateCreated     DATETIME        NOT NULL,
+    DateModified    DATETIME        NOT NULL,
+    CreatedById     STRING (36, 36) NOT NULL,
+    ModifiedById    STRING (36, 36) NOT NULL,
     State           INT             NOT NULL
                                     DEFAULT (0),
     CONSTRAINT SystemConfigurations_CreatedById__Users_Id FOREIGN KEY (
@@ -765,13 +767,13 @@ CREATE TABLE FF_Users (
     Email        STRING          NOT NULL,
     Password     STRING          NOT NULL,
     ProfilePic   BLOB,
-    DateCreated  DATETIME        NOT NULL ON CONFLICT IGNORE,
-    LogInDate    DATETIME        NOT NULL ON CONFLICT IGNORE,
+    DateCreated  DATETIME        NOT NULL,
+    LogInDate    DATETIME        NOT NULL,
     PermissionId STRING,
     State        Int             NOT NULL DEFAULT (0),
     TempFolder   STRING          NOT NULL
                                  DEFAULT ('C:\temp'),
-    DateModified DATETIME        NOT NULL ON CONFLICT IGNORE,
+    DateModified DATETIME        NOT NULL,
     CONSTRAINT Users_PermissionId__Permissions_Id FOREIGN KEY (
         PermissionId
     )

@@ -49,7 +49,7 @@ namespace ModBox.FamFactory.Revit.Manager
             }
         }
 
-        public object LastLogInDate { get { return InternalDataRowView[UsersTableColumnNames.LogInDate.ToString()]; }
+        public object LogInDate { get { return InternalDataRowView[UsersTableColumnNames.LogInDate.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[UsersTableColumnNames.LogInDate.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); } }
 
         public EntityStates State { get { return (EntityStates)InternalDataRowView[UsersTableColumnNames.State.ToString()]; }
@@ -88,7 +88,10 @@ namespace ModBox.FamFactory.Revit.Manager
             user.ProfilePic = Utils.ImageToByte(Resources.UserIcon);
             user.DateCreated = DateTime.Now;
             user.State = EntityStates.Enabled;
-            user.LastLogInDate = DateTime.Now;
+            user.LogInDate = DateTime.Now;
+            user.DateCreated = DateTime.Now;
+            user.DateModified = DateTime.Now;
+            user.State = EntityStates.Enabled;
             return user;
         }
 

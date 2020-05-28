@@ -103,12 +103,15 @@ namespace ModBox.FamFactory.Revit.Manager
                 Autodesk.Revit.DB.Document doc = ((Autodesk.Revit.ApplicationServices.Application)ADSKApplciation).OpenDocumentFile(file.FullName);
 
                 template = FamilyTemplate.NewTemplate(TemplateDataView);
+                template.Name = "New Template";
                 template.FileName = file.Name;
                 template.FileSize = file.Length;
-                template.DateCreated = DateTime.Now;
-                template.DateModified = DateTime.Now;
                 template.IsReleased = false;
                 template.CreatedById = user.Id;
+                template.ModifiedById = user.Id;
+                template.CreatedBy = user;
+                template.ModifiedBy = user;
+                template.State = EntityStates.Enabled;
 
                 byte[] image = Utils.ThumbnailFromView(doc, "Thumbnail");
                 if (image == null)
@@ -169,13 +172,13 @@ namespace ModBox.FamFactory.Revit.Manager
                     template.PartType = "N/A";
 
                 if (template.RoundConnectorDimention == string.Empty)
-                    template.PartType = "N/A";
+                    template.RoundConnectorDimention = "N/A";
 
                 template.EndEdit();
 
-                Utils.GetFamilyTemplateParameters(template, doc);
-                Utils.GetFamilyTemplateReferencePlanes(template, doc);
-                Utils.GetFamilyTemplateFeatures(template, doc);
+                Utils.GetFamilyTemplateParameters(template, doc, ActiveUser);
+                Utils.GetFamilyTemplateReferencePlanes(template, doc, ActiveUser);
+                Utils.GetFamilyTemplateFeatures(template, doc, ActiveUser);
 
                 doc.Close(false);
                 

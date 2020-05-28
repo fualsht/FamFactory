@@ -130,10 +130,22 @@ namespace ModBox.FamFactory.Revit.Manager
             get { return InternalDataRowView[ParameterColumnNames.CreatedById.ToString()].ToString(); }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.CreatedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
+        User _CreatedBy;
+        public User CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+        }
         public string ModifiedById
         {
             get { return InternalDataRowView[ParameterColumnNames.ModifiedById.ToString()].ToString(); }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.ModifiedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+        }
+        User _ModifiedBy;
+        public User ModifiedBy
+        {
+            get { return _ModifiedBy; }
+            set { _ModifiedBy = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public EntityStates State
         {

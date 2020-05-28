@@ -238,11 +238,10 @@ namespace ModBox.FamFactory.Revit.Manager
             }
             return material;
         }
-
-
+        
         enum ViewsFromDirection { LEFT_RIGHT, BACK_FROUNT, PLAN_CELING }
 
-        public static void GetFamilyTemplateReferencePlanes(FamilyTemplate famTemplate, Document doc)
+        public static void GetFamilyTemplateReferencePlanes(FamilyTemplate famTemplate, Document doc, User user)
         {
             if (doc != null)
             {
@@ -278,6 +277,10 @@ namespace ModBox.FamFactory.Revit.Manager
                         refPlane.FreeEndY = plane.FreeEnd.Y;
                         refPlane.FreeEndZ = plane.FreeEnd.Z;
                         refPlane.IsActive = true;
+                        refPlane.CreatedById = user.Id;
+                        refPlane.CreatedBy = user;
+                        refPlane.ModifiedBy = user;
+                        refPlane.ModifiedById = user.Id;
                         refPlane.EndEdit();
                     }
                 }
@@ -288,7 +291,7 @@ namespace ModBox.FamFactory.Revit.Manager
             }
         }
 
-        public static void GetFamilyTemplateParameters(FamilyTemplate famTemplate, Document doc)
+        public static void GetFamilyTemplateParameters(FamilyTemplate famTemplate, Document doc, User user)
         {
             if (famTemplate.ParameterItems.Count <= 0)
             {
@@ -326,12 +329,18 @@ namespace ModBox.FamFactory.Revit.Manager
                     parameter.Formula = item.Formula;
                     parameter.IsActive = false;
                     parameter.IsEditable = true;
+                    parameter.DateCreated = DateTime.Now;
+                    parameter.DateModified = DateTime.Now;
+                    parameter.CreatedById = user.Id;
+                    parameter.CreatedBy = user;
+                    parameter.ModifiedBy = user;
+                    parameter.ModifiedById = user.Id;
                     parameter.EndEdit();
                 }
             }
         }
 
-        public static void GetFamilyTemplateFeatures(FamilyTemplate famTemplate, Document doc)
+        public static void GetFamilyTemplateFeatures(FamilyTemplate famTemplate, Document doc, User user)
         {
             if (famTemplate.FamilyGeometryItems.Count <= 0)
             {
@@ -368,6 +377,10 @@ namespace ModBox.FamFactory.Revit.Manager
                         familyGeometry.LevelId = sweep.LevelId.IntegerValue;
                         familyGeometry.IsSolid = sweep.IsSolid;
                         familyGeometry.MaterialId = 0;
+                        familyGeometry.CreatedById = user.Id;
+                        familyGeometry.CreatedBy = user;
+                        familyGeometry.ModifieddBy = user;
+                        familyGeometry.ModifiedById = user.Id;
                         familyGeometry.EndEdit();
                     }
 
@@ -396,6 +409,10 @@ namespace ModBox.FamFactory.Revit.Manager
                         familyGeometry.LevelId = extrude.LevelId.IntegerValue;
                         familyGeometry.IsSolid = extrude.IsSolid;
                         familyGeometry.MaterialId = 0;
+                        familyGeometry.CreatedById = user.Id;
+                        familyGeometry.CreatedBy = user;
+                        familyGeometry.ModifieddBy = user;
+                        familyGeometry.ModifiedById = user.Id;
                         familyGeometry.EndEdit();
                     }
                     foreach (Element element in blendElementList)
@@ -423,6 +440,10 @@ namespace ModBox.FamFactory.Revit.Manager
                         familyGeometry.LevelId = blend.LevelId.IntegerValue;
                         familyGeometry.IsSolid = blend.IsSolid;
                         familyGeometry.MaterialId = 0;
+                        familyGeometry.CreatedById = user.Id;
+                        familyGeometry.CreatedBy = user;
+                        familyGeometry.ModifieddBy = user;
+                        familyGeometry.ModifiedById = user.Id;
                         familyGeometry.EndEdit();
                     }
                     foreach (Element element in sweptBlendElementList)
@@ -450,6 +471,10 @@ namespace ModBox.FamFactory.Revit.Manager
                         familyGeometry.LevelId = weptblend.LevelId.IntegerValue;
                         familyGeometry.IsSolid = weptblend.IsSolid;
                         familyGeometry.MaterialId = 0;
+                        familyGeometry.CreatedById = user.Id;
+                        familyGeometry.CreatedBy = user;
+                        familyGeometry.ModifieddBy = user;
+                        familyGeometry.ModifiedById = user.Id;
                         familyGeometry.EndEdit();
                     }
                     foreach (Element element in revolveElementList)
@@ -477,6 +502,10 @@ namespace ModBox.FamFactory.Revit.Manager
                         familyGeometry.LevelId = revolve.LevelId.IntegerValue;
                         familyGeometry.IsSolid = revolve.IsSolid;
                         familyGeometry.MaterialId = 0;
+                        familyGeometry.CreatedById = user.Id;
+                        familyGeometry.CreatedBy = user;
+                        familyGeometry.ModifieddBy = user;
+                        familyGeometry.ModifiedById = user.Id;
                         familyGeometry.EndEdit();
                     }
                 }
@@ -487,7 +516,7 @@ namespace ModBox.FamFactory.Revit.Manager
             }
         }
 
-        public static void GetFamilyComponentReferencePlanes(FamilyComponent famcomponent, Document doc)
+        public static void GetFamilyComponentReferencePlanes(FamilyComponent famcomponent, Document doc, User user)
         {
             if (doc != null)
             {
@@ -523,6 +552,10 @@ namespace ModBox.FamFactory.Revit.Manager
                         refPlane.FreeEndY = plane.FreeEnd.Y;
                         refPlane.FreeEndZ = plane.FreeEnd.Z;
                         refPlane.IsActive = true;
+                        refPlane.CreatedById = user.Id;
+                        refPlane.CreatedBy = user;
+                        refPlane.ModifiedBy = user;
+                        refPlane.ModifiedById = user.Id;
                         refPlane.EndEdit();
                     }
                 }
@@ -533,7 +566,7 @@ namespace ModBox.FamFactory.Revit.Manager
             }
         }
 
-        public static void GetFamilyComponentParameters(FamilyComponent famComponent, Document doc)
+        public static void GetFamilyComponentParameters(FamilyComponent famComponent, Document doc, User user)
         {
             if (famComponent.ParameterItems.Count <= 0)
             {
@@ -571,12 +604,16 @@ namespace ModBox.FamFactory.Revit.Manager
                     parameter.Formula = item.Formula;
                     parameter.IsActive = false;
                     parameter.IsEditable = true;
+                    parameter.CreatedById = user.Id;
+                    parameter.CreatedBy = user;
+                    parameter.ModifiedBy = user;
+                    parameter.ModifiedById = user.Id;
                     parameter.EndEdit();
                 }
             }
         }
 
-        public static void GetFamilyComponentFeatures(FamilyComponent famComponent, Document doc)
+        public static void GetFamilyComponentFeatures(FamilyComponent famComponent, Document doc, User user)
         {
             if (famComponent.FamilyGeometryItems.Count <= 0)
             {
@@ -613,6 +650,10 @@ namespace ModBox.FamFactory.Revit.Manager
                         familyGeometry.LevelId = sweep.LevelId.IntegerValue;
                         familyGeometry.IsSolid = sweep.IsSolid;
                         familyGeometry.MaterialId = 0;
+                        familyGeometry.CreatedById = user.Id;
+                        familyGeometry.CreatedBy = user;
+                        familyGeometry.ModifieddBy = user;
+                        familyGeometry.ModifiedById = user.Id;
                         familyGeometry.EndEdit();
                     }
 
@@ -641,6 +682,10 @@ namespace ModBox.FamFactory.Revit.Manager
                         familyGeometry.LevelId = extrude.LevelId.IntegerValue;
                         familyGeometry.IsSolid = extrude.IsSolid;
                         familyGeometry.MaterialId = 0;
+                        familyGeometry.CreatedById = user.Id;
+                        familyGeometry.CreatedBy = user;
+                        familyGeometry.ModifieddBy = user;
+                        familyGeometry.ModifiedById = user.Id;
                         familyGeometry.EndEdit();
                     }
                     foreach (Element element in blendElementList)
@@ -668,6 +713,10 @@ namespace ModBox.FamFactory.Revit.Manager
                         familyGeometry.LevelId = blend.LevelId.IntegerValue;
                         familyGeometry.IsSolid = blend.IsSolid;
                         familyGeometry.MaterialId = 0;
+                        familyGeometry.CreatedById = user.Id;
+                        familyGeometry.CreatedBy = user;
+                        familyGeometry.ModifieddBy = user;
+                        familyGeometry.ModifiedById = user.Id;
                         familyGeometry.EndEdit();
                     }
                     foreach (Element element in sweptBlendElementList)
@@ -695,6 +744,10 @@ namespace ModBox.FamFactory.Revit.Manager
                         familyGeometry.LevelId = weptblend.LevelId.IntegerValue;
                         familyGeometry.IsSolid = weptblend.IsSolid;
                         familyGeometry.MaterialId = 0;
+                        familyGeometry.CreatedById = user.Id;
+                        familyGeometry.CreatedBy = user;
+                        familyGeometry.ModifieddBy = user;
+                        familyGeometry.ModifiedById = user.Id;
                         familyGeometry.EndEdit();
                     }
                     foreach (Element element in revolveElementList)
@@ -722,6 +775,10 @@ namespace ModBox.FamFactory.Revit.Manager
                         familyGeometry.LevelId = revolve.LevelId.IntegerValue;
                         familyGeometry.IsSolid = revolve.IsSolid;
                         familyGeometry.MaterialId = 0;
+                        familyGeometry.CreatedById = user.Id;
+                        familyGeometry.CreatedBy = user;
+                        familyGeometry.ModifieddBy = user;
+                        familyGeometry.ModifiedById = user.Id;
                         familyGeometry.EndEdit();
                     }
                 }
@@ -731,27 +788,5 @@ namespace ModBox.FamFactory.Revit.Manager
 
             }
         }
-
-       //public static string FamilyParamValueString(FamilyType t, FamilyParameter fp)
-       // {
-       //     string value = t.AsValueString(fp);
-       //     switch (fp.StorageType)
-       //     {
-       //         case StorageType.Double:
-       //             value = Util.RealString((double)t.AsDouble(fp))
-       //               + " (double)";
-       //             break;
-
-       //         case StorageType.Integer:
-       //             value = t.AsInteger(fp).ToString() + " (int)";
-       //             break;
-
-       //         case StorageType.String:
-       //             value = "'" + t.AsString(fp)
-       //               + "' (string)";
-       //             break;
-       //     }
-       //     return value;
-       // }
     }
 }

@@ -126,23 +126,29 @@ namespace ModBox.FamFactory.Revit.Manager
         public object DateCreated
         {
             get { return InternalDataRowView[ReferencePlaneTableColumnNames.DateCreated.ToString()]; }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ReferencePlaneTableColumnNames.IsActive.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ReferencePlaneTableColumnNames.DateCreated.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public object DateModified
         {
             get { return InternalDataRowView[ReferencePlaneTableColumnNames.DateModified.ToString()]; }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ReferencePlaneTableColumnNames.IsActive.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ReferencePlaneTableColumnNames.DateModified.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public string CreatedById
         {
-            get { return InternalDataRowView[ReferencePlaneTableColumnNames.DateCreated.ToString()].ToString(); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ReferencePlaneTableColumnNames.DateCreated.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return InternalDataRowView[ReferencePlaneTableColumnNames.CreatedById.ToString()].ToString(); }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ReferencePlaneTableColumnNames.CreatedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
+        User _CreatedBy;
+        public User CreatedBy { get { return _CreatedBy; } set { _CreatedBy = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); } }
+
         public string ModifiedById
         {
-            get { return InternalDataRowView[ReferencePlaneTableColumnNames.DateModified.ToString()].ToString(); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ReferencePlaneTableColumnNames.DateModified.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return InternalDataRowView[ReferencePlaneTableColumnNames.ModifiedById.ToString()].ToString(); }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ReferencePlaneTableColumnNames.ModifiedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
+
+        User _ModifiedBy;
+        public User ModifiedBy { get { return _ModifiedBy; } set { _ModifiedBy = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); } }
 
         public ReferencePlane(DataRowView rowView) : base(rowView)
         {
@@ -174,6 +180,8 @@ namespace ModBox.FamFactory.Revit.Manager
             refPlane.FreeEndY = 0;
             refPlane.FreeEndZ = 0;
             refPlane.IsActive = false;
+            refPlane.DateCreated = DateTime.Now;
+            refPlane.DateModified = DateTime.Now;
             return refPlane;
         }
 

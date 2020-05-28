@@ -390,6 +390,10 @@ namespace ModBox.FamFactory.Revit.Manager
                 stateColumn.AllowDBNull = false;
                 stateColumn.DefaultValue = EntityStates.Enabled;
 
+                DataColumn canhostrebarColumn = FamilyComponentsTable.Columns.Add(FamilyComponent.FamilyComponentsTableColumnNames.CanHostRebar.ToString(), typeof(bool));
+                canhostrebarColumn.AllowDBNull = false;
+                canhostrebarColumn.DefaultValue = false;
+
                 FamilyComponentsTable.PrimaryKey = new DataColumn[] { idColumn };
 
                 dataSet.Tables.Add(FamilyComponentsTable);
@@ -840,7 +844,7 @@ namespace ModBox.FamFactory.Revit.Manager
             SubCategoryColumn.DefaultValue = "";
             SubCategoryColumn.Unique = false;
 
-            DataColumn UniqueIdColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.UniqueId.ToString(), typeof(int));
+            DataColumn UniqueIdColumn = tbl.Columns.Add(FamilyGeometry.FamilyGeometryColumnNames.UniqueId.ToString(), typeof(string));
             UniqueIdColumn.AllowDBNull = false;
             UniqueIdColumn.DefaultValue = -1;
             UniqueIdColumn.Unique = false;

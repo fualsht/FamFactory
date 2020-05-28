@@ -13,7 +13,7 @@ namespace ModBox.FamFactory.Revit.Manager
         public enum FamilyComponentsTableColumnNames { Id, Name, Description, FamilyComponentTypeId, FamilyCategory, FamilyFile, State,
             Thumbnail, FileSize, DateCreated, DateModified, CreatedById, ModifiedById, Version, IsReleased, RoundConnectorDimention, PartType, 
             OmniClassNumber, OmniClassTitle, WorkPlaneBased, AlwaysVertical, CutsWithVoidWhenLoaded, IsShared, RoomCalculationPoint, 
-            FileName }
+            FileName, CanHostRebar }
 
         public string Id
         {
@@ -65,15 +65,27 @@ namespace ModBox.FamFactory.Revit.Manager
             get { return (DateTime)InternalDataRowView[FamilyComponentsTableColumnNames.DateModified.ToString()]; }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[FamilyComponentsTableColumnNames.DateModified.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
-        public string CreatedBy
+        public string CreatedById
         {
             get { return InternalDataRowView[FamilyComponentsTableColumnNames.CreatedById.ToString()].ToString(); }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[FamilyComponentsTableColumnNames.CreatedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
-        public string ModifiedBy
+        User _CreatedBy;
+        public User CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+        }
+        public string ModifiedById
         {
             get { return InternalDataRowView[FamilyComponentsTableColumnNames.ModifiedById.ToString()].ToString(); }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[FamilyComponentsTableColumnNames.ModifiedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+        }
+        User _ModifiedBy;
+        public User ModifiedBy
+        {
+            get { return _ModifiedBy; }
+            set { _ModifiedBy = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public Version Version
         {
@@ -134,6 +146,11 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             get { return InternalDataRowView[FamilyComponentsTableColumnNames.FileName.ToString()].ToString(); }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[FamilyComponentsTableColumnNames.FileName.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+        }
+        public bool CanHostRebar
+        {
+            get { return (bool)InternalDataRowView[FamilyComponentsTableColumnNames.CanHostRebar.ToString()]; }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[FamilyComponentsTableColumnNames.CanHostRebar.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public EntityStates State
         {
