@@ -97,7 +97,7 @@ namespace ModBox.FamFactory.Revit.Manager
         RelayCommand _AddElementCommand;
         public ICommand AddElementCommand
         {
-            get => _AddElementCommand ?? (_AddElementCommand = new RelayCommand(param => this.NewElement(ActiveUser), param => this.CanCreateNewElement()));
+            get => _AddElementCommand ?? (_AddElementCommand = new RelayCommand(param => this.NewElement(), param => this.CanCreateNewElement()));
         }
 
         RelayCommand _DeleteElementCommand;
@@ -182,7 +182,7 @@ namespace ModBox.FamFactory.Revit.Manager
             ((IModelBase<T>)element).Delete();
         }
 
-        public abstract object NewElement(User user);
+        public abstract object NewElement();
 
         public abstract void SaveElement(T element);
 

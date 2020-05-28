@@ -156,8 +156,7 @@ namespace ModBox.FamFactory.Revit.Manager
         public ObservableCollection<ReferencePlane> RefferencePlaneItems { get; set; }
         public ObservableCollection<FamilyGeometry> FamilyGeometryItems { get; set; }
         public ObservableCollection<Parameter> ParameterItems { get; set; }
-
-        ObservableCollection<FamilyTemplateComponent> TemplateComponents { get; set; }
+        public ObservableCollection<FamilyTemplateComponent> TemplateComponentItems { get; set; }
 
         DataView _FamilyTemplateReferencePlanesView;
         public DataView FamilyTemplateReferencePlanesView { get { return _FamilyTemplateReferencePlanesView; } }
@@ -176,7 +175,7 @@ namespace ModBox.FamFactory.Revit.Manager
             RefferencePlaneItems = new ObservableCollection<ReferencePlane>();
             FamilyGeometryItems = new ObservableCollection<FamilyGeometry>();
             ParameterItems = new ObservableCollection<Parameter>();
-            TemplateComponents = new ObservableCollection<FamilyTemplateComponent>();
+            TemplateComponentItems = new ObservableCollection<FamilyTemplateComponent>();
 
             _FamilyTemplateParametersView = InternalDataRowView.CreateChildView(TableRelations.FamilyTemplateParameters_FamilyId__FamilyTemplates_Id.ToString());
             _FamilyTemplateReferencePlanesView = InternalDataRowView.CreateChildView(TableRelations.FamilyTemplateReferencePlanes_FamilyId__FamilyTemplates_Id.ToString());
@@ -199,12 +198,12 @@ namespace ModBox.FamFactory.Revit.Manager
             foreach (DataRowView item in FamilyTemplateGeometryView)
                 FamilyGeometryItems.Add(new FamilyGeometry(item));
 
-            TemplateComponents.Clear();
+            TemplateComponentItems.Clear();
             foreach (DataRowView item in FamilyTemplateComponentsView)
-                TemplateComponents.Add(new FamilyTemplateComponent(item));
+                TemplateComponentItems.Add(new FamilyTemplateComponent(item));
         }
 
-        public static FamilyTemplate NewTemplate(DataView rowView)
+        public static FamilyTemplate NewTemplate(DataView rowView, User user)
         {
             DataRowView row = rowView.AddNew();
 
@@ -213,6 +212,10 @@ namespace ModBox.FamFactory.Revit.Manager
             template.Version = new Version(0, 0, 0);
             template.DateCreated = DateTime.Now;
             template.DateModified = DateTime.Now;
+            template.CreatedById = user.Id;
+            template.CreatedBy = user;
+            template.ModifiedById = user.Id;
+            template.ModifiedBy = user;
 
             return template;
         }

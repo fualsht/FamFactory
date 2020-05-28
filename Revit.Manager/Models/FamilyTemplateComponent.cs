@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -66,14 +67,71 @@ namespace ModBox.FamFactory.Revit.Manager
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[TemplateComponentColumnNames.CreatedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
 
+        User _CreatedBy;
+        public User CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+        }
+
         public string ModifiedById
         {
             get { return InternalDataRowView[TemplateComponentColumnNames.ModifiedById.ToString()].ToString(); }
             set { InternalDataRowView.BeginEdit(); InternalDataRowView[TemplateComponentColumnNames.ModifiedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
+        User _ModifiedBy;
+        public User ModifiedBy
+        {
+            get { return _ModifiedBy; }
+            set { _ModifiedBy = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+        }
+
+        public ObservableCollection<FamilyTemplateComponent> FamilyTemplateRefferencePlanesX { get; set; } = new ObservableCollection<FamilyTemplateComponent>();
+        public ObservableCollection<FamilyTemplateComponent> FamilyTemplateRefferencePlanesY { get; set; } = new ObservableCollection<FamilyTemplateComponent>();
+        public ObservableCollection<FamilyTemplateComponent> FamilyTemplateRefferencePlanesZ { get; set; } = new ObservableCollection<FamilyTemplateComponent>();
+        DataView TemplateReferencePlanesXDataView;
+        DataView TemplateReferencePlanesYDataView;
+        DataView TemplateReferencePlanesZDataView;
 
         public FamilyTemplateComponent(DataRowView rowView) : base(rowView)
         {
+            RefreshCollections();
+        }
+
+        private void RefreshCollections()
+        {
+            TemplateReferencePlanesXDataView = InternalDataRowView.CreateChildView(TableRelations.FamilyTemplateComponents_XRefferencePlaneId__FamilyTemplateReferencePlanes_Id.ToString());
+            TemplateReferencePlanesYDataView = InternalDataRowView.CreateChildView(TableRelations.FamilyTemplateComponents_XRefferencePlaneId__FamilyTemplateReferencePlanes_Id.ToString());
+            TemplateReferencePlanesZDataView = InternalDataRowView.CreateChildView(TableRelations.FamilyTemplateComponents_XRefferencePlaneId__FamilyTemplateReferencePlanes_Id.ToString());
+
+            FamilyTemplateRefferencePlanesX.Clear();
+            FamilyTemplateRefferencePlanesY.Clear();
+            FamilyTemplateRefferencePlanesZ.Clear();
+            foreach (DataRowView view in TemplateReferencePlanesXDataView)
+            {
+                FamilyTemplateRefferencePlanesX.Add(new FamilyTemplateComponent(view));
+            }
+            foreach (DataRowView view in TemplateReferencePlanesYDataView)
+            {
+                FamilyTemplateRefferencePlanesX.Add(new FamilyTemplateComponent(view));
+            }
+            foreach (DataRowView view in TemplateReferencePlanesZDataView)
+            {
+                FamilyTemplateRefferencePlanesX.Add(new FamilyTemplateComponent(view));
+            }
+        }
+
+        internal static FamilyTemplateComponent NewTemplateComponent(DataView dataVew, User user)
+        {
+            FamilyTemplateComponent component = new FamilyTemplateComponent(dataVew.AddNew());
+            component.Id = Guid.NewGuid().ToString();
+            component.DateCreated = DateTime.Now;
+            component.DateModified = DateTime.Now;
+            component.CreatedById = user.Id;
+            component.ModifiedById = user.Id;
+            component.CreatedBy = user;
+            component.ModifiedBy = user;
+            return component;
         }
     }
 }

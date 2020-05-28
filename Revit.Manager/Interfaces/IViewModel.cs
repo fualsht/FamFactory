@@ -23,7 +23,7 @@ namespace ModBox.FamFactory.Revit.Manager
         void GoToElement(T element);
         void AddElement(T T, bool setactive);
         bool CanAddElement();
-        object NewElement(User user);
+        object NewElement();
         void CancelElementChanges();
         void DeleteElement(T element);
         void SaveElement(T element);

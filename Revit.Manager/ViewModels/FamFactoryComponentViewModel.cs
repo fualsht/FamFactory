@@ -76,7 +76,7 @@ namespace ModBox.FamFactory.Revit.Manager
             return true;
         }
 
-        public override object NewElement(User user)
+        public override object NewElement()
         {
             FamilyComponent component = null;
             System.Windows.Forms.OpenFileDialog dialogue = new System.Windows.Forms.OpenFileDialog();
@@ -87,16 +87,12 @@ namespace ModBox.FamFactory.Revit.Manager
                 FileInfo file = new FileInfo(dialogue.FileName);
                 Autodesk.Revit.DB.Document doc = ((Autodesk.Revit.ApplicationServices.Application)ADSKApplciation).OpenDocumentFile(file.FullName);
 
-                component = FamilyComponent.NewFamilyComponent(ComponentDataView);
+                component = FamilyComponent.NewFamilyComponent(ComponentDataView, ActiveUser);
                 component.FileName = file.Name;
                 component.FileSize = file.Length;
                 component.DateCreated = DateTime.Now;
                 component.DateModified = DateTime.Now;
                 component.IsReleased = false;
-                component.CreatedById = user.Id;
-                component.ModifiedById = user.Id;
-                component.CreatedBy = user;
-                component.ModifiedBy= user;
                 component.State = EntityStates.Enabled;
 
                 byte[] image = Utils.ThumbnailFromView(doc, "Thumbnail");

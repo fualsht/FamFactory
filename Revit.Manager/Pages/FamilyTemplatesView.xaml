@@ -4,7 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:ModBox.FamFactory.Revit.Manager"
-      mc:Ignorable="d" MaxHeight="1000"
+      mc:Ignorable="d" MaxHeight="800" MaxWidth="1200"
       Title="FamilyTemplatesView" Background="White" d:DataContext="{Binding Source={StaticResource FFVM}, Path=famFactoryViewModel}" >
     <Page.Resources>
         <ResourceDictionary>
@@ -17,7 +17,7 @@
     <Grid DataContext="{Binding FamilyTemplatesViewModel, Mode=OneWay}">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
-            <RowDefinition Height="83*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
@@ -348,6 +348,63 @@
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <TextBlock Text="{Binding DirectionZ}"/>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </Grid>
+                    </GroupBox>
+
+                    <GroupBox Style="{DynamicResource DefaultGroupBoxStyle}" Header="Template Components">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Border Style="{DynamicResource SectionBorder}" DataContext="{Binding famFactoryViewModel.FamilyTemplatesViewModel, Mode=OneWay, Source={StaticResource FFVM}}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Style="{DynamicResource DefaultButton}" Content="Add" Width="60" Command="{Binding AddTemplateComponentCommand, Mode=OneWay}"/>
+                                    <Button Style="{DynamicResource DefaultButton}" Content="Save" Width="60"/>
+                                    <Button Style="{DynamicResource DefaultButton}" Content="Delete" Width="60"/>
+                                </StackPanel>
+                            </Border>
+                            <ListView Grid.Row="1" ItemsSource="{Binding TemplateComponentItems}">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="Name" Width="90">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Name}"/>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="Description" Width="300">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Description}"/>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="XRefferencePlaneId" Width="120">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <ComboBox />
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="YRefferencePlaneId" Width="120">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding YRefferencePlaneId}"/>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="ZRefferencePlaneId" Width="120">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding ZRefferencePlaneId}"/>
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>
                                         </GridViewColumn>

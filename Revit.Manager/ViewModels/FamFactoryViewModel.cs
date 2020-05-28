@@ -93,7 +93,7 @@ namespace ModBox.FamFactory.Revit.Manager
             return true;
         }
 
-        public override object NewElement(User user)
+        public override object NewElement()
         {
             return null;
         }

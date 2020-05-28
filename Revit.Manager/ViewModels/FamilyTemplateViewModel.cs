@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace ModBox.FamFactory.Revit.Manager
 {
@@ -90,7 +91,7 @@ namespace ModBox.FamFactory.Revit.Manager
             return true;
         }
 
-        public override object NewElement(User user)
+        public override object NewElement()
         {
             FamilyTemplate template = null;
             System.Windows.Forms.OpenFileDialog dialogue = new System.Windows.Forms.OpenFileDialog();
@@ -102,15 +103,11 @@ namespace ModBox.FamFactory.Revit.Manager
                 FileInfo file = new FileInfo(dialogue.FileName);
                 Autodesk.Revit.DB.Document doc = ((Autodesk.Revit.ApplicationServices.Application)ADSKApplciation).OpenDocumentFile(file.FullName);
 
-                template = FamilyTemplate.NewTemplate(TemplateDataView);
+                template = FamilyTemplate.NewTemplate(TemplateDataView, ActiveUser);
                 template.Name = "New Template";
                 template.FileName = file.Name;
                 template.FileSize = file.Length;
                 template.IsReleased = false;
-                template.CreatedById = user.Id;
-                template.ModifiedById = user.Id;
-                template.CreatedBy = user;
-                template.ModifiedBy = user;
                 template.State = EntityStates.Enabled;
 
                 byte[] image = Utils.ThumbnailFromView(doc, "Thumbnail");
@@ -196,6 +193,21 @@ namespace ModBox.FamFactory.Revit.Manager
             FamFactoryDataSet.SaveTableChangesToDatbase(SQLiteConnection, InternalDataSet.Tables[TableNames.FF_FamilyTemplateParameters.ToString()]);
             FamFactoryDataSet.SaveTableChangesToDatbase(SQLiteConnection, InternalDataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()]);
             FamFactoryDataSet.SaveTableChangesToDatbase(SQLiteConnection, InternalDataSet.Tables[TableNames.FF_FamilyTemplateGeometries.ToString()]);
+            FamFactoryDataSet.SaveTableChangesToDatbase(SQLiteConnection, InternalDataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()]);
+        }
+
+        RelayCommand _AddTemplateComponentCommand;
+        public ICommand AddTemplateComponentCommand
+        {
+            get => _AddTemplateComponentCommand ?? (_AddTemplateComponentCommand = new RelayCommand(param => this.NewTemplateComponent(), param => this.CanCreateNewElement()));
+        }
+
+        private void NewTemplateComponent()
+        {
+            FamilyTemplateComponent comp = FamilyTemplateComponent.NewTemplateComponent(InternalDataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].DefaultView, ActiveUser);
+            comp.Name = "New Component Reference Pair";
+            comp.Description = "A Pair of reference Planes to alighn and lock to.";
+            SelectedElement.TemplateComponentItems.Add(comp);
         }
 
         private void FamilyTemplatesViewModel_OnSelectionChagned(object sender, EventArgs e)

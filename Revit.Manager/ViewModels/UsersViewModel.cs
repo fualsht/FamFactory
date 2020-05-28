@@ -103,7 +103,7 @@ namespace ModBox.FamFactory.Revit.Manager
             return canSaveUser;
         }
 
-        public override object NewElement(User user)
+        public override object NewElement()
         {
             return User.NewUser(UsersDataView);
         }

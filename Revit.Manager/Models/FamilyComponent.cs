@@ -200,7 +200,7 @@ namespace ModBox.FamFactory.Revit.Manager
                 FamilyGeometryItems.Add(new FamilyGeometry(item));
         }
 
-        public static FamilyComponent NewFamilyComponent(DataView rowView)
+        public static FamilyComponent NewFamilyComponent(DataView rowView, User user)
         {
             DataRowView row = rowView.AddNew();
 
@@ -210,6 +210,10 @@ namespace ModBox.FamFactory.Revit.Manager
             component.Version = new Version(0, 0, 0);
             component.DateCreated = DateTime.Now;
             component.DateModified = DateTime.Now;
+            component.CreatedById = user.Id;
+            component.ModifiedById = user.Id;
+            component.CreatedBy = user;
+            component.ModifiedBy = user;
             component.FamilyComponentTypeId = component.FamilyComponentTypesView[0]["Id"].ToString();
 
             return component;
