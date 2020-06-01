@@ -207,6 +207,7 @@ namespace ModBox.FamFactory.Revit.Manager
             FamilyTemplateComponent comp = FamilyTemplateComponent.NewTemplateComponent(InternalDataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].DefaultView, ActiveUser);
             comp.Name = "New Component Reference Pair";
             comp.Description = "A Pair of reference Planes to alighn and lock to.";
+            comp.FamilyId = SelectedElement.Id;
             SelectedElement.TemplateComponentItems.Add(comp);
         }
 

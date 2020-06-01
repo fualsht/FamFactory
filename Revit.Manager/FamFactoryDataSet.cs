@@ -1337,17 +1337,17 @@ namespace ModBox.FamFactory.Revit.Manager
             dataSet.Relations.Add(TemplateIdDataRelation);
 
             DataRelation ReferencePlaneIdXDataRelation = new DataRelation(TableRelations.FamilyTemplateComponents_XRefferencePlaneId__FamilyTemplateReferencePlanes_Id.ToString(),
-                dataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].Columns["Id"],
+                dataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()].Columns["Id"],
                 dataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].Columns[FamilyTemplateComponent.TemplateComponentColumnNames.XRefferencePlaneId.ToString()]);
             dataSet.Relations.Add(ReferencePlaneIdXDataRelation);
 
             DataRelation ReferencePlaneIdYDataRelation = new DataRelation(TableRelations.FamilyTemplateComponents_YRefferencePlaneId__FamilyTemplateReferencePlanes_Id.ToString(),
-                dataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].Columns["Id"],
+                dataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()].Columns["Id"],
                 dataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].Columns[FamilyTemplateComponent.TemplateComponentColumnNames.YRefferencePlaneId.ToString()]);
             dataSet.Relations.Add(ReferencePlaneIdYDataRelation);
 
             DataRelation ReferencePlaneIdZDataRelation = new DataRelation(TableRelations.FamilyTemplateComponents_ZRefferencePlaneId__FamilyTemplateReferencePlanes_Id.ToString(),
-                dataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].Columns["Id"],
+                dataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()].Columns["Id"],
                 dataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].Columns[FamilyTemplateComponent.TemplateComponentColumnNames.ZRefferencePlaneId.ToString()]);
             dataSet.Relations.Add(ReferencePlaneIdZDataRelation);
 

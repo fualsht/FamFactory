@@ -28,7 +28,7 @@ namespace ModBox.FamFactory.Revit.Manager
         public string FamilyId
         {
             get { return InternalDataRowView[TemplateComponentColumnNames.FamilyId.ToString()].ToString(); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[TemplateComponentColumnNames.FamilyId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            set { InternalDataRowView.BeginEdit(); InternalDataRowView[TemplateComponentColumnNames.FamilyId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); RefreshCollections(); }
         }
 
         public string XRefferencePlaneId
@@ -87,11 +87,7 @@ namespace ModBox.FamFactory.Revit.Manager
         }
 
         public ObservableCollection<FamilyTemplateComponent> FamilyTemplateRefferencePlanesX { get; set; } = new ObservableCollection<FamilyTemplateComponent>();
-        public ObservableCollection<FamilyTemplateComponent> FamilyTemplateRefferencePlanesY { get; set; } = new ObservableCollection<FamilyTemplateComponent>();
-        public ObservableCollection<FamilyTemplateComponent> FamilyTemplateRefferencePlanesZ { get; set; } = new ObservableCollection<FamilyTemplateComponent>();
-        DataView TemplateReferencePlanesXDataView;
-        DataView TemplateReferencePlanesYDataView;
-        DataView TemplateReferencePlanesZDataView;
+        DataView TemplateReferencePlanesDataView;
 
         public FamilyTemplateComponent(DataRowView rowView) : base(rowView)
         {
@@ -100,24 +96,13 @@ namespace ModBox.FamFactory.Revit.Manager
 
         private void RefreshCollections()
         {
-            TemplateReferencePlanesXDataView = InternalDataRowView.CreateChildView(TableRelations.FamilyTemplateComponents_XRefferencePlaneId__FamilyTemplateReferencePlanes_Id.ToString());
-            TemplateReferencePlanesYDataView = InternalDataRowView.CreateChildView(TableRelations.FamilyTemplateComponents_XRefferencePlaneId__FamilyTemplateReferencePlanes_Id.ToString());
-            TemplateReferencePlanesZDataView = InternalDataRowView.CreateChildView(TableRelations.FamilyTemplateComponents_XRefferencePlaneId__FamilyTemplateReferencePlanes_Id.ToString());
-
-            FamilyTemplateRefferencePlanesX.Clear();
-            FamilyTemplateRefferencePlanesY.Clear();
-            FamilyTemplateRefferencePlanesZ.Clear();
-            foreach (DataRowView view in TemplateReferencePlanesXDataView)
+            DataView view = InternalDataRowView.DataView.Table.DataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()].DefaultView;
+            view.Sort = "Id";
+            view.RowFilter = $"Id = '{FamilyId}'";
+            FamilyTemplateRefferencePlanesX.Clear();            
+            foreach (DataRowView v in view)
             {
-                FamilyTemplateRefferencePlanesX.Add(new FamilyTemplateComponent(view));
-            }
-            foreach (DataRowView view in TemplateReferencePlanesYDataView)
-            {
-                FamilyTemplateRefferencePlanesX.Add(new FamilyTemplateComponent(view));
-            }
-            foreach (DataRowView view in TemplateReferencePlanesZDataView)
-            {
-                FamilyTemplateRefferencePlanesX.Add(new FamilyTemplateComponent(view));
+                FamilyTemplateRefferencePlanesX.Add(new FamilyTemplateComponent(v));
             }
         }
 

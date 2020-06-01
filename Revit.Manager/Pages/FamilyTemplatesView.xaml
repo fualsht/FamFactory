@@ -14,7 +14,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-    <Grid DataContext="{Binding FamilyTemplatesViewModel, Mode=OneWay}">
+    <Grid x:Name="grid" DataContext="{Binding FamilyTemplatesViewModel, Mode=OneWay}">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
@@ -51,7 +51,7 @@
         <Border Style="{DynamicResource SectionBorder}" Grid.Row="1" Grid.Column="1" DataContext="{Binding SelectedElement}">
             <ScrollViewer Grid.Row="1" Grid.ColumnSpan="2" Style="{DynamicResource DefaultScrollVIewerStyle}">
                 <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Vertical" >
-                    
+
                     <GroupBox Grid.Column="1" Style="{DynamicResource DefaultGroupBoxStyle}" Header="Family Component">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -67,7 +67,7 @@
                             </StackPanel>
                         </Grid>
                     </GroupBox>
-                    
+
                     <GroupBox Style="{DynamicResource DefaultGroupBoxStyle}" Header="File Properties" Height="Auto">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -85,7 +85,7 @@
                             </StackPanel>
                         </Grid>
                     </GroupBox>
-                    
+
                     <GroupBox Header="Geometry" Style="{DynamicResource DefaultGroupBoxStyle}">
                         <Grid Margin="4">
                             <ListView ItemsSource="{Binding FamilyGeometryItems}">
@@ -145,7 +145,7 @@
                             </ListView>
                         </Grid>
                     </GroupBox>
-                    
+
                     <GroupBox Header="Parameters" Style="{DynamicResource DefaultGroupBoxStyle}">
                         <Grid Margin="4">
                             <ListView ItemsSource="{Binding ParameterItems}">
@@ -233,7 +233,7 @@
                             </ListView>
                         </Grid>
                     </GroupBox>
-                    
+
                     <GroupBox Header="Reference Planes" Style="{DynamicResource DefaultGroupBoxStyle}">
                         <Grid Margin="4">
                             <ListView ItemsSource="{Binding RefferencePlaneItems}">
@@ -363,7 +363,7 @@
                                 <RowDefinition Height="50"/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
-                            <Border Style="{DynamicResource SectionBorder}" DataContext="{Binding famFactoryViewModel.FamilyTemplatesViewModel, Mode=OneWay, Source={StaticResource FFVM}}">
+                            <Border Style="{DynamicResource SectionBorder}" DataContext="{Binding DataContext, ElementName=grid}" >
                                 <StackPanel Orientation="Horizontal">
                                     <Button Style="{DynamicResource DefaultButton}" Content="Add" Width="60" Command="{Binding AddTemplateComponentCommand, Mode=OneWay}"/>
                                     <Button Style="{DynamicResource DefaultButton}" Content="Save" Width="60"/>
@@ -390,7 +390,7 @@
                                         <GridViewColumn Header="XRefferencePlaneId" Width="120">
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <ComboBox />
+                                                    <ComboBox ItemsSource="{Binding FamilyTemplateRefferencePlanesX}" />
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>
                                         </GridViewColumn>
@@ -413,7 +413,7 @@
                             </ListView>
                         </Grid>
                     </GroupBox>
-                    
+
                 </StackPanel>
             </ScrollViewer>
         </Border>
