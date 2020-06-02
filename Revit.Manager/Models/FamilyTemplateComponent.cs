@@ -86,9 +86,6 @@ namespace ModBox.FamFactory.Revit.Manager
             set { _ModifiedBy = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
 
-        public ObservableCollection<FamilyTemplateComponent> FamilyTemplateRefferencePlanesX { get; set; } = new ObservableCollection<FamilyTemplateComponent>();
-        DataView TemplateReferencePlanesDataView;
-
         public FamilyTemplateComponent(DataRowView rowView) : base(rowView)
         {
             RefreshCollections();
@@ -99,11 +96,6 @@ namespace ModBox.FamFactory.Revit.Manager
             DataView view = InternalDataRowView.DataView.Table.DataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()].DefaultView;
             view.Sort = "Id";
             view.RowFilter = $"Id = '{FamilyId}'";
-            FamilyTemplateRefferencePlanesX.Clear();            
-            foreach (DataRowView v in view)
-            {
-                FamilyTemplateRefferencePlanesX.Add(new FamilyTemplateComponent(v));
-            }
         }
 
         internal static FamilyTemplateComponent NewTemplateComponent(DataView dataVew, User user)

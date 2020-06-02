@@ -184,5 +184,10 @@ namespace ModBox.FamFactory.Revit.Manager
         {
      
         }
+
+        public override void SetActiveUser(User user)
+        {
+            ActiveUser = user;
+        }
     }
 }

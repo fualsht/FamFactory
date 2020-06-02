@@ -357,20 +357,20 @@
                         </Grid>
                     </GroupBox>
 
-                    <GroupBox Style="{DynamicResource DefaultGroupBoxStyle}" Header="Template Components">
-                        <Grid>
+                    <GroupBox Style="{DynamicResource DefaultGroupBoxStyle}" Header="Template Components" DataContext="{Binding DataContext, ElementName=grid}">
+                        <Grid DataContext="{Binding FamilyTemplateComponentManager, Mode=OneWay}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="50"/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
-                            <Border Style="{DynamicResource SectionBorder}" DataContext="{Binding DataContext, ElementName=grid}" >
+                            <Border Style="{DynamicResource SectionBorder}" >
                                 <StackPanel Orientation="Horizontal">
-                                    <Button Style="{DynamicResource DefaultButton}" Content="Add" Width="60" Command="{Binding AddTemplateComponentCommand, Mode=OneWay}"/>
-                                    <Button Style="{DynamicResource DefaultButton}" Content="Save" Width="60"/>
-                                    <Button Style="{DynamicResource DefaultButton}" Content="Delete" Width="60"/>
+                                    <Button Style="{DynamicResource DefaultButton}" Content="Add" Width="60" Command="{Binding AddElementCommand, Mode=OneWay}"/>
+                                    <Button Style="{DynamicResource DefaultButton}" Content="Save" Width="60" Command="{Binding SaveElementCommand, Mode=OneWay}"/>
+                                    <Button Style="{DynamicResource DefaultButton}" Content="Delete" Width="60" Command="{Binding DeleteElementCommand, Mode=OneWay}"/>
                                 </StackPanel>
                             </Border>
-                            <ListView Grid.Row="1" ItemsSource="{Binding TemplateComponentItems}">
+                            <ListView Grid.Row="1" ItemsSource="{Binding InternalCollection}" SelectedItem="{Binding SelectedElement}">
                                 <ListView.View>
                                     <GridView>
                                         <GridViewColumn Header="Name" Width="90">

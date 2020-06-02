@@ -13,24 +13,22 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamilyTemplatesViewModel : ViewModelBase<FamilyTemplate>
     {
-        DataView TemplateDataView;
-
-        public ObservableCollection<User> UsersList { get; set; } = new ObservableCollection<User>();
-        DataView usersDataView;
+        private FamilyTemplateComponentViewModel _FamilyTemplateComponentManager;
+        public FamilyTemplateComponentViewModel FamilyTemplateComponentManager { get { return _FamilyTemplateComponentManager; } }
 
         public FamilyTemplatesViewModel(DataSet dataset, System.Data.SQLite.SQLiteConnection sQLiteConnection) : base(dataset, sQLiteConnection)
         {
-            TemplateDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].DefaultView;
-            usersDataView = InternalDataSet.Tables[TableNames.FF_Users.ToString()].DefaultView;
-            OnSelectionChagned += FamilyTemplatesViewModel_OnSelectionChagned;
+            _FamilyTemplateComponentManager = new FamilyTemplateComponentViewModel(dataset, SQLiteConnection);
+            _FamilyTemplateComponentManager.SetActiveUser(ActiveUser);
+            InternalDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].DefaultView;
             RefreshCollection();
         }
 
         public FamilyTemplatesViewModel(DataSet dataset, System.Data.SQLite.SQLiteConnection sQLiteConnection, object application) : base(dataset, sQLiteConnection, application)
         {
-            TemplateDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].DefaultView;
-            usersDataView = InternalDataSet.Tables[TableNames.FF_Users.ToString()].DefaultView;
-            OnSelectionChagned += FamilyTemplatesViewModel_OnSelectionChagned;
+            _FamilyTemplateComponentManager = new FamilyTemplateComponentViewModel(dataset, SQLiteConnection);
+            _FamilyTemplateComponentManager.SetActiveUser(ActiveUser);
+            InternalDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].DefaultView;
             RefreshCollection();
         }
 
@@ -39,14 +37,9 @@ namespace ModBox.FamFactory.Revit.Manager
             if (InternalCollection != null)
             {
                 InternalCollection.Clear();
-                UsersList.Clear();
-                foreach (DataRowView item in TemplateDataView)
+                foreach (DataRowView item in InternalDataView)
                 {
                     this.AddElement(new FamilyTemplate(item), true);
-                }
-                foreach (DataRowView rowView in usersDataView)
-                {
-                    UsersList.Add(new User(rowView));
                 }
             }
         }
@@ -103,7 +96,7 @@ namespace ModBox.FamFactory.Revit.Manager
                 FileInfo file = new FileInfo(dialogue.FileName);
                 Autodesk.Revit.DB.Document doc = ((Autodesk.Revit.ApplicationServices.Application)ADSKApplciation).OpenDocumentFile(file.FullName);
 
-                template = FamilyTemplate.NewTemplate(TemplateDataView, ActiveUser);
+                template = FamilyTemplate.NewTemplate(InternalDataView, ActiveUser);
                 template.Name = "New Template";
                 template.FileName = file.Name;
                 template.FileSize = file.Length;
@@ -133,16 +126,16 @@ namespace ModBox.FamFactory.Revit.Manager
                 Autodesk.Revit.DB.ElementId workPlaneBasedId = new Autodesk.Revit.DB.ElementId(Autodesk.Revit.DB.BuiltInParameter.FAMILY_WORK_PLANE_BASED);
 
                 foreach (Autodesk.Revit.DB.Parameter parameter in doc.OwnerFamily.Parameters)
-                {    
+                {
                     if (parameter.Id == alwaysVerticalId)
-                        template.AlwaysVertical = Convert.ToBoolean( parameter.AsInteger());
+                        template.AlwaysVertical = Convert.ToBoolean(parameter.AsInteger());
 
                     if (parameter.Id == canHostRebarlId)
                         template.CanHostRebar = Convert.ToBoolean(parameter.AsInteger());
 
                     if (parameter.Id == cutsWalllId)
                         template.CutsWithVoidWhenLoaded = Convert.ToBoolean(parameter.AsInteger());
-                    
+
                     if (parameter.Id == sharedId)
                         template.IsShared = Convert.ToBoolean(parameter.AsInteger());
 
@@ -178,7 +171,7 @@ namespace ModBox.FamFactory.Revit.Manager
                 Utils.GetFamilyTemplateFeatures(template, doc, ActiveUser);
 
                 doc.Close(false);
-                
+
                 template.FamilyFile = Utils.FileToByteArray(file.FullName);
                 SelectedElement = template;
                 RefreshCollection();
@@ -189,31 +182,17 @@ namespace ModBox.FamFactory.Revit.Manager
         public override void SaveElement(FamilyTemplate element)
         {
             element.EndEdit();
-            FamFactoryDataSet.SaveTableChangesToDatbase(SQLiteConnection, TemplateDataView.Table);
+            FamFactoryDataSet.SaveTableChangesToDatbase(SQLiteConnection, InternalDataView.Table);
             FamFactoryDataSet.SaveTableChangesToDatbase(SQLiteConnection, InternalDataSet.Tables[TableNames.FF_FamilyTemplateParameters.ToString()]);
             FamFactoryDataSet.SaveTableChangesToDatbase(SQLiteConnection, InternalDataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()]);
             FamFactoryDataSet.SaveTableChangesToDatbase(SQLiteConnection, InternalDataSet.Tables[TableNames.FF_FamilyTemplateGeometries.ToString()]);
             FamFactoryDataSet.SaveTableChangesToDatbase(SQLiteConnection, InternalDataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()]);
         }
 
-        RelayCommand _AddTemplateComponentCommand;
-        public ICommand AddTemplateComponentCommand
+        public override void SetActiveUser(User user)
         {
-            get => _AddTemplateComponentCommand ?? (_AddTemplateComponentCommand = new RelayCommand(param => this.NewTemplateComponent(), param => this.CanCreateNewElement()));
-        }
-
-        private void NewTemplateComponent()
-        {
-            FamilyTemplateComponent comp = FamilyTemplateComponent.NewTemplateComponent(InternalDataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].DefaultView, ActiveUser);
-            comp.Name = "New Component Reference Pair";
-            comp.Description = "A Pair of reference Planes to alighn and lock to.";
-            comp.FamilyId = SelectedElement.Id;
-            SelectedElement.TemplateComponentItems.Add(comp);
-        }
-
-        private void FamilyTemplatesViewModel_OnSelectionChagned(object sender, EventArgs e)
-        {
-            
+            ActiveUser = user;
+            FamilyTemplateComponentManager.SetActiveUser(user);
         }
     }
 }

@@ -13,8 +13,11 @@ namespace ModBox.FamFactory.Revit.Manager
         static object _adskApplciation;
         internal static object ADSKApplciation { get { return _adskApplciation; } }
 
-        User _ActiveUser;
-        public User ActiveUser { get { return _ActiveUser; } }
+        DataView _InternalDataView;
+        internal DataView InternalDataView { get { return _InternalDataView; } set { _InternalDataView = value; } }
+
+        private User _ActiveUser;
+        public User ActiveUser { get { return _ActiveUser; } set { _ActiveUser = value; NotifyPropertyChanged(); } }
 
         DataSet _InternalDataContext;
         public DataSet InternalDataSet { get { return _InternalDataContext; } }
@@ -202,11 +205,9 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public abstract bool CanGoBack();
 
-        public void SetActiveUser(User user)
-        {
-            _ActiveUser = user;
-            NotifyPropertyChanged("ActiveUser");
-        }
+        public abstract void RefreshCollection();
+
+        public abstract void SetActiveUser(User user);
 
         internal protected void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {

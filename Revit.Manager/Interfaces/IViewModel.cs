@@ -10,7 +10,6 @@ namespace ModBox.FamFactory.Revit.Manager
         DataSet InternalDataSet { get; }
         ObservableCollection<T> InternalCollection { get; }
         ObservableCollection<T> SelectionHistory { get; }
-        User ActiveUser { get; }
         ICommand NextElementCommand { get; }
         ICommand PreviousElementCommand { get; }
         ICommand AddElementCommand { get; }
@@ -32,7 +31,7 @@ namespace ModBox.FamFactory.Revit.Manager
         bool CanDeleteElement();
         bool CanSaveElement();
         bool CanGoToNext();
-        bool CanGoBack();
-        void SetActiveUser(User user);
+        bool CanGoBack(); 
+        void RefreshCollection();
     }
 }

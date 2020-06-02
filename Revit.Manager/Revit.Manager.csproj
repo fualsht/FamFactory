@@ -122,7 +122,10 @@
     <Compile Include="Structs\Version.cs" />
     <Compile Include="TableConstants.cs" />
     <Compile Include="Utils.cs" />
+    <Compile Include="ViewModels\EmailProfileViewModel.cs" />
     <Compile Include="ViewModels\FamFactoryComponentViewModel.cs" />
+    <Compile Include="ViewModels\FamFactoryTemplateParameterViewModel.cs" />
+    <Compile Include="ViewModels\FamilyTemplateComponentViewModel.cs" />
     <Compile Include="ViewModels\FamilyTemplateViewModel.cs" />
     <Compile Include="ViewModels\UsersViewModel.cs" />
     <Compile Include="BaseClasses\ViewModelBase.cs" />
