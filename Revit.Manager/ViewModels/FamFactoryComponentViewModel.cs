@@ -24,14 +24,14 @@ namespace ModBox.FamFactory.Revit.Manager
             RefreshCollection();
         }
 
-        private void RefreshCollection()
+        public override void RefreshCollection()
         {
             if (InternalCollection != null)
             {
                 InternalCollection.Clear();
                 foreach (DataRowView item in InternalDataSet.Tables[TableNames.FF_FamilyComponents.ToString()].DefaultView)
                 {
-                    this.AddElement(new FamilyComponent(item), true);
+                    this.AddElement(new FamilyComponent(item, SQLiteConnection), true);
                 }
             }
         }
@@ -87,7 +87,7 @@ namespace ModBox.FamFactory.Revit.Manager
                 FileInfo file = new FileInfo(dialogue.FileName);
                 Autodesk.Revit.DB.Document doc = ((Autodesk.Revit.ApplicationServices.Application)ADSKApplciation).OpenDocumentFile(file.FullName);
 
-                component = FamilyComponent.NewFamilyComponent(ComponentDataView, ActiveUser);
+                component = FamilyComponent.NewFamilyComponent(SQLiteConnection, ComponentDataView, ActiveUser);
                 component.FileName = file.Name;
                 component.FileSize = file.Length;
                 component.DateCreated = DateTime.Now;

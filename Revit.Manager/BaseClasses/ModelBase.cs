@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SQLite;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -11,55 +12,65 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public abstract class ModelBase<T> : IModelBase<T>
     {
-        internal DataRowView InternalDataRowView;
-        public event PropertyChangedEventHandler PropertyChanged;        
-        public DataView DataView { get { return InternalDataRowView.DataView; } }
-        public DataRow Row { get { return InternalDataRowView.Row; } }
-        public bool IsEdit { get { return InternalDataRowView.IsEdit; } }
-        public bool IsNew { get { return InternalDataRowView.IsNew; } }
-        public DataRowVersion RowVersion { get { return InternalDataRowView.RowVersion; } }
+        internal DataRowView internalDataRowView;
+
+        internal SQLiteConnection internalSQLConenction;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public DataView InternalDataView { get { return internalDataRowView.DataView; } }
+
+        public DataRow Row { get { return internalDataRowView.Row; } }
+
+        public bool IsEdit { get { return internalDataRowView.IsEdit; } }
+
+        public bool IsNew { get { return internalDataRowView.IsNew; } }
+
+        public DataRowVersion RowVersion { get { return internalDataRowView.RowVersion; } }
+
         internal bool _ValuesChanged;
         public bool ValuesChanged { get { return _ValuesChanged; } }
-        public ModelBase(DataRowView rowView)
+        public ModelBase(DataRowView rowView, SQLiteConnection connection)
         {
-            InternalDataRowView = rowView;
+            internalDataRowView = rowView;
+            internalSQLConenction = connection;
         }
 
         public void BeginEdit()
         {
-            InternalDataRowView.BeginEdit();
+            internalDataRowView.BeginEdit();
         }
         public void EndEdit()
         {
-            InternalDataRowView.EndEdit();
+            internalDataRowView.EndEdit();
         }
         public void CancelEdit()
         {
-            InternalDataRowView.CancelEdit();
+            internalDataRowView.CancelEdit();
         }
         public void Delete()
         {
-            InternalDataRowView.Delete();
+            internalDataRowView.Delete();
         }
 
         public  DataView CreateChildView(DataRelation relation)
         {
-            return InternalDataRowView.CreateChildView(relation);
+            return internalDataRowView.CreateChildView(relation);
         }
 
         public  DataView CreateChildView(string dataRelation)
         {
-            return InternalDataRowView.CreateChildView(dataRelation);
+            return internalDataRowView.CreateChildView(dataRelation);
         }
         
         public  DataView CreateChildView(DataRelation dataRelation, bool followParent)
         {
-            return InternalDataRowView.CreateChildView(dataRelation, followParent);
+            return internalDataRowView.CreateChildView(dataRelation, followParent);
         }
 
         public DataView CreateChildView(string dataRelation, bool followParent)
         {
-            return InternalDataRowView.CreateChildView(dataRelation, followParent);
+            return internalDataRowView.CreateChildView(dataRelation, followParent);
         }
 
         internal protected void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
@@ -69,7 +80,7 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public override int GetHashCode()
         {
-            return InternalDataRowView.GetHashCode();
+            return internalDataRowView.GetHashCode();
         }
 
         public override bool Equals(object obj)
@@ -79,11 +90,11 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public new Type GetType()
         {
-            return InternalDataRowView.GetType(); 
+            return internalDataRowView.GetType(); 
         }
         public override string ToString()
         {
-            return InternalDataRowView.ToString();
+            return internalDataRowView.ToString();
         }
     }
 }

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Data.SqlClient;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,118 +19,118 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public string Id
         {
-            get { return InternalDataRowView[ParameterColumnNames.Id.ToString()].ToString(); }
-            set { InternalDataRowView[ParameterColumnNames.Id.ToString()] = value; NotifyPropertyChanged(); }
+            get { return internalDataRowView[ParameterColumnNames.Id.ToString()].ToString(); }
+            set { internalDataRowView[ParameterColumnNames.Id.ToString()] = value; NotifyPropertyChanged(); }
         }
         public string Name
         {
-            get { return InternalDataRowView[ParameterColumnNames.Name.ToString()].ToString(); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.Name.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return internalDataRowView[ParameterColumnNames.Name.ToString()].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[ParameterColumnNames.Name.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public string Description
         {
-            get { return InternalDataRowView[ParameterColumnNames.Description.ToString()].ToString(); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.Description.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return internalDataRowView[ParameterColumnNames.Description.ToString()].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[ParameterColumnNames.Description.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public bool IsReleased
         {
-            get { return (bool)InternalDataRowView[ParameterColumnNames.IsReleased.ToString()]; }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.IsReleased.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return (bool)internalDataRowView[ParameterColumnNames.IsReleased.ToString()]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[ParameterColumnNames.IsReleased.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public string FamilyCategory
         {
-            get { return InternalDataRowView[ParameterColumnNames.FamilyCategory.ToString()].ToString(); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.FamilyCategory.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return internalDataRowView[ParameterColumnNames.FamilyCategory.ToString()].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[ParameterColumnNames.FamilyCategory.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public bool CanHostRebar
         {
-            get { return (bool)InternalDataRowView[ParameterColumnNames.CanHostRebar.ToString()]; }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.CanHostRebar.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return (bool)internalDataRowView[ParameterColumnNames.CanHostRebar.ToString()]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[ParameterColumnNames.CanHostRebar.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public string RoundConnectorDimention
         {
-            get { return InternalDataRowView[ParameterColumnNames.RoundConnectorDimension.ToString()].ToString(); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.RoundConnectorDimension.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return internalDataRowView[ParameterColumnNames.RoundConnectorDimension.ToString()].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[ParameterColumnNames.RoundConnectorDimension.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public string PartType
         {
-            get { return InternalDataRowView[ParameterColumnNames.PartType.ToString()].ToString(); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.PartType.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return internalDataRowView[ParameterColumnNames.PartType.ToString()].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[ParameterColumnNames.PartType.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public string OmnoClassNumber
         {
-            get { return InternalDataRowView[ParameterColumnNames.OmniClassNumber.ToString()].ToString(); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.OmniClassNumber.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return internalDataRowView[ParameterColumnNames.OmniClassNumber.ToString()].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[ParameterColumnNames.OmniClassNumber.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public string OmniClassTitle
         {
-            get { return InternalDataRowView[ParameterColumnNames.OmniClassTitle.ToString()].ToString(); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.OmniClassTitle.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return internalDataRowView[ParameterColumnNames.OmniClassTitle.ToString()].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[ParameterColumnNames.OmniClassTitle.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public bool WorkPlaneBased
         {
-            get { return (bool)InternalDataRowView[ParameterColumnNames.WorkPlaneBased.ToString()]; }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.WorkPlaneBased.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return (bool)internalDataRowView[ParameterColumnNames.WorkPlaneBased.ToString()]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[ParameterColumnNames.WorkPlaneBased.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public bool AlwaysVertical
         {
-            get { return (bool)InternalDataRowView[ParameterColumnNames.AlwaysVertical.ToString()]; }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.AlwaysVertical.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return (bool)internalDataRowView[ParameterColumnNames.AlwaysVertical.ToString()]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[ParameterColumnNames.AlwaysVertical.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public bool CutsWithVoidWhenLoaded
         {
-            get { return (bool)InternalDataRowView[ParameterColumnNames.CutsWithVoidWhenLoaded.ToString()]; }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.CutsWithVoidWhenLoaded.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return (bool)internalDataRowView[ParameterColumnNames.CutsWithVoidWhenLoaded.ToString()]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[ParameterColumnNames.CutsWithVoidWhenLoaded.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public bool IsShared
         {
-            get { return (bool)InternalDataRowView[ParameterColumnNames.IsShared.ToString()]; }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.IsShared.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return (bool)internalDataRowView[ParameterColumnNames.IsShared.ToString()]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[ParameterColumnNames.IsShared.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public bool RoomCalculationPoint
         {
-            get { return (bool)InternalDataRowView[ParameterColumnNames.RoomCalculationPoint.ToString()]; }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.RoomCalculationPoint.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return (bool)internalDataRowView[ParameterColumnNames.RoomCalculationPoint.ToString()]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[ParameterColumnNames.RoomCalculationPoint.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public string FileName
         {
-            get { return InternalDataRowView[ParameterColumnNames.FileName.ToString()].ToString(); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.FileName.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return internalDataRowView[ParameterColumnNames.FileName.ToString()].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[ParameterColumnNames.FileName.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public byte[] Thumbnail
         {
-            get { return (byte[])InternalDataRowView[ParameterColumnNames.Thumbnail.ToString()]; }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.Thumbnail.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return (byte[])internalDataRowView[ParameterColumnNames.Thumbnail.ToString()]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[ParameterColumnNames.Thumbnail.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public Version Version
         {
-            get { return Version.AsVersion(InternalDataRowView[ParameterColumnNames.Version.ToString()].ToString()); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.Version.ToString()] = value.ToString(); NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return Version.AsVersion(internalDataRowView[ParameterColumnNames.Version.ToString()].ToString()); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[ParameterColumnNames.Version.ToString()] = value.ToString(); NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public long FileSize
         {
-            get { return (long)InternalDataRowView[ParameterColumnNames.FileSize.ToString()]; }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.FileSize.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return (long)internalDataRowView[ParameterColumnNames.FileSize.ToString()]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[ParameterColumnNames.FileSize.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public DateTime DateCreated
         {
-            get { return (DateTime)InternalDataRowView[ParameterColumnNames.DateCreated.ToString()]; }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.DateCreated.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return (DateTime)internalDataRowView[ParameterColumnNames.DateCreated.ToString()]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[ParameterColumnNames.DateCreated.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public DateTime DateModified
         {
-            get { return (DateTime)InternalDataRowView[ParameterColumnNames.DateModified.ToString()]; }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.DateModified.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return (DateTime)internalDataRowView[ParameterColumnNames.DateModified.ToString()]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[ParameterColumnNames.DateModified.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public byte[] FamilyFile
         {
-            get { return (byte[])InternalDataRowView[ParameterColumnNames.FamilyFile.ToString()]; }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.FamilyFile.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return (byte[])internalDataRowView[ParameterColumnNames.FamilyFile.ToString()]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[ParameterColumnNames.FamilyFile.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public string CreatedById
         {
-            get { return InternalDataRowView[ParameterColumnNames.CreatedById.ToString()].ToString(); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.CreatedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return internalDataRowView[ParameterColumnNames.CreatedById.ToString()].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[ParameterColumnNames.CreatedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         User _CreatedBy;
         public User CreatedBy
@@ -138,76 +140,41 @@ namespace ModBox.FamFactory.Revit.Manager
         }
         public string ModifiedById
         {
-            get { return InternalDataRowView[ParameterColumnNames.ModifiedById.ToString()].ToString(); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.ModifiedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return internalDataRowView[ParameterColumnNames.ModifiedById.ToString()].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[ParameterColumnNames.ModifiedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
+
         User _ModifiedBy;
         public User ModifiedBy
         {
             get { return _ModifiedBy; }
             set { _ModifiedBy = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
+
         public EntityStates State
         {
-            get { return (EntityStates)InternalDataRowView[ParameterColumnNames.State.ToString()]; }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[ParameterColumnNames.State.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return (EntityStates)internalDataRowView[ParameterColumnNames.State.ToString()]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[ParameterColumnNames.State.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
 
-        public ObservableCollection<ReferencePlane> RefferencePlaneItems { get; set; }
-        public ObservableCollection<FamilyGeometry> FamilyGeometryItems { get; set; }
-        public ObservableCollection<Parameter> ParameterItems { get; set; }
-        public ObservableCollection<FamilyTemplateComponent> TemplateComponentItems { get; set; }
+        public FamilyReferencePlaneViewModel RefferencePlaneItems { get; set; }
 
-        DataView _FamilyTemplateReferencePlanesView;
-        public DataView FamilyTemplateReferencePlanesView { get { return _FamilyTemplateReferencePlanesView; } }
+        public FamilyGeometryViewModel FamilyGeometryItems { get; set; }
 
-        DataView _FamilyTemplateParametersView;
-        public DataView FamilyTemplateParametersView { get { return _FamilyTemplateParametersView; } }
+        public FamilyParameterViewModel ParameterItems { get; set; }
 
-        DataView _FamilyTemplateGeometryView;
-        public DataView FamilyTemplateGeometryView { get { return _FamilyTemplateGeometryView; } }
+        public FamilyTemplateComponentViewModel TemplateComponentItems { get; set; }
 
-        DataView _FamilyTemplateComponentsView;
-        public DataView FamilyTemplateComponentsView { get { return _FamilyTemplateComponentsView; } }
-
-        public FamilyTemplate(DataRowView view) : base(view)
+        public FamilyTemplate(DataRowView view, SQLiteConnection connection) : base(view, connection)
         {
-            RefferencePlaneItems = new ObservableCollection<ReferencePlane>();
-            FamilyGeometryItems = new ObservableCollection<FamilyGeometry>();
-            ParameterItems = new ObservableCollection<Parameter>();
-            TemplateComponentItems = new ObservableCollection<FamilyTemplateComponent>();
 
-            _FamilyTemplateParametersView = InternalDataRowView.CreateChildView(TableRelations.FamilyTemplateParameters_FamilyId__FamilyTemplates_Id.ToString());
-            _FamilyTemplateReferencePlanesView = InternalDataRowView.CreateChildView(TableRelations.FamilyTemplateReferencePlanes_FamilyId__FamilyTemplates_Id.ToString());
-            _FamilyTemplateGeometryView = InternalDataRowView.CreateChildView(TableRelations.FamilyTemplateGeometries_FamilyId__FamilyTemplates_Id.ToString());
-            _FamilyTemplateComponentsView = InternalDataRowView.CreateChildView(TableRelations.FamilyTemplateComponents_FamilyId__FamilyTemplate_Id.ToString());
-            RefreshChildRows();
         }
 
-        private void RefreshChildRows()
-        {
-            ParameterItems.Clear();
-            foreach (DataRowView item in FamilyTemplateParametersView)
-                ParameterItems.Add(new Parameter(item));
-   
-            RefferencePlaneItems.Clear();
-            foreach (DataRowView item in FamilyTemplateReferencePlanesView)
-                RefferencePlaneItems.Add(new ReferencePlane(item));
-            
-            FamilyGeometryItems.Clear();
-            foreach (DataRowView item in FamilyTemplateGeometryView)
-                FamilyGeometryItems.Add(new FamilyGeometry(item));
-
-            TemplateComponentItems.Clear();
-            foreach (DataRowView item in FamilyTemplateComponentsView)
-                TemplateComponentItems.Add(new FamilyTemplateComponent(item));
-        }
-
-        public static FamilyTemplate NewTemplate(DataView rowView, User user)
+        public static FamilyTemplate NewTemplate(SQLiteConnection connection,DataView rowView, User user)
         {
             DataRowView row = rowView.AddNew();
 
-            FamilyTemplate template = new FamilyTemplate(row);
+            FamilyTemplate template = new FamilyTemplate(row, connection);
             template.Id = Guid.NewGuid().ToString();
             template.Version = new Version(0, 0, 0);
             template.DateCreated = DateTime.Now;

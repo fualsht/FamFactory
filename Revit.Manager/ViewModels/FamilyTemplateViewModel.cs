@@ -32,14 +32,14 @@ namespace ModBox.FamFactory.Revit.Manager
             RefreshCollection();
         }
 
-        private void RefreshCollection()
+        public override void RefreshCollection()
         {
             if (InternalCollection != null)
             {
                 InternalCollection.Clear();
                 foreach (DataRowView item in InternalDataView)
                 {
-                    this.AddElement(new FamilyTemplate(item), true);
+                    this.AddElement(new FamilyTemplate(item, SQLiteConnection), true);
                 }
             }
         }
@@ -96,7 +96,7 @@ namespace ModBox.FamFactory.Revit.Manager
                 FileInfo file = new FileInfo(dialogue.FileName);
                 Autodesk.Revit.DB.Document doc = ((Autodesk.Revit.ApplicationServices.Application)ADSKApplciation).OpenDocumentFile(file.FullName);
 
-                template = FamilyTemplate.NewTemplate(InternalDataView, ActiveUser);
+                template = FamilyTemplate.NewTemplate(SQLiteConnection, InternalDataView, ActiveUser);
                 template.Name = "New Template";
                 template.FileName = file.Name;
                 template.FileSize = file.Length;

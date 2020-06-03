@@ -25,7 +25,7 @@ namespace ModBox.FamFactory.Revit.Manager
                 InternalCollection.Clear();
                 foreach (DataRowView item in InternalDataSet.Tables[TableNames.FF_Users.ToString()].DefaultView)
                 {
-                    this.AddElement(new User(item), true);
+                    this.AddElement(new User(item, SQLiteConnection), true);
                 }
             }
         }
@@ -103,7 +103,7 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public override object NewElement()
         {
-            return User.NewUser(InternalDataView);
+            return User.NewUser(SQLiteConnection, InternalDataView);
         }
 
         public override void SaveElement(User element)

@@ -109,7 +109,7 @@ namespace ModBox.FamFactory.Revit
                 FamFactoryDataSet.InitilizeDataSet(famFactoryDataSet);
 
             famFactoryManager = new FamFactoryViewModel(famFactoryDataSet, sQLiteConnection, RevitApplicationService);
-            User u = famFactoryManager.UsersViewModel.InternalCollection[0];
+            User u = famFactoryManager.UserItems.InternalCollection[0];
             famFactoryManager.LogIn(u);
 
 

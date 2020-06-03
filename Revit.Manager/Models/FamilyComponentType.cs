@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,54 @@ namespace ModBox.FamFactory.Revit.Manager
     public class FamilyComponentType : ModelBase<FamilyComponentType>
     {
         public enum FamilyComponentTypesTableColumnNames { Id, Name, Description, Thumbnail, DateCreated, DateModified, CreatedById, ModifiedById, State }
-        public FamilyComponentType(DataRowView rowView) : base(rowView)
+        
+        public string Id
+        {
+            get { return internalDataRowView[FamilyComponentTypesTableColumnNames.Id.ToString()].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyComponentTypesTableColumnNames.Id.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+        }
+
+        public string Name
+        {
+            get { return internalDataRowView[FamilyComponentTypesTableColumnNames.Name.ToString()].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyComponentTypesTableColumnNames.Name.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+        }
+        public string Description
+        {
+            get { return internalDataRowView[FamilyComponentTypesTableColumnNames.Description.ToString()].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyComponentTypesTableColumnNames.Description.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+        }
+        public byte[] Thumbnail
+        {
+            get { return (byte[])internalDataRowView[FamilyComponentTypesTableColumnNames.Thumbnail.ToString()]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyComponentTypesTableColumnNames.Thumbnail.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+        }
+        public DateTime DateCreated
+        {
+            get { return (DateTime)internalDataRowView[FamilyComponentTypesTableColumnNames.DateCreated.ToString()]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyComponentTypesTableColumnNames.DateCreated.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+        }
+        public DateTime DateModified
+        {
+            get { return (DateTime)internalDataRowView[FamilyComponentTypesTableColumnNames.DateModified.ToString()]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyComponentTypesTableColumnNames.DateModified.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+        }
+        public string CreatedById
+        {
+            get { return internalDataRowView[FamilyComponentTypesTableColumnNames.CreatedById.ToString()].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyComponentTypesTableColumnNames.CreatedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+        }
+        public string ModifiedById
+        {
+            get { return internalDataRowView[FamilyComponentTypesTableColumnNames.ModifiedById.ToString()].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyComponentTypesTableColumnNames.ModifiedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+        }
+        public int State
+        {
+            get { return (int)internalDataRowView[FamilyComponentTypesTableColumnNames.State.ToString()]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyComponentTypesTableColumnNames.State.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+        }
+        public FamilyComponentType(DataRowView rowView, SQLiteConnection connection) : base(rowView, connection)
         {
             
         }

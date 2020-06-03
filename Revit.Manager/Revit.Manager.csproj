@@ -125,6 +125,13 @@
     <Compile Include="ViewModels\EmailProfileViewModel.cs" />
     <Compile Include="ViewModels\FamFactoryComponentViewModel.cs" />
     <Compile Include="ViewModels\FamFactoryTemplateParameterViewModel.cs" />
+    <Compile Include="ViewModels\FamilyBuildComponentPositionViewModel.cs" />
+    <Compile Include="ViewModels\FamilyBuildComponentViewModel.cs" />
+    <Compile Include="ViewModels\FamilyBuildViewModel.cs" />
+    <Compile Include="ViewModels\FamilyComponentTypeViewModel.cs" />
+    <Compile Include="ViewModels\FamilyGeometryViewModel.cs" />
+    <Compile Include="ViewModels\FamilyParameterViewModel.cs" />
+    <Compile Include="ViewModels\FamilyReferencePlaneViewModel.cs" />
     <Compile Include="ViewModels\FamilyTemplateComponentViewModel.cs" />
     <Compile Include="ViewModels\FamilyTemplateViewModel.cs" />
     <Compile Include="ViewModels\UsersViewModel.cs" />

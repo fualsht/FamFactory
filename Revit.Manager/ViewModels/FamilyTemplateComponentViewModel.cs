@@ -64,7 +64,7 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public override void SaveElement(FamilyTemplateComponent element)
         {
-            FamilyTemplateComponent comp = FamilyTemplateComponent.NewTemplateComponent(InternalDataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].DefaultView, ActiveUser);
+            FamilyTemplateComponent comp = FamilyTemplateComponent.NewTemplateComponent(SQLiteConnection,InternalDataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].DefaultView, ActiveUser);
             comp.Name = "New Component Reference Pair";
             comp.Description = "A Pair of reference Planes to alighn and lock to.";
             comp.FamilyId = SelectedElement.Id;
@@ -73,6 +73,11 @@ namespace ModBox.FamFactory.Revit.Manager
         public override void SetActiveUser(User user)
         {
             ActiveUser = user;
+        }
+
+        public override void RefreshCollection()
+        {
+
         }
     }
 }

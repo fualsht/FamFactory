@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace ModBox.FamFactory.Revit.Manager
             ComponentRefernecePlaneZId, XOffset, YOffset, ZOffset, XRotate, YRotate, ZRotate, CreatedById, ModifiedById, 
             DateCreated, DateModified }
 
-        public FamilyBuildComponentPosition(DataRowView rowView) : base(rowView)
+        public FamilyBuildComponentPosition(DataRowView rowView, SQLiteConnection connection) : base(rowView, connection)
         {
 
         }

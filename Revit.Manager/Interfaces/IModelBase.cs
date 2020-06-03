@@ -11,7 +11,7 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public interface IModelBase<T> : INotifyPropertyChanged
     {
-        DataView DataView { get ; } 
+        DataView InternalDataView { get ; } 
         DataRow Row { get ;  }
         bool IsEdit { get ; }
         bool IsNew { get ; }

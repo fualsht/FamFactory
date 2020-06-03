@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,104 +17,104 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public string Id
         {
-            get { return InternalDataRowView[FamilyGeometryColumnNames.Id.ToString()].ToString(); }
-            set { InternalDataRowView[FamilyGeometryColumnNames.Id.ToString()] = value; NotifyPropertyChanged(); }
+            get { return internalDataRowView[FamilyGeometryColumnNames.Id.ToString()].ToString(); }
+            set { internalDataRowView[FamilyGeometryColumnNames.Id.ToString()] = value; NotifyPropertyChanged(); }
         }
         public string FamilyId
         {
-            get { return InternalDataRowView[FamilyGeometryColumnNames.FamilyId.ToString()].ToString(); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[FamilyGeometryColumnNames.FamilyId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return internalDataRowView[FamilyGeometryColumnNames.FamilyId.ToString()].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyGeometryColumnNames.FamilyId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public string Name
         {
-            get { return InternalDataRowView[FamilyGeometryColumnNames.Name.ToString()].ToString(); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[FamilyGeometryColumnNames.Name.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return internalDataRowView[FamilyGeometryColumnNames.Name.ToString()].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyGeometryColumnNames.Name.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public string Description
         {
-            get { return InternalDataRowView[FamilyGeometryColumnNames.Description.ToString()].ToString(); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[FamilyGeometryColumnNames.Description.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return internalDataRowView[FamilyGeometryColumnNames.Description.ToString()].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyGeometryColumnNames.Description.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public int ElementId
         {
-            get { return (int)InternalDataRowView[FamilyGeometryColumnNames.ElementId.ToString()]; }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[FamilyGeometryColumnNames.ElementId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return (int)internalDataRowView[FamilyGeometryColumnNames.ElementId.ToString()]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyGeometryColumnNames.ElementId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public string GeometryType
         {
-            get { return InternalDataRowView[FamilyGeometryColumnNames.GeometryType.ToString()].ToString(); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[FamilyGeometryColumnNames.GeometryType.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return internalDataRowView[FamilyGeometryColumnNames.GeometryType.ToString()].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyGeometryColumnNames.GeometryType.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public int MaterialId
         {
-            get { return (int)InternalDataRowView[FamilyGeometryColumnNames.MaterialId.ToString()]; }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[FamilyGeometryColumnNames.MaterialId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return (int)internalDataRowView[FamilyGeometryColumnNames.MaterialId.ToString()]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyGeometryColumnNames.MaterialId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public bool IsActive
         {
-            get { return (bool)InternalDataRowView[FamilyGeometryColumnNames.IsActive.ToString()]; }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[FamilyGeometryColumnNames.IsActive.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return (bool)internalDataRowView[FamilyGeometryColumnNames.IsActive.ToString()]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyGeometryColumnNames.IsActive.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public int ProfileFamily1Id
         {
-            get { return (int)InternalDataRowView[FamilyGeometryColumnNames.ProfileFamily1Id.ToString()]; }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[FamilyGeometryColumnNames.ProfileFamily1Id.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return (int)internalDataRowView[FamilyGeometryColumnNames.ProfileFamily1Id.ToString()]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyGeometryColumnNames.ProfileFamily1Id.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public int ProfileFamily2Id
         {
-            get { return (int)InternalDataRowView[FamilyGeometryColumnNames.ProfileFamily2Id.ToString()]; }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[FamilyGeometryColumnNames.ProfileFamily2Id.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return (int)internalDataRowView[FamilyGeometryColumnNames.ProfileFamily2Id.ToString()]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyGeometryColumnNames.ProfileFamily2Id.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public int HostId
         {
-            get { return (int)InternalDataRowView[FamilyGeometryColumnNames.HostId.ToString()]; }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[FamilyGeometryColumnNames.HostId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return (int)internalDataRowView[FamilyGeometryColumnNames.HostId.ToString()]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyGeometryColumnNames.HostId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public string Category
         {
-            get { return InternalDataRowView[FamilyGeometryColumnNames.Category.ToString()].ToString(); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[FamilyGeometryColumnNames.Category.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return internalDataRowView[FamilyGeometryColumnNames.Category.ToString()].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyGeometryColumnNames.Category.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public string SubCategory
         {
-            get { return InternalDataRowView[FamilyGeometryColumnNames.SubCategory.ToString()].ToString(); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[FamilyGeometryColumnNames.SubCategory.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return internalDataRowView[FamilyGeometryColumnNames.SubCategory.ToString()].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyGeometryColumnNames.SubCategory.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public string UniqueId
         {
-            get { return InternalDataRowView[FamilyGeometryColumnNames.UniqueId.ToString()].ToString(); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[FamilyGeometryColumnNames.UniqueId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return internalDataRowView[FamilyGeometryColumnNames.UniqueId.ToString()].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyGeometryColumnNames.UniqueId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public int OwnerViewId
         {
-            get { return (int)InternalDataRowView[FamilyGeometryColumnNames.OwnerViewId.ToString()]; }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[FamilyGeometryColumnNames.OwnerViewId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return (int)internalDataRowView[FamilyGeometryColumnNames.OwnerViewId.ToString()]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyGeometryColumnNames.OwnerViewId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public int LevelId
         {
-            get { return (int)InternalDataRowView[FamilyGeometryColumnNames.LevelId.ToString()]; }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[FamilyGeometryColumnNames.LevelId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return (int)internalDataRowView[FamilyGeometryColumnNames.LevelId.ToString()]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyGeometryColumnNames.LevelId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public bool IsSolid
         {
-            get { return (bool)InternalDataRowView[FamilyGeometryColumnNames.IsSolid.ToString()]; }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[FamilyGeometryColumnNames.IsSolid.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return (bool)internalDataRowView[FamilyGeometryColumnNames.IsSolid.ToString()]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyGeometryColumnNames.IsSolid.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
 
         public object DateCreated
         {
-            get { return InternalDataRowView[FamilyGeometryColumnNames.DateCreated.ToString()]; }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[FamilyGeometryColumnNames.DateCreated.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return internalDataRowView[FamilyGeometryColumnNames.DateCreated.ToString()]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyGeometryColumnNames.DateCreated.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public object DateModified
         {
-            get { return InternalDataRowView[FamilyGeometryColumnNames.DateModified.ToString()]; }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[FamilyGeometryColumnNames.DateModified.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return internalDataRowView[FamilyGeometryColumnNames.DateModified.ToString()]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyGeometryColumnNames.DateModified.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public string CreatedById
         {
-            get { return InternalDataRowView[FamilyGeometryColumnNames.CreatedById.ToString()].ToString(); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[FamilyGeometryColumnNames.CreatedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return internalDataRowView[FamilyGeometryColumnNames.CreatedById.ToString()].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyGeometryColumnNames.CreatedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
 
         User _CreatedBy;
@@ -125,8 +126,8 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public string ModifiedById
         {
-            get { return InternalDataRowView[FamilyGeometryColumnNames.ModifiedById.ToString()].ToString(); }
-            set { InternalDataRowView.BeginEdit(); InternalDataRowView[FamilyGeometryColumnNames.ModifiedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return internalDataRowView[FamilyGeometryColumnNames.ModifiedById.ToString()].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyGeometryColumnNames.ModifiedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
 
         User _ModifiedBy;
@@ -136,16 +137,16 @@ namespace ModBox.FamFactory.Revit.Manager
             set { _ModifiedBy = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
 
-        public FamilyGeometry(DataRowView dataRowView) : base(dataRowView)
+        public FamilyGeometry(DataRowView dataRowView, SQLiteConnection connection) : base(dataRowView, connection)
         {
 
         }
 
-        internal static FamilyGeometry NewFamilyGeometry(DataView familyTemplateGeometryView)
+        internal static FamilyGeometry NewFamilyGeometry(SQLiteConnection connection, DataView familyTemplateGeometryView)
         {
             DataRowView row = familyTemplateGeometryView.AddNew();
 
-            FamilyGeometry geometry = new FamilyGeometry(row);
+            FamilyGeometry geometry = new FamilyGeometry(row, connection);
             geometry.Id = Guid.NewGuid().ToString();
             geometry.DateCreated = DateTime.Now;
             geometry.DateModified = DateTime.Now;

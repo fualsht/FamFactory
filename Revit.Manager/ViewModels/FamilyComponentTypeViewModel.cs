@@ -8,56 +8,55 @@ using System.Threading.Tasks;
 
 namespace ModBox.FamFactory.Revit.Manager
 {
-    public class EmailProfileViewModel : ViewModelBase<EmailProfile>
+    public class FamilyComponentTypeViewModel : ViewModelBase<FamilyComponentType>
     {
-        public EmailProfileViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection) : base(dataSet, sQLiteConnection)
+        public FamilyComponentTypeViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection) : base(dataSet, sQLiteConnection)
         {
-
         }
 
         public override bool CanAddElement()
         {
-            return true;
+            throw new NotImplementedException();
         }
 
         public override bool CanCancelElementChanges()
         {
-            return true;
+            throw new NotImplementedException();
         }
 
         public override void CancelElementChanges()
         {
-
+            throw new NotImplementedException();
         }
 
         public override bool CanCreateNewElement()
         {
-            return true;
+            throw new NotImplementedException();
         }
 
         public override bool CanDeleteElement()
         {
-            return true;
+            throw new NotImplementedException();
         }
 
         public override bool CanGoBack()
         {
-            return true;
+            throw new NotImplementedException();
         }
 
         public override bool CanGoToNext()
         {
-            return true;
+            throw new NotImplementedException();
         }
 
         public override bool CanSaveElement()
         {
-            return true;
+            throw new NotImplementedException();
         }
 
         public override object NewElement()
         {
-            return true;
+            throw new NotImplementedException();
         }
 
         public override void RefreshCollection()
@@ -65,14 +64,14 @@ namespace ModBox.FamFactory.Revit.Manager
             throw new NotImplementedException();
         }
 
-        public override void SaveElement(EmailProfile element)
+        public override void SaveElement(FamilyComponentType element)
         {
-
+            throw new NotImplementedException();
         }
 
         public override void SetActiveUser(User user)
         {
-
+            throw new NotImplementedException();
         }
     }
 }

@@ -16,7 +16,7 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             System.Data.SQLite.SQLiteConnection conn = FamFactoryDataSet.GetSQlteConnection(@"c:\temp\famFactoryDatabase.db");
             famFactoryViewModel = new FamFactoryViewModel(set, conn);
-            famFactoryViewModel.LogIn(famFactoryViewModel.UsersViewModel.InternalCollection[0]);
+            famFactoryViewModel.LogIn(famFactoryViewModel.UserItems.InternalCollection[0]);
         }
     }
 }

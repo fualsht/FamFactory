@@ -15,7 +15,7 @@ namespace ModBox.FamFactory.Revit.Manager
     public class FamFactoryViewModel : ViewModelBase<Page>
     {
         UsersViewModel _UsersViewModel;
-        public UsersViewModel UsersViewModel { get { return _UsersViewModel; } }
+        public UsersViewModel UserItems { get { return _UsersViewModel; } }
 
         FamilyTemplatesViewModel _FamilyTemplatesViewModel;
         public FamilyTemplatesViewModel FamilyTemplatesViewModel { get { return _FamilyTemplatesViewModel; } }
@@ -25,7 +25,6 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public FamFactoryViewModel(DataSet dataset, System.Data.SQLite.SQLiteConnection sQLiteConnection) : base(dataset, sQLiteConnection)
         {
-            FamFactoryDataSet.UpdateDataSetFromDataSource(sQLiteConnection, InternalDataSet);
             StartApplication();
         }
 
@@ -121,7 +120,7 @@ namespace ModBox.FamFactory.Revit.Manager
         public void LogIn(User user)
         {
             SetActiveUser(user);
-            UsersViewModel.SetActiveUser(user);
+            UserItems.SetActiveUser(user);
             FamilyTemplatesViewModel.SetActiveUser(user);
             FamilyComponentViewModel.SetActiveUser(user);
         }
@@ -129,6 +128,11 @@ namespace ModBox.FamFactory.Revit.Manager
         public override void SetActiveUser(User user)
         {
             ActiveUser = user;
+        }
+
+        public override void RefreshCollection()
+        {
+            throw new NotImplementedException();
         }
     }
 }
