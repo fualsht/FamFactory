@@ -11,15 +11,19 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamFactoryComponentViewModel : ViewModelBase<FamilyComponent>
     {
+        FamilyComponentTypeViewModel FamilyComponentTypeItems { get; set; }
+
         DataView ComponentDataView;
         public FamFactoryComponentViewModel(DataSet dataSet, System.Data.SQLite.SQLiteConnection sQLiteConnection, User user) : base(dataSet, sQLiteConnection, user)
         {
+            FamilyComponentTypeItems = new FamilyComponentTypeViewModel(dataSet, sQLiteConnection);
             ComponentDataView = InternalDataSet.Tables[TableNames.FF_FamilyComponents.ToString()].DefaultView;
             RefreshCollection();
         }
 
         public FamFactoryComponentViewModel(DataSet dataSet, System.Data.SQLite.SQLiteConnection sQLiteConnection, object application) : base(dataSet, sQLiteConnection, application)
         {
+            FamilyComponentTypeItems = new FamilyComponentTypeViewModel(dataSet, sQLiteConnection, application);
             ComponentDataView = InternalDataSet.Tables[TableNames.FF_FamilyComponents.ToString()].DefaultView;
             RefreshCollection();
         }
@@ -87,7 +91,7 @@ namespace ModBox.FamFactory.Revit.Manager
                 FileInfo file = new FileInfo(dialogue.FileName);
                 Autodesk.Revit.DB.Document doc = ((Autodesk.Revit.ApplicationServices.Application)ADSKApplciation).OpenDocumentFile(file.FullName);
 
-                component = FamilyComponent.NewFamilyComponent(SQLiteConnection, ComponentDataView, ActiveUser);
+                component = FamilyComponent.NewFamilyComponent(SQLiteConnection, ComponentDataView, ActiveUser, FamilyComponentTypeItems.InternalCollection[0]);
                 component.FileName = file.Name;
                 component.FileSize = file.Length;
                 component.DateCreated = DateTime.Now;
@@ -188,6 +192,11 @@ namespace ModBox.FamFactory.Revit.Manager
         public override void SetActiveUser(User user)
         {
             ActiveUser = user;
+        }
+
+        public override void RefreshCollection(string sortColumn, string filter)
+        {
+            throw new NotImplementedException();
         }
     }
 }

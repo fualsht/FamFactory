@@ -207,6 +207,8 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public abstract void RefreshCollection();
 
+        public abstract void RefreshCollection(string sortColumn, string filter);
+
         public abstract void SetActiveUser(User user);
 
         internal protected void NotifyPropertyChanged([CallerMemberName] String propertyName = "")

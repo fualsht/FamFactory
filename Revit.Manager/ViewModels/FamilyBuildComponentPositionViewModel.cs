@@ -14,6 +14,10 @@ namespace ModBox.FamFactory.Revit.Manager
         {
         }
 
+        public FamilyBuildComponentPositionViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection, object application) : base(dataSet, sQLiteConnection, application)
+        {
+        }
+
         public override bool CanAddElement()
         {
             throw new NotImplementedException();
@@ -60,6 +64,11 @@ namespace ModBox.FamFactory.Revit.Manager
         }
 
         public override void RefreshCollection()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void RefreshCollection(string sortColumn, string filter)
         {
             throw new NotImplementedException();
         }

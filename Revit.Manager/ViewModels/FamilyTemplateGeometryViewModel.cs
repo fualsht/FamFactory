@@ -8,10 +8,18 @@ using System.Threading.Tasks;
 
 namespace ModBox.FamFactory.Revit.Manager
 {
-    public class FamilyGeometryViewModel : ViewModelBase<FamilyGeometry>
+    public class FamilyTemplateGeometryViewModel : ViewModelBase<FamilyGeometry>
     {
-        public FamilyGeometryViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection) : base(dataSet, sQLiteConnection)
+        public FamilyTemplateGeometryViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection) : base(dataSet, sQLiteConnection)
         {
+            InternalDataView = dataSet.Tables[TableNames.FF_FamilyTemplateGeometries.ToString()].DefaultView;
+            RefreshCollection();
+        }
+
+        public FamilyTemplateGeometryViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection, object application) : base(dataSet, sQLiteConnection, application)
+        {
+            InternalDataView = dataSet.Tables[TableNames.FF_FamilyTemplateGeometries.ToString()].DefaultView;
+            RefreshCollection();
         }
 
         public override bool CanAddElement()
@@ -61,7 +69,28 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public override void RefreshCollection()
         {
-            throw new NotImplementedException();
+            if (InternalCollection != null)
+            {
+                InternalCollection.Clear();
+                foreach (DataRowView item in InternalDataView)
+                {
+                    this.AddElement(new FamilyGeometry(item, SQLiteConnection), true);
+                }
+            }
+        }
+
+        public override void RefreshCollection(string sortColumn, string filter)
+        {
+            if (InternalCollection != null)
+            {
+                InternalDataView.Sort = sortColumn;
+                InternalDataView.RowFilter = filter;
+                InternalCollection.Clear();
+                foreach (DataRowView item in InternalDataView)
+                {
+                    this.AddElement(new FamilyGeometry(item, SQLiteConnection), true);
+                }
+            }
         }
 
         public override void SaveElement(FamilyGeometry element)

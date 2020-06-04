@@ -15,6 +15,10 @@ namespace ModBox.FamFactory.Revit.Manager
 
         }
 
+        public EmailProfileViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection, object application) : base(dataSet, sQLiteConnection, application)
+        {
+        }
+
         public override bool CanAddElement()
         {
             return true;
@@ -61,6 +65,11 @@ namespace ModBox.FamFactory.Revit.Manager
         }
 
         public override void RefreshCollection()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void RefreshCollection(string sortColumn, string filter)
         {
             throw new NotImplementedException();
         }

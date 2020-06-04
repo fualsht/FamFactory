@@ -1,20 +1,24 @@
-﻿using System.Data;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Data.SQLite;
-using System.Windows.Input;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ModBox.FamFactory.Revit.Manager
 {
-    public class FamilyTemplateComponentViewModel : ViewModelBase<FamilyTemplateComponent>
+    public class FamilyTemplateParameterViewModel : ViewModelBase<Parameter>
     {
-        public FamilyTemplateComponentViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection) : base(dataSet, sQLiteConnection)
+        public FamilyTemplateParameterViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection) : base(dataSet, sQLiteConnection)
         {
-            InternalDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].DefaultView;
+            InternalDataView = dataSet.Tables[TableNames.FF_FamilyTemplateParameters.ToString()].DefaultView;
             RefreshCollection();
         }
 
-        public FamilyTemplateComponentViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection, object application) : base(dataSet, sQLiteConnection, application)
+        public FamilyTemplateParameterViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection, object application) : base(dataSet, sQLiteConnection, application)
         {
-            InternalDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].DefaultView;
+            InternalDataView = dataSet.Tables[TableNames.FF_FamilyTemplateParameters.ToString()].DefaultView;
             RefreshCollection();
         }
 
@@ -30,7 +34,7 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public override void CancelElementChanges()
         {
-            
+
         }
 
         public override bool CanCreateNewElement()
@@ -63,19 +67,6 @@ namespace ModBox.FamFactory.Revit.Manager
             return true;
         }
 
-        public override void SaveElement(FamilyTemplateComponent element)
-        {
-            FamilyTemplateComponent comp = FamilyTemplateComponent.NewTemplateComponent(SQLiteConnection,InternalDataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].DefaultView, ActiveUser);
-            comp.Name = "New Component Reference Pair";
-            comp.Description = "A Pair of reference Planes to alighn and lock to.";
-            comp.FamilyId = SelectedElement.Id;
-        }
-
-        public override void SetActiveUser(User user)
-        {
-            ActiveUser = user;
-        }
-
         public override void RefreshCollection()
         {
             if (InternalCollection != null)
@@ -83,7 +74,7 @@ namespace ModBox.FamFactory.Revit.Manager
                 InternalCollection.Clear();
                 foreach (DataRowView item in InternalDataView)
                 {
-                    this.AddElement(new FamilyTemplateComponent(item, SQLiteConnection), true);
+                    this.AddElement(new Parameter(item, SQLiteConnection), true);
                 }
             }
         }
@@ -97,9 +88,19 @@ namespace ModBox.FamFactory.Revit.Manager
                 InternalCollection.Clear();
                 foreach (DataRowView item in InternalDataView)
                 {
-                    this.AddElement(new FamilyTemplateComponent(item, SQLiteConnection), true);
+                    this.AddElement(new Parameter(item, SQLiteConnection), true);
                 }
             }
+        }
+
+        public override void SaveElement(Parameter element)
+        {
+
+        }
+
+        public override void SetActiveUser(User user)
+        {
+
         }
     }
 }

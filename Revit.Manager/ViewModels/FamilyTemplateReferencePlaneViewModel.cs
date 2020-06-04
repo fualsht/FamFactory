@@ -8,10 +8,17 @@ using System.Threading.Tasks;
 
 namespace ModBox.FamFactory.Revit.Manager
 {
-    public class FamilyReferencePlaneViewModel : ViewModelBase<ReferencePlane>
+    public class FamilyTemplateReferencePlaneViewModel : ViewModelBase<ReferencePlane>
     {
-        public FamilyReferencePlaneViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection) : base(dataSet, sQLiteConnection)
+        public FamilyTemplateReferencePlaneViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection) : base(dataSet, sQLiteConnection)
         {
+            InternalDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()].DefaultView;
+            RefreshCollection();
+        }
+        public FamilyTemplateReferencePlaneViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection, object application) : base(dataSet, sQLiteConnection, application)
+        {
+            InternalDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()].DefaultView;
+            RefreshCollection();
         }
 
         public override bool CanAddElement()
@@ -61,7 +68,27 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public override void RefreshCollection()
         {
-            throw new NotImplementedException();
+            if (InternalCollection != null)
+            {
+                InternalCollection.Clear();
+                foreach (DataRowView item in InternalDataView)
+                {
+                    this.AddElement(new ReferencePlane(item, SQLiteConnection), true);
+                }
+            }
+        }
+        public override void RefreshCollection(string sortColumn, string filter)
+        {
+            if (InternalCollection != null)
+            {
+                InternalDataView.Sort = sortColumn;
+                InternalDataView.RowFilter = filter;
+                InternalCollection.Clear();
+                foreach (DataRowView item in InternalDataView)
+                {
+                    this.AddElement(new ReferencePlane(item, SQLiteConnection), true);
+                }
+            }
         }
 
         public override void SaveElement(ReferencePlane element)

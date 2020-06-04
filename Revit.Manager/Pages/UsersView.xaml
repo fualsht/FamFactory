@@ -15,7 +15,7 @@
             <local:FamFactoryApplication x:Key="FamFactoryApplication"/>
         </ResourceDictionary>
     </Page.Resources>
-    <Grid x:Name="MainGrid" DataContext="{Binding UsersViewModel}" >
+    <Grid x:Name="MainGrid" DataContext="{Binding UserItems, Mode=OneWay}" >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="3*"/>

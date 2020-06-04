@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -77,18 +78,21 @@ namespace ModBox.FamFactory.Revit.Manager
             set { internalDataRowView.BeginEdit(); internalDataRowView[EmailProfileColumnNames.ModifiedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
 
-        public EmailProfile(DataRowView rowView) : base( rowView)
+        public EmailProfile(DataRowView rowView, SQLiteConnection connection) : base(rowView, connection)
         {
 
         }
 
-        public static EmailProfile NewEmailProfile(DataView rowView)
+        public static EmailProfile NewEmailProfile(SQLiteConnection connection, DataView rowView, User user)
         {
             DataRowView row = rowView.AddNew();
 
-            EmailProfile emailprofile = new EmailProfile(row);
+            EmailProfile emailprofile = new EmailProfile(row, connection);
             emailprofile.Id = Guid.NewGuid().ToString();
             emailprofile.State = EntityStates.Enabled;
+            emailprofile.DateCreated = DateTime.Now;
+            emailprofile.DateModified = DateTime.Now;
+            emailprofile.CreatedById = user.Id;
             return emailprofile;
         }
 

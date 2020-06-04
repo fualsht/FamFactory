@@ -23,7 +23,7 @@ namespace ModBox.FamFactory.Revit.Manager
             if (InternalCollection != null)
             {
                 InternalCollection.Clear();
-                foreach (DataRowView item in InternalDataSet.Tables[TableNames.FF_Users.ToString()].DefaultView)
+                foreach (DataRowView item in InternalDataView)
                 {
                     this.AddElement(new User(item, SQLiteConnection), true);
                 }
@@ -149,6 +149,11 @@ namespace ModBox.FamFactory.Revit.Manager
         public override void SetActiveUser(User user)
         {
             ActiveUser = user;
+        }
+
+        public override void RefreshCollection(string sortColumn, string filter)
+        {
+            throw new NotImplementedException();
         }
     }
 }

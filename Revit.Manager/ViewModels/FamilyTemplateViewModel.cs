@@ -13,22 +13,33 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamilyTemplatesViewModel : ViewModelBase<FamilyTemplate>
     {
-        private FamilyTemplateComponentViewModel _FamilyTemplateComponentManager;
-        public FamilyTemplateComponentViewModel FamilyTemplateComponentManager { get { return _FamilyTemplateComponentManager; } }
+        public FamilyTemplateReferencePlaneViewModel FamilyTemplateRefferencePlaneItems { get; set; }
+
+        public FamilyTemplateGeometryViewModel FamilyTemplateGeometryItems { get; set; }
+
+        public FamilyTemplateParameterViewModel FamilyTemplateParameterItems { get; set; }
+
+        public FamilyTemplateComponentViewModel FamilyTemplateComponentItems { get; set; }
 
         public FamilyTemplatesViewModel(DataSet dataset, System.Data.SQLite.SQLiteConnection sQLiteConnection) : base(dataset, sQLiteConnection)
         {
-            _FamilyTemplateComponentManager = new FamilyTemplateComponentViewModel(dataset, SQLiteConnection);
-            _FamilyTemplateComponentManager.SetActiveUser(ActiveUser);
+            FamilyTemplateRefferencePlaneItems = new FamilyTemplateReferencePlaneViewModel(dataset, SQLiteConnection);
+            FamilyTemplateGeometryItems = new FamilyTemplateGeometryViewModel(dataset, SQLiteConnection);
+            FamilyTemplateParameterItems = new FamilyTemplateParameterViewModel(dataset, SQLiteConnection);
+            FamilyTemplateComponentItems = new FamilyTemplateComponentViewModel(dataset, SQLiteConnection);
             InternalDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].DefaultView;
+            OnSelectionChagned += FamilyTemplatesViewModel_OnSelectionChagned;
             RefreshCollection();
         }
 
         public FamilyTemplatesViewModel(DataSet dataset, System.Data.SQLite.SQLiteConnection sQLiteConnection, object application) : base(dataset, sQLiteConnection, application)
         {
-            _FamilyTemplateComponentManager = new FamilyTemplateComponentViewModel(dataset, SQLiteConnection);
-            _FamilyTemplateComponentManager.SetActiveUser(ActiveUser);
+            FamilyTemplateRefferencePlaneItems = new FamilyTemplateReferencePlaneViewModel(dataset, SQLiteConnection, application);
+            FamilyTemplateGeometryItems = new FamilyTemplateGeometryViewModel(dataset, SQLiteConnection);
+            FamilyTemplateParameterItems = new FamilyTemplateParameterViewModel(dataset, SQLiteConnection);
+            FamilyTemplateComponentItems = new FamilyTemplateComponentViewModel(dataset, SQLiteConnection);
             InternalDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].DefaultView;
+            OnSelectionChagned += FamilyTemplatesViewModel_OnSelectionChagned;
             RefreshCollection();
         }
 
@@ -43,6 +54,7 @@ namespace ModBox.FamFactory.Revit.Manager
                 }
             }
         }
+
 
         public override bool CanAddElement()
         {
@@ -166,9 +178,9 @@ namespace ModBox.FamFactory.Revit.Manager
 
                 template.EndEdit();
 
-                Utils.GetFamilyTemplateParameters(template, doc, ActiveUser);
-                Utils.GetFamilyTemplateReferencePlanes(template, doc, ActiveUser);
-                Utils.GetFamilyTemplateFeatures(template, doc, ActiveUser);
+                Utils.GetFamilyTemplateParameters(template, FamilyTemplateParameterItems, doc, ActiveUser);
+                Utils.GetFamilyTemplateReferencePlanes(template, FamilyTemplateRefferencePlaneItems, doc, ActiveUser);
+                Utils.GetFamilyTemplateFeatures(template, FamilyTemplateGeometryItems, doc, ActiveUser);
 
                 doc.Close(false);
 
@@ -192,7 +204,22 @@ namespace ModBox.FamFactory.Revit.Manager
         public override void SetActiveUser(User user)
         {
             ActiveUser = user;
-            FamilyTemplateComponentManager.SetActiveUser(user);
+            FamilyTemplateComponentItems.SetActiveUser(user);
+            FamilyTemplateRefferencePlaneItems.SetActiveUser(user);
+            FamilyTemplateGeometryItems.SetActiveUser(user);
+            FamilyTemplateParameterItems.SetActiveUser(user);
+        }
+
+
+
+        private void FamilyTemplatesViewModel_OnSelectionChagned(object sender, EventArgs e)
+        {
+
+        }
+
+        public override void RefreshCollection(string sortColumn, string filter)
+        {
+            throw new NotImplementedException();
         }
     }
 }

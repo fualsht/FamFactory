@@ -134,5 +134,10 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             throw new NotImplementedException();
         }
+
+        public override void RefreshCollection(string sortColumn, string filter)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -157,14 +157,6 @@ namespace ModBox.FamFactory.Revit.Manager
             set { internalDataRowView.BeginEdit(); internalDataRowView[ParameterColumnNames.State.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
 
-        public FamilyReferencePlaneViewModel RefferencePlaneItems { get; set; }
-
-        public FamilyGeometryViewModel FamilyGeometryItems { get; set; }
-
-        public FamilyParameterViewModel ParameterItems { get; set; }
-
-        public FamilyTemplateComponentViewModel TemplateComponentItems { get; set; }
-
         public FamilyTemplate(DataRowView view, SQLiteConnection connection) : base(view, connection)
         {
 
