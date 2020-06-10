@@ -157,12 +157,31 @@ namespace ModBox.FamFactory.Revit.Manager
             set { internalDataRowView.BeginEdit(); internalDataRowView[ParameterColumnNames.State.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
 
+        public FamilyTemplateComponentViewModel FamilyTemplateComponents { get; set; }
+
+        public FamilyTemplateReferencePlaneViewModel FamilyTemplateReferencePlanes { get; set; }
+
+        public FamilyTemplateGeometryViewModel FamilyTemplateGeometries { get; set; }
+
+        public FamilyTemplateParameterViewModel FamilyTemplateParameters { get; set; }
+
         public FamilyTemplate(DataRowView view, SQLiteConnection connection) : base(view, connection)
         {
-
+            FamilyTemplateComponents = new FamilyTemplateComponentViewModel(view.Row.Table.DataSet, connection);
+            FamilyTemplateReferencePlanes = new FamilyTemplateReferencePlaneViewModel(view.Row.Table.DataSet, connection);
+            FamilyTemplateGeometries = new FamilyTemplateGeometryViewModel(view.Row.Table.DataSet, connection);
+            FamilyTemplateParameters = new FamilyTemplateParameterViewModel(view.Row.Table.DataSet, connection);
         }
 
-        public static FamilyTemplate NewTemplate(SQLiteConnection connection,DataView rowView, User user)
+        public FamilyTemplate(DataRowView view, SQLiteConnection connection, object parentViewModel) : base(view, connection)
+        {
+            FamilyTemplateComponents = new FamilyTemplateComponentViewModel(view.Row.Table.DataSet, connection, parentViewModel);
+            FamilyTemplateReferencePlanes = new FamilyTemplateReferencePlaneViewModel(view.Row.Table.DataSet, connection, parentViewModel);
+            FamilyTemplateGeometries = new FamilyTemplateGeometryViewModel(view.Row.Table.DataSet, connection, parentViewModel);
+            FamilyTemplateParameters = new FamilyTemplateParameterViewModel(view.Row.Table.DataSet, connection, parentViewModel);
+        }
+
+        public static FamilyTemplate NewTemplate(SQLiteConnection connection, DataView rowView, User user)
         {
             DataRowView row = rowView.AddNew();
 

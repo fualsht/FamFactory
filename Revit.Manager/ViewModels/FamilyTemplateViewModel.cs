@@ -13,31 +13,24 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamilyTemplatesViewModel : ViewModelBase<FamilyTemplate>
     {
-        public FamilyTemplateReferencePlaneViewModel FamilyTemplateRefferencePlaneItems { get; set; }
-
-        public FamilyTemplateGeometryViewModel FamilyTemplateGeometryItems { get; set; }
-
-        public FamilyTemplateParameterViewModel FamilyTemplateParameterItems { get; set; }
-
-        public FamilyTemplateComponentViewModel FamilyTemplateComponentItems { get; set; }
+        
 
         public FamilyTemplatesViewModel(DataSet dataset, System.Data.SQLite.SQLiteConnection sQLiteConnection) : base(dataset, sQLiteConnection)
         {
-            FamilyTemplateRefferencePlaneItems = new FamilyTemplateReferencePlaneViewModel(dataset, SQLiteConnection);
-            FamilyTemplateGeometryItems = new FamilyTemplateGeometryViewModel(dataset, SQLiteConnection);
-            FamilyTemplateParameterItems = new FamilyTemplateParameterViewModel(dataset, SQLiteConnection);
-            FamilyTemplateComponentItems = new FamilyTemplateComponentViewModel(dataset, SQLiteConnection);
             InternalDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].DefaultView;
             OnSelectionChagned += FamilyTemplatesViewModel_OnSelectionChagned;
             RefreshCollection();
         }
 
-        public FamilyTemplatesViewModel(DataSet dataset, System.Data.SQLite.SQLiteConnection sQLiteConnection, object application) : base(dataset, sQLiteConnection, application)
+        //public FamilyTemplatesViewModel(DataSet dataset, System.Data.SQLite.SQLiteConnection sQLiteConnection, object application) : base(dataset, sQLiteConnection, application)
+        //{
+        //    InternalDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].DefaultView;
+        //    OnSelectionChagned += FamilyTemplatesViewModel_OnSelectionChagned;
+        //    RefreshCollection();
+        //}
+
+        public FamilyTemplatesViewModel(DataSet dataset, System.Data.SQLite.SQLiteConnection sQLiteConnection, object application, object parentViewModel) : base(dataset, sQLiteConnection, application, parentViewModel)
         {
-            FamilyTemplateRefferencePlaneItems = new FamilyTemplateReferencePlaneViewModel(dataset, SQLiteConnection, application);
-            FamilyTemplateGeometryItems = new FamilyTemplateGeometryViewModel(dataset, SQLiteConnection);
-            FamilyTemplateParameterItems = new FamilyTemplateParameterViewModel(dataset, SQLiteConnection);
-            FamilyTemplateComponentItems = new FamilyTemplateComponentViewModel(dataset, SQLiteConnection);
             InternalDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].DefaultView;
             OnSelectionChagned += FamilyTemplatesViewModel_OnSelectionChagned;
             RefreshCollection();
@@ -178,9 +171,9 @@ namespace ModBox.FamFactory.Revit.Manager
 
                 template.EndEdit();
 
-                Utils.GetFamilyTemplateParameters(template, FamilyTemplateParameterItems, doc, ActiveUser);
-                Utils.GetFamilyTemplateReferencePlanes(template, FamilyTemplateRefferencePlaneItems, doc, ActiveUser);
-                Utils.GetFamilyTemplateFeatures(template, FamilyTemplateGeometryItems, doc, ActiveUser);
+                Utils.GetFamilyTemplateParameters(template, doc, ActiveUser);
+                Utils.GetFamilyTemplateReferencePlanes(template, doc, ActiveUser);
+                Utils.GetFamilyTemplateFeatures(template, doc, ActiveUser);
 
                 doc.Close(false);
 
@@ -194,20 +187,16 @@ namespace ModBox.FamFactory.Revit.Manager
         public override void SaveElement(FamilyTemplate element)
         {
             element.EndEdit();
-            FamFactoryDataSet.SaveTableChangesToDatbase(SQLiteConnection, InternalDataView.Table);
-            FamFactoryDataSet.SaveTableChangesToDatbase(SQLiteConnection, InternalDataSet.Tables[TableNames.FF_FamilyTemplateParameters.ToString()]);
-            FamFactoryDataSet.SaveTableChangesToDatbase(SQLiteConnection, InternalDataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()]);
-            FamFactoryDataSet.SaveTableChangesToDatbase(SQLiteConnection, InternalDataSet.Tables[TableNames.FF_FamilyTemplateGeometries.ToString()]);
-            FamFactoryDataSet.SaveTableChangesToDatbase(SQLiteConnection, InternalDataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()]);
+            RefreshCollection();
         }
 
         public override void SetActiveUser(User user)
         {
             ActiveUser = user;
-            FamilyTemplateComponentItems.SetActiveUser(user);
-            FamilyTemplateRefferencePlaneItems.SetActiveUser(user);
-            FamilyTemplateGeometryItems.SetActiveUser(user);
-            FamilyTemplateParameterItems.SetActiveUser(user);
+            SelectedElement.FamilyTemplateComponents.SetActiveUser(user);
+            SelectedElement.FamilyTemplateReferencePlanes.SetActiveUser(user);
+            SelectedElement.FamilyTemplateGeometries.SetActiveUser(user);
+            SelectedElement.FamilyTemplateParameters.SetActiveUser(user);
         }
 
 

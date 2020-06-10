@@ -45,14 +45,15 @@
                 <Button Content="Delete" Width="60" Style="{DynamicResource DefaultButton}"/>
             </StackPanel>
         </Border>
+        
         <Border Style="{DynamicResource SectionBorder}" Grid.Row="1">
             <ListBox Margin="4" Style="{DynamicResource DefaultListBoxControlStyle}" ItemsSource="{Binding InternalCollection}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedElement, Mode=TwoWay}" />
         </Border>
-        <Border Style="{DynamicResource SectionBorder}" Grid.Row="1" Grid.Column="1" >
+        
+        <Border Style="{DynamicResource SectionBorder}" Grid.Row="1" Grid.Column="1" DataContext="{Binding SelectedElement}" >
             <ScrollViewer Grid.Row="1" Grid.ColumnSpan="2" Style="{DynamicResource DefaultScrollVIewerStyle}">
                 <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Vertical" >
-
-                    <GroupBox Grid.Column="1" Style="{DynamicResource DefaultGroupBoxStyle}" Header="Family Component" DataContext="{Binding SelectedElement}">
+                    <GroupBox Grid.Column="1" Style="{DynamicResource DefaultGroupBoxStyle}" Header="Family Component">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" MinWidth="150" MaxWidth="250"/>
@@ -68,7 +69,7 @@
                         </Grid>
                     </GroupBox>
 
-                    <GroupBox Style="{DynamicResource DefaultGroupBoxStyle}" Header="File Properties" Height="Auto" DataContext="{Binding SelectedElement}">
+                    <GroupBox Style="{DynamicResource DefaultGroupBoxStyle}" Header="File Properties" Height="Auto">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
@@ -86,7 +87,7 @@
                         </Grid>
                     </GroupBox>
 
-                    <GroupBox Header="Geometry" Style="{DynamicResource DefaultGroupBoxStyle}" DataContext="{Binding FamilyTemplateGeometryItems}">
+                    <GroupBox Header="Geometry" Style="{DynamicResource DefaultGroupBoxStyle}" DataContext="{Binding FamilyTemplateGeometries}">
                         <Grid Margin="4">
                             <ListView ItemsSource="{Binding InternalCollection}">
                                 <ListView.View>
@@ -146,7 +147,7 @@
                         </Grid>
                     </GroupBox>
 
-                    <GroupBox Header="Parameters" Style="{DynamicResource DefaultGroupBoxStyle}" DataContext="{Binding FamilyTemplateParameterItems}">
+                    <GroupBox Header="Parameters" Style="{DynamicResource DefaultGroupBoxStyle}" DataContext="{Binding FamilyTemplateParameters}">
                         <Grid Margin="4">
                             <ListView ItemsSource="{Binding InternalCollection}">
                                 <ListView.View>
@@ -234,7 +235,7 @@
                         </Grid>
                     </GroupBox>
 
-                    <GroupBox Header="Reference Planes" Style="{DynamicResource DefaultGroupBoxStyle}" DataContext="{Binding FamilyTemplateRefferencePlaneItems}">
+                    <GroupBox Header="Reference Planes" Style="{DynamicResource DefaultGroupBoxStyle}" DataContext="{Binding FamilyTemplateReferencePlanes}">
                         <Grid Margin="4">
                             <ListView ItemsSource="{Binding InternalCollection}">
                                 <ListView.View>
@@ -357,7 +358,7 @@
                         </Grid>
                     </GroupBox>
 
-                    <GroupBox Style="{DynamicResource DefaultGroupBoxStyle}" Header="Template Components" DataContext="{Binding FamilyTemplateComponentItems}">
+                    <GroupBox Style="{DynamicResource DefaultGroupBoxStyle}" Header="Template Components" DataContext="{Binding FamilyTemplateComponents}">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="50"/>
@@ -413,7 +414,6 @@
                             </ListView>
                         </Grid>
                     </GroupBox>
-
                 </StackPanel>
             </ScrollViewer>
         </Border>

@@ -12,7 +12,7 @@ namespace ModBox.FamFactory.Revit.Manager
             RefreshCollection();
         }
 
-        public FamilyTemplateComponentViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection, object application) : base(dataSet, sQLiteConnection, application)
+        public FamilyTemplateComponentViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection, object parentObject) : base(dataSet, sQLiteConnection, parentObject)
         {
             InternalDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].DefaultView;
             RefreshCollection();
@@ -60,15 +60,26 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public override object NewElement()
         {
+            FamilyTemplateComponent comp = FamilyTemplateComponent.NewTemplateComponent(SQLiteConnection, InternalDataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].DefaultView, ActiveUser);
+            comp.Name = "New Component Reference Pair";
+            comp.Description = "A Pair of reference Planes to alighn and lock to.";
+            comp.FamilyId = ((FamilyTemplate)ParentViewModel).Id;
+            return true;
+        }
+
+        public object NewElement(object parent)
+        {
+            FamilyTemplateComponent comp = FamilyTemplateComponent.NewTemplateComponent(SQLiteConnection, InternalDataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].DefaultView, ActiveUser);
+            comp.FamilyId = ((FamilyTemplate)parent).Id;
+            comp.Name = "New Component Reference Pair";
+            comp.Description = "A Pair of reference Planes to alighn and lock to.";
+            comp.FamilyId = SelectedElement.Id;
             return true;
         }
 
         public override void SaveElement(FamilyTemplateComponent element)
         {
-            FamilyTemplateComponent comp = FamilyTemplateComponent.NewTemplateComponent(SQLiteConnection,InternalDataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].DefaultView, ActiveUser);
-            comp.Name = "New Component Reference Pair";
-            comp.Description = "A Pair of reference Planes to alighn and lock to.";
-            comp.FamilyId = SelectedElement.Id;
+            
         }
 
         public override void SetActiveUser(User user)

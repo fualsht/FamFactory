@@ -241,17 +241,17 @@ namespace ModBox.FamFactory.Revit.Manager
         
         enum ViewsFromDirection { LEFT_RIGHT, BACK_FROUNT, PLAN_CELING }
 
-        public static void GetFamilyTemplateReferencePlanes(FamilyTemplate famTemplate, FamilyTemplateReferencePlaneViewModel referencePlaneViewModel, Document doc, User user)
+        public static void GetFamilyTemplateReferencePlanes(FamilyTemplate famTemplate, Document doc, User user)
         {
             if (doc != null)
             {
-                if (referencePlaneViewModel.InternalCollection.Count <= 0)
+                if (famTemplate.FamilyTemplateReferencePlanes.InternalCollection.Count <= 0)
                 {
                     List<Element> referencePlaneElementList = new FilteredElementCollector(doc).OfClass(typeof(Autodesk.Revit.DB.ReferencePlane)).ToElements() as List<Element>;
                     foreach (Element element in referencePlaneElementList)
                     {
                         Autodesk.Revit.DB.ReferencePlane plane = (Autodesk.Revit.DB.ReferencePlane)element as Autodesk.Revit.DB.ReferencePlane;
-                        ReferencePlane refPlane = ReferencePlane.NewReferencePlane(famTemplate.internalSQLConenction, referencePlaneViewModel.InternalDataView);
+                        ReferencePlane refPlane = ReferencePlane.NewReferencePlane(famTemplate.internalSQLConenction, famTemplate.FamilyTemplateReferencePlanes.InternalDataView);
                         refPlane.Name = plane.Name;
                         refPlane.FamiltyId = famTemplate.Id;
                         refPlane.ElementId = plane.Id.IntegerValue;
@@ -291,9 +291,9 @@ namespace ModBox.FamFactory.Revit.Manager
             }
         }
 
-        public static void GetFamilyTemplateParameters(FamilyTemplate famTemplate, FamilyTemplateParameterViewModel familyParameterViewModel, Document doc, User user)
+        public static void GetFamilyTemplateParameters(FamilyTemplate famTemplate, Document doc, User user)
         {
-            if (familyParameterViewModel.InternalCollection.Count <= 0)
+            if (famTemplate.FamilyTemplateParameters.InternalCollection.Count <= 0)
             {
                 foreach (Autodesk.Revit.DB.FamilyParameter item in doc.FamilyManager.Parameters)
                 {
@@ -319,7 +319,7 @@ namespace ModBox.FamFactory.Revit.Manager
                     {
                         parameter.DisplayUnitType = (int)item.DisplayUnitType;
                     }
-                    catch (Exception e)
+                    catch
                     {
                         parameter.DisplayUnitType = (int)Autodesk.Revit.DB.DisplayUnitType.DUT_UNDEFINED;
                     }
@@ -340,9 +340,9 @@ namespace ModBox.FamFactory.Revit.Manager
             }
         }
 
-        public static void GetFamilyTemplateFeatures(FamilyTemplate template, FamilyTemplateGeometryViewModel familyGeometryViewModel, Document doc, User user)
+        public static void GetFamilyTemplateFeatures(FamilyTemplate template, Document doc, User user)
         {
-            if (familyGeometryViewModel.InternalCollection.Count <= 0)
+            if (template.FamilyTemplateGeometries.InternalCollection.Count <= 0)
             {
                 if (doc != null)
                 {
@@ -355,7 +355,7 @@ namespace ModBox.FamFactory.Revit.Manager
                     foreach (Element element in sweepElementList)
                     {
                         Autodesk.Revit.DB.Sweep sweep = (Autodesk.Revit.DB.Sweep)element as Autodesk.Revit.DB.Sweep;
-                        FamilyGeometry familyGeometry = FamilyGeometry.NewFamilyGeometry(familyGeometryViewModel.SQLiteConnection, familyGeometryViewModel.InternalDataView);
+                        FamilyGeometry familyGeometry = FamilyGeometry.NewFamilyGeometry(template.FamilyTemplateGeometries.SQLiteConnection, template.FamilyTemplateGeometries.InternalDataView);
                         familyGeometry.Name = sweep.Name;
                         familyGeometry.ElementId = sweep.Id.IntegerValue;
                         familyGeometry.Description = string.Empty;
@@ -387,7 +387,7 @@ namespace ModBox.FamFactory.Revit.Manager
                     foreach (Element element in extrudeElementList)
                     {
                         Autodesk.Revit.DB.Extrusion extrude = (Autodesk.Revit.DB.Extrusion)element as Autodesk.Revit.DB.Extrusion;
-                        FamilyGeometry familyGeometry = FamilyGeometry.NewFamilyGeometry(familyGeometryViewModel.SQLiteConnection, familyGeometryViewModel.InternalDataView);
+                        FamilyGeometry familyGeometry = FamilyGeometry.NewFamilyGeometry(template.FamilyTemplateGeometries.SQLiteConnection, template.FamilyTemplateGeometries.InternalDataView);
                         familyGeometry.Name = extrude.Name;
                         familyGeometry.ElementId = extrude.Id.IntegerValue;
                         familyGeometry.Description = string.Empty;
@@ -418,7 +418,7 @@ namespace ModBox.FamFactory.Revit.Manager
                     foreach (Element element in blendElementList)
                     {
                         Autodesk.Revit.DB.Blend blend = (Autodesk.Revit.DB.Blend)element as Autodesk.Revit.DB.Blend;
-                        FamilyGeometry familyGeometry = FamilyGeometry.NewFamilyGeometry(familyGeometryViewModel.SQLiteConnection, familyGeometryViewModel.InternalDataView);
+                        FamilyGeometry familyGeometry = FamilyGeometry.NewFamilyGeometry(template.FamilyTemplateGeometries.SQLiteConnection, template.FamilyTemplateGeometries.InternalDataView);
                         familyGeometry.Name = blend.Name;
                         familyGeometry.ElementId = blend.Id.IntegerValue;
                         familyGeometry.Description = string.Empty;
@@ -449,7 +449,7 @@ namespace ModBox.FamFactory.Revit.Manager
                     foreach (Element element in sweptBlendElementList)
                     {
                         Autodesk.Revit.DB.SweptBlend weptblend = (Autodesk.Revit.DB.SweptBlend)element as Autodesk.Revit.DB.SweptBlend;
-                        FamilyGeometry familyGeometry = FamilyGeometry.NewFamilyGeometry(familyGeometryViewModel.SQLiteConnection, familyGeometryViewModel.InternalDataView);
+                        FamilyGeometry familyGeometry = FamilyGeometry.NewFamilyGeometry(template.FamilyTemplateGeometries.SQLiteConnection, template.FamilyTemplateGeometries.InternalDataView);
                         familyGeometry.Name = weptblend.Name;
                         familyGeometry.ElementId = weptblend.Id.IntegerValue;
                         familyGeometry.Description = string.Empty;
@@ -480,7 +480,7 @@ namespace ModBox.FamFactory.Revit.Manager
                     foreach (Element element in revolveElementList)
                     {
                         Autodesk.Revit.DB.Revolution revolve = (Autodesk.Revit.DB.Revolution)element as Autodesk.Revit.DB.Revolution;
-                        FamilyGeometry familyGeometry = FamilyGeometry.NewFamilyGeometry(familyGeometryViewModel.SQLiteConnection, familyGeometryViewModel.InternalDataView);
+                        FamilyGeometry familyGeometry = FamilyGeometry.NewFamilyGeometry(template.FamilyTemplateGeometries.SQLiteConnection, template.FamilyTemplateGeometries.InternalDataView);
                         familyGeometry.Name = revolve.Name;
                         familyGeometry.ElementId = revolve.Id.IntegerValue;
                         familyGeometry.Description = string.Empty;

@@ -57,34 +57,6 @@ namespace ModBox.FamFactory.Revit.Manager
         int _SelectedElementIndex;
         public int SelectedElementIndex { get { return _SelectedElementIndex; } }
 
-
-
-        public ViewModelBase(DataSet dataSet, System.Data.SQLite.SQLiteConnection sQLiteConnection)
-        {
-            _InternalCollection = new ObservableCollection<T>();
-            NotifyPropertyChanged("InternalCollection");
-            _SelectionHistory = new ObservableCollection<T>();
-            NotifyPropertyChanged("SelectionHistory");
-            _InternalDataContext = dataSet;
-            NotifyPropertyChanged("InternalDataContext");
-            _SQLiteConnection = sQLiteConnection;
-            NotifyPropertyChanged("sQLiteConnection");
-        }
-
-        public ViewModelBase(DataSet dataSet, System.Data.SQLite.SQLiteConnection sQLiteConnection, object application)
-        {
-            _InternalCollection = new ObservableCollection<T>();
-            NotifyPropertyChanged("InternalCollection");
-            _SelectionHistory = new ObservableCollection<T>();
-            NotifyPropertyChanged("SelectionHistory");
-            _InternalDataContext = dataSet;
-            NotifyPropertyChanged("InternalDataContext");
-            _adskApplciation = application;
-            NotifyPropertyChanged("ADSKApplciation"); 
-            _SQLiteConnection = sQLiteConnection;
-            NotifyPropertyChanged("sQLiteConnection");
-        }
-
         RelayCommand _NextElementCommand;
         public ICommand NextElementCommand
         {
@@ -119,6 +91,51 @@ namespace ModBox.FamFactory.Revit.Manager
         public ICommand CancelElementChangesCommand
         {
             get => _CancelElementChangesCommand ?? (_CancelElementChangesCommand = new RelayCommand(param => this.CancelElementChanges(), param => this.CanCancelElementChanges()));
+        }
+
+        object _ParentViewModel;
+        public object ParentViewModel { get { return _ParentViewModel; } }
+
+        public ViewModelBase(DataSet dataSet, System.Data.SQLite.SQLiteConnection sQLiteConnection)
+        {
+            _InternalCollection = new ObservableCollection<T>();
+            NotifyPropertyChanged("InternalCollection");
+            _SelectionHistory = new ObservableCollection<T>();
+            NotifyPropertyChanged("SelectionHistory");
+            _InternalDataContext = dataSet;
+            NotifyPropertyChanged("InternalDataContext");
+            _SQLiteConnection = sQLiteConnection;
+            NotifyPropertyChanged("sQLiteConnection");
+        }
+
+        public ViewModelBase(DataSet dataSet, System.Data.SQLite.SQLiteConnection sQLiteConnection, object application)
+        {
+            _InternalCollection = new ObservableCollection<T>();
+            NotifyPropertyChanged("InternalCollection");
+            _SelectionHistory = new ObservableCollection<T>();
+            NotifyPropertyChanged("SelectionHistory");
+            _InternalDataContext = dataSet;
+            NotifyPropertyChanged("InternalDataContext");
+            _adskApplciation = application;
+            NotifyPropertyChanged("ADSKApplciation");
+            _SQLiteConnection = sQLiteConnection;
+            NotifyPropertyChanged("sQLiteConnection");
+        }
+
+        public ViewModelBase(DataSet dataSet, System.Data.SQLite.SQLiteConnection sQLiteConnection, object application, object parentViewModel)
+        {
+            _InternalCollection = new ObservableCollection<T>();
+            NotifyPropertyChanged("InternalCollection");
+            _SelectionHistory = new ObservableCollection<T>();
+            NotifyPropertyChanged("SelectionHistory");
+            _InternalDataContext = dataSet;
+            NotifyPropertyChanged("InternalDataContext");
+            _adskApplciation = application;
+            NotifyPropertyChanged("ADSKApplciation");
+            _SQLiteConnection = sQLiteConnection;
+            NotifyPropertyChanged("sQLiteConnection");
+            _ParentViewModel = parentViewModel;
+            NotifyPropertyChanged("ParentViewModel");
         }
 
         public void AddElement(T element, bool setactive = false)

@@ -7,6 +7,7 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public interface IViewModel<T> : INotifyPropertyChanged
     {
+        object ParentViewModel { get; }
         DataSet InternalDataSet { get; }
         ObservableCollection<T> InternalCollection { get; }
         ObservableCollection<T> SelectionHistory { get; }

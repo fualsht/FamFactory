@@ -87,7 +87,7 @@ namespace ModBox.FamFactory.Revit.Manager
             set { _ModifiedBy = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
 
-        public FamilyTemplateComponent(DataRowView rowView, SQLiteConnection connection) : base(rowView, connection)
+        public FamilyTemplateComponent(DataRowView rowView, SQLiteConnection connection, object parentViewModel) : base(rowView, connection,)
         {
             RefreshCollections();
         }
@@ -101,7 +101,7 @@ namespace ModBox.FamFactory.Revit.Manager
 
         internal static FamilyTemplateComponent NewTemplateComponent(SQLiteConnection connection, DataView dataVew, User user)
         {
-            FamilyTemplateComponent component = new FamilyTemplateComponent(dataVew.AddNew(), connection);
+            FamilyTemplateComponent component = new FamilyTemplateComponent(dataVew.AddNew(), connection, parentViewModel);
             component.Id = Guid.NewGuid().ToString();
             component.DateCreated = DateTime.Now;
             component.DateModified = DateTime.Now;

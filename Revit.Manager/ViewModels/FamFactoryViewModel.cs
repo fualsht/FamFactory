@@ -39,8 +39,8 @@ namespace ModBox.FamFactory.Revit.Manager
             {
                 FamFactoryDataSet.UpdateDataSetFromDataSource(SQLiteConnection, InternalDataSet);
                 _UsersViewModel = new UsersViewModel(InternalDataSet, SQLiteConnection);
-                _FamilyTemplatesViewModel = new FamilyTemplatesViewModel(InternalDataSet, SQLiteConnection, ADSKApplciation);
-                _FamilyComponentViewModel = new FamFactoryComponentViewModel(InternalDataSet, SQLiteConnection, ADSKApplciation);
+                _FamilyTemplatesViewModel = new FamilyTemplatesViewModel(InternalDataSet, SQLiteConnection, ADSKApplciation, this);
+                _FamilyComponentViewModel = new FamFactoryComponentViewModel(InternalDataSet, SQLiteConnection, ADSKApplciation, this);
 
                 Pages.SystemConfigurationView systemConfigurationView = new Pages.SystemConfigurationView(this);
                 Pages.UsersView usersView = new Pages.UsersView(this);
