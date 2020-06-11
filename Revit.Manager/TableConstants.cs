@@ -72,9 +72,9 @@ namespace ModBox.FamFactory
         FamilyTemplateComponents_FamilyId__FamilyTemplate_Id,
         FamilyTemplateComponents_CreatedById__Users_Id,
         FamilyTemplateComponents_ModifiedById__Users_Id,
-        FamilyTemplateComponents_XRefferencePlaneId__FamilyTemplateReferencePlanes_Id,
-        FamilyTemplateComponents_YRefferencePlaneId__FamilyTemplateReferencePlanes_Id,
-        FamilyTemplateComponents_ZRefferencePlaneId__FamilyTemplateReferencePlanes_Id,
+        FamilyTemplateComponents_XReferencePlaneId__FamilyTemplateReferencePlanes_Id,
+        FamilyTemplateComponents_YReferencePlaneId__FamilyTemplateReferencePlanes_Id,
+        FamilyTemplateComponents_ZReferencePlaneId__FamilyTemplateReferencePlanes_Id,
 
         FamilyBuilds_FamilyTemplateId__FamilyTemplates_Id,
         FamilyBuilds_CreatedById__Users_Id,

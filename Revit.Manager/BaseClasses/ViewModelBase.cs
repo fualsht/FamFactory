@@ -72,7 +72,7 @@ namespace ModBox.FamFactory.Revit.Manager
         RelayCommand _AddElementCommand;
         public ICommand AddElementCommand
         {
-            get => _AddElementCommand ?? (_AddElementCommand = new RelayCommand(param => this.NewElement(), param => this.CanCreateNewElement()));
+            get => _AddElementCommand ?? (_AddElementCommand = new RelayCommand(param => this.NewElement(param), param => this.CanCreateNewElement()));
         }
 
         RelayCommand _DeleteElementCommand;
@@ -92,9 +92,6 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             get => _CancelElementChangesCommand ?? (_CancelElementChangesCommand = new RelayCommand(param => this.CancelElementChanges(), param => this.CanCancelElementChanges()));
         }
-
-        object _ParentViewModel;
-        public object ParentViewModel { get { return _ParentViewModel; } }
 
         public ViewModelBase(DataSet dataSet, System.Data.SQLite.SQLiteConnection sQLiteConnection)
         {
@@ -120,22 +117,6 @@ namespace ModBox.FamFactory.Revit.Manager
             NotifyPropertyChanged("ADSKApplciation");
             _SQLiteConnection = sQLiteConnection;
             NotifyPropertyChanged("sQLiteConnection");
-        }
-
-        public ViewModelBase(DataSet dataSet, System.Data.SQLite.SQLiteConnection sQLiteConnection, object application, object parentViewModel)
-        {
-            _InternalCollection = new ObservableCollection<T>();
-            NotifyPropertyChanged("InternalCollection");
-            _SelectionHistory = new ObservableCollection<T>();
-            NotifyPropertyChanged("SelectionHistory");
-            _InternalDataContext = dataSet;
-            NotifyPropertyChanged("InternalDataContext");
-            _adskApplciation = application;
-            NotifyPropertyChanged("ADSKApplciation");
-            _SQLiteConnection = sQLiteConnection;
-            NotifyPropertyChanged("sQLiteConnection");
-            _ParentViewModel = parentViewModel;
-            NotifyPropertyChanged("ParentViewModel");
         }
 
         public void AddElement(T element, bool setactive = false)
@@ -202,7 +183,7 @@ namespace ModBox.FamFactory.Revit.Manager
             ((IModelBase<T>)element).Delete();
         }
 
-        public abstract object NewElement();
+        public abstract object NewElement(object parent);
 
         public abstract void SaveElement(T element);
 

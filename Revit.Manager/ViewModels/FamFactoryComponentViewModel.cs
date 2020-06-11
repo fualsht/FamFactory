@@ -12,8 +12,8 @@ namespace ModBox.FamFactory.Revit.Manager
     public class FamFactoryComponentViewModel : ViewModelBase<FamilyComponent>
     {
         FamilyComponentTypeViewModel FamilyComponentTypeItems { get; set; }
-
         DataView ComponentDataView;
+
         public FamFactoryComponentViewModel(DataSet dataSet, System.Data.SQLite.SQLiteConnection sQLiteConnection, User user) : base(dataSet, sQLiteConnection, user)
         {
             FamilyComponentTypeItems = new FamilyComponentTypeViewModel(dataSet, sQLiteConnection);
@@ -21,13 +21,7 @@ namespace ModBox.FamFactory.Revit.Manager
             RefreshCollection();
         }
 
-        //public FamFactoryComponentViewModel(DataSet dataSet, System.Data.SQLite.SQLiteConnection sQLiteConnection, object application) : base(dataSet, sQLiteConnection, application)
-        //{
-        //    FamilyComponentTypeItems = new FamilyComponentTypeViewModel(dataSet, sQLiteConnection, application);
-        //    ComponentDataView = InternalDataSet.Tables[TableNames.FF_FamilyComponents.ToString()].DefaultView;
-        //    RefreshCollection();
-        //}
-        public FamFactoryComponentViewModel(DataSet dataSet, System.Data.SQLite.SQLiteConnection sQLiteConnection, object application, object parentViewModel) : base(dataSet, sQLiteConnection, application, parentViewModel)
+        public FamFactoryComponentViewModel(DataSet dataSet, System.Data.SQLite.SQLiteConnection sQLiteConnection, object application) : base(dataSet, sQLiteConnection, application)
         {
             FamilyComponentTypeItems = new FamilyComponentTypeViewModel(dataSet, sQLiteConnection, application);
             ComponentDataView = InternalDataSet.Tables[TableNames.FF_FamilyComponents.ToString()].DefaultView;
@@ -86,7 +80,7 @@ namespace ModBox.FamFactory.Revit.Manager
             return true;
         }
 
-        public override object NewElement()
+        public override object NewElement(object parent)
         {
             FamilyComponent component = null;
             System.Windows.Forms.OpenFileDialog dialogue = new System.Windows.Forms.OpenFileDialog();

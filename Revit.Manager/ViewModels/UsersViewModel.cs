@@ -101,7 +101,7 @@ namespace ModBox.FamFactory.Revit.Manager
             return canSaveUser;
         }
 
-        public override object NewElement()
+        public override object NewElement(object parent)
         {
             return User.NewUser(SQLiteConnection, InternalDataView);
         }

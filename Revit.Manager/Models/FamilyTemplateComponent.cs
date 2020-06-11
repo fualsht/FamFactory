@@ -11,7 +11,7 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamilyTemplateComponent : ModelBase<FamilyTemplateComponent>
     {
-        public enum TemplateComponentColumnNames { Id, Name, Description, FamilyId, XRefferencePlaneId, YRefferencePlaneId , ZRefferencePlaneId, DateCreated, DateModified, CreatedById, ModifiedById }
+        public enum TemplateComponentColumnNames { Id, Name, Description, FamilyId, XReferencePlaneId, YReferencePlaneId , ZReferencePlaneId, DateCreated, DateModified, CreatedById, ModifiedById }
         public string Id { get { return internalDataRowView[TemplateComponentColumnNames.Id.ToString()].ToString(); } set { internalDataRowView[TemplateComponentColumnNames.Id.ToString()] = value; NotifyPropertyChanged(); } }
 
         public string Name
@@ -32,22 +32,103 @@ namespace ModBox.FamFactory.Revit.Manager
             set { internalDataRowView.BeginEdit(); internalDataRowView[TemplateComponentColumnNames.FamilyId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); RefreshCollections(); }
         }
 
-        public string XRefferencePlaneId
+        public string XReferencePlaneId
         {
-            get { return internalDataRowView[TemplateComponentColumnNames.XRefferencePlaneId.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[TemplateComponentColumnNames.XRefferencePlaneId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get 
+            {
+                return internalDataRowView[TemplateComponentColumnNames.XReferencePlaneId.ToString()].ToString();
+            }
+            set
+            {
+                internalDataRowView.BeginEdit(); 
+                internalDataRowView[TemplateComponentColumnNames.XReferencePlaneId.ToString()] = value; 
+                NotifyPropertyChanged(); 
+                _ValuesChanged = true; 
+                NotifyPropertyChanged("ValuesChanged"); }
         }
 
-        public string YRefferencePlaneId
+        ReferencePlane _XReferencePlane;
+        public ReferencePlane XReferencePlane
         {
-            get { return internalDataRowView[TemplateComponentColumnNames.YRefferencePlaneId.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[TemplateComponentColumnNames.YRefferencePlaneId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { 
+                return _XReferencePlane; 
+            }
+            set
+            {
+                internalDataRowView.BeginEdit(); 
+                _XReferencePlane = value;
+                NotifyPropertyChanged(); 
+                _ValuesChanged = true; 
+                NotifyPropertyChanged("ValuesChanged"); 
+            }
         }
 
-        public string ZRefferencePlaneId
+        public string YReferencePlaneId
         {
-            get { return internalDataRowView[TemplateComponentColumnNames.ZRefferencePlaneId.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[TemplateComponentColumnNames.ZRefferencePlaneId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get 
+            {
+                return internalDataRowView[TemplateComponentColumnNames.YReferencePlaneId.ToString()].ToString(); 
+            }
+            set
+            {
+                internalDataRowView.BeginEdit();
+                internalDataRowView[TemplateComponentColumnNames.YReferencePlaneId.ToString()] = value;
+                NotifyPropertyChanged();
+                _ValuesChanged = true; 
+                NotifyPropertyChanged("ValuesChanged");
+            }
+        }
+
+        private ReferencePlane _YRreferencePlane;
+        public ReferencePlane YReferencePlane
+        {
+            get
+            {
+                return _YRreferencePlane; 
+            }
+            set
+            {
+                internalDataRowView.BeginEdit();
+                _YRreferencePlane = value;
+                NotifyPropertyChanged();
+                _ValuesChanged = true;
+                NotifyPropertyChanged("ValuesChanged");
+            }
+        }
+
+
+        public string ZReferencePlaneId
+        {
+            get
+            { 
+                return internalDataRowView[TemplateComponentColumnNames.ZReferencePlaneId.ToString()].ToString();
+            }
+            set
+            { 
+                internalDataRowView.BeginEdit();
+                internalDataRowView[TemplateComponentColumnNames.ZReferencePlaneId.ToString()] = value;
+                NotifyPropertyChanged(); 
+                _ValuesChanged = true;
+                NotifyPropertyChanged("ValuesChanged");
+            }
+        }
+
+        private ReferencePlane _ZRreferencePlane;
+
+        public ReferencePlane ZReferencePlane
+        {
+            get
+            {
+                return _ZRreferencePlane;
+            }
+            set
+            {
+                internalDataRowView.BeginEdit();
+                _ZRreferencePlane = value;
+                NotifyPropertyChanged();
+                _ValuesChanged = true;
+                NotifyPropertyChanged("ValuesChanged");
+            }
         }
 
         public object DateCreated
@@ -87,21 +168,30 @@ namespace ModBox.FamFactory.Revit.Manager
             set { _ModifiedBy = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
 
-        public FamilyTemplateComponent(DataRowView rowView, SQLiteConnection connection, object parentViewModel) : base(rowView, connection,)
+        public ObservableCollection<ReferencePlane> ParentReferencePlanes { get; set; }
+
+        public FamilyTemplateComponent(DataRowView rowView, SQLiteConnection connection) : base(rowView, connection)
         {
+            ParentReferencePlanes = new ObservableCollection<ReferencePlane>();
             RefreshCollections();
         }
 
-        private void RefreshCollections()
+        public void RefreshCollections()
         {
             DataView view = internalDataRowView.DataView.Table.DataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()].DefaultView;
+            view.RowFilter = string.Empty;
             view.Sort = "Id";
-            view.RowFilter = $"Id = '{FamilyId}'";
+            view.RowFilter = $"FamilyId = '{FamilyId}'";
+            ParentReferencePlanes.Clear();
+            foreach (DataRowView view1 in view)
+            {
+                ParentReferencePlanes.Add(new ReferencePlane(view1, this.internalSQLConenction));
+            }
         }
 
-        internal static FamilyTemplateComponent NewTemplateComponent(SQLiteConnection connection, DataView dataVew, User user)
+        internal static FamilyTemplateComponent NewTemplateComponent(SQLiteConnection connection, DataView dataVew, User user, FamilyTemplate parent)
         {
-            FamilyTemplateComponent component = new FamilyTemplateComponent(dataVew.AddNew(), connection, parentViewModel);
+            FamilyTemplateComponent component = new FamilyTemplateComponent(dataVew.AddNew(), connection);
             component.Id = Guid.NewGuid().ToString();
             component.DateCreated = DateTime.Now;
             component.DateModified = DateTime.Now;
@@ -109,6 +199,14 @@ namespace ModBox.FamFactory.Revit.Manager
             component.ModifiedById = user.Id;
             component.CreatedBy = user;
             component.ModifiedBy = user;
+            component.FamilyId = parent.Id;
+            component.RefreshCollections();
+            component.XReferencePlane = component.ParentReferencePlanes[0];
+            component.XReferencePlaneId = component.XReferencePlane.Id;
+            component.YReferencePlane = component.ParentReferencePlanes[0];
+            component.YReferencePlaneId = component.YReferencePlane.Id;
+            component.ZReferencePlane = component.ParentReferencePlanes[0];
+            component.ZReferencePlaneId = component.ZReferencePlane.Id;
             return component;
         }
     }

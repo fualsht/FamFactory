@@ -22,14 +22,7 @@ namespace ModBox.FamFactory.Revit.Manager
             RefreshCollection();
         }
 
-        //public FamilyTemplatesViewModel(DataSet dataset, System.Data.SQLite.SQLiteConnection sQLiteConnection, object application) : base(dataset, sQLiteConnection, application)
-        //{
-        //    InternalDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].DefaultView;
-        //    OnSelectionChagned += FamilyTemplatesViewModel_OnSelectionChagned;
-        //    RefreshCollection();
-        //}
-
-        public FamilyTemplatesViewModel(DataSet dataset, System.Data.SQLite.SQLiteConnection sQLiteConnection, object application, object parentViewModel) : base(dataset, sQLiteConnection, application, parentViewModel)
+        public FamilyTemplatesViewModel(DataSet dataset, System.Data.SQLite.SQLiteConnection sQLiteConnection, object application) : base(dataset, sQLiteConnection, application)
         {
             InternalDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].DefaultView;
             OnSelectionChagned += FamilyTemplatesViewModel_OnSelectionChagned;
@@ -89,7 +82,7 @@ namespace ModBox.FamFactory.Revit.Manager
             return true;
         }
 
-        public override object NewElement()
+        public override object NewElement(object parent)
         {
             FamilyTemplate template = null;
             System.Windows.Forms.OpenFileDialog dialogue = new System.Windows.Forms.OpenFileDialog();

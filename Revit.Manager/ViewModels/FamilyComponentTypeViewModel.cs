@@ -57,7 +57,7 @@ namespace ModBox.FamFactory.Revit.Manager
             throw new NotImplementedException();
         }
 
-        public override object NewElement()
+        public override object NewElement(object parent)
         {
             throw new NotImplementedException();
         }

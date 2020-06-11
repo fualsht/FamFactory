@@ -173,14 +173,6 @@ namespace ModBox.FamFactory.Revit.Manager
             FamilyTemplateParameters = new FamilyTemplateParameterViewModel(view.Row.Table.DataSet, connection);
         }
 
-        public FamilyTemplate(DataRowView view, SQLiteConnection connection, object parentViewModel) : base(view, connection)
-        {
-            FamilyTemplateComponents = new FamilyTemplateComponentViewModel(view.Row.Table.DataSet, connection, parentViewModel);
-            FamilyTemplateReferencePlanes = new FamilyTemplateReferencePlaneViewModel(view.Row.Table.DataSet, connection, parentViewModel);
-            FamilyTemplateGeometries = new FamilyTemplateGeometryViewModel(view.Row.Table.DataSet, connection, parentViewModel);
-            FamilyTemplateParameters = new FamilyTemplateParameterViewModel(view.Row.Table.DataSet, connection, parentViewModel);
-        }
-
         public static FamilyTemplate NewTemplate(SQLiteConnection connection, DataView rowView, User user)
         {
             DataRowView row = rowView.AddNew();

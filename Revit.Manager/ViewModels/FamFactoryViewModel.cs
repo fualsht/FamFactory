@@ -39,8 +39,8 @@ namespace ModBox.FamFactory.Revit.Manager
             {
                 FamFactoryDataSet.UpdateDataSetFromDataSource(SQLiteConnection, InternalDataSet);
                 _UsersViewModel = new UsersViewModel(InternalDataSet, SQLiteConnection);
-                _FamilyTemplatesViewModel = new FamilyTemplatesViewModel(InternalDataSet, SQLiteConnection, ADSKApplciation, this);
-                _FamilyComponentViewModel = new FamFactoryComponentViewModel(InternalDataSet, SQLiteConnection, ADSKApplciation, this);
+                _FamilyTemplatesViewModel = new FamilyTemplatesViewModel(InternalDataSet, SQLiteConnection, ADSKApplciation);
+                _FamilyComponentViewModel = new FamFactoryComponentViewModel(InternalDataSet, SQLiteConnection, ADSKApplciation);
 
                 Pages.SystemConfigurationView systemConfigurationView = new Pages.SystemConfigurationView(this);
                 Pages.UsersView usersView = new Pages.UsersView(this);
@@ -92,7 +92,7 @@ namespace ModBox.FamFactory.Revit.Manager
             return true;
         }
 
-        public override object NewElement()
+        public override object NewElement(object parent)
         {
             return null;
         }

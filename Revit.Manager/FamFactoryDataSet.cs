@@ -1304,15 +1304,15 @@ namespace ModBox.FamFactory.Revit.Manager
             DescriptionColumn.AllowDBNull = false;
             DescriptionColumn.Unique = false;
 
-            DataColumn XRefferencePlaneIdColumn = FamilyTemplateComponentsTable.Columns.Add(FamilyTemplateComponent.TemplateComponentColumnNames.XRefferencePlaneId.ToString(), typeof(string));
+            DataColumn XRefferencePlaneIdColumn = FamilyTemplateComponentsTable.Columns.Add(FamilyTemplateComponent.TemplateComponentColumnNames.XReferencePlaneId.ToString(), typeof(string));
             XRefferencePlaneIdColumn.AllowDBNull = true;
             XRefferencePlaneIdColumn.Unique = false;
 
-            DataColumn YRefferencePlaneIdColumn = FamilyTemplateComponentsTable.Columns.Add(FamilyTemplateComponent.TemplateComponentColumnNames.YRefferencePlaneId.ToString(), typeof(string));
+            DataColumn YRefferencePlaneIdColumn = FamilyTemplateComponentsTable.Columns.Add(FamilyTemplateComponent.TemplateComponentColumnNames.YReferencePlaneId.ToString(), typeof(string));
             YRefferencePlaneIdColumn.AllowDBNull = true;
             YRefferencePlaneIdColumn.Unique = false;
 
-            DataColumn ZRefferencePlaneIdColumn = FamilyTemplateComponentsTable.Columns.Add(FamilyTemplateComponent.TemplateComponentColumnNames.ZRefferencePlaneId.ToString(), typeof(string));
+            DataColumn ZRefferencePlaneIdColumn = FamilyTemplateComponentsTable.Columns.Add(FamilyTemplateComponent.TemplateComponentColumnNames.ZReferencePlaneId.ToString(), typeof(string));
             ZRefferencePlaneIdColumn.AllowDBNull = true;
             ZRefferencePlaneIdColumn.Unique = false;
 
@@ -1336,19 +1336,19 @@ namespace ModBox.FamFactory.Revit.Manager
                 dataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].Columns[FamilyTemplateComponent.TemplateComponentColumnNames.FamilyId.ToString()]);
             dataSet.Relations.Add(TemplateIdDataRelation);
 
-            DataRelation ReferencePlaneIdXDataRelation = new DataRelation(TableRelations.FamilyTemplateComponents_XRefferencePlaneId__FamilyTemplateReferencePlanes_Id.ToString(),
+            DataRelation ReferencePlaneIdXDataRelation = new DataRelation(TableRelations.FamilyTemplateComponents_XReferencePlaneId__FamilyTemplateReferencePlanes_Id.ToString(),
                 dataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()].Columns["Id"],
-                dataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].Columns[FamilyTemplateComponent.TemplateComponentColumnNames.XRefferencePlaneId.ToString()]);
+                dataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].Columns[FamilyTemplateComponent.TemplateComponentColumnNames.XReferencePlaneId.ToString()]);
             dataSet.Relations.Add(ReferencePlaneIdXDataRelation);
 
-            DataRelation ReferencePlaneIdYDataRelation = new DataRelation(TableRelations.FamilyTemplateComponents_YRefferencePlaneId__FamilyTemplateReferencePlanes_Id.ToString(),
+            DataRelation ReferencePlaneIdYDataRelation = new DataRelation(TableRelations.FamilyTemplateComponents_YReferencePlaneId__FamilyTemplateReferencePlanes_Id.ToString(),
                 dataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()].Columns["Id"],
-                dataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].Columns[FamilyTemplateComponent.TemplateComponentColumnNames.YRefferencePlaneId.ToString()]);
+                dataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].Columns[FamilyTemplateComponent.TemplateComponentColumnNames.YReferencePlaneId.ToString()]);
             dataSet.Relations.Add(ReferencePlaneIdYDataRelation);
 
-            DataRelation ReferencePlaneIdZDataRelation = new DataRelation(TableRelations.FamilyTemplateComponents_ZRefferencePlaneId__FamilyTemplateReferencePlanes_Id.ToString(),
+            DataRelation ReferencePlaneIdZDataRelation = new DataRelation(TableRelations.FamilyTemplateComponents_ZReferencePlaneId__FamilyTemplateReferencePlanes_Id.ToString(),
                 dataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()].Columns["Id"],
-                dataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].Columns[FamilyTemplateComponent.TemplateComponentColumnNames.ZRefferencePlaneId.ToString()]);
+                dataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].Columns[FamilyTemplateComponent.TemplateComponentColumnNames.ZReferencePlaneId.ToString()]);
             dataSet.Relations.Add(ReferencePlaneIdZDataRelation);
 
             DataRelation CreatedByDataRelation = new DataRelation(TableRelations.FamilyTemplateComponents_CreatedById__Users_Id.ToString(),

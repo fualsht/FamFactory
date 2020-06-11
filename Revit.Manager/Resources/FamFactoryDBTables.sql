@@ -435,9 +435,9 @@ CREATE TABLE FF_FamilyTemplateComponents (
     FamilyId           STRING (36, 36)   NOT NULL,
     [ Name]            STRING (36, 36)   NOT NULL,
     Description        STRING,
-    XRefferencePlaneId STRING (36, 36)   NOT NULL,
-    YRefferencePlaneId STRING (36, 36)   NOT NULL,
-    ZRefferencePlaneId STRING (36, 36)   NOT NULL,
+    XReferencePlaneId STRING (36, 36)   NOT NULL,
+    YReferencePlaneId STRING (36, 36)   NOT NULL,
+    ZReferencePlaneId STRING (36, 36)   NOT NULL,
     DateCreated        DATETIME (36, 36) NOT NULL,
     DateModified       DATETIME (36, 36) NOT NULL,
     CreatedById        STRING (36, 36)   NOT NULL,
@@ -454,15 +454,15 @@ CREATE TABLE FF_FamilyTemplateComponents (
         ModifiedById
     )
     REFERENCES FF_Users (Id),
-    CONSTRAINT FamilyTemplateComponents_XRefferencePlaneId__FamilyTemplateReferencePlanes_Id FOREIGN KEY (
+    CONSTRAINT FamilyTemplateComponents_XReferencePlaneId__FamilyTemplateReferencePlanes_Id FOREIGN KEY (
         XRefferencePlaneId
     )
     REFERENCES FF_FamilyTemplateReferencePlanes (Id),
-    CONSTRAINT FamilyTemplateComponents_YRefferencePlaneId__FamilyTemplateReferencePlanes_Id FOREIGN KEY (
+    CONSTRAINT FamilyTemplateComponents_YReferencePlaneId__FamilyTemplateReferencePlanes_Id FOREIGN KEY (
         YRefferencePlaneId
     )
     REFERENCES FF_FamilyTemplateReferencePlanes (Id),
-    CONSTRAINT FamilyTemplateComponents_ZRefferencePlaneId__FamilyTemplateReferencePlanes_Id FOREIGN KEY (
+    CONSTRAINT FamilyTemplateComponents_ZReferencePlaneId__FamilyTemplateReferencePlanes_Id FOREIGN KEY (
         ZRefferencePlaneId
     )
     REFERENCES FF_FamilyTemplateReferencePlanes (Id) 

@@ -7,7 +7,6 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public interface IViewModel<T> : INotifyPropertyChanged
     {
-        object ParentViewModel { get; }
         DataSet InternalDataSet { get; }
         ObservableCollection<T> InternalCollection { get; }
         ObservableCollection<T> SelectionHistory { get; }
@@ -23,7 +22,7 @@ namespace ModBox.FamFactory.Revit.Manager
         void GoToElement(T element);
         void AddElement(T T, bool setactive);
         bool CanAddElement();
-        object NewElement();
+        object NewElement(object parent);
         void CancelElementChanges();
         void DeleteElement(T element);
         void SaveElement(T element);
