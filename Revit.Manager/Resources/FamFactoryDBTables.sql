@@ -433,7 +433,7 @@ CREATE TABLE FF_FamilyTemplateComponents (
                                          PRIMARY KEY
                                          UNIQUE,
     FamilyId           STRING (36, 36)   NOT NULL,
-    [ Name]            STRING (36, 36)   NOT NULL,
+    Name            STRING (36, 36)   NOT NULL,
     Description        STRING,
     XReferencePlaneId STRING (36, 36)   NOT NULL,
     YReferencePlaneId STRING (36, 36)   NOT NULL,
