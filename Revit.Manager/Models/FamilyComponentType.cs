@@ -33,26 +33,6 @@ namespace ModBox.FamFactory.Revit.Manager
             get { return (byte[])internalDataRowView[FamilyComponentTypesTableColumnNames.Thumbnail.ToString()]; }
             set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyComponentTypesTableColumnNames.Thumbnail.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
-        public DateTime DateCreated
-        {
-            get { return (DateTime)internalDataRowView[FamilyComponentTypesTableColumnNames.DateCreated.ToString()]; }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyComponentTypesTableColumnNames.DateCreated.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
-        public DateTime DateModified
-        {
-            get { return (DateTime)internalDataRowView[FamilyComponentTypesTableColumnNames.DateModified.ToString()]; }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyComponentTypesTableColumnNames.DateModified.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
-        public string CreatedById
-        {
-            get { return internalDataRowView[FamilyComponentTypesTableColumnNames.CreatedById.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyComponentTypesTableColumnNames.CreatedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
-        public string ModifiedById
-        {
-            get { return internalDataRowView[FamilyComponentTypesTableColumnNames.ModifiedById.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyComponentTypesTableColumnNames.ModifiedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
         public int State
         {
             get { return (int)internalDataRowView[FamilyComponentTypesTableColumnNames.State.ToString()]; }

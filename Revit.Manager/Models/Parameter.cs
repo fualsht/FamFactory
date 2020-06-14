@@ -128,41 +128,6 @@ namespace ModBox.FamFactory.Revit.Manager
             get { return internalDataRowView[ParameterColumnNames.Formula.ToString()].ToString(); }
             set { internalDataRowView.BeginEdit(); internalDataRowView[ParameterColumnNames.Formula.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
-        public object DateCreated
-        {
-            get { return internalDataRowView[ParameterColumnNames.DateCreated.ToString()]; }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[ParameterColumnNames.DateCreated.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
-        public object DateModified
-        {
-            get { return internalDataRowView[ParameterColumnNames.DateModified.ToString()]; }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[ParameterColumnNames.DateModified.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
-        public string CreatedById
-        {
-            get { return internalDataRowView[ParameterColumnNames.CreatedById.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[ParameterColumnNames.CreatedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
-
-        User _CreatedBy;
-        public User CreatedBy
-        {
-            get { return _CreatedBy; }
-            set { _CreatedBy = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
-
-        public string ModifiedById
-        {
-            get { return internalDataRowView[ParameterColumnNames.ModifiedById.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[ParameterColumnNames.ModifiedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
-
-        User _ModifiedBy;
-        public User ModifiedBy
-        {
-            get { return _ModifiedBy; }
-            set { _ModifiedBy = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
 
         public Parameter(DataRowView rowView, SQLiteConnection connection) : base(rowView, connection)
         {

@@ -4,7 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:ModBox.FamFactory.Revit.Manager"
-      mc:Ignorable="d" MaxHeight="800" MaxWidth="1200"
+      mc:Ignorable="d" 
       Title="FamilyTemplatesView" Background="White" d:DataContext="{Binding Source={StaticResource FFVM}, Path=famFactoryViewModel}" >
     <Page.Resources>
         <ResourceDictionary>
@@ -406,6 +406,13 @@
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <ComboBox ItemsSource="{Binding ParentReferencePlanes}" DisplayMemberPath="Name" SelectedItem="{Binding ZReferencePlane, Mode=TwoWay}" />
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Width="40">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Button Content="Edit"/>
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>
                                         </GridViewColumn>

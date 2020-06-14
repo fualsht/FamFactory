@@ -31,12 +31,6 @@ namespace ModBox.FamFactory.Revit.Manager
         public object ProfilePic { get { return internalDataRowView[UsersTableColumnNames.ProfilePic.ToString()]; } 
             set { internalDataRowView.BeginEdit(); internalDataRowView[UsersTableColumnNames.ProfilePic.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); } }
 
-        public object DateCreated { get { return internalDataRowView[UsersTableColumnNames.DateCreated.ToString()]; } 
-        set { internalDataRowView.BeginEdit(); internalDataRowView[UsersTableColumnNames.DateCreated.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); } }
-
-        public object DateModified { get { return internalDataRowView[UsersTableColumnNames.DateModified.ToString()]; }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[UsersTableColumnNames.DateModified.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }        }
-
         public string PermissionId { 
             get 
             {

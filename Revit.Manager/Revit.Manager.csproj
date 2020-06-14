@@ -77,6 +77,9 @@
     </ApplicationDefinition>
     <Compile Include="Converters\Converters.cs" />
     <Compile Include="DataSetAsistnat.cs" />
+    <Compile Include="EditorWindow.xaml.cs">
+      <DependentUpon>EditorWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\IModelBase.cs" />
     <Compile Include="Interfaces\IViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
@@ -97,8 +100,8 @@
     <Compile Include="Models\ReferencePlane.cs" />
     <Compile Include="Models\SystemConfiguration.cs" />
     <Compile Include="Models\User.cs" />
-    <Compile Include="Pages\FamilyBuilder.xaml.cs">
-      <DependentUpon>FamilyBuilder.xaml</DependentUpon>
+    <Compile Include="Pages\FamilyBuilderView.xaml.cs">
+      <DependentUpon>FamilyBuilderView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\FamilyComponentView.xaml.cs">
       <DependentUpon>FamilyComponentView.xaml</DependentUpon>
@@ -108,6 +111,9 @@
     </Compile>
     <Compile Include="Pages\SystemConfigurationView.xaml.cs">
       <DependentUpon>SystemConfigurationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\TemplateComponentEditorView.xaml.cs">
+      <DependentUpon>TemplateComponentEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\UsersView.xaml.cs">
       <DependentUpon>UsersView.xaml</DependentUpon>
@@ -169,11 +175,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\FamilyBuilder.xaml">
+    <Page Include="EditorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\FamilyBuilderView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\FamilyComponentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\TemplateComponentEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

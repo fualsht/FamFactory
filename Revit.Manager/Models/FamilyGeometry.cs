@@ -101,42 +101,6 @@ namespace ModBox.FamFactory.Revit.Manager
             set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyGeometryColumnNames.IsSolid.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
 
-        public object DateCreated
-        {
-            get { return internalDataRowView[FamilyGeometryColumnNames.DateCreated.ToString()]; }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyGeometryColumnNames.DateCreated.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
-        public object DateModified
-        {
-            get { return internalDataRowView[FamilyGeometryColumnNames.DateModified.ToString()]; }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyGeometryColumnNames.DateModified.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
-        public string CreatedById
-        {
-            get { return internalDataRowView[FamilyGeometryColumnNames.CreatedById.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyGeometryColumnNames.CreatedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
-
-        User _CreatedBy;
-        public User CreatedBy
-        {
-            get { return _CreatedBy; }
-            set { _CreatedBy = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
-
-        public string ModifiedById
-        {
-            get { return internalDataRowView[FamilyGeometryColumnNames.ModifiedById.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyGeometryColumnNames.ModifiedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
-
-        User _ModifiedBy;
-        public User ModifieddBy
-        {
-            get { return _ModifiedBy; }
-            set { _ModifiedBy = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
-
         public FamilyGeometry(DataRowView dataRowView, SQLiteConnection connection) : base(dataRowView, connection)
         {
 

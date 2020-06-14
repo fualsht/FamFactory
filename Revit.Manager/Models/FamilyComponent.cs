@@ -56,38 +56,6 @@ namespace ModBox.FamFactory.Revit.Manager
             get { return (long)internalDataRowView[FamilyComponentsTableColumnNames.FileSize.ToString()]; }
             set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyComponentsTableColumnNames.FileSize.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
-        public DateTime DateCreated
-        {
-            get { return (DateTime)internalDataRowView[FamilyComponentsTableColumnNames.DateCreated.ToString()]; }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyComponentsTableColumnNames.DateCreated.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
-        public DateTime DateModified
-        {
-            get { return (DateTime)internalDataRowView[FamilyComponentsTableColumnNames.DateModified.ToString()]; }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyComponentsTableColumnNames.DateModified.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
-        public string CreatedById
-        {
-            get { return internalDataRowView[FamilyComponentsTableColumnNames.CreatedById.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyComponentsTableColumnNames.CreatedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
-        User _CreatedBy;
-        public User CreatedBy
-        {
-            get { return _CreatedBy; }
-            set { _CreatedBy = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
-        public string ModifiedById
-        {
-            get { return internalDataRowView[FamilyComponentsTableColumnNames.ModifiedById.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyComponentsTableColumnNames.ModifiedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
-        User _ModifiedBy;
-        public User ModifiedBy
-        {
-            get { return _ModifiedBy; }
-            set { _ModifiedBy = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
         public Version Version
         {
             get { return Version.AsVersion(internalDataRowView[FamilyComponentsTableColumnNames.Version.ToString()].ToString()); }

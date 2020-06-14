@@ -46,26 +46,6 @@ namespace ModBox.FamFactory.Revit.Manager
             get { return internalDataRowView[SystemConfigurationTableColumnNames.DataBaseVersion.ToString()].ToString(); }
             set { internalDataRowView.BeginEdit(); internalDataRowView[SystemConfigurationTableColumnNames.DataBaseVersion.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
-        public string CreatedById
-        {
-            get { return internalDataRowView[SystemConfigurationTableColumnNames.CreatedById.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[SystemConfigurationTableColumnNames.DataBaseVersion.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
-        public string ModifiedBy
-        {
-            get { return internalDataRowView[SystemConfigurationTableColumnNames.ModifiedById.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[SystemConfigurationTableColumnNames.DataBaseVersion.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
-        public object DateCreated
-        {
-            get { return internalDataRowView[SystemConfigurationTableColumnNames.DateCreated.ToString()]; }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[SystemConfigurationTableColumnNames.DataBaseVersion.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
-        public object DateModified
-        {
-            get { return internalDataRowView[SystemConfigurationTableColumnNames.DateModified.ToString()]; }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[SystemConfigurationTableColumnNames.DataBaseVersion.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
         public EntityStates State
         {
             get { return (EntityStates)internalDataRowView[SystemConfigurationTableColumnNames.State.ToString()]; }

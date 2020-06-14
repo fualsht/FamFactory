@@ -112,45 +112,13 @@ namespace ModBox.FamFactory.Revit.Manager
             get { return (long)internalDataRowView[ParameterColumnNames.FileSize.ToString()]; }
             set { internalDataRowView.BeginEdit(); internalDataRowView[ParameterColumnNames.FileSize.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
-        public DateTime DateCreated
-        {
-            get { return (DateTime)internalDataRowView[ParameterColumnNames.DateCreated.ToString()]; }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[ParameterColumnNames.DateCreated.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
-        public DateTime DateModified
-        {
-            get { return (DateTime)internalDataRowView[ParameterColumnNames.DateModified.ToString()]; }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[ParameterColumnNames.DateModified.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
+        
         public byte[] FamilyFile
         {
             get { return (byte[])internalDataRowView[ParameterColumnNames.FamilyFile.ToString()]; }
             set { internalDataRowView.BeginEdit(); internalDataRowView[ParameterColumnNames.FamilyFile.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
-        public string CreatedById
-        {
-            get { return internalDataRowView[ParameterColumnNames.CreatedById.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[ParameterColumnNames.CreatedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
-        User _CreatedBy;
-        public User CreatedBy
-        {
-            get { return _CreatedBy; }
-            set { _CreatedBy = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
-        public string ModifiedById
-        {
-            get { return internalDataRowView[ParameterColumnNames.ModifiedById.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[ParameterColumnNames.ModifiedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
-
-        User _ModifiedBy;
-        public User ModifiedBy
-        {
-            get { return _ModifiedBy; }
-            set { _ModifiedBy = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
-
+        
         public EntityStates State
         {
             get { return (EntityStates)internalDataRowView[ParameterColumnNames.State.ToString()]; }

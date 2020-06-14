@@ -31,30 +31,6 @@ namespace ModBox.FamFactory.Revit.Manager
             set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyBuildsColumnNames.Description.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
 
-        public object DateCreated
-        {
-            get { return internalDataRowView[FamilyBuildsColumnNames.DateCreated.ToString()]; }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyBuildsColumnNames.DateCreated.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
-
-        public object DateModified
-        {
-            get { return internalDataRowView[FamilyBuildsColumnNames.DateModified.ToString()]; }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyBuildsColumnNames.DateModified.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
-
-        public string CreatdById
-        {
-            get { return internalDataRowView[FamilyBuildsColumnNames.CreatedById.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyBuildsColumnNames.CreatedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
-
-        public string ModifiedById
-        {
-            get { return internalDataRowView[FamilyBuildsColumnNames.ModifiedById.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyBuildsColumnNames.ModifiedById.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
-
         public EntityStates State
         {
             get { return (EntityStates)internalDataRowView[FamilyBuildsColumnNames.State.ToString()]; }

@@ -10,17 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ModBox.FamFactory.Revit.Manager.Pages
+namespace ModBox.FamFactory.Revit.Manager
 {
     /// <summary>
-    /// Interaction logic for FamilyBuilder.xaml
+    /// Interaction logic for EditorWindow.xaml
     /// </summary>
-    public partial class FamilyBuilder : Page
+    public partial class EditorWindow : Window
     {
-        public FamilyBuilder()
+        public EditorWindow()
         {
             InitializeComponent();
         }

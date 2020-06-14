@@ -429,19 +429,27 @@ CREATE TABLE FF_FamilyComponentTypes (
 DROP TABLE IF EXISTS FF_FamilyTemplateComponents;
 
 CREATE TABLE FF_FamilyTemplateComponents (
-    Id                 STRING (36, 36)   NOT NULL
-                                         PRIMARY KEY
-                                         UNIQUE,
-    FamilyId           STRING (36, 36)   NOT NULL,
-    Name            STRING (36, 36)   NOT NULL,
-    Description        STRING,
-    XReferencePlaneId STRING (36, 36)   NOT NULL,
-    YReferencePlaneId STRING (36, 36)   NOT NULL,
-    ZReferencePlaneId STRING (36, 36)   NOT NULL,
-    DateCreated        DATETIME (36, 36) NOT NULL,
-    DateModified       DATETIME (36, 36) NOT NULL,
-    CreatedById        STRING (36, 36)   NOT NULL,
-    ModifiedById       STRING (36, 36)   NOT NULL,
+    Id                      STRING (36, 36)   NOT NULL
+                                              PRIMARY KEY
+                                              UNIQUE,
+    FamilyId                STRING (36, 36)   NOT NULL,
+    Name                    STRING (36, 36)   NOT NULL,
+    Description             STRING,
+    IsProfile               BOOLEAN           NOT NULL
+                                              DEFAULT (FALSE),
+    XReferencePlaneId       STRING (36, 36),
+    YReferencePlaneId       STRING (36, 36),
+    ZReferencePlaneId       STRING (36, 36),
+    DateCreated             DATETIME (36, 36) NOT NULL,
+    DateModified            DATETIME (36, 36) NOT NULL,
+    CreatedById             STRING (36, 36)   NOT NULL,
+    ModifiedById            STRING (36, 36)   NOT NULL,
+    ProfileGeometryId       STRING (36, 36),
+    ProfileTypeNameId       STRING (36, 36),
+    ProfileVerticalOffset   DECIMAL           DEFAULT (0),
+    ProfileHorizontalOffset DECIMAL           DEFAULT (0),
+    ProfileAngle            DECIMAL           DEFAULT (0),
+    ProfileIsFlipped        BOOLEAN           DEFAULT (FALSE),
     CONSTRAINT FamilyTemplateComponents_FamilyId__FamilyTemplate_Id FOREIGN KEY (
         FamilyId
     )
@@ -455,18 +463,19 @@ CREATE TABLE FF_FamilyTemplateComponents (
     )
     REFERENCES FF_Users (Id),
     CONSTRAINT FamilyTemplateComponents_XReferencePlaneId__FamilyTemplateReferencePlanes_Id FOREIGN KEY (
-        XRefferencePlaneId
+        XReferencePlaneId
     )
     REFERENCES FF_FamilyTemplateReferencePlanes (Id),
     CONSTRAINT FamilyTemplateComponents_YReferencePlaneId__FamilyTemplateReferencePlanes_Id FOREIGN KEY (
-        YRefferencePlaneId
+        YReferencePlaneId
     )
     REFERENCES FF_FamilyTemplateReferencePlanes (Id),
     CONSTRAINT FamilyTemplateComponents_ZReferencePlaneId__FamilyTemplateReferencePlanes_Id FOREIGN KEY (
-        ZRefferencePlaneId
+        ZReferencePlaneId
     )
     REFERENCES FF_FamilyTemplateReferencePlanes (Id) 
 );
+
 
 
 -- Table: FF_FamilyTemplateGeometries
