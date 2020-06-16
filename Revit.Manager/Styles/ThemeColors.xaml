@@ -28,6 +28,7 @@
     <SolidColorBrush x:Key="ThemeComboBoxBorderBrush" Color="LightGray"/>
     <SolidColorBrush x:Key="ThemeComboBoxMouseOverBorderBrush" Color="Orange" Opacity="0.5"/>
     <SolidColorBrush x:Key="ThemeComboBoxTextBackgroundBrush" Color="WhiteSmoke"/>
+    <SolidColorBrush x:Key="ThemeComboBoxTextForegroundBrush" Color="DarkSlateGray"/>
 
     <SolidColorBrush x:Key="ThemeInactiveGray" Color="Gray"/>
     <SolidColorBrush x:Key="ThemeSectionOutlineColor" Color="#FF363636" />

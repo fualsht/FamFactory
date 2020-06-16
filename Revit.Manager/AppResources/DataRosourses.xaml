@@ -9,4 +9,5 @@
     <local:RevitParameterTypeToStringConverter x:Key="FamParamTypeConverter"/>
     <local:RevitStorageTypeToStringConverter x:Key="FamStorageTypeConverter"/>
     <local:RevitParameterGroupToStringConverter x:Key="FamParamGroupConverter"/>
+    <local:BoolInverter x:Key="BoolInvererConverter"/>
 </ResourceDictionary>

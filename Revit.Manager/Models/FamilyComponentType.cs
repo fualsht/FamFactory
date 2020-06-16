@@ -10,7 +10,7 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamilyComponentType : ModelBase<FamilyComponentType>
     {
-        public enum FamilyComponentTypesTableColumnNames { Id, Name, Description, Thumbnail, DateCreated, DateModified, CreatedById, ModifiedById, State }
+        public enum FamilyComponentTypesTableColumnNames { Id, Name, Description, Thumbnail, DateCreated, DateModified, CreatedById, ModifiedById }
         
         public string Id
         {
@@ -32,11 +32,6 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             get { return (byte[])internalDataRowView[FamilyComponentTypesTableColumnNames.Thumbnail.ToString()]; }
             set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyComponentTypesTableColumnNames.Thumbnail.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
-        public int State
-        {
-            get { return (int)internalDataRowView[FamilyComponentTypesTableColumnNames.State.ToString()]; }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyComponentTypesTableColumnNames.State.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public FamilyComponentType(DataRowView rowView, SQLiteConnection connection) : base(rowView, connection)
         {

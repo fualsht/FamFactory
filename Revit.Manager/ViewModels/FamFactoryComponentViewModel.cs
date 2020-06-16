@@ -55,11 +55,6 @@ namespace ModBox.FamFactory.Revit.Manager
             
         }
 
-        public override bool CanCreateNewElement()
-        {
-            return true;
-        }
-
         public override bool CanDeleteElement()
         {
             return true;
@@ -195,6 +190,16 @@ namespace ModBox.FamFactory.Revit.Manager
         }
 
         public override void RefreshCollection(string sortColumn, string filter)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void EditElement(FamilyComponent element)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool CanEditElement()
         {
             throw new NotImplementedException();
         }

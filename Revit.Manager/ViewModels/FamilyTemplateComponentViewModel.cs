@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Data.SQLite;
 using System.Windows.Input;
 
@@ -6,8 +7,13 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamilyTemplateComponentViewModel : ViewModelBase<FamilyTemplateComponent>
     {
-
         public FamilyTemplateComponentViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection) : base(dataSet, sQLiteConnection)
+        {
+            InternalDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].DefaultView;
+            RefreshCollection();
+        }
+
+        public FamilyTemplateComponentViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection, object application) : base(dataSet, sQLiteConnection, application)
         {
             InternalDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].DefaultView;
             RefreshCollection();
@@ -26,11 +32,6 @@ namespace ModBox.FamFactory.Revit.Manager
         public override void CancelElementChanges()
         {
             
-        }
-
-        public override bool CanCreateNewElement()
-        {
-            return true;
         }
 
         public override bool CanDeleteElement()
@@ -55,6 +56,7 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public override object NewElement(object parent)
         {
+
             FamilyTemplateComponent comp = null;
             if (parent == null)
             {
@@ -66,14 +68,26 @@ namespace ModBox.FamFactory.Revit.Manager
             }
             comp.Name = "New Component Reference Pair";
             comp.Description = "A Pair of reference Planes to alighn and lock to.";
-            AddElement(comp);
-            comp.EndEdit();
-            return true;
+
+            SelectedElement = comp;
+            if (Utils.EditElement("test", new Pages.TemplateComponentEditorView(), SelectedElement))
+            {
+                comp.EndEdit();
+                AddElement(comp);
+                SaveElement(SelectedElement);
+                return true;
+            }
+            else
+            {
+                SelectedElement = SelectionHistory[SelectionHistory.Count - 1];
+                return false;
+            }
         }
 
         public override void SaveElement(FamilyTemplateComponent element)
         {
             FamFactoryDataSet.SaveTableChangesToDatbase(SQLiteConnection, InternalDataView.Table);
+            RefreshCollection();
         }
 
         public override void SetActiveUser(User user)
@@ -105,6 +119,26 @@ namespace ModBox.FamFactory.Revit.Manager
                     this.AddElement(new FamilyTemplateComponent(item, SQLiteConnection), true);
                 }
             }
+        }
+
+        public override void EditElement(FamilyTemplateComponent element)
+        {
+            if (Utils.EditElement("Edit Template Comonent.", new Pages.TemplateComponentEditorView(), element))
+            {
+                SaveElement(SelectedElement);
+            }
+            else
+            {
+                SelectedElement = SelectionHistory[SelectionHistory.Count - 1];
+            }
+        }
+
+        public override bool CanEditElement()
+        {
+            if (SelectedElement == null)
+                return false;
+            else
+                return true;
         }
     }
 }

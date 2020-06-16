@@ -238,9 +238,10 @@
     <!--(Style).-->
     <Style x:Key="TitleComboBoxControlStyle" TargetType="ComboBox">
         <Setter Property="Template" Value="{DynamicResource TitleComboBoxControlTemplate}"/>
-        <Setter Property="Padding" Value="3,2"/>
+        <Setter Property="Padding" Value="8, 0"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="{DynamicResource ThemeComboBoxTextForegroundBrush}"/>
     </Style>
 
     <!--ComboBox with title text.-->
@@ -275,7 +276,9 @@
                                     <Canvas x:Name="canvas" HorizontalAlignment="Left" Height="0" VerticalAlignment="Top" Width="0">
                                         <Rectangle x:Name="OpaqueRect" Fill="{Binding Background, ElementName=DropDownBorder}" Height="{Binding ActualHeight, ElementName=DropDownBorder}" Width="{Binding ActualWidth, ElementName=DropDownBorder}"/>
                                     </Canvas>
-                                    <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                    <ItemsPresenter x:Name="ItemsPresenter"
+                                                    KeyboardNavigation.DirectionalNavigation="Contained"
+                                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                                 </Grid>
                             </ScrollViewer>
                         </Border>
@@ -397,10 +400,11 @@
                 <ContentPresenter x:Name="contentPresenter" 
                                   ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" 
                                   Content="{TemplateBinding SelectionBoxItem}" 
+                                  ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
                                   ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}" 
                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
                                   IsHitTestVisible="False" 
-                                  Margin="{TemplateBinding Padding}" 
+                                  Margin="{TemplateBinding Padding}"
                                   SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
             </Grid>
@@ -434,6 +438,6 @@
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
-    
+
     <!--#endregion-->
 </ResourceDictionary>

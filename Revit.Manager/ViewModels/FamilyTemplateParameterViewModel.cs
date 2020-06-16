@@ -37,14 +37,14 @@ namespace ModBox.FamFactory.Revit.Manager
 
         }
 
-        public override bool CanCreateNewElement()
+        public override bool CanDeleteElement()
         {
             return true;
         }
 
-        public override bool CanDeleteElement()
+        public override bool CanEditElement()
         {
-            return true;
+            throw new NotImplementedException();
         }
 
         public override bool CanGoBack()
@@ -60,6 +60,11 @@ namespace ModBox.FamFactory.Revit.Manager
         public override bool CanSaveElement()
         {
             return true;
+        }
+
+        public override void EditElement(Parameter element)
+        {
+            throw new NotImplementedException();
         }
 
         public override object NewElement(object parent)

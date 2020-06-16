@@ -379,7 +379,7 @@ namespace ModBox.FamFactory.Revit.Manager
                         familyGeometry.MaterialId = 0;
                         familyGeometry.CreatedById = user.Id;
                         familyGeometry.CreatedBy = user;
-                        familyGeometry.ModifieddBy = user;
+                        familyGeometry.ModifiedBy = user;
                         familyGeometry.ModifiedById = user.Id;
                         familyGeometry.EndEdit();
                     }
@@ -411,7 +411,7 @@ namespace ModBox.FamFactory.Revit.Manager
                         familyGeometry.MaterialId = 0;
                         familyGeometry.CreatedById = user.Id;
                         familyGeometry.CreatedBy = user;
-                        familyGeometry.ModifieddBy = user;
+                        familyGeometry.ModifiedBy = user;
                         familyGeometry.ModifiedById = user.Id;
                         familyGeometry.EndEdit();
                     }
@@ -442,7 +442,7 @@ namespace ModBox.FamFactory.Revit.Manager
                         familyGeometry.MaterialId = 0;
                         familyGeometry.CreatedById = user.Id;
                         familyGeometry.CreatedBy = user;
-                        familyGeometry.ModifieddBy = user;
+                        familyGeometry.ModifiedBy = user;
                         familyGeometry.ModifiedById = user.Id;
                         familyGeometry.EndEdit();
                     }
@@ -473,7 +473,7 @@ namespace ModBox.FamFactory.Revit.Manager
                         familyGeometry.MaterialId = 0;
                         familyGeometry.CreatedById = user.Id;
                         familyGeometry.CreatedBy = user;
-                        familyGeometry.ModifieddBy = user;
+                        familyGeometry.ModifiedBy = user;
                         familyGeometry.ModifiedById = user.Id;
                         familyGeometry.EndEdit();
                     }
@@ -504,7 +504,7 @@ namespace ModBox.FamFactory.Revit.Manager
                         familyGeometry.MaterialId = 0;
                         familyGeometry.CreatedById = user.Id;
                         familyGeometry.CreatedBy = user;
-                        familyGeometry.ModifieddBy = user;
+                        familyGeometry.ModifiedBy = user;
                         familyGeometry.ModifiedById = user.Id;
                         familyGeometry.EndEdit();
                     }
@@ -652,7 +652,7 @@ namespace ModBox.FamFactory.Revit.Manager
                         familyGeometry.MaterialId = 0;
                         familyGeometry.CreatedById = user.Id;
                         familyGeometry.CreatedBy = user;
-                        familyGeometry.ModifieddBy = user;
+                        familyGeometry.ModifiedBy = user;
                         familyGeometry.ModifiedById = user.Id;
                         familyGeometry.EndEdit();
                     }
@@ -684,7 +684,7 @@ namespace ModBox.FamFactory.Revit.Manager
                         familyGeometry.MaterialId = 0;
                         familyGeometry.CreatedById = user.Id;
                         familyGeometry.CreatedBy = user;
-                        familyGeometry.ModifieddBy = user;
+                        familyGeometry.ModifiedBy = user;
                         familyGeometry.ModifiedById = user.Id;
                         familyGeometry.EndEdit();
                     }
@@ -715,7 +715,7 @@ namespace ModBox.FamFactory.Revit.Manager
                         familyGeometry.MaterialId = 0;
                         familyGeometry.CreatedById = user.Id;
                         familyGeometry.CreatedBy = user;
-                        familyGeometry.ModifieddBy = user;
+                        familyGeometry.ModifiedBy = user;
                         familyGeometry.ModifiedById = user.Id;
                         familyGeometry.EndEdit();
                     }
@@ -746,7 +746,7 @@ namespace ModBox.FamFactory.Revit.Manager
                         familyGeometry.MaterialId = 0;
                         familyGeometry.CreatedById = user.Id;
                         familyGeometry.CreatedBy = user;
-                        familyGeometry.ModifieddBy = user;
+                        familyGeometry.ModifiedBy = user;
                         familyGeometry.ModifiedById = user.Id;
                         familyGeometry.EndEdit();
                     }
@@ -777,7 +777,7 @@ namespace ModBox.FamFactory.Revit.Manager
                         familyGeometry.MaterialId = 0;
                         familyGeometry.CreatedById = user.Id;
                         familyGeometry.CreatedBy = user;
-                        familyGeometry.ModifieddBy = user;
+                        familyGeometry.ModifiedBy = user;
                         familyGeometry.ModifiedById = user.Id;
                         familyGeometry.EndEdit();
                     }
@@ -787,6 +787,15 @@ namespace ModBox.FamFactory.Revit.Manager
             {
 
             }
+        }
+
+        public static bool EditElement(string title, System.Windows.Controls.Page page, object context)
+        {
+            EditorWindow window = new EditorWindow(title, page, context);
+            if (window.ShowDialog() == true)
+                return true;
+            else
+                return false;
         }
     }
 }

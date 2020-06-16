@@ -36,11 +36,6 @@ namespace ModBox.FamFactory.Revit.Manager
             throw new NotImplementedException();
         }
 
-        public override bool CanCreateNewElement()
-        {
-            throw new NotImplementedException();
-        }
-
         public override bool CanDeleteElement()
         {
             throw new NotImplementedException();
@@ -97,6 +92,16 @@ namespace ModBox.FamFactory.Revit.Manager
         }
 
         public override void SetActiveUser(User user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void EditElement(ReferencePlane element)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool CanEditElement()
         {
             throw new NotImplementedException();
         }

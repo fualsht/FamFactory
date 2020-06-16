@@ -32,11 +32,6 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public override bool CanAddElement()
         {
-            return true;
-        }
-
-        public override bool CanCreateNewElement()
-        {
             bool canStageUser = true;
 
             if (SelectedElement != null)
@@ -152,6 +147,16 @@ namespace ModBox.FamFactory.Revit.Manager
         }
 
         public override void RefreshCollection(string sortColumn, string filter)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void EditElement(User element)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool CanEditElement()
         {
             throw new NotImplementedException();
         }

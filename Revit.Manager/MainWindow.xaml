@@ -14,7 +14,7 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Frame VerticalAlignment="Top" HorizontalAlignment="Center" Grid.ColumnSpan="2" NavigationUIVisibility="Hidden" Content="{Binding SelectedElement}" />
+        <Frame Grid.ColumnSpan="2" NavigationUIVisibility="Hidden" Content="{Binding SelectedElement}" />
         <Button Grid.Row="1" />
         <Button Grid.Row="1" Grid.Column="1" Command="{Binding NextElementCommand, Mode=OneWay}" >
         </Button>

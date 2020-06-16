@@ -32,12 +32,12 @@ namespace ModBox.FamFactory.Revit.Manager
             throw new NotImplementedException();
         }
 
-        public override bool CanCreateNewElement()
+        public override bool CanDeleteElement()
         {
             throw new NotImplementedException();
         }
 
-        public override bool CanDeleteElement()
+        public override bool CanEditElement()
         {
             throw new NotImplementedException();
         }
@@ -53,6 +53,11 @@ namespace ModBox.FamFactory.Revit.Manager
         }
 
         public override bool CanSaveElement()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void EditElement(FamilyComponentType element)
         {
             throw new NotImplementedException();
         }

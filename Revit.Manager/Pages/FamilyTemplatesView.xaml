@@ -366,9 +366,9 @@
                             </Grid.RowDefinitions>
                             <Border Style="{DynamicResource SectionBorder}" >
                                 <StackPanel Orientation="Horizontal">
-                                    <Button Style="{DynamicResource DefaultButton}" Content="Add" Width="60" Command="{Binding FamilyTemplateComponents.AddElementCommand, Mode=OneWay}" CommandParameter="{Binding Mode=OneWay}"/>
-                                    <Button Style="{DynamicResource DefaultButton}" Content="Save" Width="60" Command="{Binding FamilyTemplateComponents.SaveElementCommand, Mode=OneWay}"/>
+                                    <Button Style="{DynamicResource DefaultButton}" Content="New" Width="60" Command="{Binding FamilyTemplateComponents.AddElementCommand, Mode=OneWay}" CommandParameter="{Binding Mode=OneWay}"/>
                                     <Button Style="{DynamicResource DefaultButton}" Content="Delete" Width="60" Command="{Binding FamilyTemplateComponents.DeleteElementCommand, Mode=OneWay}"/>
+                                    <Button Style="{DynamicResource DefaultButton}" Content="Edit" Width="60" Command="{Binding FamilyTemplateComponents.EditElementCommand, Mode=OneWay}"/>
                                 </StackPanel>
                             </Border>
                             <ListView Grid.Row="1" SelectedItem="{Binding SelectedElement}" DataContext="{Binding FamilyTemplateComponents}" ItemsSource="{Binding InternalCollection}">
@@ -377,42 +377,42 @@
                                         <GridViewColumn Header="Name" Width="90">
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <TextBox Text="{Binding Name}"/>
+                                                    <TextBlock Text="{Binding Name}"/>
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>
                                         </GridViewColumn>
                                         <GridViewColumn Header="Description" Width="300">
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <TextBox Text="{Binding Description}"/>
+                                                    <TextBlock Text="{Binding Description}"/>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="Is Profile" Width="50">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding XReferencePlane.Name}" />
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>
                                         </GridViewColumn>
                                         <GridViewColumn Header="XRefferencePlaneId" Width="120">
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <ComboBox ItemsSource="{Binding ParentReferencePlanes}" DisplayMemberPath="Name" SelectedItem="{Binding XReferencePlane, Mode=TwoWay}" />
+                                                    <TextBlock Text="{Binding XReferencePlane.Name}" />
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>
                                         </GridViewColumn>
                                         <GridViewColumn Header="YRefferencePlaneId" Width="120">
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <ComboBox ItemsSource="{Binding ParentReferencePlanes}" DisplayMemberPath="Name" SelectedItem="{Binding YReferencePlane, Mode=TwoWay}" />
+                                                    <TextBlock Text="{Binding YReferencePlane.Name}" />
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>
                                         </GridViewColumn>
                                         <GridViewColumn Header="ZRefferencePlaneId" Width="120">
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <ComboBox ItemsSource="{Binding ParentReferencePlanes}" DisplayMemberPath="Name" SelectedItem="{Binding ZReferencePlane, Mode=TwoWay}" />
-                                                </DataTemplate>
-                                            </GridViewColumn.CellTemplate>
-                                        </GridViewColumn>
-                                        <GridViewColumn Width="40">
-                                            <GridViewColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <Button Content="Edit"/>
+                                                    <TextBlock Text="{Binding ZReferencePlane.Name}" />
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>
                                         </GridViewColumn>

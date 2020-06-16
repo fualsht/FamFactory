@@ -53,7 +53,7 @@ namespace ModBox.FamFactory
         FamilyTemplateGeometries_CreatedById__Users_Id,
         FamilyTemplateGeometries_ModifiedById__Users_Id,
 
-        FamilyComponents_FamilyComponentTypeId__FamilyComponents_Id,
+        FamilyComponents_FamilyComponentTypeId__FamilyComponentTypes_Id,
         FamilyComponents_CreatedById__Users_Id,
         FamilyComponents_ModifiedById__Users_Id,
 
@@ -75,6 +75,8 @@ namespace ModBox.FamFactory
         FamilyTemplateComponents_XReferencePlaneId__FamilyTemplateReferencePlanes_Id,
         FamilyTemplateComponents_YReferencePlaneId__FamilyTemplateReferencePlanes_Id,
         FamilyTemplateComponents_ZReferencePlaneId__FamilyTemplateReferencePlanes_Id,
+        FamilyTemplateComponents_ProfileGeometryId__FamilyTemplateGeometries_Id,
+        FamilyTemplateComponents_FamilyComponentTypeId__FamilyComponentTypes_Id,
 
         FamilyBuilds_FamilyTemplateId__FamilyTemplates_Id,
         FamilyBuilds_CreatedById__Users_Id,
@@ -93,6 +95,19 @@ namespace ModBox.FamFactory
         FamilyBuildComponentPositions_ComponentReferencePlaneYId__FamilyComponents_Id,
         FamilyBuildComponentPositions_ComponentReferencePlaneZId__FamilyComponents_Id,
         FamilyBuildComponentPositions_CreatedById__Users_Id,
-        FamilyBuildComponentPositions_ModifiedById__Users_Id
+        FamilyBuildComponentPositions_ModifiedById__Users_Id,
+
+        FamilyComponents_FamilyComponentCategories_FamilyComponentCategoryId__FamilyComponentCateroies_Id,
+        FamilyComponents_FamilyComponentCategories_FamilyComponentId__FamilyComponents_Id,
+
+        FamilyComponents_FamilyComponentSerchTerms_FamilyComponentId__FamilyComponents_Id,
+        FamilyComponents_FamilyComponentSerchTerms_FamilyComponentSearchTermId__FamilyComoponentSearchTerms_Id,
+
+        FamilyComponentSearchTerms_CreatedById__Users_Id,
+        FamilyComponentSearchTerms_ModifiedById__Users_Id,
+
+        FamilyComponentTypes_CreatedById__Users_Id,
+        FamilyComponentTypes_ModifiedById__Users_Id,
+
     }
 }

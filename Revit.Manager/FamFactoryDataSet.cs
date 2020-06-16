@@ -398,7 +398,7 @@ namespace ModBox.FamFactory.Revit.Manager
 
                 dataSet.Tables.Add(FamilyComponentsTable);
 
-                DataRelation FamilyComponentTypeDataRelation = new DataRelation(TableRelations.FamilyComponents_FamilyComponentTypeId__FamilyComponents_Id.ToString(),
+                DataRelation FamilyComponentTypeDataRelation = new DataRelation(TableRelations.FamilyComponents_FamilyComponentTypeId__FamilyComponentTypes_Id.ToString(),
                     dataSet.Tables[TableNames.FF_FamilyComponentTypes.ToString()].Columns[FamilyComponentType.FamilyComponentTypesTableColumnNames.Id.ToString()],
                     dataSet.Tables[TableNames.FF_FamilyComponents.ToString()].Columns[FamilyComponent.FamilyComponentsTableColumnNames.FamilyComponentTypeId.ToString()]);
                 dataSet.Relations.Add(FamilyComponentTypeDataRelation);
@@ -1328,6 +1328,31 @@ namespace ModBox.FamFactory.Revit.Manager
             DataColumn ModifiedByIdColumn = FamilyTemplateComponentsTable.Columns.Add(FamilyTemplateComponent.TemplateComponentColumnNames.ModifiedById.ToString(), typeof(string));
             ModifiedByIdColumn.AllowDBNull = false;
 
+            DataColumn IsProfileColumn = FamilyTemplateComponentsTable.Columns.Add(FamilyTemplateComponent.TemplateComponentColumnNames.IsProfile.ToString(), typeof(bool));
+            IsProfileColumn.AllowDBNull = false;
+            IsProfileColumn.DefaultValue = false;
+
+            DataColumn ProfileGeometryIdColumn = FamilyTemplateComponentsTable.Columns.Add(FamilyTemplateComponent.TemplateComponentColumnNames.ProfileGeometryId.ToString(), typeof(string));
+            ProfileGeometryIdColumn.AllowDBNull = true;
+
+            DataColumn ProfileTypeNameIdColumn = FamilyTemplateComponentsTable.Columns.Add(FamilyTemplateComponent.TemplateComponentColumnNames.ProfileTypeNameId.ToString(), typeof(string));
+            ProfileTypeNameIdColumn.AllowDBNull = true;
+
+            DataColumn ProfileHorizontalOffsetColumn = FamilyTemplateComponentsTable.Columns.Add(FamilyTemplateComponent.TemplateComponentColumnNames.ProfileHorizontalOffset.ToString(), typeof(decimal));
+            ProfileHorizontalOffsetColumn.AllowDBNull = true;
+
+            DataColumn ProfileVerticalOffsetColumn = FamilyTemplateComponentsTable.Columns.Add(FamilyTemplateComponent.TemplateComponentColumnNames.ProfileVerticalOffset.ToString(), typeof(decimal));
+            ProfileVerticalOffsetColumn.AllowDBNull = true;
+
+            DataColumn ProfileAngleColumn = FamilyTemplateComponentsTable.Columns.Add(FamilyTemplateComponent.TemplateComponentColumnNames.ProfileAngle.ToString(), typeof(decimal));
+            ProfileAngleColumn.AllowDBNull = true;
+
+            DataColumn ProfileIsFlippedColumn = FamilyTemplateComponentsTable.Columns.Add(FamilyTemplateComponent.TemplateComponentColumnNames.ProfileIsFlipped.ToString(), typeof(bool));
+            ProfileIsFlippedColumn.AllowDBNull = true;
+
+            DataColumn FamilyComponentTypeIdColumn = FamilyTemplateComponentsTable.Columns.Add(FamilyTemplateComponent.TemplateComponentColumnNames.FamilyComponentTypeId.ToString(), typeof(string));
+            FamilyComponentTypeIdColumn.AllowDBNull = false;
+
             FamilyTemplateComponentsTable.PrimaryKey = new DataColumn[] { IdColumn };
             dataSet.Tables.Add(FamilyTemplateComponentsTable);
 
@@ -1360,6 +1385,16 @@ namespace ModBox.FamFactory.Revit.Manager
                 dataSet.Tables[TableNames.FF_Users.ToString()].Columns["Id"],
                 dataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].Columns[FamilyTemplateComponent.TemplateComponentColumnNames.ModifiedById.ToString()]);
             dataSet.Relations.Add(ModifiedByDataRelation);
+
+            DataRelation ProfileGeometryRelation = new DataRelation(TableRelations.FamilyTemplateComponents_ProfileGeometryId__FamilyTemplateGeometries_Id.ToString(),
+                dataSet.Tables[TableNames.FF_FamilyTemplateGeometries.ToString()].Columns["Id"],
+                dataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].Columns[FamilyTemplateComponent.TemplateComponentColumnNames.ProfileGeometryId.ToString()]);
+            dataSet.Relations.Add(ProfileGeometryRelation);
+
+            DataRelation ComponentTypeRelation = new DataRelation(TableRelations.FamilyTemplateComponents_FamilyComponentTypeId__FamilyComponentTypes_Id.ToString(),
+                dataSet.Tables[TableNames.FF_FamilyComponentTypes.ToString()].Columns["Id"],
+                dataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].Columns[FamilyTemplateComponent.TemplateComponentColumnNames.FamilyComponentTypeId.ToString()]);
+            dataSet.Relations.Add(ComponentTypeRelation);
         }
 
         private static void InitilizeFamilyBuildsTable(DataSet dataSet)
@@ -1688,6 +1723,19 @@ namespace ModBox.FamFactory.Revit.Manager
             EmailProfileDatarow[EmailProfile.EmailProfileColumnNames.CreatedById.ToString()] = dataSet.Tables[TableNames.FF_Users.ToString()].Rows[0][User.UsersTableColumnNames.Id.ToString()];
             EmailProfileDatarow[EmailProfile.EmailProfileColumnNames.ModifiedById.ToString()] = dataSet.Tables[TableNames.FF_Users.ToString()].Rows[0][User.UsersTableColumnNames.Id.ToString()];
             EmailprofilesTable.Rows.Add(EmailProfileDatarow);
+
+            //FamilyComponentTypes
+            // Door Handels
+            DataTable FamilyComponentTypesTable = dataSet.Tables[TableNames.FF_FamilyComponentTypes.ToString()];
+            DataRow FamilyComponentTypeDatarow = EmailprofilesTable.NewRow();
+            FamilyComponentTypeDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Id.ToString()] = Guid.NewGuid();
+            FamilyComponentTypeDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Name.ToString()] = "Door Handles";
+            FamilyComponentTypeDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Description.ToString()] = "Describes a 'Door Handle' component types";
+            FamilyComponentTypeDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.DateCreated.ToString()] = DateTime.Now;
+            FamilyComponentTypeDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.DateModified.ToString()] = DateTime.Now;
+            FamilyComponentTypeDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.CreatedById.ToString()] = dataSet.Tables[TableNames.FF_Users.ToString()].Rows[0][User.UsersTableColumnNames.Id.ToString()];
+            FamilyComponentTypeDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.ModifiedById.ToString()] = dataSet.Tables[TableNames.FF_Users.ToString()].Rows[0][User.UsersTableColumnNames.Id.ToString()];
+            FamilyComponentTypesTable.Rows.Add(FamilyComponentTypeDatarow);
 
             using (System.Data.SQLite.SQLiteConnection connect = new System.Data.SQLite.SQLiteConnection(connection))
             {

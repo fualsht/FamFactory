@@ -14,6 +14,7 @@ namespace ModBox.FamFactory.Revit.Manager
         ICommand PreviousElementCommand { get; }
         ICommand AddElementCommand { get; }
         ICommand DeleteElementCommand { get; }
+        ICommand EditElementCommand { get; }
         ICommand SaveElementCommand { get; }
         ICommand CancelElementChangesCommand { get; }
         void NextElement();
@@ -26,8 +27,9 @@ namespace ModBox.FamFactory.Revit.Manager
         void CancelElementChanges();
         void DeleteElement(T element);
         void SaveElement(T element);
+        void EditElement(T element);
+        bool CanEditElement();
         bool CanCancelElementChanges();
-        bool CanCreateNewElement();
         bool CanDeleteElement();
         bool CanSaveElement();
         bool CanGoToNext();

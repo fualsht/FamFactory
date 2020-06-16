@@ -12,7 +12,7 @@ namespace ModBox.FamFactory.Revit.Manager
     public class FamilyTemplateComponent : ModelBase<FamilyTemplateComponent>
     {
         public enum TemplateComponentColumnNames { Id, Name, Description, IsProfile, FamilyId, XReferencePlaneId, YReferencePlaneId , ZReferencePlaneId, DateCreated, DateModified, CreatedById, ModifiedById, ProfileGeometryId, 
-                                                    ProfileTypeNameId, ProfileVerticalOffset, ProfileHorizontalOffset, ProfileAngle, ProfileIsFlipped }
+                                                    ProfileTypeNameId, ProfileVerticalOffset, ProfileHorizontalOffset, ProfileAngle, ProfileIsFlipped, FamilyComponentTypeId }
         public string Id { get { return internalDataRowView[TemplateComponentColumnNames.Id.ToString()].ToString(); } set { internalDataRowView[TemplateComponentColumnNames.Id.ToString()] = value; NotifyPropertyChanged(); } }
 
         public string Name
@@ -143,6 +143,14 @@ namespace ModBox.FamFactory.Revit.Manager
             get { return internalDataRowView[TemplateComponentColumnNames.ProfileGeometryId.ToString()].ToString(); }
             set { internalDataRowView.BeginEdit(); internalDataRowView[TemplateComponentColumnNames.ProfileGeometryId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
+        private FamilyGeometry _ProfileGeometry;
+
+        public FamilyGeometry ProfileGeometry
+        {
+            get { return _ProfileGeometry; }
+            set { _ProfileGeometry = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+        }
+
 
         public string ProfileTypeNameId
         {
@@ -174,13 +182,49 @@ namespace ModBox.FamFactory.Revit.Manager
             set { internalDataRowView.BeginEdit(); internalDataRowView[TemplateComponentColumnNames.ProfileIsFlipped.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
 
+        public string FamilyComponentTypeId
+        {
+            get
+            {
+                return internalDataRowView[TemplateComponentColumnNames.FamilyComponentTypeId.ToString()].ToString();
+            }
+            set
+            {
+                internalDataRowView.BeginEdit();
+                internalDataRowView[TemplateComponentColumnNames.FamilyComponentTypeId.ToString()] = value;
+                NotifyPropertyChanged();
+                _ValuesChanged = true;
+                NotifyPropertyChanged("ValuesChanged");
+            }
+        }
+
+        private FamilyComponentType _FamilyComponentType;
+
+        public FamilyComponentType FamilyComponentType
+        {
+            get
+            {
+                return _FamilyComponentType;
+            }
+            set
+            {
+                internalDataRowView.BeginEdit();
+                _FamilyComponentType = value;
+                NotifyPropertyChanged();
+                _ValuesChanged = true;
+                NotifyPropertyChanged("ValuesChanged");
+            }
+        }
+
         public ObservableCollection<ReferencePlane> ParentReferencePlanes { get; set; }
         public ObservableCollection<FamilyGeometry> ParentGeometries { get; set; }
+        public ObservableCollection<FamilyComponentType> FamilyComponentTypes { get; set; }
 
         public FamilyTemplateComponent(DataRowView rowView, SQLiteConnection connection) : base(rowView, connection)
         {
             ParentReferencePlanes = new ObservableCollection<ReferencePlane>();
             ParentGeometries = new ObservableCollection<FamilyGeometry>();
+            FamilyComponentTypes = new ObservableCollection<FamilyComponentType>();
             RefreshCollections();
         }
 
@@ -196,7 +240,11 @@ namespace ModBox.FamFactory.Revit.Manager
                 ParentReferencePlanes.Add(new ReferencePlane(referencePlane, this.internalSQLConenction));
             }
 
-            DataView geometries = internalDataRowView.DataView.Table.DataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()].DefaultView;
+            XReferencePlane = ParentReferencePlanes.FirstOrDefault(x => x.Id == XReferencePlaneId);
+            YReferencePlane = ParentReferencePlanes.FirstOrDefault(x => x.Id == YReferencePlaneId);
+            ZReferencePlane = ParentReferencePlanes.FirstOrDefault(x => x.Id == ZReferencePlaneId);
+
+            DataView geometries = internalDataRowView.DataView.Table.DataSet.Tables[TableNames.FF_FamilyTemplateGeometries.ToString()].DefaultView;
             geometries.RowFilter = string.Empty;
             geometries.Sort = "Id";
             geometries.RowFilter = $"FamilyId = '{FamilyId}'";
@@ -205,6 +253,18 @@ namespace ModBox.FamFactory.Revit.Manager
             {
                 ParentGeometries.Add(new FamilyGeometry(item, this.internalSQLConenction));
             }
+
+            ProfileGeometry = ParentGeometries.FirstOrDefault(x => x.Id == ProfileGeometryId);
+
+            DataView componentTypes = internalDataRowView.DataView.Table.DataSet.Tables[TableNames.FF_FamilyComponentTypes.ToString()].DefaultView;
+            componentTypes.RowFilter = string.Empty;
+            FamilyComponentTypes.Clear();
+            foreach (DataRowView item in componentTypes)
+            {
+                FamilyComponentTypes.Add(new FamilyComponentType(item, this.internalSQLConenction));
+            }
+
+            FamilyComponentType = FamilyComponentTypes.FirstOrDefault(x => x.Id == ProfileGeometryId);
         }
 
         internal static FamilyTemplateComponent NewTemplateComponent(SQLiteConnection connection, DataView dataVew, User user, FamilyTemplate parent)
@@ -231,7 +291,7 @@ namespace ModBox.FamFactory.Revit.Manager
             component.ProfileTypeNameId = "Type1";
             component.ProfileVerticalOffset = 0;
             component.ProfileHorizontalOffset = 0;
-            component.ProfileVerticalOffset = 0;
+            component.ProfileAngle = 0;
             component.ProfileIsFlipped = false;
             return component;
         }

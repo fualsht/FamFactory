@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ModBox.FamFactory.Revit.Manager.Pages"
+      xmlns:extd="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
       mc:Ignorable="d" 
       d:DesignHeight="500" d:DesignWidth="800"
       Title="TemplateComponentEditorView">
@@ -13,43 +14,61 @@
                 <ResourceDictionary Source="/FamFactoryManager;component/AppResources/DataRosourses.xaml"/>
                 <ResourceDictionary Source="/FamFactoryManager;component/AppResources/MergedDictionaries.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <DataTemplate x:Key="ReferencePlaneComboBoxItem">
+                <Grid x:Name="itemrow">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="{Binding Height, ElementName=itemrow}"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Image Height="16" Source="/FamFactoryManager;component/Resources/key.png"/>
+                    <TextBlock Margin="4,0" Padding="4" VerticalAlignment="Center" Grid.Column="1" Text="{Binding Name}" Foreground="{DynamicResource ThemeComboBoxTextForegroundBrush}"/>
+                </Grid>
+            </DataTemplate>
+            <DataTemplate x:Key="GeometriesComboBoxItem">
+                <Grid x:Name="itemrow">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="{Binding Height, ElementName=itemrow}"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Image Height="16" Source="/FamFactoryManager;component/Resources/key.png"/>
+                    <TextBlock Margin="4,0" Padding="4" VerticalAlignment="Center" Grid.Column="1" Text="{Binding Name}" Foreground="{DynamicResource ThemeComboBoxTextForegroundBrush}"/>
+                </Grid>
+            </DataTemplate>
         </ResourceDictionary>
+        
     </Page.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+    <Grid d:DataContext="{Binding famFactoryViewModel.FamilyTemplatesViewModel.SelectedElement.FamilyTemplateComponents.SelectedElement, Source={StaticResource FFVM}}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="5*"/>
         </Grid.ColumnDefinitions>
-        <GroupBox Grid.Row="1" Style="{DynamicResource DefaultGroupBoxStyle}" Header="Family Template Component">
+        <GroupBox Style="{DynamicResource DefaultGroupBoxStyle}" Header="Family Template Component">
             <StackPanel>
-                <TextBox Style="{DynamicResource TitleCationTextBoxStyle}" Tag="Name"/>
-                <TextBox Style="{DynamicResource TitleCationTextBoxStyle}" Tag="Description"/>
-                <CheckBox Content="Profile" FlowDirection="RightToLeft" HorizontalAlignment="Right" Margin="4"/>
+                <TextBox Style="{DynamicResource TitleCationTextBoxStyle}" Tag="Name" Text="{Binding Name}"/>
+                <Label Content="Description" Margin="8, 4" Foreground="{DynamicResource ThemeTextBoxForgroundBrush}"/>
+                <extd:RichTextBox x:Name="rtb" Text="{Binding Description}" Height="139" Margin="4" BorderBrush="#FFD6D7D8" />
+                <CheckBox Content="Profile" FlowDirection="RightToLeft" HorizontalAlignment="Right" Margin="4" IsChecked="{Binding IsProfile}"/>
             </StackPanel>
         </GroupBox>
 
-        <StackPanel Grid.Row="1" Grid.Column="1">
-            <GroupBox Style="{DynamicResource DefaultGroupBoxStyle}" Header="Refence Constraints">
+        <StackPanel Grid.Column="1">
+            <GroupBox Style="{DynamicResource DefaultGroupBoxStyle}" Header="Refence Constraints" IsEnabled="{Binding IsProfile, Converter={StaticResource BoolInvererConverter}}">
                 <StackPanel>
-                    <ComboBox Style="{DynamicResource TitleComboBoxControlStyle}" Tag="X Constraint Plane"/>
-                    <ComboBox Style="{DynamicResource TitleComboBoxControlStyle}" Tag="Y Constraint Plane"/>
-                    <ComboBox Style="{DynamicResource TitleComboBoxControlStyle}" Tag="Z Constraint Plane"/>
+                    <ComboBox Style="{DynamicResource TitleComboBoxControlStyle}" Tag="X Constraint Plane" ItemsSource="{Binding ParentReferencePlanes}" SelectedItem="{Binding XReferencePlane, Mode=TwoWay}" ItemTemplate="{DynamicResource ReferencePlaneComboBoxItem}" />
+                    <ComboBox Style="{DynamicResource TitleComboBoxControlStyle}" Tag="Y Constraint Plane" ItemsSource="{Binding ParentReferencePlanes}" SelectedItem="{Binding YReferencePlane, Mode=TwoWay}" ItemTemplate="{DynamicResource ReferencePlaneComboBoxItem}" />
+                    <ComboBox Style="{DynamicResource TitleComboBoxControlStyle}" Tag="Z Constraint Plane" ItemsSource="{Binding ParentReferencePlanes}" SelectedItem="{Binding ZReferencePlane, Mode=TwoWay}" ItemTemplate="{DynamicResource ReferencePlaneComboBoxItem}" />
                 </StackPanel>
             </GroupBox>
 
-            <GroupBox Grid.Row="1" Grid.Column="1" Style="{DynamicResource DefaultGroupBoxStyle}" Header="Profile Constraints">
+            <GroupBox Grid.Row="1" Grid.Column="1" Style="{DynamicResource DefaultGroupBoxStyle}" Header="Profile Constraints" IsEnabled="{Binding IsProfile}">
                 <StackPanel>
-                    <ComboBox Style="{DynamicResource TitleComboBoxControlStyle}" Tag="Geometry"/>
-                    <TextBox Style="{DynamicResource TitleCationTextBoxStyle}" Tag="Type Name Key" ToolTip="The 'Family Type' name that will be used as the profile type in the family template."/>
+                    <ComboBox Style="{DynamicResource TitleComboBoxControlStyle}" Tag="Geometry" ItemsSource="{Binding ParentGeometries}" SelectedItem="{Binding ProfileGeometry}" ItemTemplate="{DynamicResource GeometriesComboBoxItem}"/>
+                    <TextBox Style="{DynamicResource TitleCationTextBoxStyle}" Tag="Type Name Key" ToolTip="The 'Family Type' name that will be used as the profile type in the family template." Text="{Binding ProfileTypeNameId}"/>
 
-                    <TextBox Style="{DynamicResource TitleCationTextBoxStyle}" Tag="Vertical Offset"/>
-                    <TextBox Style="{DynamicResource TitleCationTextBoxStyle}" Tag="Horizontal Offset"/>
-                    <TextBox Style="{DynamicResource TitleCationTextBoxStyle}" Tag="Angle"/>
-                    <CheckBox Margin="4" Content="Flipped" FlowDirection="RightToLeft" HorizontalAlignment="Right"/>
+                    <TextBox Style="{DynamicResource TitleCationTextBoxStyle}" Tag="Vertical Offset" Text="{Binding ProfileVerticalOffset}"/>
+                    <TextBox Style="{DynamicResource TitleCationTextBoxStyle}" Tag="Horizontal Offset" Text="{Binding ProfileHorizontalOffset}"/>
+                    <TextBox Style="{DynamicResource TitleCationTextBoxStyle}" Tag="Angle" Text="{Binding ProfileAngle}"/>
+                    <CheckBox Margin="4" Content="Flipped" FlowDirection="RightToLeft" HorizontalAlignment="Right" IsChecked="{Binding ProfileIsFlipped}"/>
                 </StackPanel>
             </GroupBox>
         </StackPanel>

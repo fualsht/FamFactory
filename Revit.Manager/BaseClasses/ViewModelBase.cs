@@ -72,7 +72,7 @@ namespace ModBox.FamFactory.Revit.Manager
         RelayCommand _AddElementCommand;
         public ICommand AddElementCommand
         {
-            get => _AddElementCommand ?? (_AddElementCommand = new RelayCommand(param => this.NewElement(param), param => this.CanCreateNewElement()));
+            get => _AddElementCommand ?? (_AddElementCommand = new RelayCommand(param => this.NewElement(param), param => this.CanAddElement()));
         }
 
         RelayCommand _DeleteElementCommand;
@@ -85,6 +85,12 @@ namespace ModBox.FamFactory.Revit.Manager
         public ICommand SaveElementCommand
         {
             get => _SaveElementCommand ?? (_SaveElementCommand = new RelayCommand(param => this.SaveElement(SelectedElement), param => this.CanSaveElement()));
+        }
+
+        RelayCommand _EditElementCommand;
+        public ICommand EditElementCommand
+        {
+            get => _EditElementCommand ?? (_EditElementCommand = new RelayCommand(param => this.EditElement(SelectedElement), param => this.CanEditElement()));
         }
 
         RelayCommand _CancelElementChangesCommand;
@@ -185,15 +191,17 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public abstract object NewElement(object parent);
 
+        public abstract void EditElement(T element);
+
         public abstract void SaveElement(T element);
 
         public abstract void CancelElementChanges();
 
         public abstract bool CanCancelElementChanges();
 
-        public abstract bool CanAddElement();
+        public abstract bool CanEditElement();
 
-        public abstract bool CanCreateNewElement();
+        public abstract bool CanAddElement();
 
         public abstract bool CanDeleteElement();
 
