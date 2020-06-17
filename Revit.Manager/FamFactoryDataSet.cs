@@ -30,6 +30,10 @@ namespace ModBox.FamFactory.Revit.Manager
             InitilizeFamilyBuildsTable(dataSet);
             InitilizeFamilyBuildComponentsTable(dataSet);
             InitilizeFamilyBuildComponentPositionsTable(dataSet);
+            InitilizeFamilyComponentCategoriesTable(dataSet);
+            InitilizeFamilyComponentSearchTermsTable(dataSet);
+            InitilizeFamilyComponents_FamilyComponentCategoriesTable(dataSet);
+            InitilizeFamilyComponents_FamilyComponentSerchTermsTable(dataSet);
         }
 
         private static void InitilizePermissions(DataSet dataSet)
@@ -1629,6 +1633,63 @@ namespace ModBox.FamFactory.Revit.Manager
                 dataSet.Tables[TableNames.FF_Users.ToString()].Columns["Id"],
                 dataSet.Tables[TableNames.FF_FamilyBuildComponentPositions.ToString()].Columns[FamilyBuildComponentPosition.FamilyBuildComponentPostionColumnNames.ModifiedById.ToString()]);
             dataSet.Relations.Add(ModifiedByDataRelation);
+        }
+
+        private static void InitilizeFamilyComponentCategoriesTable(DataSet dataSet)
+        {
+            DataTable FamilyComponentCategoriesTable = new DataTable(TableNames.FF_FamilyComponentCategories.ToString());
+
+            DataColumn IdColumn = FamilyComponentCategoriesTable.Columns.Add(FamilyComponentCategory.FamilyComponentCategoryColumnNames.Id.ToString(), typeof(string));
+            IdColumn.AllowDBNull = false;
+            IdColumn.Unique = true;
+
+            DataColumn nameColumn = FamilyComponentCategoriesTable.Columns.Add(FamilyComponentCategory.FamilyComponentCategoryColumnNames.Name.ToString(), typeof(string));
+            nameColumn.AllowDBNull = false;
+            nameColumn.Unique = false;
+
+            DataColumn DescriptionColumn = FamilyComponentCategoriesTable.Columns.Add(FamilyComponentCategory.FamilyComponentCategoryColumnNames.Description.ToString(), typeof(string));
+            DescriptionColumn.AllowDBNull = true;
+
+            DataColumn ThumbnailColumn = FamilyComponentCategoriesTable.Columns.Add(FamilyComponentCategory.FamilyComponentCategoryColumnNames.Thumbnail.ToString(), typeof(byte[]));
+            ThumbnailColumn.AllowDBNull = true;
+
+            DataColumn DateCreatedColumn = FamilyComponentCategoriesTable.Columns.Add(FamilyComponentCategory.FamilyComponentCategoryColumnNames.DateCreated.ToString(), typeof(DateTime));
+            DateCreatedColumn.AllowDBNull = false;
+
+            DataColumn DateModififedColumn = FamilyComponentCategoriesTable.Columns.Add(FamilyComponentCategory.FamilyComponentCategoryColumnNames.DateModified.ToString(), typeof(DateTime));
+            DateModififedColumn.AllowDBNull = false;
+
+            DataColumn CreatedByIdColumn = FamilyComponentCategoriesTable.Columns.Add(FamilyComponentCategory.FamilyComponentCategoryColumnNames.CreatedById.ToString(), typeof(string));
+            CreatedByIdColumn.AllowDBNull = false;
+
+            DataColumn ModifiedByIdColumn = FamilyComponentCategoriesTable.Columns.Add(FamilyComponentCategory.FamilyComponentCategoryColumnNames.ModifiedById.ToString(), typeof(string));
+            ModifiedByIdColumn.AllowDBNull = false;
+
+            DataColumn ParentIdColumn = FamilyComponentCategoriesTable.Columns.Add(FamilyComponentCategory.FamilyComponentCategoryColumnNames.ParentId.ToString(), typeof(string));
+            ParentIdColumn.AllowDBNull = true;
+
+            FamilyComponentCategoriesTable.PrimaryKey = new DataColumn[] { IdColumn };
+            dataSet.Tables.Add(FamilyComponentCategoriesTable);
+
+            DataRelation FamilyBuildDataRelation = new DataRelation(TableRelations.FamilyComponents_FamilyComponentCategories_FamilyComponentCategoryId__FamilyComponentCateroies_Id.ToString(),
+                dataSet.Tables[TableNames.FF_FamilyBuilds.ToString()].Columns["Id"],
+                dataSet.Tables[TableNames.FF_FamilyBuildComponents.ToString()].Columns[FamilyBuildComponent.FamilyBuildComponentsColumnNames.FamilyBuildId.ToString()]);
+            dataSet.Relations.Add(FamilyBuildDataRelation);
+        }
+
+        private static void InitilizeFamilyComponentSearchTermsTable(DataSet dataSet)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void InitilizeFamilyComponents_FamilyComponentCategoriesTable(DataSet dataSet)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void InitilizeFamilyComponents_FamilyComponentSerchTermsTable(DataSet dataSet)
+        {
+            throw new NotImplementedException();
         }
 
         public static void InstallRequierments(System.Data.SQLite.SQLiteConnection connection, DataSet dataSet)

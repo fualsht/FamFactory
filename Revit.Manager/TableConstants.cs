@@ -26,7 +26,11 @@ namespace ModBox.FamFactory
         FF_FamilyTemplateComponents,
         FF_FamilyBuilds,
         FF_FamilyBuildComponents,
-        FF_FamilyBuildComponentPositions
+        FF_FamilyBuildComponentPositions,
+        FF_FamilyComponents_FamilyComponentSerchTerms,
+        FF_FamilyComponents_FamilyComponentCategories,
+        FF_FamilyComponentSearchTerms,
+        FF_FamilyComponentCategories
     }
     public enum TableRelations
     {

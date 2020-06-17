@@ -188,6 +188,7 @@ CREATE TABLE FF_FamilyComponentCategories (
     DateModified DATETIME        NOT NULL,
     CreatedById  STRING (36, 36) NOT NULL,
     ModifiedById STRING (36, 36) NOT NULL,
+    ParentId     STRING (36, 36),
     CONSTRAINT FamilyComponentCategories_CreatedById__Users_Id FOREIGN KEY (
         CreatedById
     )

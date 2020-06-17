@@ -107,6 +107,10 @@
     <Compile Include="Models\FamilyBuild.cs" />
     <Compile Include="Models\FamilyBuildComponent.cs" />
     <Compile Include="Models\FamilyBuildComponentPosition.cs" />
+    <Compile Include="Models\FamilyComponentCategory.cs" />
+    <Compile Include="Models\FamilyComponentSearchTerm.cs" />
+    <Compile Include="Models\FamilyComponents_FamilyComponentCategory.cs" />
+    <Compile Include="Models\FamilyComponents_FamilyComponentSerchTerm.cs" />
     <Compile Include="Models\FamilyTemplateComponent.cs" />
     <Compile Include="Models\FamilyComponent.cs" />
     <Compile Include="Models\FamilyComponentType.cs" />
