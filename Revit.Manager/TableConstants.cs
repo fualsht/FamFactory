@@ -103,9 +103,11 @@ namespace ModBox.FamFactory
 
         FamilyComponents_FamilyComponentCategories_FamilyComponentCategoryId__FamilyComponentCateroies_Id,
         FamilyComponents_FamilyComponentCategories_FamilyComponentId__FamilyComponents_Id,
+        FamilyComponentCategories_CreatedById__Users_Id,
+        FamilyComponentCategories_ModifiedById__Users_Id,
 
         FamilyComponents_FamilyComponentSerchTerms_FamilyComponentId__FamilyComponents_Id,
-        FamilyComponents_FamilyComponentSerchTerms_FamilyComponentSearchTermId__FamilyComoponentSearchTerms_Id,
+        FamilyComponents_FamilyComponentSerchTerms_FamilyComponentSearchTermId__FamilyComponentSearchTerms_Id,
 
         FamilyComponentSearchTerms_CreatedById__Users_Id,
         FamilyComponentSearchTerms_ModifiedById__Users_Id,

@@ -283,11 +283,7 @@ namespace ModBox.FamFactory.Revit.Manager
 
             DataColumn modifiedByIdColumn = FamilyComponentTypes.Columns.Add(FamilyComponentType.FamilyComponentTypesTableColumnNames.ModifiedById.ToString(), typeof(string));
             modifiedByIdColumn.AllowDBNull = false;
-
-            DataColumn stateColumn = FamilyComponentTypes.Columns.Add(FamilyComponentType.FamilyComponentTypesTableColumnNames.State.ToString(), typeof(EntityStates));
-            stateColumn.AllowDBNull = false;
-            stateColumn.DefaultValue = EntityStates.Enabled;
-
+            
             FamilyComponentTypes.PrimaryKey = new DataColumn[] { idColumn };
 
             dataSet.Tables.Add(FamilyComponentTypes);
@@ -1637,59 +1633,177 @@ namespace ModBox.FamFactory.Revit.Manager
 
         private static void InitilizeFamilyComponentCategoriesTable(DataSet dataSet)
         {
-            DataTable FamilyComponentCategoriesTable = new DataTable(TableNames.FF_FamilyComponentCategories.ToString());
+            try
+            {
+                DataTable FamilyComponentCategoriesTable = new DataTable(TableNames.FF_FamilyComponentCategories.ToString());
 
-            DataColumn IdColumn = FamilyComponentCategoriesTable.Columns.Add(FamilyComponentCategory.FamilyComponentCategoryColumnNames.Id.ToString(), typeof(string));
-            IdColumn.AllowDBNull = false;
-            IdColumn.Unique = true;
+                DataColumn IdColumn = FamilyComponentCategoriesTable.Columns.Add(FamilyComponentCategory.FamilyComponentCategoryColumnNames.Id.ToString(), typeof(string));
+                IdColumn.AllowDBNull = false;
+                IdColumn.Unique = true;
 
-            DataColumn nameColumn = FamilyComponentCategoriesTable.Columns.Add(FamilyComponentCategory.FamilyComponentCategoryColumnNames.Name.ToString(), typeof(string));
-            nameColumn.AllowDBNull = false;
-            nameColumn.Unique = false;
+                DataColumn nameColumn = FamilyComponentCategoriesTable.Columns.Add(FamilyComponentCategory.FamilyComponentCategoryColumnNames.Name.ToString(), typeof(string));
+                nameColumn.AllowDBNull = false;
+                nameColumn.Unique = false;
 
-            DataColumn DescriptionColumn = FamilyComponentCategoriesTable.Columns.Add(FamilyComponentCategory.FamilyComponentCategoryColumnNames.Description.ToString(), typeof(string));
-            DescriptionColumn.AllowDBNull = true;
+                DataColumn DescriptionColumn = FamilyComponentCategoriesTable.Columns.Add(FamilyComponentCategory.FamilyComponentCategoryColumnNames.Description.ToString(), typeof(string));
+                DescriptionColumn.AllowDBNull = true;
 
-            DataColumn ThumbnailColumn = FamilyComponentCategoriesTable.Columns.Add(FamilyComponentCategory.FamilyComponentCategoryColumnNames.Thumbnail.ToString(), typeof(byte[]));
-            ThumbnailColumn.AllowDBNull = true;
+                DataColumn ThumbnailColumn = FamilyComponentCategoriesTable.Columns.Add(FamilyComponentCategory.FamilyComponentCategoryColumnNames.Thumbnail.ToString(), typeof(byte[]));
+                ThumbnailColumn.AllowDBNull = true;
 
-            DataColumn DateCreatedColumn = FamilyComponentCategoriesTable.Columns.Add(FamilyComponentCategory.FamilyComponentCategoryColumnNames.DateCreated.ToString(), typeof(DateTime));
-            DateCreatedColumn.AllowDBNull = false;
+                DataColumn DateCreatedColumn = FamilyComponentCategoriesTable.Columns.Add(FamilyComponentCategory.FamilyComponentCategoryColumnNames.DateCreated.ToString(), typeof(DateTime));
+                DateCreatedColumn.AllowDBNull = false;
 
-            DataColumn DateModififedColumn = FamilyComponentCategoriesTable.Columns.Add(FamilyComponentCategory.FamilyComponentCategoryColumnNames.DateModified.ToString(), typeof(DateTime));
-            DateModififedColumn.AllowDBNull = false;
+                DataColumn DateModififedColumn = FamilyComponentCategoriesTable.Columns.Add(FamilyComponentCategory.FamilyComponentCategoryColumnNames.DateModified.ToString(), typeof(DateTime));
+                DateModififedColumn.AllowDBNull = false;
 
-            DataColumn CreatedByIdColumn = FamilyComponentCategoriesTable.Columns.Add(FamilyComponentCategory.FamilyComponentCategoryColumnNames.CreatedById.ToString(), typeof(string));
-            CreatedByIdColumn.AllowDBNull = false;
+                DataColumn CreatedByIdColumn = FamilyComponentCategoriesTable.Columns.Add(FamilyComponentCategory.FamilyComponentCategoryColumnNames.CreatedById.ToString(), typeof(string));
+                CreatedByIdColumn.AllowDBNull = false;
 
-            DataColumn ModifiedByIdColumn = FamilyComponentCategoriesTable.Columns.Add(FamilyComponentCategory.FamilyComponentCategoryColumnNames.ModifiedById.ToString(), typeof(string));
-            ModifiedByIdColumn.AllowDBNull = false;
+                DataColumn ModifiedByIdColumn = FamilyComponentCategoriesTable.Columns.Add(FamilyComponentCategory.FamilyComponentCategoryColumnNames.ModifiedById.ToString(), typeof(string));
+                ModifiedByIdColumn.AllowDBNull = false;
 
-            DataColumn ParentIdColumn = FamilyComponentCategoriesTable.Columns.Add(FamilyComponentCategory.FamilyComponentCategoryColumnNames.ParentId.ToString(), typeof(string));
-            ParentIdColumn.AllowDBNull = true;
+                DataColumn ParentIdColumn = FamilyComponentCategoriesTable.Columns.Add(FamilyComponentCategory.FamilyComponentCategoryColumnNames.ParentId.ToString(), typeof(string));
+                ParentIdColumn.AllowDBNull = true;
 
-            FamilyComponentCategoriesTable.PrimaryKey = new DataColumn[] { IdColumn };
-            dataSet.Tables.Add(FamilyComponentCategoriesTable);
+                FamilyComponentCategoriesTable.PrimaryKey = new DataColumn[] { IdColumn };
+                dataSet.Tables.Add(FamilyComponentCategoriesTable);
 
-            DataRelation FamilyBuildDataRelation = new DataRelation(TableRelations.FamilyComponents_FamilyComponentCategories_FamilyComponentCategoryId__FamilyComponentCateroies_Id.ToString(),
-                dataSet.Tables[TableNames.FF_FamilyBuilds.ToString()].Columns["Id"],
-                dataSet.Tables[TableNames.FF_FamilyBuildComponents.ToString()].Columns[FamilyBuildComponent.FamilyBuildComponentsColumnNames.FamilyBuildId.ToString()]);
-            dataSet.Relations.Add(FamilyBuildDataRelation);
+                DataRelation CreatedByDataRelation = new DataRelation(TableRelations.FamilyComponentCategories_CreatedById__Users_Id.ToString(),
+                    dataSet.Tables[TableNames.FF_Users.ToString()].Columns["Id"],
+                    dataSet.Tables[TableNames.FF_FamilyComponentCategories.ToString()].Columns[FamilyBuildComponent.FamilyBuildComponentsColumnNames.CreatedById.ToString()]);
+                dataSet.Relations.Add(CreatedByDataRelation);
+
+                DataRelation ModifiedByDataRelation = new DataRelation(TableRelations.FamilyComponentCategories_ModifiedById__Users_Id.ToString(),
+                    dataSet.Tables[TableNames.FF_Users.ToString()].Columns["Id"],
+                    dataSet.Tables[TableNames.FF_FamilyComponentCategories.ToString()].Columns[FamilyBuildComponent.FamilyBuildComponentsColumnNames.ModifiedById.ToString()]);
+                dataSet.Relations.Add(ModifiedByDataRelation);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            
         }
 
         private static void InitilizeFamilyComponentSearchTermsTable(DataSet dataSet)
         {
-            throw new NotImplementedException();
+            try
+            {
+                DataTable FamilyComponentSearchTermsTable = new DataTable(TableNames.FF_FamilyComponentSearchTerms.ToString());
+
+                DataColumn IdColumn = FamilyComponentSearchTermsTable.Columns.Add(FamilyComponentSearchTerm.FamilyComponentSearchTermColumnNames.Id.ToString(), typeof(string));
+                IdColumn.AllowDBNull = false;
+                IdColumn.Unique = true;
+
+                DataColumn nameColumn = FamilyComponentSearchTermsTable.Columns.Add(FamilyComponentSearchTerm.FamilyComponentSearchTermColumnNames.Name.ToString(), typeof(string));
+                nameColumn.AllowDBNull = false;
+                nameColumn.Unique = false;
+
+                DataColumn DescriptionColumn = FamilyComponentSearchTermsTable.Columns.Add(FamilyComponentSearchTerm.FamilyComponentSearchTermColumnNames.Description.ToString(), typeof(string));
+                DescriptionColumn.AllowDBNull = true;
+
+                DataColumn DateCreatedColumn = FamilyComponentSearchTermsTable.Columns.Add(FamilyComponentSearchTerm.FamilyComponentSearchTermColumnNames.DateCreated.ToString(), typeof(DateTime));
+                DateCreatedColumn.AllowDBNull = false;
+
+                DataColumn DateModififedColumn = FamilyComponentSearchTermsTable.Columns.Add(FamilyComponentSearchTerm.FamilyComponentSearchTermColumnNames.DateModified.ToString(), typeof(DateTime));
+                DateModififedColumn.AllowDBNull = false;
+
+                DataColumn CreatedByIdColumn = FamilyComponentSearchTermsTable.Columns.Add(FamilyComponentSearchTerm.FamilyComponentSearchTermColumnNames.CreatedById.ToString(), typeof(string));
+                CreatedByIdColumn.AllowDBNull = false;
+
+                DataColumn ModifiedByIdColumn = FamilyComponentSearchTermsTable.Columns.Add(FamilyComponentSearchTerm.FamilyComponentSearchTermColumnNames.ModifiedById.ToString(), typeof(string));
+                ModifiedByIdColumn.AllowDBNull = false;
+
+                FamilyComponentSearchTermsTable.PrimaryKey = new DataColumn[] { IdColumn };
+                dataSet.Tables.Add(FamilyComponentSearchTermsTable);
+
+                DataRelation CreatedByDataRelation = new DataRelation(TableRelations.FamilyComponentSearchTerms_CreatedById__Users_Id.ToString(),
+                    dataSet.Tables[TableNames.FF_Users.ToString()].Columns["Id"],
+                    dataSet.Tables[TableNames.FF_FamilyComponentSearchTerms.ToString()].Columns[FamilyComponentSearchTerm.FamilyComponentSearchTermColumnNames.CreatedById.ToString()]);
+                dataSet.Relations.Add(CreatedByDataRelation);
+
+                DataRelation ModifiedByDataRelation = new DataRelation(TableRelations.FamilyComponentSearchTerms_ModifiedById__Users_Id.ToString(),
+                    dataSet.Tables[TableNames.FF_Users.ToString()].Columns["Id"],
+                    dataSet.Tables[TableNames.FF_FamilyComponentSearchTerms.ToString()].Columns[FamilyComponentSearchTerm.FamilyComponentSearchTermColumnNames.ModifiedById.ToString()]);
+                dataSet.Relations.Add(ModifiedByDataRelation);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
         }
 
         private static void InitilizeFamilyComponents_FamilyComponentCategoriesTable(DataSet dataSet)
         {
-            throw new NotImplementedException();
+            try
+            {
+                DataTable FamilyComponentSearchCategoriesSearchTermsTable = new DataTable(TableNames.FF_FamilyComponents_FamilyComponentCategories.ToString());
+
+                DataColumn IdColumn = FamilyComponentSearchCategoriesSearchTermsTable.Columns.Add(FamilyComponents_FamilyComponentCategory.FamilyComponents_FamilyComponentCategoryColumnNames.Id.ToString(), typeof(string));
+                IdColumn.AllowDBNull = false;
+                IdColumn.Unique = false;
+
+                DataColumn FamilyComponentIdColumn = FamilyComponentSearchCategoriesSearchTermsTable.Columns.Add(FamilyComponents_FamilyComponentCategory.FamilyComponents_FamilyComponentCategoryColumnNames.FamilyComponentId.ToString(), typeof(string));
+                FamilyComponentIdColumn.AllowDBNull = false;
+                FamilyComponentIdColumn.Unique = false;
+
+                DataColumn FamilyComponentCategoryId = FamilyComponentSearchCategoriesSearchTermsTable.Columns.Add(FamilyComponents_FamilyComponentCategory.FamilyComponents_FamilyComponentCategoryColumnNames.FamilyComponentCategoryId.ToString(), typeof(string));
+                FamilyComponentCategoryId.AllowDBNull = true;
+
+                FamilyComponentSearchCategoriesSearchTermsTable.PrimaryKey = new DataColumn[] { IdColumn };
+                dataSet.Tables.Add(FamilyComponentSearchCategoriesSearchTermsTable);
+
+                DataRelation ComponetnCategoriesRelation = new DataRelation(TableRelations.FamilyComponents_FamilyComponentCategories_FamilyComponentCategoryId__FamilyComponentCateroies_Id.ToString(),
+                    dataSet.Tables[TableNames.FF_FamilyComponentCategories.ToString()].Columns["Id"],
+                    dataSet.Tables[TableNames.FF_FamilyComponents_FamilyComponentCategories.ToString()].Columns[FamilyComponents_FamilyComponentCategory.FamilyComponents_FamilyComponentCategoryColumnNames.FamilyComponentCategoryId.ToString()]);
+                dataSet.Relations.Add(ComponetnCategoriesRelation);
+
+                DataRelation ComponentSearchtermRelation = new DataRelation(TableRelations.FamilyComponents_FamilyComponentCategories_FamilyComponentId__FamilyComponents_Id.ToString(),
+                    dataSet.Tables[TableNames.FF_FamilyComponents.ToString()].Columns["Id"],
+                    dataSet.Tables[TableNames.FF_FamilyComponents_FamilyComponentCategories.ToString()].Columns[FamilyComponents_FamilyComponentCategory.FamilyComponents_FamilyComponentCategoryColumnNames.FamilyComponentId.ToString()]);
+                dataSet.Relations.Add(ComponentSearchtermRelation);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
         }
 
         private static void InitilizeFamilyComponents_FamilyComponentSerchTermsTable(DataSet dataSet)
         {
-            throw new NotImplementedException();
+            try
+            {
+                DataTable FamilyComponentSearchTermsTable = new DataTable(TableNames.FF_FamilyComponents_FamilyComponentSerchTerms.ToString());
+
+                DataColumn IdColumn = FamilyComponentSearchTermsTable.Columns.Add(FamilyComponents_FamilyComponentCategory.FamilyComponents_FamilyComponentCategoryColumnNames.Id.ToString(), typeof(string));
+                IdColumn.AllowDBNull = false;
+                IdColumn.Unique = false;
+
+                DataColumn FamilyComponentIdColumn = FamilyComponentSearchTermsTable.Columns.Add(FamilyComponents_FamilyComponentSerchTerm.FamilyComponents_FamilyComponentSerchTermsColumnNames.FamilyComponentId.ToString(), typeof(string));
+                FamilyComponentIdColumn.AllowDBNull = false;
+                FamilyComponentIdColumn.Unique = false;
+
+                DataColumn FamilyComponentCategoryId = FamilyComponentSearchTermsTable.Columns.Add(FamilyComponents_FamilyComponentSerchTerm.FamilyComponents_FamilyComponentSerchTermsColumnNames.FamilyComponentSearchTermId.ToString(), typeof(string));
+                FamilyComponentCategoryId.AllowDBNull = true;
+
+                FamilyComponentSearchTermsTable.PrimaryKey = new DataColumn[] { IdColumn };
+                dataSet.Tables.Add(FamilyComponentSearchTermsTable);
+
+                DataRelation ComponetnCategoriesRelation = new DataRelation(TableRelations.FamilyComponents_FamilyComponentSerchTerms_FamilyComponentId__FamilyComponents_Id.ToString(),
+                    dataSet.Tables[TableNames.FF_FamilyComponents.ToString()].Columns["Id"],
+                    dataSet.Tables[TableNames.FF_FamilyComponents_FamilyComponentSerchTerms.ToString()].Columns[FamilyComponents_FamilyComponentSerchTerm.FamilyComponents_FamilyComponentSerchTermsColumnNames.FamilyComponentId.ToString()]);
+                dataSet.Relations.Add(ComponetnCategoriesRelation);
+
+                DataRelation ComponentSearchtermRelation = new DataRelation(TableRelations.FamilyComponents_FamilyComponentSerchTerms_FamilyComponentSearchTermId__FamilyComponentSearchTerms_Id.ToString(),
+                    dataSet.Tables[TableNames.FF_FamilyComponentSearchTerms.ToString()].Columns["Id"],
+                    dataSet.Tables[TableNames.FF_FamilyComponents_FamilyComponentSerchTerms.ToString()].Columns[FamilyComponents_FamilyComponentSerchTerm.FamilyComponents_FamilyComponentSerchTermsColumnNames.FamilyComponentSearchTermId.ToString()]);
+                dataSet.Relations.Add(ComponentSearchtermRelation);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
         }
 
         public static void InstallRequierments(System.Data.SQLite.SQLiteConnection connection, DataSet dataSet)
