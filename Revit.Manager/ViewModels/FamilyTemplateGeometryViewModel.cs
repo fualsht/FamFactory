@@ -13,13 +13,13 @@ namespace ModBox.FamFactory.Revit.Manager
         public FamilyTemplateGeometryViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection) : base(dataSet, sQLiteConnection)
         {
             InternalDataView = dataSet.Tables[TableNames.FF_FamilyTemplateGeometries.ToString()].DefaultView;
-            RefreshCollection();
+            RefreshCollections();
         }
 
         public FamilyTemplateGeometryViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection, object application) : base(dataSet, sQLiteConnection, application)
         {
             InternalDataView = dataSet.Tables[TableNames.FF_FamilyTemplateGeometries.ToString()].DefaultView;
-            RefreshCollection();
+            RefreshCollections();
         }
 
         public override bool CanAddElement()
@@ -72,7 +72,7 @@ namespace ModBox.FamFactory.Revit.Manager
             throw new NotImplementedException();
         }
 
-        public override void RefreshCollection()
+        public override void RefreshCollections()
         {
             if (InternalCollection != null)
             {
@@ -84,7 +84,7 @@ namespace ModBox.FamFactory.Revit.Manager
             }
         }
 
-        public override void RefreshCollection(string sortColumn, string filter)
+        public override void RefreshCollections(string sortColumn, string filter)
         {
             if (InternalCollection != null)
             {

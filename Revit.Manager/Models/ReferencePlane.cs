@@ -159,6 +159,14 @@ namespace ModBox.FamFactory.Revit.Manager
             return refPlane;
         }
 
+        public override void RefreshCollections()
+        {
+            throw new NotImplementedException();
+        }
 
+        public override void RefreshCollections(string sortColumn, string filter)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

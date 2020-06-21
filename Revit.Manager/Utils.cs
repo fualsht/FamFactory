@@ -297,7 +297,7 @@ namespace ModBox.FamFactory.Revit.Manager
             {
                 foreach (Autodesk.Revit.DB.FamilyParameter item in doc.FamilyManager.Parameters)
                 {
-                    Parameter parameter = Parameter.newParameter(famTemplate.internalSQLConenction, famTemplate.internalDataRowView.DataView);
+                    Parameter parameter = Parameter.newParameter(famTemplate.internalSQLConenction, famTemplate.FamilyTemplateParameters.InternalDataView);
                     parameter.FamilyId = famTemplate.Id;
                     parameter.Name = item.Definition.Name;
                     parameter.ElementId = item.Id.IntegerValue;

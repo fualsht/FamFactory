@@ -228,7 +228,7 @@ namespace ModBox.FamFactory.Revit.Manager
             RefreshCollections();
         }
 
-        public void RefreshCollections()
+        public override void RefreshCollections()
         {
             DataView references = internalDataRowView.DataView.Table.DataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()].DefaultView;
             references.RowFilter = string.Empty;
@@ -264,7 +264,7 @@ namespace ModBox.FamFactory.Revit.Manager
                 FamilyComponentTypes.Add(new FamilyComponentType(item, this.internalSQLConenction));
             }
 
-            FamilyComponentType = FamilyComponentTypes.FirstOrDefault(x => x.Id == ProfileGeometryId);
+            FamilyComponentType = FamilyComponentTypes.FirstOrDefault(x => x.Id == FamilyComponentTypeId);
         }
 
         internal static FamilyTemplateComponent NewTemplateComponent(SQLiteConnection connection, DataView dataVew, User user, FamilyTemplate parent)
@@ -294,6 +294,11 @@ namespace ModBox.FamFactory.Revit.Manager
             component.ProfileAngle = 0;
             component.ProfileIsFlipped = false;
             return component;
+        }
+
+        public override void RefreshCollections(string sortColumn, string filter)
+        {
+            throw new NotImplementedException();
         }
     }
 }

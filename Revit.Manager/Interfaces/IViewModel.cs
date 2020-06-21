@@ -34,6 +34,7 @@ namespace ModBox.FamFactory.Revit.Manager
         bool CanSaveElement();
         bool CanGoToNext();
         bool CanGoBack(); 
-        void RefreshCollection();
+        void RefreshCollections();
+        void RefreshCollections(string sortColumn, string filter);
     }
 }

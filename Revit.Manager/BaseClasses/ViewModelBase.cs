@@ -211,9 +211,9 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public abstract bool CanGoBack();
 
-        public abstract void RefreshCollection();
+        public abstract void RefreshCollections();
 
-        public abstract void RefreshCollection(string sortColumn, string filter);
+        public abstract void RefreshCollections(string sortColumn, string filter);
 
         public abstract void SetActiveUser(User user);
 

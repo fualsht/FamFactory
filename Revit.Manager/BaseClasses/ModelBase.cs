@@ -134,5 +134,9 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             return internalDataRowView.ToString();
         }
+
+        public abstract void RefreshCollections();
+
+        public abstract void RefreshCollections(string sortColumn, string filter);
     }
 }

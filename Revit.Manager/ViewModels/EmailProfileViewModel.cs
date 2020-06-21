@@ -69,12 +69,12 @@ namespace ModBox.FamFactory.Revit.Manager
             return true;
         }
 
-        public override void RefreshCollection()
+        public override void RefreshCollections()
         {
             throw new NotImplementedException();
         }
 
-        public override void RefreshCollection(string sortColumn, string filter)
+        public override void RefreshCollections(string sortColumn, string filter)
         {
             throw new NotImplementedException();
         }

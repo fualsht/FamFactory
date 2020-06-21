@@ -13,12 +13,12 @@ namespace ModBox.FamFactory.Revit.Manager
         public FamilyTemplateReferencePlaneViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection) : base(dataSet, sQLiteConnection)
         {
             InternalDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()].DefaultView;
-            RefreshCollection();
+            RefreshCollections();
         }
         public FamilyTemplateReferencePlaneViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection, object application) : base(dataSet, sQLiteConnection, application)
         {
             InternalDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()].DefaultView;
-            RefreshCollection();
+            RefreshCollections();
         }
 
         public override bool CanAddElement()
@@ -61,7 +61,7 @@ namespace ModBox.FamFactory.Revit.Manager
             throw new NotImplementedException();
         }
 
-        public override void RefreshCollection()
+        public override void RefreshCollections()
         {
             if (InternalCollection != null)
             {
@@ -72,7 +72,7 @@ namespace ModBox.FamFactory.Revit.Manager
                 }
             }
         }
-        public override void RefreshCollection(string sortColumn, string filter)
+        public override void RefreshCollections(string sortColumn, string filter)
         {
             if (InternalCollection != null)
             {

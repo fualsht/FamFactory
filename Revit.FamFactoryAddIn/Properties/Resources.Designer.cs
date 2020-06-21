@@ -81,23 +81,48 @@ namespace ModBox.FamFactory.Revit.FamFactoryAddIn.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DefaultComponentTypeIcon64 {
+            get {
+                object obj = ResourceManager.GetObject("DefaultComponentTypeIcon64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to --
-        ///-- File generated with SQLiteStudio v3.2.1 on Mon May 11 23:21:50 2020
+        ///-- File generated with SQLiteStudio v3.2.1 on Tue Jun 16 22:22:15 2020
         ///--
         ///-- Text encoding used: System
         ///--
+        ///PRAGMA foreign_keys = off;
         ///BEGIN TRANSACTION;
         ///
         ///-- Table: FF_EmailProfiles
-        ///CREATE TABLE FF_EmailProfiles (Id STRING (36, 36) PRIMARY KEY NOT NULL UNIQUE, 
-        ///                               Name STRING NOT NULL UNIQUE DEFAULT (&apos;NewEmailProfile&apos;), 
-        ///                               Description STRING, 
-        ///                               Server STRING NOT NULL UNIQUE DEFAULT (&apos;mail.server.com&apos;), 
-        ///                                [rest of string was truncated]&quot;;.
+        ///DROP TABLE IF EXISTS FF_EmailProfiles;
+        ///
+        ///CREATE TABLE FF_EmailProfiles (
+        ///    Id            STRING (36, 36) PRIMARY KEY
+        ///                                  NOT NULL
+        ///                                  UNIQUE,
+        ///    Name          STRING          NOT NULL
+        ///                                  UNIQUE
+        ///                         [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string FamFactoryDBTables {
             get {
                 return ResourceManager.GetString("FamFactoryDBTables", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap FamilyComponentIcon64 {
+            get {
+                object obj = ResourceManager.GetObject("FamilyComponentIcon64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

@@ -18,17 +18,17 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             FamilyComponentTypeItems = new FamilyComponentTypeViewModel(dataSet, sQLiteConnection);
             ComponentDataView = InternalDataSet.Tables[TableNames.FF_FamilyComponents.ToString()].DefaultView;
-            RefreshCollection();
+            RefreshCollections();
         }
 
         public FamFactoryComponentViewModel(DataSet dataSet, System.Data.SQLite.SQLiteConnection sQLiteConnection, object application) : base(dataSet, sQLiteConnection, application)
         {
             FamilyComponentTypeItems = new FamilyComponentTypeViewModel(dataSet, sQLiteConnection, application);
             ComponentDataView = InternalDataSet.Tables[TableNames.FF_FamilyComponents.ToString()].DefaultView;
-            RefreshCollection();
+            RefreshCollections();
         }
 
-        public override void RefreshCollection()
+        public override void RefreshCollections()
         {
             if (InternalCollection != null)
             {
@@ -174,7 +174,7 @@ namespace ModBox.FamFactory.Revit.Manager
 
                 component.FamilyFile = Utils.FileToByteArray(file.FullName);
                 SelectedElement = component;
-                RefreshCollection();
+                RefreshCollections();
             }
             return component;
         }
@@ -189,7 +189,7 @@ namespace ModBox.FamFactory.Revit.Manager
             ActiveUser = user;
         }
 
-        public override void RefreshCollection(string sortColumn, string filter)
+        public override void RefreshCollections(string sortColumn, string filter)
         {
             throw new NotImplementedException();
         }

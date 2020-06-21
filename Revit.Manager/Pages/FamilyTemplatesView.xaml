@@ -53,7 +53,7 @@
         <Border x:Name="border" Style="{DynamicResource SectionBorder}" Grid.Row="1" Grid.Column="1" DataContext="{Binding SelectedElement}" >
             <ScrollViewer Grid.Row="1" Grid.ColumnSpan="2" Style="{DynamicResource DefaultScrollVIewerStyle}">
                 <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Vertical" >
-                    <GroupBox Grid.Column="1" Style="{DynamicResource DefaultGroupBoxStyle}" Header="Family Component">
+                    <GroupBox Grid.Column="1" Style="{DynamicResource DefaultGroupBoxStyle}" Header="Family Template">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" MinWidth="150" MaxWidth="250"/>

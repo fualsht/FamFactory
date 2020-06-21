@@ -19,17 +19,17 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             InternalDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].DefaultView;
             OnSelectionChagned += FamilyTemplatesViewModel_OnSelectionChagned;
-            RefreshCollection();
+            RefreshCollections();
         }
 
         public FamilyTemplatesViewModel(DataSet dataset, System.Data.SQLite.SQLiteConnection sQLiteConnection, object application) : base(dataset, sQLiteConnection, application)
         {
             InternalDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].DefaultView;
             OnSelectionChagned += FamilyTemplatesViewModel_OnSelectionChagned;
-            RefreshCollection();
+            RefreshCollections();
         }
 
-        public override void RefreshCollection()
+        public override void RefreshCollections()
         {
             if (InternalCollection != null)
             {
@@ -167,7 +167,7 @@ namespace ModBox.FamFactory.Revit.Manager
 
                 template.FamilyFile = Utils.FileToByteArray(file.FullName);
                 SelectedElement = template;
-                RefreshCollection();
+                RefreshCollections();
             }
             return template;
         }
@@ -175,7 +175,7 @@ namespace ModBox.FamFactory.Revit.Manager
         public override void SaveElement(FamilyTemplate element)
         {
             element.EndEdit();
-            RefreshCollection();
+            RefreshCollections();
         }
 
         public override void SetActiveUser(User user)
@@ -194,7 +194,7 @@ namespace ModBox.FamFactory.Revit.Manager
 
         }
 
-        public override void RefreshCollection(string sortColumn, string filter)
+        public override void RefreshCollections(string sortColumn, string filter)
         {
             throw new NotImplementedException();
         }

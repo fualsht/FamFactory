@@ -1900,17 +1900,110 @@ namespace ModBox.FamFactory.Revit.Manager
             EmailprofilesTable.Rows.Add(EmailProfileDatarow);
 
             //FamilyComponentTypes
-            // Door Handels
+            // Handles
             DataTable FamilyComponentTypesTable = dataSet.Tables[TableNames.FF_FamilyComponentTypes.ToString()];
-            DataRow FamilyComponentTypeDatarow = EmailprofilesTable.NewRow();
+            DataRow FamilyComponentTypeDatarow = FamilyComponentTypesTable.NewRow();
             FamilyComponentTypeDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Id.ToString()] = Guid.NewGuid();
-            FamilyComponentTypeDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Name.ToString()] = "Door Handles";
-            FamilyComponentTypeDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Description.ToString()] = "Describes a 'Door Handle' component types";
+            FamilyComponentTypeDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Name.ToString()] = "Handle";
+            FamilyComponentTypeDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Description.ToString()] = "Describes all 'Handle' component types.";
+            FamilyComponentTypeDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Thumbnail.ToString()] = Utils.ImageToByte(Resources.FamilyComponentIcon64);
             FamilyComponentTypeDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.DateCreated.ToString()] = DateTime.Now;
             FamilyComponentTypeDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.DateModified.ToString()] = DateTime.Now;
             FamilyComponentTypeDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.CreatedById.ToString()] = dataSet.Tables[TableNames.FF_Users.ToString()].Rows[0][User.UsersTableColumnNames.Id.ToString()];
             FamilyComponentTypeDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.ModifiedById.ToString()] = dataSet.Tables[TableNames.FF_Users.ToString()].Rows[0][User.UsersTableColumnNames.Id.ToString()];
             FamilyComponentTypesTable.Rows.Add(FamilyComponentTypeDatarow);
+
+            // Profiles
+            DataRow DoorProfileDatarow = FamilyComponentTypesTable.NewRow();
+            DoorProfileDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Id.ToString()] = Guid.NewGuid();
+            DoorProfileDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Name.ToString()] = "Profile";
+            DoorProfileDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Description.ToString()] = "Describes all 'Profile' component types.";
+            DoorProfileDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Thumbnail.ToString()] = Utils.ImageToByte(Resources.FamilyComponentIcon64);
+            DoorProfileDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.DateCreated.ToString()] = DateTime.Now;
+            DoorProfileDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.DateModified.ToString()] = DateTime.Now;
+            DoorProfileDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.CreatedById.ToString()] = dataSet.Tables[TableNames.FF_Users.ToString()].Rows[0][User.UsersTableColumnNames.Id.ToString()];
+            DoorProfileDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.ModifiedById.ToString()] = dataSet.Tables[TableNames.FF_Users.ToString()].Rows[0][User.UsersTableColumnNames.Id.ToString()];
+            FamilyComponentTypesTable.Rows.Add(DoorProfileDatarow);
+
+            // Door Leaf
+            DataRow DoorLeafDatarow = FamilyComponentTypesTable.NewRow();
+            DoorLeafDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Id.ToString()] = Guid.NewGuid();
+            DoorLeafDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Name.ToString()] = "Door Leaf";
+            DoorLeafDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Description.ToString()] = "Describes all 'Door Leaf or Panel' component types.";
+            DoorLeafDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Thumbnail.ToString()] = Utils.ImageToByte(Resources.FamilyComponentIcon64);
+            DoorLeafDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.DateCreated.ToString()] = DateTime.Now;
+            DoorLeafDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.DateModified.ToString()] = DateTime.Now;
+            DoorLeafDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.CreatedById.ToString()] = dataSet.Tables[TableNames.FF_Users.ToString()].Rows[0][User.UsersTableColumnNames.Id.ToString()];
+            DoorLeafDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.ModifiedById.ToString()] = dataSet.Tables[TableNames.FF_Users.ToString()].Rows[0][User.UsersTableColumnNames.Id.ToString()];
+            FamilyComponentTypesTable.Rows.Add(DoorLeafDatarow);
+
+            // Hinge
+            DataRow hingeDatarow = FamilyComponentTypesTable.NewRow();
+            hingeDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Id.ToString()] = Guid.NewGuid();
+            hingeDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Name.ToString()] = "Hinge";
+            hingeDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Description.ToString()] = "Describes all 'Door Leaf or Panel' component types.";
+            hingeDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Thumbnail.ToString()] = Utils.ImageToByte(Resources.FamilyComponentIcon64);
+            hingeDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.DateCreated.ToString()] = DateTime.Now;
+            hingeDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.DateModified.ToString()] = DateTime.Now;
+            hingeDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.CreatedById.ToString()] = dataSet.Tables[TableNames.FF_Users.ToString()].Rows[0][User.UsersTableColumnNames.Id.ToString()];
+            hingeDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.ModifiedById.ToString()] = dataSet.Tables[TableNames.FF_Users.ToString()].Rows[0][User.UsersTableColumnNames.Id.ToString()];
+            FamilyComponentTypesTable.Rows.Add(hingeDatarow);
+
+            // Door
+            DataRow DoorDatarow = FamilyComponentTypesTable.NewRow();
+            DoorDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Id.ToString()] = Guid.NewGuid();
+            DoorDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Name.ToString()] = "Door";
+            DoorDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Description.ToString()] = "Describes all 'Door ' component types.";
+            DoorDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Thumbnail.ToString()] = Utils.ImageToByte(Resources.FamilyComponentIcon64);
+            DoorDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.DateCreated.ToString()] = DateTime.Now;
+            DoorDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.DateModified.ToString()] = DateTime.Now;
+            DoorDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.CreatedById.ToString()] = dataSet.Tables[TableNames.FF_Users.ToString()].Rows[0][User.UsersTableColumnNames.Id.ToString()];
+            DoorDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.ModifiedById.ToString()] = dataSet.Tables[TableNames.FF_Users.ToString()].Rows[0][User.UsersTableColumnNames.Id.ToString()];
+            FamilyComponentTypesTable.Rows.Add(DoorDatarow);
+            // Lintil
+            DataRow LintilDatarow = FamilyComponentTypesTable.NewRow();
+            LintilDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Id.ToString()] = Guid.NewGuid();
+            LintilDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Name.ToString()] = "Lintil";
+            LintilDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Description.ToString()] = "Describes all 'Lintil' component types.";
+            LintilDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Thumbnail.ToString()] = Utils.ImageToByte(Resources.FamilyComponentIcon64);
+            LintilDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.DateCreated.ToString()] = DateTime.Now;
+            LintilDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.DateModified.ToString()] = DateTime.Now;
+            LintilDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.CreatedById.ToString()] = dataSet.Tables[TableNames.FF_Users.ToString()].Rows[0][User.UsersTableColumnNames.Id.ToString()];
+            LintilDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.ModifiedById.ToString()] = dataSet.Tables[TableNames.FF_Users.ToString()].Rows[0][User.UsersTableColumnNames.Id.ToString()];
+            FamilyComponentTypesTable.Rows.Add(LintilDatarow);
+            // Window
+            DataRow WindowDatarow = FamilyComponentTypesTable.NewRow();
+            WindowDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Id.ToString()] = Guid.NewGuid();
+            WindowDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Name.ToString()] = "Window";
+            WindowDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Description.ToString()] = "Describes all 'Window' component types.";
+            WindowDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Thumbnail.ToString()] = Utils.ImageToByte(Resources.FamilyComponentIcon64);
+            WindowDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.DateCreated.ToString()] = DateTime.Now;
+            WindowDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.DateModified.ToString()] = DateTime.Now;
+            WindowDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.CreatedById.ToString()] = dataSet.Tables[TableNames.FF_Users.ToString()].Rows[0][User.UsersTableColumnNames.Id.ToString()];
+            WindowDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.ModifiedById.ToString()] = dataSet.Tables[TableNames.FF_Users.ToString()].Rows[0][User.UsersTableColumnNames.Id.ToString()];
+            FamilyComponentTypesTable.Rows.Add(WindowDatarow);
+            // Sill
+            DataRow SillDatarow = FamilyComponentTypesTable.NewRow();
+            SillDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Id.ToString()] = Guid.NewGuid();
+            SillDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Name.ToString()] = "Sill";
+            SillDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Description.ToString()] = "Describes all 'Sill' component types.";
+            SillDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Thumbnail.ToString()] = Utils.ImageToByte(Resources.FamilyComponentIcon64);
+            SillDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.DateCreated.ToString()] = DateTime.Now;
+            SillDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.DateModified.ToString()] = DateTime.Now;
+            SillDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.CreatedById.ToString()] = dataSet.Tables[TableNames.FF_Users.ToString()].Rows[0][User.UsersTableColumnNames.Id.ToString()];
+            SillDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.ModifiedById.ToString()] = dataSet.Tables[TableNames.FF_Users.ToString()].Rows[0][User.UsersTableColumnNames.Id.ToString()];
+            FamilyComponentTypesTable.Rows.Add(SillDatarow);
+            // Fastning
+            DataRow FastningDatarow = FamilyComponentTypesTable.NewRow();
+            FastningDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Id.ToString()] = Guid.NewGuid();
+            FastningDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Name.ToString()] = "Fastining";
+            FastningDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Description.ToString()] = "Describes all 'Fastning' component types.";
+            FastningDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.Thumbnail.ToString()] = Utils.ImageToByte(Resources.FamilyComponentIcon64);
+            FastningDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.DateCreated.ToString()] = DateTime.Now;
+            FastningDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.DateModified.ToString()] = DateTime.Now;
+            FastningDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.CreatedById.ToString()] = dataSet.Tables[TableNames.FF_Users.ToString()].Rows[0][User.UsersTableColumnNames.Id.ToString()];
+            FastningDatarow[FamilyComponentType.FamilyComponentTypesTableColumnNames.ModifiedById.ToString()] = dataSet.Tables[TableNames.FF_Users.ToString()].Rows[0][User.UsersTableColumnNames.Id.ToString()];
+            FamilyComponentTypesTable.Rows.Add(FastningDatarow);
 
             using (System.Data.SQLite.SQLiteConnection connect = new System.Data.SQLite.SQLiteConnection(connection))
             {
