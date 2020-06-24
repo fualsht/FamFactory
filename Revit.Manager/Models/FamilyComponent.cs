@@ -11,11 +11,6 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamilyComponent : ModelBase<FamilyComponent>
     {
-        public enum FamilyComponentsTableColumnNames { Id, Name, Description, FamilyComponentTypeId, FamilyCategory, FamilyFile, State,
-            Thumbnail, FileSize, DateCreated, DateModified, CreatedById, ModifiedById, Version, IsReleased, RoundConnectorDimention, PartType, 
-            OmniClassNumber, OmniClassTitle, WorkPlaneBased, AlwaysVertical, CutsWithVoidWhenLoaded, IsShared, RoomCalculationPoint, 
-            FileName, CanHostRebar }
-
         public string Id
         {
             get { return internalDataRowView[FamilyComponentsTableColumnNames.Id.ToString()].ToString(); }

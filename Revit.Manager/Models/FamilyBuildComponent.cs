@@ -10,7 +10,6 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamilyBuildComponent : ModelBase<FamilyBuildComponent>
     {
-        public enum FamilyBuildComponentsColumnNames { Id, FamilyBuildId, FamilyComponentId, DateCreated, DateModified, CreatedById, ModifiedById }
         public string Id
         {
             get { return internalDataRowView[FamilyBuildComponentsColumnNames.Id.ToString()].ToString(); }

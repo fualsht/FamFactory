@@ -10,7 +10,6 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class Permission : ModelBase<Permission>
     {
-        public enum PermissionColumnNames { Id, Name, Description, CanCreate, CanRead, CanWrite, CanDelete, Special }
         public string Id
         {
             get { return internalDataRowView[PermissionColumnNames.Id.ToString()].ToString(); }

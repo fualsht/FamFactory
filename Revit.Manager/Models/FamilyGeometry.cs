@@ -10,11 +10,6 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamilyGeometry : ModelBase<FamilyGeometry>
     {
-        public enum FamilyGeometryColumnNames { Id, FamilyId, Name, Description, ElementId, GeometryType, MaterialId, IsActive, 
-            ProfileFamily1Id, ProfileFamily2Id, HostId, Category, SubCategory, UniqueId, OwnerViewId, LevelId, IsSolid, DateCreated, 
-            DateModified, CreatedById, ModifiedById
-        }
-
         public string Id
         {
             get { return internalDataRowView[FamilyGeometryColumnNames.Id.ToString()].ToString(); }

@@ -17,14 +17,14 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public FamilyTemplatesViewModel(DataSet dataset, System.Data.SQLite.SQLiteConnection sQLiteConnection) : base(dataset, sQLiteConnection)
         {
-            InternalDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].DefaultView;
+            InternalDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplates].DefaultView;
             OnSelectionChagned += FamilyTemplatesViewModel_OnSelectionChagned;
             RefreshCollections();
         }
 
         public FamilyTemplatesViewModel(DataSet dataset, System.Data.SQLite.SQLiteConnection sQLiteConnection, object application) : base(dataset, sQLiteConnection, application)
         {
-            InternalDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplates.ToString()].DefaultView;
+            InternalDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplates].DefaultView;
             OnSelectionChagned += FamilyTemplatesViewModel_OnSelectionChagned;
             RefreshCollections();
         }
@@ -175,6 +175,10 @@ namespace ModBox.FamFactory.Revit.Manager
         public override void SaveElement(FamilyTemplate element)
         {
             element.EndEdit();
+            FamFactoryDataSet.SaveTableChangesToDatbase(SQLiteConnection, InternalDataView.Table);
+            FamFactoryDataSet.SaveTableChangesToDatbase(SQLiteConnection, SelectedElement.FamilyTemplateReferencePlanes.InternalDataView.Table);
+            FamFactoryDataSet.SaveTableChangesToDatbase(SQLiteConnection, SelectedElement.FamilyTemplateParameters.InternalDataView.Table);
+            FamFactoryDataSet.SaveTableChangesToDatbase(SQLiteConnection, SelectedElement.FamilyTemplateGeometries.InternalDataView.Table);
             RefreshCollections();
         }
 

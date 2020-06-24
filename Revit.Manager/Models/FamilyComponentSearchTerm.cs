@@ -10,7 +10,6 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamilyComponentSearchTerm : ModelBase<FamilyComponentSearchTerm>
     {
-        public enum FamilyComponentSearchTermColumnNames { Id, Name, Description, DateCreated, DateModified, CreatedById, ModifiedById }
         public FamilyComponentSearchTerm(DataRowView rowView, SQLiteConnection connection) : base(rowView, connection)
         {
         }

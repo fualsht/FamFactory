@@ -17,14 +17,14 @@ namespace ModBox.FamFactory.Revit.Manager
         public FamFactoryComponentViewModel(DataSet dataSet, System.Data.SQLite.SQLiteConnection sQLiteConnection, User user) : base(dataSet, sQLiteConnection, user)
         {
             FamilyComponentTypeItems = new FamilyComponentTypeViewModel(dataSet, sQLiteConnection);
-            ComponentDataView = InternalDataSet.Tables[TableNames.FF_FamilyComponents.ToString()].DefaultView;
+            ComponentDataView = InternalDataSet.Tables[TableNames.FF_FamilyComponents].DefaultView;
             RefreshCollections();
         }
 
         public FamFactoryComponentViewModel(DataSet dataSet, System.Data.SQLite.SQLiteConnection sQLiteConnection, object application) : base(dataSet, sQLiteConnection, application)
         {
             FamilyComponentTypeItems = new FamilyComponentTypeViewModel(dataSet, sQLiteConnection, application);
-            ComponentDataView = InternalDataSet.Tables[TableNames.FF_FamilyComponents.ToString()].DefaultView;
+            ComponentDataView = InternalDataSet.Tables[TableNames.FF_FamilyComponents].DefaultView;
             RefreshCollections();
         }
 
@@ -33,7 +33,7 @@ namespace ModBox.FamFactory.Revit.Manager
             if (InternalCollection != null)
             {
                 InternalCollection.Clear();
-                foreach (DataRowView item in InternalDataSet.Tables[TableNames.FF_FamilyComponents.ToString()].DefaultView)
+                foreach (DataRowView item in InternalDataSet.Tables[TableNames.FF_FamilyComponents].DefaultView)
                 {
                     this.AddElement(new FamilyComponent(item, SQLiteConnection), true);
                 }

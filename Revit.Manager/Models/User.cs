@@ -15,7 +15,6 @@ namespace ModBox.FamFactory.Revit.Manager
     
     public class User : ModelBase<User>
     {
-        public enum UsersTableColumnNames { Id, Name, FirstName, LastName, Email, Password, ProfilePic, DateCreated, DateModified, LogInDate, PermissionId, State, TempFolder }
         public string Id { get { return internalDataRowView[UsersTableColumnNames.Id.ToString()].ToString(); } 
             set { internalDataRowView[UsersTableColumnNames.Id.ToString()] = value; NotifyPropertyChanged(); } }
         public string Name { get { return internalDataRowView[UsersTableColumnNames.Name.ToString()].ToString(); } 

@@ -11,8 +11,6 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamilyTemplateComponent : ModelBase<FamilyTemplateComponent>
     {
-        public enum TemplateComponentColumnNames { Id, Name, Description, IsProfile, FamilyId, XReferencePlaneId, YReferencePlaneId , ZReferencePlaneId, DateCreated, DateModified, CreatedById, ModifiedById, ProfileGeometryId, 
-                                                    ProfileTypeNameId, ProfileVerticalOffset, ProfileHorizontalOffset, ProfileAngle, ProfileIsFlipped, FamilyComponentTypeId }
         public string Id { get { return internalDataRowView[TemplateComponentColumnNames.Id.ToString()].ToString(); } set { internalDataRowView[TemplateComponentColumnNames.Id.ToString()] = value; NotifyPropertyChanged(); } }
 
         public string Name

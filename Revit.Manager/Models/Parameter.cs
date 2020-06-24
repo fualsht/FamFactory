@@ -10,9 +10,7 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class Parameter : ModelBase<Parameter>
     {
-        public enum ParameterColumnNames { Id, FamilyId, Name, ElementId, ElementGUID, HasValue, IsReadOnly, IsShared, IsInstance, 
-            StorageType, IsEditable, IsActive, HostId, IsReporting, BuiltInParamGroup, ParameterType, UnitType, DisplayUnitType, 
-            UserModifiable, IsDeterminedByFormula, Formula, DateCreated, DateModified, CreatedById, ModifiedById }
+        
 
         public string Id
         {

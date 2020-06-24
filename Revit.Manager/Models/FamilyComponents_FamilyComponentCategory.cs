@@ -10,7 +10,6 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamilyComponents_FamilyComponentCategory : ModelBase<FamilyComponents_FamilyComponentCategory>
     {
-        public enum FamilyComponents_FamilyComponentCategoryColumnNames { Id, FamilyComponentId, FamilyComponentCategoryId }
         public FamilyComponents_FamilyComponentCategory(DataRowView rowView, SQLiteConnection connection) : base(rowView, connection)
         {
         }

@@ -10,11 +10,6 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamilyBuildComponentPosition : ModelBase<FamilyBuildComponentPosition>
     {
-        public enum FamilyBuildComponentPostionColumnNames { Id, FamilyBuildComponentId, TemplateReferencePlaneXId, 
-            ComponentRefernecePlaneXId, TemplateReferencePlaneYId, ComponentRefernecePlaneYId, TemplateReferencePlaneZId, 
-            ComponentRefernecePlaneZId, XOffset, YOffset, ZOffset, XRotate, YRotate, ZRotate, CreatedById, ModifiedById, 
-            DateCreated, DateModified }
-
         public FamilyBuildComponentPosition(DataRowView rowView, SQLiteConnection connection) : base(rowView, connection)
         {
 

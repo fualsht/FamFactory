@@ -10,11 +10,6 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class ReferencePlane : ModelBase<ReferencePlane>
     {
-        public enum ReferencePlaneTableColumnNames { Id, FamilyId, ElementId, UniqueId, LevelId, ViewId, Category, DirectionX, DirectionY, 
-            DirectionZ, BubbleEndX, BubbleEndY, BubbleEndZ, NormalX, NormalY, NormalZ, FreeEndX, FreeEndY, FreeEndZ, Name, IsActive, 
-            DateCreated, DateModified, CreatedById, ModifiedById 
-        }
-
         public string Id
         {
             get { return internalDataRowView[ReferencePlaneTableColumnNames.Id.ToString()].ToString(); }

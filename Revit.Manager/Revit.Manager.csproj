@@ -94,6 +94,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\Converters.cs" />
+    <Compile Include="DataBaseConventions\TableColumnNames.cs" />
     <Compile Include="DataSetAsistnat.cs" />
     <Compile Include="EditorWindow.xaml.cs">
       <DependentUpon>EditorWindow.xaml</DependentUpon>
@@ -148,7 +149,7 @@
     </Compile>
     <Compile Include="FamFactoryApplication.cs" />
     <Compile Include="Structs\Version.cs" />
-    <Compile Include="TableConstants.cs" />
+    <Compile Include="DataBaseConventions\TableConstants.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="ViewModels\EmailProfileViewModel.cs" />
     <Compile Include="ViewModels\FamFactoryComponentViewModel.cs" />
