@@ -27,5 +27,6 @@ namespace ModBox.FamFactory.Revit.Manager
         DataView CreateChildView(string dataRelation, bool followParent);
         void RefreshCollections();
         void RefreshCollections(string sortColumn, string filter);
+        void NotifyValueChanged();
     }
 }

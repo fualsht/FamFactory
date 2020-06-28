@@ -105,5 +105,10 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             throw new NotImplementedException();
         }
+
+        public override void DeleteElement(ReferencePlane element)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

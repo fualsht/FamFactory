@@ -144,5 +144,10 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             throw new NotImplementedException();
         }
+
+        public override void DeleteElement(Page element)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

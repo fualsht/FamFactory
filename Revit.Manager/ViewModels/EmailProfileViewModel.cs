@@ -59,6 +59,11 @@ namespace ModBox.FamFactory.Revit.Manager
             return true;
         }
 
+        public override void DeleteElement(EmailProfile element)
+        {
+            throw new NotImplementedException();
+        }
+
         public override void EditElement(EmailProfile element)
         {
             throw new NotImplementedException();

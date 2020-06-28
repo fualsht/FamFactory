@@ -125,11 +125,13 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             if (Utils.EditElement("Edit Template Comonent.", new Pages.TemplateComponentEditorView(), element))
             {
-                SaveElement(SelectedElement);
+                element.EndEdit();
+                SaveElement(element);
+                
             }
             else
             {
-                SelectedElement = SelectionHistory[SelectionHistory.Count - 1];
+
             }
         }
 
@@ -139,6 +141,11 @@ namespace ModBox.FamFactory.Revit.Manager
                 return false;
             else
                 return true;
+        }
+
+        public override void DeleteElement(FamilyTemplateComponent element)
+        {
+            throw new NotImplementedException();
         }
     }
 }

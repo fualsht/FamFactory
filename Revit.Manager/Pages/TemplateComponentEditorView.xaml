@@ -45,7 +45,7 @@
         <GroupBox Style="{DynamicResource DefaultGroupBoxStyle}" Header="Family Template Component">
             <StackPanel>
                 <TextBox Style="{DynamicResource TitleCationTextBoxStyle}" Tag="Name" Text="{Binding Name}"/>
-                <ComboBox Style="{DynamicResource TitleComboBoxControlStyle}" Tag="Component Type" ItemsSource="{Binding FamilyComponentTypes}" DisplayMemberPath="Name"/>
+                <ComboBox Style="{DynamicResource TitleComboBoxControlStyle}" Tag="Component Type" ItemsSource="{Binding FamilyComponentTypes}" DisplayMemberPath="Name" SelectedItem="{Binding FamilyComponentType}"/>
                 <Label Content="Description" Margin="8, 4" Foreground="{DynamicResource ThemeTextBoxForgroundBrush}"/>
                 <extd:RichTextBox x:Name="rtb" Text="{Binding Description}" Height="139" Margin="4" BorderBrush="#FFD6D7D8" />
                 <CheckBox Content="Profile" FlowDirection="RightToLeft" HorizontalAlignment="Right" Margin="4" IsChecked="{Binding IsProfile}"/>

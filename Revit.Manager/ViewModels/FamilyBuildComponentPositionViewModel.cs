@@ -58,6 +58,11 @@ namespace ModBox.FamFactory.Revit.Manager
             throw new NotImplementedException();
         }
 
+        public override void DeleteElement(FamilyBuildComponentPosition element)
+        {
+            throw new NotImplementedException();
+        }
+
         public override void EditElement(FamilyBuildComponentPosition element)
         {
             throw new NotImplementedException();

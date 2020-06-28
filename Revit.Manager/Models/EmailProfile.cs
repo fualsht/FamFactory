@@ -13,48 +13,48 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public string Id
         {
-            get { return internalDataRowView[EmailProfileColumnNames.Id].ToString(); }
-            set { internalDataRowView[EmailProfileColumnNames.Id] = value; NotifyPropertyChanged(); }
+            get { return internalDataRowView[EmailProfilesColumnNames.Id].ToString(); }
+            set { internalDataRowView[EmailProfilesColumnNames.Id] = value; NotifyPropertyChanged(); }
         }
         public string Name
         {
-            get { return internalDataRowView[EmailProfileColumnNames.Name].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[EmailProfileColumnNames.Name] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return internalDataRowView[EmailProfilesColumnNames.Name].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[EmailProfilesColumnNames.Name] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
         public string Description
         {
-            get { return internalDataRowView[EmailProfileColumnNames.Description].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[EmailProfileColumnNames.Description] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return internalDataRowView[EmailProfilesColumnNames.Description].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[EmailProfilesColumnNames.Description] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
         public string ServerAddress
         {
-            get { return internalDataRowView[EmailProfileColumnNames.ServerAddress].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[EmailProfileColumnNames.ServerAddress] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return internalDataRowView[EmailProfilesColumnNames.ServerAddress].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[EmailProfilesColumnNames.ServerAddress] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
         public int Port
         {
-            get { return (int)internalDataRowView[EmailProfileColumnNames.Port]; }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[EmailProfileColumnNames.Port] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return (int)internalDataRowView[EmailProfilesColumnNames.Port]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[EmailProfilesColumnNames.Port] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
         public bool SSL
         {
-            get { return (bool)internalDataRowView[EmailProfileColumnNames.SSL]; }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[EmailProfileColumnNames.SSL] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return (bool)internalDataRowView[EmailProfilesColumnNames.SSL]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[EmailProfilesColumnNames.SSL] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
         public string Username
         {
-            get { return internalDataRowView[EmailProfileColumnNames.Username].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[EmailProfileColumnNames.Username] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return internalDataRowView[EmailProfilesColumnNames.Username].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[EmailProfilesColumnNames.Username] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
         public string Password
         {
-            get { return internalDataRowView[EmailProfileColumnNames.Password].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[EmailProfileColumnNames.Password] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return internalDataRowView[EmailProfilesColumnNames.Password].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[EmailProfilesColumnNames.Password] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
         public EntityStates State
         {
-            get { return (EntityStates)internalDataRowView[EmailProfileColumnNames.State]; }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[EmailProfileColumnNames.State] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return (EntityStates)internalDataRowView[EmailProfilesColumnNames.State]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[EmailProfilesColumnNames.State] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
 
         public EmailProfile(DataRowView rowView, SQLiteConnection connection) : base(rowView, connection)

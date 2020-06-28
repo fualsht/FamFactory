@@ -62,6 +62,11 @@ namespace ModBox.FamFactory.Revit.Manager
             throw new NotImplementedException();
         }
 
+        public override void DeleteElement(FamilyGeometry element)
+        {
+            throw new NotImplementedException();
+        }
+
         public override void EditElement(FamilyGeometry element)
         {
             throw new NotImplementedException();

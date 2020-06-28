@@ -13,8 +13,6 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamilyTemplatesViewModel : ViewModelBase<FamilyTemplate>
     {
-        
-
         public FamilyTemplatesViewModel(DataSet dataset, System.Data.SQLite.SQLiteConnection sQLiteConnection) : base(dataset, sQLiteConnection)
         {
             InternalDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplates].DefaultView;
@@ -209,6 +207,11 @@ namespace ModBox.FamFactory.Revit.Manager
         }
 
         public override bool CanEditElement()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void DeleteElement(FamilyTemplate element)
         {
             throw new NotImplementedException();
         }

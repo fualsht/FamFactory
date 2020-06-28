@@ -62,6 +62,11 @@ namespace ModBox.FamFactory.Revit.Manager
             return true;
         }
 
+        public override void DeleteElement(Parameter element)
+        {
+            throw new NotImplementedException();
+        }
+
         public override void EditElement(Parameter element)
         {
             throw new NotImplementedException();

@@ -248,8 +248,7 @@ namespace ModBox.FamFactory.Revit
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            FamFactoryAddin.famFactoryManager.LaunchManagerWindow(); 
-
+            FamFactoryAddin.famFactoryManager.LaunchManagerWindow();
             return Result.Succeeded;
         }
     }

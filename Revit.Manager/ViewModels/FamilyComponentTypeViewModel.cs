@@ -12,9 +12,13 @@ namespace ModBox.FamFactory.Revit.Manager
     {
         public FamilyComponentTypeViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection) : base(dataSet, sQLiteConnection)
         {
+            InternalDataView = InternalDataSet.Tables[TableNames.FF_FamilyComponentTypes].DefaultView;
+            RefreshCollections();
         }
         public FamilyComponentTypeViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection, object application) : base(dataSet, sQLiteConnection, application)
         {
+            InternalDataView = InternalDataSet.Tables[TableNames.FF_FamilyComponentTypes].DefaultView;
+            RefreshCollections();
         }
 
         public override bool CanAddElement()
@@ -57,6 +61,11 @@ namespace ModBox.FamFactory.Revit.Manager
             throw new NotImplementedException();
         }
 
+        public override void DeleteElement(FamilyComponentType element)
+        {
+            throw new NotImplementedException();
+        }
+
         public override void EditElement(FamilyComponentType element)
         {
             throw new NotImplementedException();
@@ -69,7 +78,11 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public override void RefreshCollections()
         {
-            throw new NotImplementedException();
+            InternalCollection.Clear();
+            foreach (DataRowView item in InternalDataView)
+            {
+                InternalCollection.Add(new FamilyComponentType(item, SQLiteConnection));
+            }
         }
 
         public override void RefreshCollections(string sortColumn, string filter)
@@ -84,7 +97,7 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public override void SetActiveUser(User user)
         {
-            throw new NotImplementedException();
+            this.ActiveUser = user;
         }
     }
 }

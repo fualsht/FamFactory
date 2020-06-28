@@ -12,43 +12,43 @@ namespace ModBox.FamFactory.Revit.Manager
     {
         public string Id
         {
-            get { return internalDataRowView[SystemConfigurationTableColumnNames.Id.ToString()].ToString(); }
-            set { internalDataRowView[SystemConfigurationTableColumnNames.Id.ToString()] = value; NotifyPropertyChanged(); }
+            get { return internalDataRowView[SystemConfigurationColumnNames.Id.ToString()].ToString(); }
+            set { internalDataRowView[SystemConfigurationColumnNames.Id.ToString()] = value; NotifyPropertyChanged(); }
         }
         public string Name
         {
-            get { return internalDataRowView[SystemConfigurationTableColumnNames.Name.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[SystemConfigurationTableColumnNames.Name.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return internalDataRowView[SystemConfigurationColumnNames.Name.ToString()].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[SystemConfigurationColumnNames.Name.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
         public string CompanyAddress
         {
-            get { return internalDataRowView[SystemConfigurationTableColumnNames.CompanyAddress.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[SystemConfigurationTableColumnNames.CompanyAddress.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return internalDataRowView[SystemConfigurationColumnNames.CompanyAddress.ToString()].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[SystemConfigurationColumnNames.CompanyAddress.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
         public string Email
         {
-            get { return internalDataRowView[SystemConfigurationTableColumnNames.Email.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[SystemConfigurationTableColumnNames.Email.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return internalDataRowView[SystemConfigurationColumnNames.Email.ToString()].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[SystemConfigurationColumnNames.Email.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
         public string InstallLocataion
         {
-            get { return internalDataRowView[SystemConfigurationTableColumnNames.InstallLocation.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[SystemConfigurationTableColumnNames.InstallLocation.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return internalDataRowView[SystemConfigurationColumnNames.InstallLocation.ToString()].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[SystemConfigurationColumnNames.InstallLocation.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
         public string AppVersion
         {
-            get { return internalDataRowView[SystemConfigurationTableColumnNames.AppVersion.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[SystemConfigurationTableColumnNames.AppVersion.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return internalDataRowView[SystemConfigurationColumnNames.AppVersion.ToString()].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[SystemConfigurationColumnNames.AppVersion.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
         public string DataBaseVersion
         {
-            get { return internalDataRowView[SystemConfigurationTableColumnNames.DataBaseVersion.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[SystemConfigurationTableColumnNames.DataBaseVersion.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return internalDataRowView[SystemConfigurationColumnNames.DataBaseVersion.ToString()].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[SystemConfigurationColumnNames.DataBaseVersion.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
         public EntityStates State
         {
-            get { return (EntityStates)internalDataRowView[SystemConfigurationTableColumnNames.State.ToString()]; }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[SystemConfigurationTableColumnNames.State.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return (EntityStates)internalDataRowView[SystemConfigurationColumnNames.State.ToString()]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[SystemConfigurationColumnNames.State.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
 
         public SystemConfiguration(DataRowView rowView, SQLiteConnection connection) : base(rowView, connection)

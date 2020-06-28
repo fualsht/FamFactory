@@ -28,44 +28,44 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public DataRowVersion RowVersion { get { return internalDataRowView.RowVersion; } }
 
-        internal bool _ValuesChanged;
-        public bool ValuesChanged { get { return _ValuesChanged; } }
+        internal bool _valuesChanged;
+        public bool ValuesChanged { get { return _valuesChanged; } }
 
         public object DateCreated
         {
             get { return internalDataRowView["DateCreated"]; }
-            set { internalDataRowView.BeginEdit(); internalDataRowView["DateCreated"] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView["DateCreated"] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
 
         public object DateModified
         {
             get { return internalDataRowView["DateModified"]; }
-            set { internalDataRowView.BeginEdit(); internalDataRowView["DateModified"] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView["DateModified"] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
 
         public string CreatedById
         {
             get { return internalDataRowView["CreatedById"].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView["CreatedById"] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView["CreatedById"] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
 
         User _CreatedBy;
         public User CreatedBy
         {
             get { return _CreatedBy; }
-            set { _CreatedBy = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            set { _CreatedBy = value; NotifyPropertyChanged(); _valuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
         }
         public string ModifiedById
         {
             get { return internalDataRowView["ModifiedById"].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView["ModifiedById"] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView["ModifiedById"] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
 
         User _ModifiedBy;
         public User ModifiedBy
         {
             get { return _ModifiedBy; }
-            set { _ModifiedBy = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            set { _ModifiedBy = value; NotifyPropertyChanged(); _valuesChanged = true; NotifyPropertyChanged("ValuesChanged"); NotifyValueChanged(); }
         }
 
         public ModelBase(DataRowView rowView, SQLiteConnection connection)
@@ -138,5 +138,10 @@ namespace ModBox.FamFactory.Revit.Manager
         public abstract void RefreshCollections();
 
         public abstract void RefreshCollections(string sortColumn, string filter);
+
+        public void NotifyValueChanged()
+        {
+            _valuesChanged = true; NotifyPropertyChanged("valuesChanged");
+        }
     }
 }

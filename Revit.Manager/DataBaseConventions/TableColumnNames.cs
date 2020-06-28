@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ModBox.FamFactory.Revit.Manager
 {
-    public static class EmailProfileColumnNames
+    public static class EmailProfilesColumnNames
     {
         public static string Id { get { return "Id"; } }
         public static string Name { get { return "Name"; } }
@@ -22,7 +22,7 @@ namespace ModBox.FamFactory.Revit.Manager
         public static string DateCreated { get { return "DateCreated"; } }
         public static string DateModified { get { return "DateModified"; } }
     }
-    public static class FamilyBuildColumnNames
+    public static class FamilyBuildsColumnNames
     {
         public static string Id { get { return "Id"; } }
         public static string Name { get { return "Name"; } }
@@ -44,7 +44,7 @@ namespace ModBox.FamFactory.Revit.Manager
         public static string CreatedById { get { return "CreatedById"; } }
         public static string ModifiedById { get { return "ModifiedById"; } }
     }
-    public static class FamilyBuildComponentPostionColumnNames
+    public static class FamilyBuildComponentPostionsColumnNames
     {
         public static string Id { get { return "Id"; } }
         public static string FamilyBuildId { get { return "FamilyBuildId"; } }
@@ -66,7 +66,7 @@ namespace ModBox.FamFactory.Revit.Manager
         public static string DateCreated { get { return "DateCreated"; } }
         public static string DateModified { get { return "DateModified"; } }
     }
-    public static class FamilyComponentsTableColumnNames
+    public static class FamilyComponentsColumnNames
     {
         public static string Id { get { return "Id"; } }
         public static string Name { get { return "Name"; } }
@@ -98,7 +98,7 @@ namespace ModBox.FamFactory.Revit.Manager
         public static string FileName { get { return "FileName"; } }
         public static string CanHostRebar { get { return "CanHostRebar"; } }
     }
-    public static class FamilyComponentCategoryColumnNames 
+    public static class FamilyComponentsCategoryColumnNames 
     {
         public static string Id { get { return "Id"; } }
         public static string Name { get { return "Name"; } }
@@ -122,7 +122,7 @@ namespace ModBox.FamFactory.Revit.Manager
         public static string FamilyComponentId { get { return "FamilyComponentId"; } }
         public static string FamilyComponentSearchTermId { get { return "FamilyComponentSearchTermId"; } }
     }
-    public static class FamilyComponentSearchTermColumnNames 
+    public static class FamilyComponentsSearchTermColumnNames 
     {
         public static string Id { get { return "Id"; } }
         public static string Name { get { return "Name"; } }
@@ -132,14 +132,18 @@ namespace ModBox.FamFactory.Revit.Manager
         public static string CreatedById { get { return "CreatedById"; } }
         public static string ModifiedById { get { return "ModifiedById"; } }
     }
-    public static class FamilyComponentTypesTableColumnNames
+    public static class FamilyComponentTypesColumnNames
     {
         public static string Id { get { return "Id"; } }
         public static string Thumbnail { get { return "Thumbnail"; } }
         public static string Name { get { return "Name"; } }
         public static string Description { get { return "Description"; } }
+        public static string DateCreated { get { return "DateCreated"; } }
+        public static string DateModified { get { return "DateModified"; } }
+        public static string CreatedById { get { return "CreatedById"; } }
+        public static string ModifiedById { get { return "ModifiedById"; } }
     }
-    public static class FamilyGeometryColumnNames
+    public static class FamilyGeometriesColumnNames
     {
         public static string Id { get { return "Id"; } }
         public static string FamilyId { get { return "FamilyId"; } }
@@ -163,7 +167,7 @@ namespace ModBox.FamFactory.Revit.Manager
         public static string LevelId { get { return "LevelId"; } }
         public static string IsSolid { get { return "IsSolid"; } }
     }
-    public static class FamilyTemplateColumnNames
+    public static class FamilyTemplatesColumnNames
     {
         public static string Id { get { return "Id"; } }
         public static string FamilyId { get { return "FamilyId"; } }
@@ -193,7 +197,7 @@ namespace ModBox.FamFactory.Revit.Manager
         public static string FileSize { get { return "FileSize"; } }
         public static string FamilyFile { get { return "FamilyFile"; } }
     }
-    public static class TemplateComponentColumnNames
+    public static class TemplateComponentsColumnNames
     {
         public static string Id { get { return "Id"; } }
         public static string FamilyId { get { return "FamilyId"; } }
@@ -215,10 +219,10 @@ namespace ModBox.FamFactory.Revit.Manager
         public static string ProfileIsFlipped { get { return "ProfileIsFlipped"; } }
         public static string FamilyComponentTypeId { get { return "FamilyComponentTypeId"; } }
     }
-    public static class ParameterColumnNames
+    public static class ParametersColumnNames
     {
         public static string Id { get { return "Id"; } }
-        public static string ElementId { get { return "FamilyId"; } }
+        public static string ElementId { get { return "ElementId"; } }
         public static string Name { get { return "Name"; } }
         public static string DateCreated { get { return "DateCreated"; } }
         public static string DateModified { get { return "DateModified"; } }
@@ -244,7 +248,7 @@ namespace ModBox.FamFactory.Revit.Manager
         public static string IsDeterminedByFormula { get { return "IsDeterminedByFormula"; } }
         public static string Formula { get { return "Formula"; } }
     }
-    public static class PermissionColumnNames
+    public static class PermissionsColumnNames
     {
         public static string Id { get { return "Id"; } }
         public static string Name { get { return "Name"; } }
@@ -252,14 +256,14 @@ namespace ModBox.FamFactory.Revit.Manager
         public static string DateModified { get { return "DateModified"; } }
         public static string CreatedById { get { return "CreatedById"; } }
         public static string ModifiedById { get { return "ModifiedById"; } }
-        public static string Description { get { return "ElementGUID"; } }
-        public static string CanCreate { get { return "HasValue"; } }
-        public static string CanRead { get { return "IsReadOnly"; } }
-        public static string CanWrite { get { return "IsShared"; } }
-        public static string CanDelete { get { return "IsInstance"; } }
-        public static string Special { get { return "StorageType"; } }
+        public static string Description { get { return "Description"; } }
+        public static string CanCreate { get { return "CanCreate"; } }
+        public static string CanRead { get { return "CanRead"; } }
+        public static string CanWrite { get { return "CanWrite"; } }
+        public static string CanDelete { get { return "CanDelete"; } }
+        public static string Special { get { return "Special"; } }
     }
-    public static class ReferencePlaneTableColumnNames
+    public static class ReferencePlanesColumnNames
     {
         public static string Id { get { return "Id"; } }
         public static string FamilyId { get { return "FamilyId"; } }
@@ -287,9 +291,7 @@ namespace ModBox.FamFactory.Revit.Manager
         public static string CreatedById { get { return "CreatedById"; } }
         public static string ModifiedById { get { return "ModifiedById"; } }
     }
-
-
-    public static class SystemConfigurationTableColumnNames 
+    public static class SystemConfigurationColumnNames 
     {
         public static string Id { get { return "Id"; } }
         public static string Name { get { return "Name"; } }
@@ -304,9 +306,7 @@ namespace ModBox.FamFactory.Revit.Manager
         public static string DateModified { get { return "DateModified"; } }
         public static string State { get { return "State"; } }
     }
-
-
-    public static class UsersTableColumnNames 
+    public static class UsersColumnNames 
     {
         public static string Id { get { return "Id"; } }
         public static string Name { get { return "Name"; } }

@@ -13,8 +13,8 @@ namespace ModBox.FamFactory.Revit.Manager
         static object _adskApplciation;
         internal static object ADSKApplciation { get { return _adskApplciation; } }
 
-        DataView _InternalDataView;
-        internal DataView InternalDataView { get { return _InternalDataView; } set { _InternalDataView = value; } }
+        DataView _internalDataView;
+        internal DataView InternalDataView { get { return _internalDataView; } set { _internalDataView = value; } }
 
         private User _ActiveUser;
         public User ActiveUser { get { return _ActiveUser; } set { _ActiveUser = value; NotifyPropertyChanged(); } }
@@ -81,6 +81,12 @@ namespace ModBox.FamFactory.Revit.Manager
             get => _DeleteElementCommand ?? (_DeleteElementCommand = new RelayCommand(param => this.DeleteElement(SelectedElement), param => this.CanDeleteElement()));
         }
 
+        RelayCommand _DeleteElementCommands;
+        public ICommand DeleteElementCommands
+        {
+            get => _DeleteElementCommands ?? (_DeleteElementCommands = new RelayCommand(param => this.DeleteElements(SelectedItems.ToArray()), param => this.CanDeleteElements()));
+        }
+
         RelayCommand _SaveElementCommand;
         public ICommand SaveElementCommand
         {
@@ -98,6 +104,8 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             get => _CancelElementChangesCommand ?? (_CancelElementChangesCommand = new RelayCommand(param => this.CancelElementChanges(), param => this.CanCancelElementChanges()));
         }
+
+        public ObservableCollection<T> SelectedItems => throw new NotImplementedException();
 
         public ViewModelBase(DataSet dataSet, System.Data.SQLite.SQLiteConnection sQLiteConnection)
         {
@@ -171,23 +179,7 @@ namespace ModBox.FamFactory.Revit.Manager
             }
         }
 
-        public void DeleteElement(T element)
-        {
-            T tempStorage = SelectedElement;
-            int index = InternalCollection.IndexOf(tempStorage);
-
-            if (index > 0)
-                SelectedElement = InternalCollection[index - 1];
-
-            if (index == 0 && InternalCollection.Count > 1)
-                SelectedElement = InternalCollection[index + 1];
-
-            if (index == 0 && InternalCollection.Count == 1)
-                SelectedElement = default(T);
-
-            InternalCollection.Remove(element);
-            ((IModelBase<T>)element).Delete();
-        }
+        public abstract void DeleteElement(T element);
 
         public abstract object NewElement(object parent);
 
@@ -220,6 +212,71 @@ namespace ModBox.FamFactory.Revit.Manager
         internal protected void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void AddElements(T[] elements)
+        {
+            throw new NotImplementedException();
+        }
+
+        T IViewModel<T>.NewElement(object parent)
+        {
+            throw new NotImplementedException();
+        }
+
+        public T NewElements(object[] parents)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool IViewModel<T>.DeleteElement(T element)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int DeleteElements(T[] element)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool IViewModel<T>.SaveElement(T element)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int SaveElements(T[] element)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool IViewModel<T>.EditElement(T element)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int EditElements(T[] element)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool CanEditElements()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool CanCancelElementsChanges()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool CanDeleteElements()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool CanSaveElements()
+        {
+            throw new NotImplementedException();
         }
     }
 }

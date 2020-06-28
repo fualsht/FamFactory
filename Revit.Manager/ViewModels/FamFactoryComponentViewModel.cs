@@ -203,5 +203,10 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             throw new NotImplementedException();
         }
+
+        public override void DeleteElement(FamilyComponent element)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

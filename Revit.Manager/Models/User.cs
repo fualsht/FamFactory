@@ -15,43 +15,43 @@ namespace ModBox.FamFactory.Revit.Manager
     
     public class User : ModelBase<User>
     {
-        public string Id { get { return internalDataRowView[UsersTableColumnNames.Id.ToString()].ToString(); } 
-            set { internalDataRowView[UsersTableColumnNames.Id.ToString()] = value; NotifyPropertyChanged(); } }
-        public string Name { get { return internalDataRowView[UsersTableColumnNames.Name.ToString()].ToString(); } 
-            set { internalDataRowView.BeginEdit(); internalDataRowView[UsersTableColumnNames.Name.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); } }
-        public string FirstName { get { return internalDataRowView[UsersTableColumnNames.FirstName.ToString()].ToString(); } 
-            set { internalDataRowView.BeginEdit(); internalDataRowView[UsersTableColumnNames.FirstName.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); } }
-        public string LastName { get { return internalDataRowView[UsersTableColumnNames.LastName.ToString()].ToString(); } 
-            set { internalDataRowView.BeginEdit(); internalDataRowView[UsersTableColumnNames.LastName.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); } }
-        public string Email { get { return internalDataRowView[UsersTableColumnNames.Email.ToString()].ToString(); } 
-            set { internalDataRowView.BeginEdit(); internalDataRowView[UsersTableColumnNames.Email.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); } }
-        public string Password { get { return internalDataRowView[UsersTableColumnNames.Password.ToString()].ToString(); } 
-            set { internalDataRowView.BeginEdit(); internalDataRowView[UsersTableColumnNames.Password.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); } }
-        public object ProfilePic { get { return internalDataRowView[UsersTableColumnNames.ProfilePic.ToString()]; } 
-            set { internalDataRowView.BeginEdit(); internalDataRowView[UsersTableColumnNames.ProfilePic.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); } }
+        public string Id { get { return internalDataRowView[UsersColumnNames.Id.ToString()].ToString(); } 
+            set { internalDataRowView[UsersColumnNames.Id.ToString()] = value; NotifyPropertyChanged(); } }
+        public string Name { get { return internalDataRowView[UsersColumnNames.Name.ToString()].ToString(); } 
+            set { internalDataRowView.BeginEdit(); internalDataRowView[UsersColumnNames.Name.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); } }
+        public string FirstName { get { return internalDataRowView[UsersColumnNames.FirstName.ToString()].ToString(); } 
+            set { internalDataRowView.BeginEdit(); internalDataRowView[UsersColumnNames.FirstName.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); } }
+        public string LastName { get { return internalDataRowView[UsersColumnNames.LastName.ToString()].ToString(); } 
+            set { internalDataRowView.BeginEdit(); internalDataRowView[UsersColumnNames.LastName.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); } }
+        public string Email { get { return internalDataRowView[UsersColumnNames.Email.ToString()].ToString(); } 
+            set { internalDataRowView.BeginEdit(); internalDataRowView[UsersColumnNames.Email.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); } }
+        public string Password { get { return internalDataRowView[UsersColumnNames.Password.ToString()].ToString(); } 
+            set { internalDataRowView.BeginEdit(); internalDataRowView[UsersColumnNames.Password.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); } }
+        public object ProfilePic { get { return internalDataRowView[UsersColumnNames.ProfilePic.ToString()]; } 
+            set { internalDataRowView.BeginEdit(); internalDataRowView[UsersColumnNames.ProfilePic.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); } }
 
         public string PermissionId { 
             get 
             {
-                return internalDataRowView[UsersTableColumnNames.PermissionId.ToString()].ToString(); 
+                return internalDataRowView[UsersColumnNames.PermissionId.ToString()].ToString(); 
             }
             set
             {
-                internalDataRowView[UsersTableColumnNames.PermissionId.ToString()] = value; 
-                NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged");
+                internalDataRowView[UsersColumnNames.PermissionId.ToString()] = value; 
+                NotifyPropertyChanged(); NotifyValueChanged();
             }
         }
 
-        public object LogInDate { get { return internalDataRowView[UsersTableColumnNames.LogInDate.ToString()]; }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[UsersTableColumnNames.LogInDate.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); } }
+        public object LogInDate { get { return internalDataRowView[UsersColumnNames.LogInDate.ToString()]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[UsersColumnNames.LogInDate.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); } }
 
-        public EntityStates State { get { return (EntityStates)internalDataRowView[UsersTableColumnNames.State.ToString()]; }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[UsersTableColumnNames.State.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); } }
+        public EntityStates State { get { return (EntityStates)internalDataRowView[UsersColumnNames.State.ToString()]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[UsersColumnNames.State.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); } }
 
         public string TempFolder
         {
-            get { return internalDataRowView[UsersTableColumnNames.TempFolder.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[UsersTableColumnNames.TempFolder.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return internalDataRowView[UsersColumnNames.TempFolder.ToString()].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[UsersColumnNames.TempFolder.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
 
         public User(DataRowView rowView, SQLiteConnection connection) : base(rowView, connection)

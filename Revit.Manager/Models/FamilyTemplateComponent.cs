@@ -11,44 +11,44 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamilyTemplateComponent : ModelBase<FamilyTemplateComponent>
     {
-        public string Id { get { return internalDataRowView[TemplateComponentColumnNames.Id.ToString()].ToString(); } set { internalDataRowView[TemplateComponentColumnNames.Id.ToString()] = value; NotifyPropertyChanged(); } }
+        public string Id { get { return internalDataRowView[TemplateComponentsColumnNames.Id.ToString()].ToString(); } set { internalDataRowView[TemplateComponentsColumnNames.Id.ToString()] = value; NotifyPropertyChanged(); } }
 
         public string Name
         {
-            get { return internalDataRowView[TemplateComponentColumnNames.Name.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[TemplateComponentColumnNames.Name.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return internalDataRowView[TemplateComponentsColumnNames.Name.ToString()].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[TemplateComponentsColumnNames.Name.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
 
         public string Description
         {
-            get { return internalDataRowView[TemplateComponentColumnNames.Description.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[TemplateComponentColumnNames.Description.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return internalDataRowView[TemplateComponentsColumnNames.Description.ToString()].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[TemplateComponentsColumnNames.Description.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
 
         public bool IsProfile
         {
-            get { return (bool)internalDataRowView[TemplateComponentColumnNames.IsProfile.ToString()]; }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[TemplateComponentColumnNames.IsProfile.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return (bool)internalDataRowView[TemplateComponentsColumnNames.IsProfile.ToString()]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[TemplateComponentsColumnNames.IsProfile.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
 
         public string FamilyId
         {
-            get { return internalDataRowView[TemplateComponentColumnNames.FamilyId.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[TemplateComponentColumnNames.FamilyId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); RefreshCollections(); }
+            get { return internalDataRowView[TemplateComponentsColumnNames.FamilyId.ToString()].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[TemplateComponentsColumnNames.FamilyId.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); RefreshCollections(); }
         }
 
         public string XReferencePlaneId
         {
             get 
             {
-                return internalDataRowView[TemplateComponentColumnNames.XReferencePlaneId.ToString()].ToString();
+                return internalDataRowView[TemplateComponentsColumnNames.XReferencePlaneId.ToString()].ToString();
             }
             set
             {
                 internalDataRowView.BeginEdit(); 
-                internalDataRowView[TemplateComponentColumnNames.XReferencePlaneId.ToString()] = value; 
+                internalDataRowView[TemplateComponentsColumnNames.XReferencePlaneId.ToString()] = value; 
                 NotifyPropertyChanged(); 
-                _ValuesChanged = true; 
+                _valuesChanged = true; 
                 NotifyPropertyChanged("ValuesChanged"); }
         }
 
@@ -63,7 +63,7 @@ namespace ModBox.FamFactory.Revit.Manager
                 internalDataRowView.BeginEdit(); 
                 _XReferencePlane = value;
                 NotifyPropertyChanged(); 
-                _ValuesChanged = true; 
+                _valuesChanged = true; 
                 NotifyPropertyChanged("ValuesChanged"); 
             }
         }
@@ -72,14 +72,14 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             get 
             {
-                return internalDataRowView[TemplateComponentColumnNames.YReferencePlaneId.ToString()].ToString(); 
+                return internalDataRowView[TemplateComponentsColumnNames.YReferencePlaneId.ToString()].ToString(); 
             }
             set
             {
                 internalDataRowView.BeginEdit();
-                internalDataRowView[TemplateComponentColumnNames.YReferencePlaneId.ToString()] = value;
+                internalDataRowView[TemplateComponentsColumnNames.YReferencePlaneId.ToString()] = value;
                 NotifyPropertyChanged();
-                _ValuesChanged = true; 
+                _valuesChanged = true; 
                 NotifyPropertyChanged("ValuesChanged");
             }
         }
@@ -96,7 +96,7 @@ namespace ModBox.FamFactory.Revit.Manager
                 internalDataRowView.BeginEdit();
                 _YRreferencePlane = value;
                 NotifyPropertyChanged();
-                _ValuesChanged = true;
+                _valuesChanged = true;
                 NotifyPropertyChanged("ValuesChanged");
             }
         }
@@ -106,14 +106,14 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             get
             { 
-                return internalDataRowView[TemplateComponentColumnNames.ZReferencePlaneId.ToString()].ToString();
+                return internalDataRowView[TemplateComponentsColumnNames.ZReferencePlaneId.ToString()].ToString();
             }
             set
             { 
                 internalDataRowView.BeginEdit();
-                internalDataRowView[TemplateComponentColumnNames.ZReferencePlaneId.ToString()] = value;
+                internalDataRowView[TemplateComponentsColumnNames.ZReferencePlaneId.ToString()] = value;
                 NotifyPropertyChanged(); 
-                _ValuesChanged = true;
+                _valuesChanged = true;
                 NotifyPropertyChanged("ValuesChanged");
             }
         }
@@ -131,68 +131,68 @@ namespace ModBox.FamFactory.Revit.Manager
                 internalDataRowView.BeginEdit();
                 _ZRreferencePlane = value;
                 NotifyPropertyChanged();
-                _ValuesChanged = true;
+                _valuesChanged = true;
                 NotifyPropertyChanged("ValuesChanged");
             }
         }
 
         public string ProfileGeometryId
         {
-            get { return internalDataRowView[TemplateComponentColumnNames.ProfileGeometryId.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[TemplateComponentColumnNames.ProfileGeometryId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return internalDataRowView[TemplateComponentsColumnNames.ProfileGeometryId.ToString()].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[TemplateComponentsColumnNames.ProfileGeometryId.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
         private FamilyGeometry _ProfileGeometry;
 
         public FamilyGeometry ProfileGeometry
         {
             get { return _ProfileGeometry; }
-            set { _ProfileGeometry = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            set { _ProfileGeometry = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
 
 
         public string ProfileTypeNameId
         {
-            get { return internalDataRowView[TemplateComponentColumnNames.ProfileTypeNameId.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[TemplateComponentColumnNames.ProfileTypeNameId.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return internalDataRowView[TemplateComponentsColumnNames.ProfileTypeNameId.ToString()].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[TemplateComponentsColumnNames.ProfileTypeNameId.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
 
         public decimal ProfileVerticalOffset
         {
-            get { return (decimal)internalDataRowView[TemplateComponentColumnNames.ProfileVerticalOffset.ToString()]; }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[TemplateComponentColumnNames.ProfileVerticalOffset.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return (decimal)internalDataRowView[TemplateComponentsColumnNames.ProfileVerticalOffset.ToString()]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[TemplateComponentsColumnNames.ProfileVerticalOffset.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
 
         public decimal ProfileHorizontalOffset
         {
-            get { return (decimal)internalDataRowView[TemplateComponentColumnNames.ProfileHorizontalOffset.ToString()]; }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[TemplateComponentColumnNames.ProfileHorizontalOffset.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return (decimal)internalDataRowView[TemplateComponentsColumnNames.ProfileHorizontalOffset.ToString()]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[TemplateComponentsColumnNames.ProfileHorizontalOffset.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
 
         public decimal ProfileAngle
         {
-            get { return (decimal)internalDataRowView[TemplateComponentColumnNames.ProfileAngle.ToString()]; }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[TemplateComponentColumnNames.ProfileAngle.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return (decimal)internalDataRowView[TemplateComponentsColumnNames.ProfileAngle.ToString()]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[TemplateComponentsColumnNames.ProfileAngle.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
 
         public bool ProfileIsFlipped
         {
-            get { return (bool)internalDataRowView[TemplateComponentColumnNames.ProfileIsFlipped.ToString()]; }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[TemplateComponentColumnNames.ProfileIsFlipped.ToString()] = value; NotifyPropertyChanged(); _ValuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
+            get { return (bool)internalDataRowView[TemplateComponentsColumnNames.ProfileIsFlipped.ToString()]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[TemplateComponentsColumnNames.ProfileIsFlipped.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
 
         public string FamilyComponentTypeId
         {
             get
             {
-                return internalDataRowView[TemplateComponentColumnNames.FamilyComponentTypeId.ToString()].ToString();
+                return internalDataRowView[TemplateComponentsColumnNames.FamilyComponentTypeId.ToString()].ToString();
             }
             set
             {
                 internalDataRowView.BeginEdit();
-                internalDataRowView[TemplateComponentColumnNames.FamilyComponentTypeId.ToString()] = value;
+                internalDataRowView[TemplateComponentsColumnNames.FamilyComponentTypeId.ToString()] = value;
                 NotifyPropertyChanged();
-                _ValuesChanged = true;
-                NotifyPropertyChanged("ValuesChanged");
+                NotifyValueChanged();
+                FamilyComponentType = FamilyComponentTypes.FirstOrDefault(x => x.Id == value);
             }
         }
 
@@ -209,8 +209,11 @@ namespace ModBox.FamFactory.Revit.Manager
                 internalDataRowView.BeginEdit();
                 _FamilyComponentType = value;
                 NotifyPropertyChanged();
-                _ValuesChanged = true;
-                NotifyPropertyChanged("ValuesChanged");
+                NotifyValueChanged();
+                if (value != null && FamilyComponentTypeId != value.Id)
+                {
+                    FamilyComponentTypeId = value.Id;
+                }
             }
         }
 
@@ -269,6 +272,7 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             FamilyTemplateComponent component = new FamilyTemplateComponent(dataVew.AddNew(), connection);
             component.Id = Guid.NewGuid().ToString();
+            component.FamilyComponentTypeId = parent.FamilyTemplateComponents.InternalCollection[0].Id;
             component.DateCreated = DateTime.Now;
             component.DateModified = DateTime.Now;
             component.CreatedById = user.Id;
