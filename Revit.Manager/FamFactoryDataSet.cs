@@ -1859,7 +1859,6 @@ namespace ModBox.FamFactory.Revit.Manager
             adminUserDataRow[UsersColumnNames.FirstName.ToString()] = "Admin";
             adminUserDataRow[UsersColumnNames.LastName.ToString()] = "";
             adminUserDataRow[UsersColumnNames.Email.ToString()] = "Admin@Comapny.com";
-            adminUserDataRow[UsersColumnNames.Password.ToString()] = Utils.GetPasswordHash(Utils.getHashAlgarythm(), "Password");
             adminUserDataRow[UsersColumnNames.ProfilePic.ToString()] = Utils.ImageToByte(Resources.UserIcon);
             adminUserDataRow[UsersColumnNames.PermissionId.ToString()] = dataSet.Tables[TableNames.FF_Permissions.ToString()].Select("Name = 'Editor'").FirstOrDefault()["Id"];
             adminUserDataRow[UsersColumnNames.LogInDate.ToString()] = DateTime.Now;
@@ -1868,6 +1867,7 @@ namespace ModBox.FamFactory.Revit.Manager
             adminUserDataRow[UsersColumnNames.DateCreated.ToString()] = DateTime.Now;
             adminUserDataRow[UsersColumnNames.DateModified.ToString()] = DateTime.Now;
             adminUserDataRow[UsersColumnNames.State.ToString()] = EntityStates.Enabled;
+            adminUserDataRow[UsersColumnNames.Password.ToString()] = Utils.GetPasswordHash(Utils.getHashAlgarythm(), "Password");
             usersTable.Rows.Add(adminUserDataRow);
 
             // System Configuration

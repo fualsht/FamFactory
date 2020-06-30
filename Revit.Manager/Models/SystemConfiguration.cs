@@ -51,15 +51,15 @@ namespace ModBox.FamFactory.Revit.Manager
             set { internalDataRowView.BeginEdit(); internalDataRowView[SystemConfigurationColumnNames.State.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
 
-        public SystemConfiguration(DataRowView rowView, SQLiteConnection connection) : base(rowView, connection)
+        public SystemConfiguration(DataRowView rowView, SQLiteConnection connection, User user) : base(rowView, connection, user)
         {
         }
 
-        public static SystemConfiguration NewSystemConfiguration(SQLiteConnection connection, DataView view)
+        public static SystemConfiguration NewSystemConfiguration(SQLiteConnection connection, DataView view, User user)
         {
             DataRowView row = view.AddNew();
 
-            SystemConfiguration sysconfig = new SystemConfiguration(row, connection);
+            SystemConfiguration sysconfig = new SystemConfiguration(row, connection, user);
             sysconfig.Id = Guid.NewGuid().ToString();
             sysconfig.AppVersion = "1.0.0";
             sysconfig.DataBaseVersion = "1.0.0";

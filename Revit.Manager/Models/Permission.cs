@@ -12,49 +12,65 @@ namespace ModBox.FamFactory.Revit.Manager
     {
         public string Id
         {
-            get { return internalDataRowView[PermissionsColumnNames.Id.ToString()].ToString(); }
-            set { internalDataRowView[PermissionsColumnNames.Id.ToString()] = value; NotifyPropertyChanged(); }
+            get { return internalDataRowView[PermissionsColumnNames.Id].ToString(); }
+            set { internalDataRowView[PermissionsColumnNames.Id] = value; NotifyPropertyChanged(); }
         }
         public string Name
         {
-            get { return internalDataRowView[PermissionsColumnNames.Name.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[PermissionsColumnNames.Name.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
+            get { return internalDataRowView[PermissionsColumnNames.Name].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[PermissionsColumnNames.Name] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
 
         public string Description
         {
-            get { return internalDataRowView[PermissionsColumnNames.Description.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[PermissionsColumnNames.Description.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
+            get { return internalDataRowView[PermissionsColumnNames.Description].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[PermissionsColumnNames.Description] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
-        public string Create
+        public bool CanCreate
         {
-            get { return internalDataRowView[PermissionsColumnNames.CanCreate.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[PermissionsColumnNames.CanCreate.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
+            get { return (bool)internalDataRowView[PermissionsColumnNames.CanCreate]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[PermissionsColumnNames.CanCreate] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
-        public string Read
+        public bool CanRead
         {
-            get { return internalDataRowView[PermissionsColumnNames.CanRead.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[PermissionsColumnNames.CanRead.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
+            get { return (bool)internalDataRowView[PermissionsColumnNames.CanRead]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[PermissionsColumnNames.CanRead] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
-        public string Write
+        public bool CanWrite
         {
-            get { return internalDataRowView[PermissionsColumnNames.CanWrite.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[PermissionsColumnNames.CanWrite.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
+            get { return (bool)internalDataRowView[PermissionsColumnNames.CanWrite]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[PermissionsColumnNames.CanWrite] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
-        public string CanDelete
+        public bool CanDelete
         {
-            get { return internalDataRowView[PermissionsColumnNames.Special.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[PermissionsColumnNames.CanDelete.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
+            get { return (bool)internalDataRowView[PermissionsColumnNames.Special]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[PermissionsColumnNames.CanDelete] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
-        public string Special
+        public bool Special
         {
-            get { return internalDataRowView[PermissionsColumnNames.Special.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[PermissionsColumnNames.Special.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
+            get { return (bool)internalDataRowView[PermissionsColumnNames.Special]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[PermissionsColumnNames.Special] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
 
-        public Permission(DataRowView rowView, SQLiteConnection connection) : base(rowView, connection)
+        public Permission(DataRowView rowView, SQLiteConnection connection, User user) : base(rowView, connection, user)
         {
 
+        }
+
+        public static Permission newPermission(SQLiteConnection connection, DataView rowView, User user)
+        {
+            DataRowView row = rowView.AddNew();
+
+            Permission permission = new Permission(row, connection, user);
+            permission.Id = Guid.NewGuid().ToString();
+            permission.Name = "New Permission";
+            permission.Description = "";
+            permission.CanRead = false;
+            permission.CanWrite = false;
+            permission.CanCreate = false;
+            permission.CanDelete = false;
+            permission.Special = false;
+            return permission;
         }
 
         public override bool Equals(object obj)

@@ -25,22 +25,22 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public FamFactoryViewModel(DataSet dataset, System.Data.SQLite.SQLiteConnection sQLiteConnection, User user) : base(dataset, sQLiteConnection, user)
         {
-            StartApplication();
+            StartApplication(user);
         }
 
         public FamFactoryViewModel(DataSet dataset, System.Data.SQLite.SQLiteConnection sQLiteConnection, User user, Autodesk.Revit.ApplicationServices.Application adskApplication) : base(dataset, sQLiteConnection, user, adskApplication)
         {
-            StartApplication();
+            StartApplication(user);
         }
 
-        private void StartApplication()
+        private void StartApplication(User user)
         {
             try
             {
                 FamFactoryDataSet.UpdateDataSetFromDataSource(SQLiteConnection, InternalDataSet);
-                _UsersViewModel = new UsersViewModel(InternalDataSet, SQLiteConnection);
-                _FamilyTemplatesViewModel = new FamilyTemplatesViewModel(InternalDataSet, SQLiteConnection, ADSKApplciation);
-                _FamilyComponentViewModel = new FamFactoryComponentViewModel(InternalDataSet, SQLiteConnection, ADSKApplciation);
+                _UsersViewModel = new UsersViewModel(InternalDataSet, SQLiteConnection, user);
+                _FamilyTemplatesViewModel = new FamilyTemplatesViewModel(InternalDataSet, SQLiteConnection, user, ADSKApplciation);
+                _FamilyComponentViewModel = new FamFactoryComponentViewModel(InternalDataSet, SQLiteConnection, user, ADSKApplciation);
 
                 Pages.SystemConfigurationView systemConfigurationView = new Pages.SystemConfigurationView(this);
                 Pages.UsersView usersView = new Pages.UsersView(this);

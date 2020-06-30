@@ -12,6 +12,9 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public abstract class ModelBase<T> : IModelBase<T>
     {
+        User _ActiveUser;
+        public User ActiveUser { get { return _ActiveUser; } }
+
         internal DataRowView internalDataRowView;
 
         internal SQLiteConnection internalSQLConenction;
@@ -68,15 +71,12 @@ namespace ModBox.FamFactory.Revit.Manager
             set { _ModifiedBy = value; NotifyPropertyChanged(); _valuesChanged = true; NotifyPropertyChanged("ValuesChanged"); NotifyValueChanged(); }
         }
 
-        public ModelBase(DataRowView rowView, SQLiteConnection connection)
-        {
-            internalDataRowView = rowView;
-            internalSQLConenction = connection;
-        }
         public ModelBase(DataRowView rowView, SQLiteConnection connection, User user)
         {
             internalDataRowView = rowView;
             internalSQLConenction = connection;
+            _ActiveUser = user;
+            NotifyPropertyChanged("ActiveUser");
         }
 
         public void BeginEdit()

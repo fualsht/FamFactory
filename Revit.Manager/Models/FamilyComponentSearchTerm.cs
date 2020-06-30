@@ -10,7 +10,7 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamilyComponentSearchTerm : ModelBase<FamilyComponentSearchTerm>
     {
-        public FamilyComponentSearchTerm(DataRowView rowView, SQLiteConnection connection) : base(rowView, connection)
+        public FamilyComponentSearchTerm(DataRowView rowView, SQLiteConnection connection, User user) : base(rowView, connection, user)
         {
         }
 

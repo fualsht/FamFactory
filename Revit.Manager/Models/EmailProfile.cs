@@ -57,16 +57,16 @@ namespace ModBox.FamFactory.Revit.Manager
             set { internalDataRowView.BeginEdit(); internalDataRowView[EmailProfilesColumnNames.State] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
 
-        public EmailProfile(DataRowView rowView, SQLiteConnection connection) : base(rowView, connection)
-        {
 
+        public EmailProfile(DataRowView rowView, SQLiteConnection connection, User user) : base(rowView, connection, user)
+        {
         }
 
         public static EmailProfile NewEmailProfile(SQLiteConnection connection, DataView rowView, User user)
         {
             DataRowView row = rowView.AddNew();
 
-            EmailProfile emailprofile = new EmailProfile(row, connection);
+            EmailProfile emailprofile = new EmailProfile(row, connection, user);
             emailprofile.Id = Guid.NewGuid().ToString();
             emailprofile.State = EntityStates.Enabled;
             emailprofile.DateCreated = DateTime.Now;

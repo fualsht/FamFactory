@@ -13,14 +13,14 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamilyTemplatesViewModel : ViewModelBase<FamilyTemplate>
     {
-        public FamilyTemplatesViewModel(DataSet dataset, System.Data.SQLite.SQLiteConnection sQLiteConnection) : base(dataset, sQLiteConnection)
+        public FamilyTemplatesViewModel(DataSet dataset, System.Data.SQLite.SQLiteConnection sQLiteConnection, User user) : base(dataset, sQLiteConnection, user)
         {
             InternalDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplates].DefaultView;
             OnSelectionChagned += FamilyTemplatesViewModel_OnSelectionChagned;
             RefreshCollections();
         }
 
-        public FamilyTemplatesViewModel(DataSet dataset, System.Data.SQLite.SQLiteConnection sQLiteConnection, object application) : base(dataset, sQLiteConnection, application)
+        public FamilyTemplatesViewModel(DataSet dataset, System.Data.SQLite.SQLiteConnection sQLiteConnection, User user, object application) : base(dataset, sQLiteConnection, user, application)
         {
             InternalDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplates].DefaultView;
             OnSelectionChagned += FamilyTemplatesViewModel_OnSelectionChagned;
@@ -34,7 +34,7 @@ namespace ModBox.FamFactory.Revit.Manager
                 InternalCollection.Clear();
                 foreach (DataRowView item in InternalDataView)
                 {
-                    this.AddElement(new FamilyTemplate(item, SQLiteConnection), true);
+                    this.AddElement(new FamilyTemplate(item, SQLiteConnection, ActiveUser), true);
                 }
             }
         }
@@ -179,17 +179,6 @@ namespace ModBox.FamFactory.Revit.Manager
             FamFactoryDataSet.SaveTableChangesToDatbase(SQLiteConnection, SelectedElement.FamilyTemplateGeometries.InternalDataView.Table);
             RefreshCollections();
         }
-
-        public override void SetActiveUser(User user)
-        {
-            ActiveUser = user;
-            SelectedElement.FamilyTemplateComponents.SetActiveUser(user);
-            SelectedElement.FamilyTemplateReferencePlanes.SetActiveUser(user);
-            SelectedElement.FamilyTemplateGeometries.SetActiveUser(user);
-            SelectedElement.FamilyTemplateParameters.SetActiveUser(user);
-        }
-
-
 
         private void FamilyTemplatesViewModel_OnSelectionChagned(object sender, EventArgs e)
         {

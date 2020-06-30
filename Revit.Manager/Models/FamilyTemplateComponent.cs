@@ -221,7 +221,7 @@ namespace ModBox.FamFactory.Revit.Manager
         public ObservableCollection<FamilyGeometry> ParentGeometries { get; set; }
         public ObservableCollection<FamilyComponentType> FamilyComponentTypes { get; set; }
 
-        public FamilyTemplateComponent(DataRowView rowView, SQLiteConnection connection) : base(rowView, connection)
+        public FamilyTemplateComponent(DataRowView rowView, SQLiteConnection connection, User user) : base(rowView, connection, user)
         {
             ParentReferencePlanes = new ObservableCollection<ReferencePlane>();
             ParentGeometries = new ObservableCollection<FamilyGeometry>();
@@ -238,7 +238,7 @@ namespace ModBox.FamFactory.Revit.Manager
             ParentReferencePlanes.Clear();
             foreach (DataRowView referencePlane in references)
             {
-                ParentReferencePlanes.Add(new ReferencePlane(referencePlane, this.internalSQLConenction));
+                ParentReferencePlanes.Add(new ReferencePlane(referencePlane, this.internalSQLConenction, ActiveUser));
             }
 
             XReferencePlane = ParentReferencePlanes.FirstOrDefault(x => x.Id == XReferencePlaneId);
@@ -252,7 +252,7 @@ namespace ModBox.FamFactory.Revit.Manager
             ParentGeometries.Clear();
             foreach (DataRowView item in geometries)
             {
-                ParentGeometries.Add(new FamilyGeometry(item, this.internalSQLConenction));
+                ParentGeometries.Add(new FamilyGeometry(item, this.internalSQLConenction, ActiveUser));
             }
 
             ProfileGeometry = ParentGeometries.FirstOrDefault(x => x.Id == ProfileGeometryId);
@@ -262,7 +262,7 @@ namespace ModBox.FamFactory.Revit.Manager
             FamilyComponentTypes.Clear();
             foreach (DataRowView item in componentTypes)
             {
-                FamilyComponentTypes.Add(new FamilyComponentType(item, this.internalSQLConenction));
+                FamilyComponentTypes.Add(new FamilyComponentType(item, this.internalSQLConenction, ActiveUser));
             }
 
             FamilyComponentType = FamilyComponentTypes.FirstOrDefault(x => x.Id == FamilyComponentTypeId);
@@ -270,7 +270,7 @@ namespace ModBox.FamFactory.Revit.Manager
 
         internal static FamilyTemplateComponent NewTemplateComponent(SQLiteConnection connection, DataView dataVew, User user, FamilyTemplate parent)
         {
-            FamilyTemplateComponent component = new FamilyTemplateComponent(dataVew.AddNew(), connection);
+            FamilyTemplateComponent component = new FamilyTemplateComponent(dataVew.AddNew(), connection, user);
             component.Id = Guid.NewGuid().ToString();
             component.FamilyComponentTypeId = parent.FamilyTemplateComponents.InternalCollection[0].Id;
             component.DateCreated = DateTime.Now;

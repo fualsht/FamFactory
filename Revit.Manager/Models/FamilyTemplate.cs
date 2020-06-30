@@ -128,19 +128,19 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public FamilyTemplateParameterViewModel FamilyTemplateParameters { get; set; }
 
-        public FamilyTemplate(DataRowView view, SQLiteConnection connection) : base(view, connection)
+        public FamilyTemplate(DataRowView view, SQLiteConnection connection, User user) : base(view, connection, user)
         {
-            FamilyTemplateComponents = new FamilyTemplateComponentViewModel(view.Row.Table.DataSet, connection);
-            FamilyTemplateReferencePlanes = new FamilyTemplateReferencePlaneViewModel(view.Row.Table.DataSet, connection);
-            FamilyTemplateGeometries = new FamilyTemplateGeometryViewModel(view.Row.Table.DataSet, connection);
-            FamilyTemplateParameters = new FamilyTemplateParameterViewModel(view.Row.Table.DataSet, connection);
+            FamilyTemplateComponents = new FamilyTemplateComponentViewModel(view.Row.Table.DataSet, connection, user);
+            FamilyTemplateReferencePlanes = new FamilyTemplateReferencePlaneViewModel(view.Row.Table.DataSet, connection, user);
+            FamilyTemplateGeometries = new FamilyTemplateGeometryViewModel(view.Row.Table.DataSet, connection, user);
+            FamilyTemplateParameters = new FamilyTemplateParameterViewModel(view.Row.Table.DataSet, connection, user);
         }
 
         public static FamilyTemplate NewTemplate(SQLiteConnection connection, DataView rowView, User user)
         {
             DataRowView row = rowView.AddNew();
 
-            FamilyTemplate template = new FamilyTemplate(row, connection);
+            FamilyTemplate template = new FamilyTemplate(row, connection, user);
             template.Id = Guid.NewGuid().ToString();
             template.Version = new Version(0, 0, 0);
             template.DateCreated = DateTime.Now;

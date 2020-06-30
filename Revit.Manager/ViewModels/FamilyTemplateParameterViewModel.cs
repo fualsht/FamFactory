@@ -10,13 +10,13 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamilyTemplateParameterViewModel : ViewModelBase<Parameter>
     {
-        public FamilyTemplateParameterViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection) : base(dataSet, sQLiteConnection)
+        public FamilyTemplateParameterViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection, User user) : base(dataSet, sQLiteConnection, user)
         {
             InternalDataView = dataSet.Tables[TableNames.FF_FamilyTemplateParameters.ToString()].DefaultView;
             RefreshCollections();
         }
 
-        public FamilyTemplateParameterViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection, object application) : base(dataSet, sQLiteConnection, application)
+        public FamilyTemplateParameterViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection, User user, object application) : base(dataSet, sQLiteConnection, user, application)
         {
             InternalDataView = dataSet.Tables[TableNames.FF_FamilyTemplateParameters.ToString()].DefaultView;
             RefreshCollections();
@@ -84,7 +84,7 @@ namespace ModBox.FamFactory.Revit.Manager
                 InternalCollection.Clear();
                 foreach (DataRowView item in InternalDataView)
                 {
-                    this.AddElement(new Parameter(item, SQLiteConnection), true);
+                    this.AddElement(new Parameter(item, SQLiteConnection, ActiveUser), true);
                 }
             }
         }
@@ -98,17 +98,12 @@ namespace ModBox.FamFactory.Revit.Manager
                 InternalCollection.Clear();
                 foreach (DataRowView item in InternalDataView)
                 {
-                    this.AddElement(new Parameter(item, SQLiteConnection), true);
+                    this.AddElement(new Parameter(item, SQLiteConnection, ActiveUser), true);
                 }
             }
         }
 
         public override void SaveElement(Parameter element)
-        {
-
-        }
-
-        public override void SetActiveUser(User user)
         {
 
         }

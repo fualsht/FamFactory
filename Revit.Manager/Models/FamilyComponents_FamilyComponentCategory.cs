@@ -10,7 +10,7 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamilyComponents_FamilyComponentCategory : ModelBase<FamilyComponents_FamilyComponentCategory>
     {
-        public FamilyComponents_FamilyComponentCategory(DataRowView rowView, SQLiteConnection connection) : base(rowView, connection)
+        public FamilyComponents_FamilyComponentCategory(DataRowView rowView, SQLiteConnection connection, User user) : base(rowView, connection, user)
         {
         }
 

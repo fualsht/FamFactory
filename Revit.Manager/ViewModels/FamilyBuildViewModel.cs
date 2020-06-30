@@ -10,11 +10,11 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamilyBuildViewModel : ViewModelBase<FamilyBuild>
     {
-        public FamilyBuildViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection) : base(dataSet, sQLiteConnection)
+        public FamilyBuildViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection, User user) : base(dataSet, sQLiteConnection, user)
         {
         }
 
-        public FamilyBuildViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection, object application) : base(dataSet, sQLiteConnection, application)
+        public FamilyBuildViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection, User user, object application) : base(dataSet, sQLiteConnection, user, application)
         {
         }
 
@@ -84,11 +84,6 @@ namespace ModBox.FamFactory.Revit.Manager
         }
 
         public override void SaveElement(FamilyBuild element)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void SetActiveUser(User user)
         {
             throw new NotImplementedException();
         }

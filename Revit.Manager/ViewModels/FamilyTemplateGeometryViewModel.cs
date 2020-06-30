@@ -10,13 +10,13 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamilyTemplateGeometryViewModel : ViewModelBase<FamilyGeometry>
     {
-        public FamilyTemplateGeometryViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection) : base(dataSet, sQLiteConnection)
+        public FamilyTemplateGeometryViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection, User user) : base(dataSet, sQLiteConnection, user)
         {
             InternalDataView = dataSet.Tables[TableNames.FF_FamilyTemplateGeometries.ToString()].DefaultView;
             RefreshCollections();
         }
 
-        public FamilyTemplateGeometryViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection, object application) : base(dataSet, sQLiteConnection, application)
+        public FamilyTemplateGeometryViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection, User user, object application) : base(dataSet, sQLiteConnection, user, application)
         {
             InternalDataView = dataSet.Tables[TableNames.FF_FamilyTemplateGeometries.ToString()].DefaultView;
             RefreshCollections();
@@ -84,7 +84,7 @@ namespace ModBox.FamFactory.Revit.Manager
                 InternalCollection.Clear();
                 foreach (DataRowView item in InternalDataView)
                 {
-                    this.AddElement(new FamilyGeometry(item, SQLiteConnection), true);
+                    this.AddElement(new FamilyGeometry(item, SQLiteConnection, ActiveUser), true);
                 }
             }
         }
@@ -98,17 +98,12 @@ namespace ModBox.FamFactory.Revit.Manager
                 InternalCollection.Clear();
                 foreach (DataRowView item in InternalDataView)
                 {
-                    this.AddElement(new FamilyGeometry(item, SQLiteConnection), true);
+                    this.AddElement(new FamilyGeometry(item, SQLiteConnection, ActiveUser), true);
                 }
             }
         }
 
         public override void SaveElement(FamilyGeometry element)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void SetActiveUser(User user)
         {
             throw new NotImplementedException();
         }

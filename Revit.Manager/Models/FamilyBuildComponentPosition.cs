@@ -10,9 +10,8 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamilyBuildComponentPosition : ModelBase<FamilyBuildComponentPosition>
     {
-        public FamilyBuildComponentPosition(DataRowView rowView, SQLiteConnection connection) : base(rowView, connection)
+        public FamilyBuildComponentPosition(DataRowView rowView, SQLiteConnection connection, User user) : base(rowView, connection, user)
         {
-
         }
 
         public override void RefreshCollections()

@@ -119,16 +119,16 @@ namespace ModBox.FamFactory.Revit.Manager
             set { internalDataRowView.BeginEdit(); internalDataRowView[ReferencePlanesColumnNames.IsActive.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
 
-        public ReferencePlane(DataRowView rowView, SQLiteConnection connection) : base(rowView, connection)
+        public ReferencePlane(DataRowView rowView, SQLiteConnection connection, User user) : base(rowView, connection, user)
         {
 
         }
 
-        public static ReferencePlane NewReferencePlane(SQLiteConnection connection, DataView rowView)
+        public static ReferencePlane NewReferencePlane(SQLiteConnection connection, DataView rowView, User user)
         {
             DataRowView row = rowView.AddNew();
 
-            ReferencePlane refPlane = new ReferencePlane(row, connection);
+            ReferencePlane refPlane = new ReferencePlane(row, connection, user);
             refPlane.Id = Guid.NewGuid().ToString();
             refPlane.Name = "NewElement";
             refPlane.ElementId = -1;

@@ -127,16 +127,16 @@ namespace ModBox.FamFactory.Revit.Manager
             set { internalDataRowView.BeginEdit(); internalDataRowView[ParametersColumnNames.Formula.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
 
-        public Parameter(DataRowView rowView, SQLiteConnection connection) : base(rowView, connection)
+        public Parameter(DataRowView rowView, SQLiteConnection connection, User user) : base(rowView, connection, user)
         {
 
         }
 
-        public static Parameter newParameter(SQLiteConnection connection, DataView rowView)
+        public static Parameter newParameter(SQLiteConnection connection, DataView rowView, User user)
         {
             DataRowView row = rowView.AddNew();
 
-            Parameter parameter = new Parameter(row, connection);
+            Parameter parameter = new Parameter(row, connection, user);
             parameter.Id = Guid.NewGuid().ToString();
             return parameter;
         }

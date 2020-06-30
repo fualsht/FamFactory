@@ -10,12 +10,12 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamilyComponentTypeViewModel : ViewModelBase<FamilyComponentType>
     {
-        public FamilyComponentTypeViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection) : base(dataSet, sQLiteConnection)
+        public FamilyComponentTypeViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection, User user) : base(dataSet, sQLiteConnection, user)
         {
             InternalDataView = InternalDataSet.Tables[TableNames.FF_FamilyComponentTypes].DefaultView;
             RefreshCollections();
         }
-        public FamilyComponentTypeViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection, object application) : base(dataSet, sQLiteConnection, application)
+        public FamilyComponentTypeViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection, User user, object application) : base(dataSet, sQLiteConnection, user, application)
         {
             InternalDataView = InternalDataSet.Tables[TableNames.FF_FamilyComponentTypes].DefaultView;
             RefreshCollections();
@@ -81,7 +81,7 @@ namespace ModBox.FamFactory.Revit.Manager
             InternalCollection.Clear();
             foreach (DataRowView item in InternalDataView)
             {
-                InternalCollection.Add(new FamilyComponentType(item, SQLiteConnection));
+                InternalCollection.Add(new FamilyComponentType(item, SQLiteConnection, ActiveUser));
             }
         }
 
@@ -93,11 +93,6 @@ namespace ModBox.FamFactory.Revit.Manager
         public override void SaveElement(FamilyComponentType element)
         {
             throw new NotImplementedException();
-        }
-
-        public override void SetActiveUser(User user)
-        {
-            this.ActiveUser = user;
         }
     }
 }

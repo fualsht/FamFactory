@@ -16,14 +16,14 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public FamFactoryComponentViewModel(DataSet dataSet, System.Data.SQLite.SQLiteConnection sQLiteConnection, User user) : base(dataSet, sQLiteConnection, user)
         {
-            FamilyComponentTypeItems = new FamilyComponentTypeViewModel(dataSet, sQLiteConnection);
+            FamilyComponentTypeItems = new FamilyComponentTypeViewModel(dataSet, sQLiteConnection, user);
             ComponentDataView = InternalDataSet.Tables[TableNames.FF_FamilyComponents].DefaultView;
             RefreshCollections();
         }
 
-        public FamFactoryComponentViewModel(DataSet dataSet, System.Data.SQLite.SQLiteConnection sQLiteConnection, object application) : base(dataSet, sQLiteConnection, application)
+        public FamFactoryComponentViewModel(DataSet dataSet, System.Data.SQLite.SQLiteConnection sQLiteConnection, User user, object application) : base(dataSet, sQLiteConnection, user, application)
         {
-            FamilyComponentTypeItems = new FamilyComponentTypeViewModel(dataSet, sQLiteConnection, application);
+            FamilyComponentTypeItems = new FamilyComponentTypeViewModel(dataSet, sQLiteConnection, user, application);
             ComponentDataView = InternalDataSet.Tables[TableNames.FF_FamilyComponents].DefaultView;
             RefreshCollections();
         }
@@ -35,7 +35,7 @@ namespace ModBox.FamFactory.Revit.Manager
                 InternalCollection.Clear();
                 foreach (DataRowView item in InternalDataSet.Tables[TableNames.FF_FamilyComponents].DefaultView)
                 {
-                    this.AddElement(new FamilyComponent(item, SQLiteConnection), true);
+                    this.AddElement(new FamilyComponent(item, SQLiteConnection, ActiveUser), true);
                 }
             }
         }
@@ -182,11 +182,6 @@ namespace ModBox.FamFactory.Revit.Manager
         public override void SaveElement(FamilyComponent element)
         {
      
-        }
-
-        public override void SetActiveUser(User user)
-        {
-            ActiveUser = user;
         }
 
         public override void RefreshCollections(string sortColumn, string filter)

@@ -12,7 +12,7 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class UsersViewModel : ViewModelBase<User>
     {
-        public UsersViewModel(DataSet dataSet, System.Data.SQLite.SQLiteConnection connection) : base(dataSet, connection)
+        public UsersViewModel(DataSet dataSet, System.Data.SQLite.SQLiteConnection connection, User user) : base(dataSet, connection, user)
         {
             InternalDataView = InternalDataSet.Tables[TableNames.FF_Users.ToString()].DefaultView;
             RefreshCollections();
@@ -98,7 +98,7 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public override object NewElement(object parent)
         {
-            return User.NewUser(SQLiteConnection, InternalDataView);
+            return User.NewUser(SQLiteConnection, InternalDataView, ActiveUser);
         }
 
         public override void SaveElement(User element)
@@ -139,11 +139,6 @@ namespace ModBox.FamFactory.Revit.Manager
                 }
             }
             return canCancelElementChanges;
-        }
-
-        public override void SetActiveUser(User user)
-        {
-            ActiveUser = user;
         }
 
         public override void RefreshCollections(string sortColumn, string filter)

@@ -96,16 +96,16 @@ namespace ModBox.FamFactory.Revit.Manager
             set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyGeometriesColumnNames.IsSolid.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
 
-        public FamilyGeometry(DataRowView dataRowView, SQLiteConnection connection) : base(dataRowView, connection)
+        public FamilyGeometry(DataRowView dataRowView, SQLiteConnection connection, User user) : base(dataRowView, connection, user)
         {
 
         }
 
-        internal static FamilyGeometry NewFamilyGeometry(SQLiteConnection connection, DataView familyTemplateGeometryView)
+        internal static FamilyGeometry NewFamilyGeometry(SQLiteConnection connection, DataView familyTemplateGeometryView, User user)
         {
             DataRowView row = familyTemplateGeometryView.AddNew();
 
-            FamilyGeometry geometry = new FamilyGeometry(row, connection);
+            FamilyGeometry geometry = new FamilyGeometry(row, connection, user);
             geometry.Id = Guid.NewGuid().ToString();
             geometry.DateCreated = DateTime.Now;
             geometry.DateModified = DateTime.Now;

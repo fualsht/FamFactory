@@ -31,7 +31,7 @@ namespace ModBox.FamFactory.Revit.Manager
             get { return (byte[])internalDataRowView[FamilyComponentTypesColumnNames.Thumbnail.ToString()]; }
             set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyComponentTypesColumnNames.Thumbnail.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
-        public FamilyComponentType(DataRowView rowView, SQLiteConnection connection) : base(rowView, connection)
+        public FamilyComponentType(DataRowView rowView, SQLiteConnection connection, User user) : base(rowView, connection, user)
         {
             
         }

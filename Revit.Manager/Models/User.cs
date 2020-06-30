@@ -54,24 +54,24 @@ namespace ModBox.FamFactory.Revit.Manager
             set { internalDataRowView.BeginEdit(); internalDataRowView[UsersColumnNames.TempFolder.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
 
-        public User(DataRowView rowView, SQLiteConnection connection) : base(rowView, connection)
+        public User(DataRowView rowView, SQLiteConnection connection) : base(rowView, connection, null)
         {
         }
         
-        public static User NewUser(SQLiteConnection connection, DataView rowView)
+        public static User NewUser(SQLiteConnection connection, DataView rowView, User user)
         {
             DataRowView row = rowView.AddNew();
             
-            User user = new User(row, connection);
-            user.Id = Guid.NewGuid().ToString();
-            user.ProfilePic = Utils.ImageToByte(Resources.UserIcon);
-            user.DateCreated = DateTime.Now;
-            user.State = EntityStates.Enabled;
-            user.LogInDate = DateTime.Now;
-            user.DateCreated = DateTime.Now;
-            user.DateModified = DateTime.Now;
-            user.State = EntityStates.Enabled;
-            return user;
+            User nuser = new User(row, connection);
+            nuser.Id = Guid.NewGuid().ToString();
+            nuser.ProfilePic = Utils.ImageToByte(Resources.UserIcon);
+            nuser.DateCreated = DateTime.Now;
+            nuser.State = EntityStates.Enabled;
+            nuser.LogInDate = DateTime.Now;
+            nuser.DateCreated = DateTime.Now;
+            nuser.DateModified = DateTime.Now;
+            nuser.State = EntityStates.Enabled;
+            return nuser;
         }
 
         public bool isUsernameValid()

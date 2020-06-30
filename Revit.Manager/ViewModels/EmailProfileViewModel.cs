@@ -10,12 +10,12 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class EmailProfileViewModel : ViewModelBase<EmailProfile>
     {
-        public EmailProfileViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection) : base(dataSet, sQLiteConnection)
+        public EmailProfileViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection, User user) : base(dataSet, sQLiteConnection, user)
         {
 
         }
 
-        public EmailProfileViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection, object application) : base(dataSet, sQLiteConnection, application)
+        public EmailProfileViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection, User user, object application) : base(dataSet, sQLiteConnection, user, application)
         {
         }
 
@@ -85,11 +85,6 @@ namespace ModBox.FamFactory.Revit.Manager
         }
 
         public override void SaveElement(EmailProfile element)
-        {
-
-        }
-
-        public override void SetActiveUser(User user)
         {
 
         }

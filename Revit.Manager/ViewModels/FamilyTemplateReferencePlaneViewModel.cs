@@ -10,12 +10,12 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamilyTemplateReferencePlaneViewModel : ViewModelBase<ReferencePlane>
     {
-        public FamilyTemplateReferencePlaneViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection) : base(dataSet, sQLiteConnection)
+        public FamilyTemplateReferencePlaneViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection, User user) : base(dataSet, sQLiteConnection, user)
         {
             InternalDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()].DefaultView;
             RefreshCollections();
         }
-        public FamilyTemplateReferencePlaneViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection, object application) : base(dataSet, sQLiteConnection, application)
+        public FamilyTemplateReferencePlaneViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection, User user, object application) : base(dataSet, sQLiteConnection, user, application)
         {
             InternalDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplateReferencePlanes.ToString()].DefaultView;
             RefreshCollections();
@@ -68,7 +68,7 @@ namespace ModBox.FamFactory.Revit.Manager
                 InternalCollection.Clear();
                 foreach (DataRowView item in InternalDataView)
                 {
-                    this.AddElement(new ReferencePlane(item, SQLiteConnection), true);
+                    this.AddElement(new ReferencePlane(item, SQLiteConnection, ActiveUser), true);
                 }
             }
         }
@@ -81,17 +81,12 @@ namespace ModBox.FamFactory.Revit.Manager
                 InternalCollection.Clear();
                 foreach (DataRowView item in InternalDataView)
                 {
-                    this.AddElement(new ReferencePlane(item, SQLiteConnection), true);
+                    this.AddElement(new ReferencePlane(item, SQLiteConnection, ActiveUser), true);
                 }
             }
         }
 
         public override void SaveElement(ReferencePlane element)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void SetActiveUser(User user)
         {
             throw new NotImplementedException();
         }

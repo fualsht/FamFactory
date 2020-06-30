@@ -7,13 +7,13 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamilyTemplateComponentViewModel : ViewModelBase<FamilyTemplateComponent>
     {
-        public FamilyTemplateComponentViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection) : base(dataSet, sQLiteConnection)
+        public FamilyTemplateComponentViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection, User user) : base(dataSet, sQLiteConnection, user)
         {
             InternalDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].DefaultView;
             RefreshCollections();
         }
 
-        public FamilyTemplateComponentViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection, object application) : base(dataSet, sQLiteConnection, application)
+        public FamilyTemplateComponentViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection, User user, object application) : base(dataSet, sQLiteConnection, user, application)
         {
             InternalDataView = InternalDataSet.Tables[TableNames.FF_FamilyTemplateComponents.ToString()].DefaultView;
             RefreshCollections();
@@ -90,11 +90,6 @@ namespace ModBox.FamFactory.Revit.Manager
             RefreshCollections();
         }
 
-        public override void SetActiveUser(User user)
-        {
-            ActiveUser = user;
-        }
-
         public override void RefreshCollections()
         {
             if (InternalCollection != null)
@@ -102,7 +97,7 @@ namespace ModBox.FamFactory.Revit.Manager
                 InternalCollection.Clear();
                 foreach (DataRowView item in InternalDataView)
                 {
-                    this.AddElement(new FamilyTemplateComponent(item, SQLiteConnection), true);
+                    this.AddElement(new FamilyTemplateComponent(item, SQLiteConnection, ActiveUser), true);
                 }
             }
         }
@@ -116,7 +111,7 @@ namespace ModBox.FamFactory.Revit.Manager
                 InternalCollection.Clear();
                 foreach (DataRowView item in InternalDataView)
                 {
-                    this.AddElement(new FamilyTemplateComponent(item, SQLiteConnection), true);
+                    this.AddElement(new FamilyTemplateComponent(item, SQLiteConnection, ActiveUser), true);
                 }
             }
         }

@@ -36,16 +36,16 @@ namespace ModBox.FamFactory.Revit.Manager
             set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyBuildsColumnNames.State.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
 
-        public FamilyBuild(DataRowView rowView, SQLiteConnection connection) : base(rowView, connection)
+        public FamilyBuild(DataRowView rowView, SQLiteConnection connection, User user) : base(rowView, connection, user)
         {
 
         }
 
-        public static FamilyBuild newFamilyBuild(SQLiteConnection connection, DataView rowView)
+        public static FamilyBuild newFamilyBuild(SQLiteConnection connection, DataView rowView, User user)
         {
             DataRowView row = rowView.AddNew();
 
-            FamilyBuild build = new FamilyBuild(row, connection);
+            FamilyBuild build = new FamilyBuild(row, connection, user);
             build.Id = Guid.NewGuid().ToString();
             return build;
         }

@@ -127,7 +127,7 @@ namespace ModBox.FamFactory.Revit.Manager
         public FamilyTemplateParameterViewModel ParameterItems { get; set; }
         public FamilyComponentTypeViewModel ComponentTypeItems { get; set; }
 
-        public FamilyComponent(DataRowView view, SQLiteConnection connection) : base(view, connection)
+        public FamilyComponent(DataRowView view, SQLiteConnection connection, User user) : base(view, connection, user)
         {
 
         }
@@ -136,7 +136,7 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             DataRowView row = rowView.AddNew();
 
-            FamilyComponent component = new FamilyComponent(row, connection);
+            FamilyComponent component = new FamilyComponent(row, connection, user);
             component.Id = Guid.NewGuid().ToString();
             component.Thumbnail = new byte[byte.MaxValue];
             component.Version = new Version(0, 0, 0);
@@ -147,7 +147,6 @@ namespace ModBox.FamFactory.Revit.Manager
             component.CreatedBy = user;
             component.ModifiedBy = user;
             component.FamilyComponentTypeId = type.Id;
-            component.ComponentTypeItems.SetActiveUser(user);
             return component;
         }
 
