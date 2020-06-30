@@ -129,7 +129,7 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public FamilyComponent(DataRowView view, SQLiteConnection connection) : base(view, connection)
         {
-            
+
         }
 
         public static FamilyComponent NewFamilyComponent(SQLiteConnection connection, DataView rowView, User user, FamilyComponentType type)
@@ -147,7 +147,7 @@ namespace ModBox.FamFactory.Revit.Manager
             component.CreatedBy = user;
             component.ModifiedBy = user;
             component.FamilyComponentTypeId = type.Id;
-
+            component.ComponentTypeItems.SetActiveUser(user);
             return component;
         }
 

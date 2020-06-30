@@ -797,5 +797,10 @@ namespace ModBox.FamFactory.Revit.Manager
             else
                 return false;
         }
+        
+        internal static SHA256 getHashAlgarythm()
+        {
+            return SHA256.Create("SHA256");
+        }
     }
 }

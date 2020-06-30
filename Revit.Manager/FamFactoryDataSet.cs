@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ModBox.FamFactory.Revit.Manager
 {
-    public static class FamFactoryDataSet
+    public class FamFactoryDataSet
     {
         public static void InitilizeDataSet(DataSet dataSet)
         {
@@ -1859,7 +1859,7 @@ namespace ModBox.FamFactory.Revit.Manager
             adminUserDataRow[UsersColumnNames.FirstName.ToString()] = "Admin";
             adminUserDataRow[UsersColumnNames.LastName.ToString()] = "";
             adminUserDataRow[UsersColumnNames.Email.ToString()] = "Admin@Comapny.com";
-            adminUserDataRow[UsersColumnNames.Password.ToString()] = Utils.GetPasswordHash(SHA256.Create("SHA256"), "Password");
+            adminUserDataRow[UsersColumnNames.Password.ToString()] = Utils.GetPasswordHash(Utils.getHashAlgarythm(), "Password");
             adminUserDataRow[UsersColumnNames.ProfilePic.ToString()] = Utils.ImageToByte(Resources.UserIcon);
             adminUserDataRow[UsersColumnNames.PermissionId.ToString()] = dataSet.Tables[TableNames.FF_Permissions.ToString()].Select("Name = 'Editor'").FirstOrDefault()["Id"];
             adminUserDataRow[UsersColumnNames.LogInDate.ToString()] = DateTime.Now;
@@ -2148,6 +2148,38 @@ namespace ModBox.FamFactory.Revit.Manager
             connSB.DataSource = dataBasePath;
             connSB.FailIfMissing = false;
             return new System.Data.SQLite.SQLiteConnection(connSB.ConnectionString);
+        }
+
+        public static User AuthenticateUser(string username, string password, System.Data.SQLite.SQLiteConnection connection)
+        {
+
+            DataTable usersTable = new DataTable(TableNames.FF_Users);
+            UpdateDataTableFromDataSource(connection, usersTable);
+            DataRow userrow = null;
+            foreach (DataRow item in usersTable.Rows)
+            {
+                if (item[UsersColumnNames.Name].ToString().ToLower() == username.ToLower())
+                    userrow = item;
+            }
+            DataRowView user = usersTable.DefaultView[usersTable.Rows.IndexOf(userrow)];
+
+            if (user != null)
+            {
+                if (Utils.VerifyPasswordHash(Utils.getHashAlgarythm(), password, user[UsersColumnNames.DateCreated].ToString()))
+                {
+                    User usr = new User(user, connection);
+                    return usr;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
+
         }
     }
 }

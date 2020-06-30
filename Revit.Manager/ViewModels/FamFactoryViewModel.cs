@@ -23,12 +23,12 @@ namespace ModBox.FamFactory.Revit.Manager
         FamFactoryComponentViewModel _FamilyComponentViewModel;
         public FamFactoryComponentViewModel FamilyComponentViewModel { get { return _FamilyComponentViewModel; } }
 
-        public FamFactoryViewModel(DataSet dataset, System.Data.SQLite.SQLiteConnection sQLiteConnection) : base(dataset, sQLiteConnection)
+        public FamFactoryViewModel(DataSet dataset, System.Data.SQLite.SQLiteConnection sQLiteConnection, User user) : base(dataset, sQLiteConnection, user)
         {
             StartApplication();
         }
 
-        public FamFactoryViewModel(DataSet dataset, System.Data.SQLite.SQLiteConnection sQLiteConnection, Autodesk.Revit.ApplicationServices.Application adskApplication) : base(dataset, sQLiteConnection, adskApplication)
+        public FamFactoryViewModel(DataSet dataset, System.Data.SQLite.SQLiteConnection sQLiteConnection, User user, Autodesk.Revit.ApplicationServices.Application adskApplication) : base(dataset, sQLiteConnection, user, adskApplication)
         {
             StartApplication();
         }
@@ -111,20 +111,7 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             return true;
         }
-
-        public void LogIn(User user)
-        {
-            SetActiveUser(user);
-            UserItems.SetActiveUser(user);
-            FamilyTemplatesViewModel.SetActiveUser(user);
-            FamilyComponentViewModel.SetActiveUser(user);
-        }
-
-        public override void SetActiveUser(User user)
-        {
-            ActiveUser = user;
-        }
-
+        
         public override void RefreshCollections()
         {
             throw new NotImplementedException();

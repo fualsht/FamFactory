@@ -108,9 +108,11 @@ namespace ModBox.FamFactory.Revit
             else
                 FamFactoryDataSet.InitilizeDataSet(famFactoryDataSet);
 
-            famFactoryManager = new FamFactoryViewModel(famFactoryDataSet, sQLiteConnection, RevitApplicationService);
-            User u = famFactoryManager.UserItems.InternalCollection[0];
-            famFactoryManager.LogIn(u);
+            
+            // Authenticate with username and pass to get User object.
+            // Create FamfactoryObject with authenticated User.
+            User user = FamFactoryDataSet.AuthenticateUser("Admin", "Password", sQLiteConnection);
+            famFactoryManager = new FamFactoryViewModel(famFactoryDataSet, sQLiteConnection, user, RevitApplicationService);
 
 
             //installationConfiguration = new DataProvidor.Installation.InstallationConfiguration();

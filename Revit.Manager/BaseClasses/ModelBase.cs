@@ -73,6 +73,11 @@ namespace ModBox.FamFactory.Revit.Manager
             internalDataRowView = rowView;
             internalSQLConenction = connection;
         }
+        public ModelBase(DataRowView rowView, SQLiteConnection connection, User user)
+        {
+            internalDataRowView = rowView;
+            internalSQLConenction = connection;
+        }
 
         public void BeginEdit()
         {

@@ -17,7 +17,7 @@ namespace ModBox.FamFactory.Revit.Manager
         internal DataView InternalDataView { get { return _internalDataView; } set { _internalDataView = value; } }
 
         private User _ActiveUser;
-        public User ActiveUser { get { return _ActiveUser; } set { _ActiveUser = value; NotifyPropertyChanged(); } }
+        public User ActiveUser { get { return _ActiveUser; } }
 
         DataSet _InternalDataContext;
         public DataSet InternalDataSet { get { return _InternalDataContext; } }
@@ -107,7 +107,7 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public ObservableCollection<T> SelectedItems => throw new NotImplementedException();
 
-        public ViewModelBase(DataSet dataSet, System.Data.SQLite.SQLiteConnection sQLiteConnection)
+        public ViewModelBase(DataSet dataSet, System.Data.SQLite.SQLiteConnection sQLiteConnection, User user)
         {
             _InternalCollection = new ObservableCollection<T>();
             NotifyPropertyChanged("InternalCollection");
@@ -117,9 +117,10 @@ namespace ModBox.FamFactory.Revit.Manager
             NotifyPropertyChanged("InternalDataContext");
             _SQLiteConnection = sQLiteConnection;
             NotifyPropertyChanged("sQLiteConnection");
+            SetActiveUser(user);
         }
 
-        public ViewModelBase(DataSet dataSet, System.Data.SQLite.SQLiteConnection sQLiteConnection, object application)
+        public ViewModelBase(DataSet dataSet, System.Data.SQLite.SQLiteConnection sQLiteConnection, User user, object application)
         {
             _InternalCollection = new ObservableCollection<T>();
             NotifyPropertyChanged("InternalCollection");
@@ -131,6 +132,7 @@ namespace ModBox.FamFactory.Revit.Manager
             NotifyPropertyChanged("ADSKApplciation");
             _SQLiteConnection = sQLiteConnection;
             NotifyPropertyChanged("sQLiteConnection");
+            SetActiveUser(user);
         }
 
         public void AddElement(T element, bool setactive = false)
@@ -207,7 +209,11 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public abstract void RefreshCollections(string sortColumn, string filter);
 
-        public abstract void SetActiveUser(User user);
+        private void SetActiveUser(User user)
+        {
+            _ActiveUser = user; 
+            NotifyPropertyChanged("ActiveUser");
+        }
 
         internal protected void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
