@@ -10,11 +10,6 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamilyBuildComponent : ModelBase<FamilyBuildComponent>
     {
-        public string Id
-        {
-            get { return internalDataRowView[FamilyBuildComponentsColumnNames.Id.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyBuildComponentsColumnNames.Id.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
-        }
         public string FamilyBuildId
         {
             get { return internalDataRowView[FamilyBuildComponentsColumnNames.FamilyBuildId.ToString()].ToString(); }

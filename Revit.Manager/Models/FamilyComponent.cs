@@ -11,16 +11,6 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamilyComponent : ModelBase<FamilyComponent>
     {
-        public string Id
-        {
-            get { return internalDataRowView[FamilyComponentsColumnNames.Id.ToString()].ToString(); }
-            set { internalDataRowView[FamilyComponentsColumnNames.Id.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
-        }
-        public string Name
-        {
-            get { return internalDataRowView[FamilyComponentsColumnNames.Name.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyComponentsColumnNames.Name.ToString()] = value; NotifyPropertyChanged(); _valuesChanged = true; NotifyPropertyChanged("ValuesChanged"); }
-        }
         public string Description
         {
             get { return internalDataRowView[FamilyComponentsColumnNames.Description.ToString()].ToString(); }

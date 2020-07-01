@@ -1,5 +1,5 @@
 --
--- File generated with SQLiteStudio v3.2.1 on Sun Jun 21 21:36:35 2020
+-- File generated with SQLiteStudio v3.2.1 on Wed Jul 1 22:04:35 2020
 --
 -- Text encoding used: System
 --
@@ -886,6 +886,8 @@ CREATE TABLE FF_Users (
     TempFolder   STRING          NOT NULL
                                  DEFAULT ('C:\temp'),
     DateModified DATETIME        NOT NULL ON CONFLICT IGNORE,
+    Salt         STRING          NOT NULL
+                                 DEFAULT "",
     CONSTRAINT Users_PermissionId__Permissions_Id FOREIGN KEY (
         PermissionId
     )

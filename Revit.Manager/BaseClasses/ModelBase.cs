@@ -31,6 +31,18 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public DataRowVersion RowVersion { get { return internalDataRowView.RowVersion; } }
 
+        public string Id
+        {
+            get { return internalDataRowView["Id"].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView["Id"] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
+        }
+
+        public string Name
+        {
+            get { return internalDataRowView["Name"].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView["Name"] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
+        }
+
         internal bool _valuesChanged;
         public bool ValuesChanged { get { return _valuesChanged; } }
 
@@ -140,9 +152,15 @@ namespace ModBox.FamFactory.Revit.Manager
             return internalDataRowView.ToString();
         }
 
-        public abstract void RefreshCollections();
+        public virtual void RefreshCollections()
+        {
 
-        public abstract void RefreshCollections(string sortColumn, string filter);
+        }
+
+        public virtual void RefreshCollections(string sortColumn, string filter)
+        {
+
+        }
 
         public void NotifyValueChanged()
         {

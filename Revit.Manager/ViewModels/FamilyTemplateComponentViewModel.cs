@@ -79,7 +79,9 @@ namespace ModBox.FamFactory.Revit.Manager
             }
             else
             {
-                SelectedElement = SelectionHistory[SelectionHistory.Count - 1];
+                if (SelectionHistory.Count > 0)
+                    SelectedElement = SelectionHistory[SelectionHistory.Count - 1];
+
                 return false;
             }
         }

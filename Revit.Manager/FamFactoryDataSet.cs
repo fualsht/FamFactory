@@ -114,6 +114,9 @@ namespace ModBox.FamFactory.Revit.Manager
             TempFolderColumn.AllowDBNull = false;
             TempFolderColumn.DefaultValue = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + "\\FamFactory\\Temp";
 
+            DataColumn SaltColumn = usersTable.Columns.Add(UsersColumnNames.Salt, typeof(string));
+            TempFolderColumn.AllowDBNull = false;
+
             //Create and add Primary Keys for Datatable
             usersTable.PrimaryKey = new DataColumn[] { IdColumn };
             // Add DataTable to DataSet befroe adding Datarelations.
@@ -1867,7 +1870,12 @@ namespace ModBox.FamFactory.Revit.Manager
             adminUserDataRow[UsersColumnNames.DateCreated.ToString()] = DateTime.Now;
             adminUserDataRow[UsersColumnNames.DateModified.ToString()] = DateTime.Now;
             adminUserDataRow[UsersColumnNames.State.ToString()] = EntityStates.Enabled;
-            adminUserDataRow[UsersColumnNames.Password.ToString()] = Utils.GetPasswordHash(Utils.getHashAlgarythm(), "Password");
+
+            string hash = "";
+            string salt = "";
+            Utils.GenerateSaltedHash("Password", out hash, out salt);
+            adminUserDataRow[UsersColumnNames.Salt.ToString()] = salt;
+            adminUserDataRow[UsersColumnNames.Password.ToString()] = hash;
             usersTable.Rows.Add(adminUserDataRow);
 
             // System Configuration
@@ -2165,7 +2173,7 @@ namespace ModBox.FamFactory.Revit.Manager
 
             if (user != null)
             {
-                if (Utils.VerifyPasswordHash(Utils.getHashAlgarythm(), password, user[UsersColumnNames.DateCreated].ToString()))
+                if (Utils.VerifyPassword(password, user[UsersColumnNames.Password].ToString(), user[UsersColumnNames.Salt].ToString()))
                 {
                     User usr = new User(user, connection);
                     return usr;

@@ -323,6 +323,7 @@ namespace ModBox.FamFactory.Revit.Manager
         public static string LogInDate { get { return "LogInDate"; } }
         public static string PermissionId { get { return "PermissionId"; } }
         public static string TempFolder { get { return "TempFolder"; } }
+        public static string Salt { get { return "Salt"; } }
     }
 }
 

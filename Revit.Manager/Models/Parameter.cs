@@ -10,24 +10,10 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class Parameter : ModelBase<Parameter>
     {
-        
-
-        public string Id
-        {
-            get { return internalDataRowView[ParametersColumnNames.Id.ToString()].ToString(); }
-            set { internalDataRowView[ParametersColumnNames.Id.ToString()] = value; NotifyPropertyChanged(); }
-        }
-
         public string FamilyId
         {
             get { return internalDataRowView[ParametersColumnNames.FamilyId.ToString()].ToString(); }
             set { internalDataRowView[ParametersColumnNames.FamilyId.ToString()] = value; NotifyPropertyChanged(); }
-        }
-
-        public string Name
-        {
-            get { return internalDataRowView[ParametersColumnNames.Name.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[ParametersColumnNames.Name.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
         public int ElementId
         {

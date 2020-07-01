@@ -10,20 +10,10 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamilyGeometry : ModelBase<FamilyGeometry>
     {
-        public string Id
-        {
-            get { return internalDataRowView[FamilyGeometriesColumnNames.Id.ToString()].ToString(); }
-            set { internalDataRowView[FamilyGeometriesColumnNames.Id.ToString()] = value; NotifyPropertyChanged(); }
-        }
         public string FamilyId
         {
             get { return internalDataRowView[FamilyGeometriesColumnNames.FamilyId.ToString()].ToString(); }
             set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyGeometriesColumnNames.FamilyId.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
-        }
-        public string Name
-        {
-            get { return internalDataRowView[FamilyGeometriesColumnNames.Name.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyGeometriesColumnNames.Name.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
         public string Description
         {

@@ -11,13 +11,6 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class FamilyTemplateComponent : ModelBase<FamilyTemplateComponent>
     {
-        public string Id { get { return internalDataRowView[TemplateComponentsColumnNames.Id.ToString()].ToString(); } set { internalDataRowView[TemplateComponentsColumnNames.Id.ToString()] = value; NotifyPropertyChanged(); } }
-
-        public string Name
-        {
-            get { return internalDataRowView[TemplateComponentsColumnNames.Name.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[TemplateComponentsColumnNames.Name.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
-        }
 
         public string Description
         {
@@ -272,7 +265,7 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             FamilyTemplateComponent component = new FamilyTemplateComponent(dataVew.AddNew(), connection, user);
             component.Id = Guid.NewGuid().ToString();
-            component.FamilyComponentTypeId = parent.FamilyTemplateComponents.InternalCollection[0].Id;
+            component.FamilyComponentTypeId = component.FamilyComponentTypes[0].Id;
             component.DateCreated = DateTime.Now;
             component.DateModified = DateTime.Now;
             component.CreatedById = user.Id;

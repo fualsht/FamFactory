@@ -10,22 +10,11 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class ReferencePlane : ModelBase<ReferencePlane>
     {
-        public string Id
-        {
-            get { return internalDataRowView[ReferencePlanesColumnNames.Id.ToString()].ToString(); }
-            set { internalDataRowView[ReferencePlanesColumnNames.Id.ToString()] = value; NotifyPropertyChanged(); }
-        }
 
         public string FamiltyId
         {
             get { return internalDataRowView[ReferencePlanesColumnNames.FamilyId.ToString()].ToString(); }
             set { internalDataRowView.BeginEdit(); internalDataRowView[ReferencePlanesColumnNames.FamilyId.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
-        }
-
-        public string Name
-        {
-            get { return internalDataRowView[ReferencePlanesColumnNames.Name.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[ReferencePlanesColumnNames.Name.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
 
         public int ElementId

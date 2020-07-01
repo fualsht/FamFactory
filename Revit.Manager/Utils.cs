@@ -29,37 +29,21 @@ namespace ModBox.FamFactory.Revit.Manager
             return imageFromBytes;
         }
 
-        public static string GetPasswordHash(HashAlgorithm hashAlgorithm, string input)
+        public static void GenerateSaltedHash(string password, out string hash, out string salt)
         {
-
-            // Convert the input string to a byte array and compute the hash.
-            byte[] data = hashAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(input));
-
-            // Create a new Stringbuilder to collect the bytes
-            // and create a string.
-            var sBuilder = new StringBuilder();
-
-            // Loop through each byte of the hashed data 
-            // and format each one as a hexadecimal string.
-            for (int i = 0; i < data.Length; i++)
-            {
-                sBuilder.Append(data[i].ToString("x2"));
-            }
-
-            // Return the hexadecimal string.
-            return sBuilder.ToString();
+            var saltBytes = new byte[64];
+            var provider = new RNGCryptoServiceProvider();
+            provider.GetNonZeroBytes(saltBytes);
+            salt = Convert.ToBase64String(saltBytes);
+            var rfcderivedbytes = new Rfc2898DeriveBytes(password, saltBytes, 10000);
+            hash = Convert.ToBase64String(rfcderivedbytes.GetBytes(256));
         }
 
-        // Verify a hash against a string.
-        public static bool VerifyPasswordHash(HashAlgorithm hashAlgorithm, string input, string hash)
+        public static bool VerifyPassword(string enteredPassword, string storedHash, string storedSalt)
         {
-            // Hash the input.
-            var hashOfInput = GetPasswordHash(hashAlgorithm, input);
-
-            // Create a StringComparer an compare the hashes.
-            StringComparer comparer = StringComparer.OrdinalIgnoreCase;
-
-            return comparer.Compare(hashOfInput, hash) == 0;
+            var saltBytes = Convert.FromBase64String(storedSalt);
+            var rfcderivedbytes = new Rfc2898DeriveBytes(enteredPassword, saltBytes, 10000);
+            return Convert.ToBase64String(rfcderivedbytes.GetBytes(256)) == storedHash;
         }
 
         public static byte[] FileToByteArray(string path)

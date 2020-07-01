@@ -10,16 +10,6 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class SystemConfiguration : ModelBase<SystemConfiguration>
     {
-        public string Id
-        {
-            get { return internalDataRowView[SystemConfigurationColumnNames.Id.ToString()].ToString(); }
-            set { internalDataRowView[SystemConfigurationColumnNames.Id.ToString()] = value; NotifyPropertyChanged(); }
-        }
-        public string Name
-        {
-            get { return internalDataRowView[SystemConfigurationColumnNames.Name.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[SystemConfigurationColumnNames.Name.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
-        }
         public string CompanyAddress
         {
             get { return internalDataRowView[SystemConfigurationColumnNames.CompanyAddress.ToString()].ToString(); }

@@ -12,13 +12,8 @@ using System.Threading.Tasks;
 
 namespace ModBox.FamFactory.Revit.Manager
 {
-    
     public class User : ModelBase<User>
     {
-        public string Id { get { return internalDataRowView[UsersColumnNames.Id.ToString()].ToString(); } 
-            set { internalDataRowView[UsersColumnNames.Id.ToString()] = value; NotifyPropertyChanged(); } }
-        public string Name { get { return internalDataRowView[UsersColumnNames.Name.ToString()].ToString(); } 
-            set { internalDataRowView.BeginEdit(); internalDataRowView[UsersColumnNames.Name.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); } }
         public string FirstName { get { return internalDataRowView[UsersColumnNames.FirstName.ToString()].ToString(); } 
             set { internalDataRowView.BeginEdit(); internalDataRowView[UsersColumnNames.FirstName.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); } }
         public string LastName { get { return internalDataRowView[UsersColumnNames.LastName.ToString()].ToString(); } 

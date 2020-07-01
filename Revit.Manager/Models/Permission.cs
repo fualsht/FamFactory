@@ -10,16 +10,6 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class Permission : ModelBase<Permission>
     {
-        public string Id
-        {
-            get { return internalDataRowView[PermissionsColumnNames.Id].ToString(); }
-            set { internalDataRowView[PermissionsColumnNames.Id] = value; NotifyPropertyChanged(); }
-        }
-        public string Name
-        {
-            get { return internalDataRowView[PermissionsColumnNames.Name].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[PermissionsColumnNames.Name] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
-        }
 
         public string Description
         {

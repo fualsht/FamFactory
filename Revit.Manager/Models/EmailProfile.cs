@@ -10,17 +10,6 @@ namespace ModBox.FamFactory.Revit.Manager
 {
     public class EmailProfile : ModelBase<EmailProfile>
     {
-
-        public string Id
-        {
-            get { return internalDataRowView[EmailProfilesColumnNames.Id].ToString(); }
-            set { internalDataRowView[EmailProfilesColumnNames.Id] = value; NotifyPropertyChanged(); }
-        }
-        public string Name
-        {
-            get { return internalDataRowView[EmailProfilesColumnNames.Name].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[EmailProfilesColumnNames.Name] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
-        }
         public string Description
         {
             get { return internalDataRowView[EmailProfilesColumnNames.Description].ToString(); }
