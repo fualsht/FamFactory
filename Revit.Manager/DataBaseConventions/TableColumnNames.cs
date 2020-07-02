@@ -78,7 +78,7 @@ namespace ModBox.FamFactory.Revit.Manager
         public static string ModifiedById { get { return "ModifiedById"; } }
         public static string Version { get { return "Version"; } }
         public static string IsReleased { get { return "IsReleased"; } }
-        public static string RoundConnectorDimention { get { return "RoundConnectorDimention"; } }
+        public static string RoundConnectorDimension { get { return "RoundConnectorDimension"; } }
         public static string PartType { get { return "PartType"; } }
         public static string XRotate { get { return "XRotate"; } }
         public static string YRotate { get { return "YRotate"; } }

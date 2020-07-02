@@ -41,8 +41,8 @@
         <Border Grid.Column="1" Style="{DynamicResource SectionBorder}">
             <StackPanel Orientation="Horizontal" >
                 <Button Content="New" Width="60" Style="{DynamicResource DefaultButton}" Command="{Binding AddElementCommand, Mode=OneWay}" />
-                <Button Content="Save" Width="60" Style="{DynamicResource DefaultButton}"/>
-                <Button Content="Delete" Width="60" Style="{DynamicResource DefaultButton}"/>
+                <Button Content="Save" Width="60" Style="{DynamicResource DefaultButton}" Command="{Binding SaveElementCommand, Mode=OneWay}"/>
+                <Button Content="Delete" Width="60" Style="{DynamicResource DefaultButton}" Command="{Binding DeleteElementCommand, Mode=OneWay}"/>
             </StackPanel>
         </Border>
         <Border Style="{DynamicResource SectionBorder}" Grid.Row="1">
@@ -92,18 +92,100 @@
                     </GroupBox>
                     <GroupBox Header="Geometry" Style="{DynamicResource DefaultGroupBoxStyle}">
                         <Grid Margin="4">
-                            <ListView ItemsSource="{Binding FamilyGeometryItems}"  Style="{DynamicResource GeometryListViewGridView}" />
+                            <ListView ItemsSource="{Binding FamilyGeometryItems}"  Style="{DynamicResource DefaultListBoxControlStyle}" />
                         </Grid>
                     </GroupBox>
 
                     <GroupBox Header="Parameters" Style="{DynamicResource DefaultGroupBoxStyle}">
                         <Grid Margin="4">
-                            <ListView ItemsSource="{Binding ParameterItems}" Style="{DynamicResource ParameterListViewGridView}"/>
+                            <ListView ItemsSource="{Binding ParameterItems.InternalCollection}" Style="{DynamicResource DefaultListBoxControlStyle}">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Width="30">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <CheckBox IsChecked="{Binding IsActive}"/>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="Instance" Width="Auto">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <CheckBox IsChecked="{Binding IsInstance}" IsEnabled="False" />
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="Name" Width="100">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Name}"/>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="UnitType" Width="100">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding UnitType, Converter={StaticResource FamUnitTypeConverter}}"/>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="Storage Type" Width="100">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding StorageType, Converter={StaticResource FamStorageTypeConverter}}"/>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="Parameter Type" Width="100">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding ParameterType, Converter={StaticResource FamParamTypeConverter}}"/>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="Shared" Width="100">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <CheckBox IsChecked="{Binding IsShared}" IsEnabled="False"/>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="IsReporting" Width="100">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <CheckBox IsChecked="{Binding IsReporting}" IsEnabled="False"/>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="Parameter Group" Width="100">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding BuiltInParamGroup, Converter={StaticResource FamParamGroupConverter}}"/>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="Display Unit Type" Width="100">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding DisplayUnitType, Converter={StaticResource FamDispUnitTypeConverter}}"/>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="Formula" Width="100">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Formula}"/>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
                         </Grid>
                     </GroupBox>
                     <GroupBox Header="Reference Planes" Style="{DynamicResource DefaultGroupBoxStyle}">
                         <Grid Margin="4">
-                            <ListView ItemsSource="{Binding RefferencePlaneItems}" Style="{DynamicResource ReferencePlaneListViewGridView}"/>
+                            <ListView ItemsSource="{Binding RefferencePlaneItems}" Style="{DynamicResource DefaultListBoxControlStyle}"/>
                         </Grid>
                     </GroupBox>
                 </StackPanel>

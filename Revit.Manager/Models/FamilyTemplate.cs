@@ -118,19 +118,19 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public FamilyTemplateParameterViewModel FamilyTemplateParameters { get; set; }
 
-        public FamilyTemplate(DataRowView view, SQLiteConnection connection, User user) : base(view, connection, user)
+        public FamilyTemplate(DataRowView view, SQLiteConnection connection, User user, object application) : base(view, connection, user)
         {
-            FamilyTemplateComponents = new FamilyTemplateComponentViewModel(view.Row.Table.DataSet, connection, user);
-            FamilyTemplateReferencePlanes = new FamilyTemplateReferencePlaneViewModel(view.Row.Table.DataSet, connection, user);
-            FamilyTemplateGeometries = new FamilyTemplateGeometryViewModel(view.Row.Table.DataSet, connection, user);
-            FamilyTemplateParameters = new FamilyTemplateParameterViewModel(view.Row.Table.DataSet, connection, user);
+            FamilyTemplateComponents = new FamilyTemplateComponentViewModel(view.Row.Table.DataSet, connection, user, application);
+            FamilyTemplateReferencePlanes = new FamilyTemplateReferencePlaneViewModel(view.Row.Table.DataSet, connection, user, application);
+            FamilyTemplateGeometries = new FamilyTemplateGeometryViewModel(view.Row.Table.DataSet, connection, user, application);
+            FamilyTemplateParameters = new FamilyTemplateParameterViewModel(view.Row.Table.DataSet, connection, user, application);
         }
 
-        public static FamilyTemplate NewTemplate(SQLiteConnection connection, DataView rowView, User user)
+        public static FamilyTemplate NewTemplate(SQLiteConnection connection, DataView rowView, User user, object application)
         {
             DataRowView row = rowView.AddNew();
 
-            FamilyTemplate template = new FamilyTemplate(row, connection, user);
+            FamilyTemplate template = new FamilyTemplate(row, connection, user, application);
             template.Id = Guid.NewGuid().ToString();
             template.Version = new Version(0, 0, 0);
             template.DateCreated = DateTime.Now;

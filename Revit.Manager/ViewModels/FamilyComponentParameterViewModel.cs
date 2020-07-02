@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace ModBox.FamFactory.Revit.Manager
 {
-    public class FamilyTemplateGeometryViewModel : ViewModelBase<FamilyGeometry>
+    public class FamilyComponentParameterViewModel : ViewModelBase<Parameter>
     {
-        public FamilyTemplateGeometryViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection, User user, object application) : base(dataSet, sQLiteConnection, user, application)
+        public FamilyComponentParameterViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection, User user, object application) : base(dataSet, sQLiteConnection, user)
         {
-            InternalDataView = dataSet.Tables[TableNames.FF_FamilyTemplateGeometries.ToString()].DefaultView;
+            InternalDataView = dataSet.Tables[TableNames.FF_FamilyComponentParameters].DefaultView;
             RefreshCollections();
         }
 
@@ -56,12 +56,12 @@ namespace ModBox.FamFactory.Revit.Manager
             throw new NotImplementedException();
         }
 
-        public override void DeleteElement(FamilyGeometry element)
+        public override void DeleteElement(Parameter element)
         {
             throw new NotImplementedException();
         }
 
-        public override void EditElement(FamilyGeometry element)
+        public override void EditElement(Parameter element)
         {
             throw new NotImplementedException();
         }
@@ -78,7 +78,7 @@ namespace ModBox.FamFactory.Revit.Manager
                 InternalCollection.Clear();
                 foreach (DataRowView item in InternalDataView)
                 {
-                    this.AddElement(new FamilyGeometry(item, SQLiteConnection, ActiveUser), true);
+                    this.AddElement(new Parameter(item, SQLiteConnection, ActiveUser), true);
                 }
             }
         }
@@ -92,12 +92,12 @@ namespace ModBox.FamFactory.Revit.Manager
                 InternalCollection.Clear();
                 foreach (DataRowView item in InternalDataView)
                 {
-                    this.AddElement(new FamilyGeometry(item, SQLiteConnection, ActiveUser), true);
+                    this.AddElement(new Parameter(item, SQLiteConnection, ActiveUser), true);
                 }
             }
         }
 
-        public override void SaveElement(FamilyGeometry element)
+        public override void SaveElement(Parameter element)
         {
             throw new NotImplementedException();
         }

@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace ModBox.FamFactory.Revit.Manager
 {
-    public class FamilyTemplateGeometryViewModel : ViewModelBase<FamilyGeometry>
+    public class FamilyComponentGeometryViewModel : ViewModelBase<FamilyGeometry>
     {
-        public FamilyTemplateGeometryViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection, User user, object application) : base(dataSet, sQLiteConnection, user, application)
+        public FamilyComponentGeometryViewModel(DataSet dataSet, SQLiteConnection sQLiteConnection, User user, object application) : base(dataSet, sQLiteConnection, user, application)
         {
-            InternalDataView = dataSet.Tables[TableNames.FF_FamilyTemplateGeometries.ToString()].DefaultView;
+            InternalDataView = dataSet.Tables[TableNames.FF_FamilyComponentGeometries].DefaultView;
             RefreshCollections();
         }
 
@@ -87,6 +87,8 @@ namespace ModBox.FamFactory.Revit.Manager
         {
             if (InternalCollection != null)
             {
+                InternalDataView.Sort = string.Empty;
+                InternalDataView.RowFilter = string.Empty;
                 InternalDataView.Sort = sortColumn;
                 InternalDataView.RowFilter = filter;
                 InternalCollection.Clear();

@@ -19,8 +19,8 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public int ElementId
         {
-            get { return (int)internalDataRowView[ReferencePlanesColumnNames.ElementId.ToString()]; }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[ReferencePlanesColumnNames.ElementId.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
+            get { return (int)internalDataRowView[ReferencePlanesColumnNames.ElementId]; }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[ReferencePlanesColumnNames.ElementId] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
         public string UniqueId
         {
@@ -140,6 +140,10 @@ namespace ModBox.FamFactory.Revit.Manager
             refPlane.IsActive = false;
             refPlane.DateCreated = DateTime.Now;
             refPlane.DateModified = DateTime.Now;
+            refPlane.CreatedById = user.Id;
+            refPlane.CreatedBy = user;
+            refPlane.ModifiedBy = user;
+            refPlane.ModifiedById = user.Id;
             return refPlane;
         }
 

@@ -35,7 +35,7 @@ namespace ModBox.FamFactory.Revit.Manager
                 InternalCollection.Clear();
                 foreach (DataRowView item in InternalDataSet.Tables[TableNames.FF_FamilyComponents].DefaultView)
                 {
-                    this.AddElement(new FamilyComponent(item, SQLiteConnection, ActiveUser), true);
+                    this.AddElement(new FamilyComponent(item, SQLiteConnection, ActiveUser, ADSKApplciation), true);
                 }
             }
         }
@@ -86,7 +86,7 @@ namespace ModBox.FamFactory.Revit.Manager
                 FileInfo file = new FileInfo(dialogue.FileName);
                 Autodesk.Revit.DB.Document doc = ((Autodesk.Revit.ApplicationServices.Application)ADSKApplciation).OpenDocumentFile(file.FullName);
 
-                component = FamilyComponent.NewFamilyComponent(SQLiteConnection, ComponentDataView, ActiveUser, FamilyComponentTypeItems.InternalCollection[0]);
+                component = FamilyComponent.NewFamilyComponent(SQLiteConnection, ComponentDataView, ActiveUser, ADSKApplciation, FamilyComponentTypeItems.InternalCollection[0]);
                 component.FileName = file.Name;
                 component.FileSize = file.Length;
                 component.DateCreated = DateTime.Now;
@@ -143,7 +143,7 @@ namespace ModBox.FamFactory.Revit.Manager
                         component.RoomCalculationPoint = Convert.ToBoolean(parameter.AsInteger());
 
                     if (parameter.Id == roundCOnnectorDescriptionId)
-                        component.RoundConnectorDimention = parameter.AsValueString();
+                        component.RoundConnectorDimension = parameter.AsValueString();
 
                     if (parameter.Id == workPlaneBasedId)
                         component.WorkPlaneBased = Convert.ToBoolean(parameter.AsInteger());
@@ -152,12 +152,10 @@ namespace ModBox.FamFactory.Revit.Manager
                 if (component.PartType == string.Empty)
                     component.PartType = "N/A";
 
-                if (component.RoundConnectorDimention == string.Empty)
+                if (component.RoundConnectorDimension == string.Empty)
                     component.PartType = "N/A";
 
                 component.EndEdit();
-
-
 
                 if (doc.OwnerFamily.FamilyCategory != null)
                     component.FamilyCategory = doc.OwnerFamily.FamilyCategory.Name;
@@ -166,9 +164,9 @@ namespace ModBox.FamFactory.Revit.Manager
 
                 component.EndEdit();
 
-                Utils.GetFamilyComponentFeatures(SelectedElement, doc, ActiveUser);
-                Utils.GetFamilyComponentParameters(SelectedElement, doc, ActiveUser);
-                Utils.GetFamilyComponentReferencePlanes(SelectedElement, doc, ActiveUser);
+                Utils.GetFamilyComponentFeatures(component, doc, ActiveUser);
+                Utils.GetFamilyComponentParameters(component, doc, ActiveUser);
+                Utils.GetFamilyComponentReferencePlanes(component, doc, ActiveUser);
 
                 doc.Close(false);
 
@@ -186,7 +184,14 @@ namespace ModBox.FamFactory.Revit.Manager
 
         public override void RefreshCollections(string sortColumn, string filter)
         {
-            throw new NotImplementedException();
+            if (InternalCollection != null)
+            {
+                InternalCollection.Clear();
+                foreach (DataRowView item in InternalDataView)
+                {
+                    this.AddElement(new FamilyComponent(item, SQLiteConnection, ActiveUser, ADSKApplciation), true);
+                }
+            }
         }
 
         public override void EditElement(FamilyComponent element)

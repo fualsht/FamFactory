@@ -51,10 +51,10 @@ namespace ModBox.FamFactory.Revit.Manager
             get { return (bool)internalDataRowView[FamilyComponentsColumnNames.IsReleased.ToString()]; }
             set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyComponentsColumnNames.IsReleased.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
-        public string RoundConnectorDimention
+        public string RoundConnectorDimension
         {
-            get { return internalDataRowView[FamilyComponentsColumnNames.RoundConnectorDimention.ToString()].ToString(); }
-            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyComponentsColumnNames.RoundConnectorDimention.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
+            get { return internalDataRowView[FamilyComponentsColumnNames.RoundConnectorDimension].ToString(); }
+            set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyComponentsColumnNames.RoundConnectorDimension] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
         public string PartType
         {
@@ -112,21 +112,24 @@ namespace ModBox.FamFactory.Revit.Manager
             set { internalDataRowView.BeginEdit(); internalDataRowView[FamilyComponentsColumnNames.State.ToString()] = value; NotifyPropertyChanged(); NotifyValueChanged(); }
         }
 
-        public FamilyTemplateReferencePlaneViewModel RefferencePlaneItems { get; set; }
-        public FamilyTemplateGeometryViewModel FamilyGeometryItems { get; set; }
-        public FamilyTemplateParameterViewModel ParameterItems { get; set; }
+        public FamilyComponentReferencePlaneViewModel RefferencePlaneItems { get; set; }
+        public FamilyComponentGeometryViewModel FamilyGeometryItems { get; set; }
+        public FamilyComponentParameterViewModel ParameterItems { get; set; }
         public FamilyComponentTypeViewModel ComponentTypeItems { get; set; }
 
-        public FamilyComponent(DataRowView view, SQLiteConnection connection, User user) : base(view, connection, user)
+        public FamilyComponent(DataRowView view, SQLiteConnection connection, User user, object application) : base(view, connection, user)
         {
-
+            RefferencePlaneItems = new FamilyComponentReferencePlaneViewModel(view.Row.Table.DataSet, connection, user, application);
+            FamilyGeometryItems = new FamilyComponentGeometryViewModel(view.Row.Table.DataSet, connection, user, application);
+            ParameterItems = new FamilyComponentParameterViewModel(view.Row.Table.DataSet, connection, user, application);
+            ComponentTypeItems = new FamilyComponentTypeViewModel(view.Row.Table.DataSet, connection, user);
         }
 
-        public static FamilyComponent NewFamilyComponent(SQLiteConnection connection, DataView rowView, User user, FamilyComponentType type)
+        public static FamilyComponent NewFamilyComponent(SQLiteConnection connection, DataView rowView, User user, object application, FamilyComponentType type)
         {
             DataRowView row = rowView.AddNew();
 
-            FamilyComponent component = new FamilyComponent(row, connection, user);
+            FamilyComponent component = new FamilyComponent(row, connection, user, application);
             component.Id = Guid.NewGuid().ToString();
             component.Thumbnail = new byte[byte.MaxValue];
             component.Version = new Version(0, 0, 0);

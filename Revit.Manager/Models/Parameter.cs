@@ -121,9 +121,14 @@ namespace ModBox.FamFactory.Revit.Manager
         public static Parameter newParameter(SQLiteConnection connection, DataView rowView, User user)
         {
             DataRowView row = rowView.AddNew();
-
             Parameter parameter = new Parameter(row, connection, user);
             parameter.Id = Guid.NewGuid().ToString();
+            parameter.DateCreated = DateTime.Now.ToString();
+            parameter.DateModified = DateTime.Now.ToString();
+            parameter.CreatedById = user.Id;
+            parameter.CreatedBy = user;
+            parameter.ModifiedBy = user;
+            parameter.ModifiedById = user.Id;
             return parameter;
         }
 

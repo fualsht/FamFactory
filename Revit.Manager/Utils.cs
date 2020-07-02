@@ -190,6 +190,7 @@ namespace ModBox.FamFactory.Revit.Manager
             }
             return returnString;
         }
+
         public static Material GetMaterial(Document document, Element element)
         {
             Autodesk.Revit.DB.Material material = null;
@@ -313,12 +314,6 @@ namespace ModBox.FamFactory.Revit.Manager
                     parameter.Formula = item.Formula;
                     parameter.IsActive = false;
                     parameter.IsEditable = true;
-                    parameter.DateCreated = DateTime.Now;
-                    parameter.DateModified = DateTime.Now;
-                    parameter.CreatedById = user.Id;
-                    parameter.CreatedBy = user;
-                    parameter.ModifiedBy = user;
-                    parameter.ModifiedById = user.Id;
                     parameter.EndEdit();
                 }
             }
@@ -510,7 +505,7 @@ namespace ModBox.FamFactory.Revit.Manager
                     foreach (Element element in referencePlaneElementList)
                     {
                         Autodesk.Revit.DB.ReferencePlane plane = (Autodesk.Revit.DB.ReferencePlane)element as Autodesk.Revit.DB.ReferencePlane;
-                        ModBox.FamFactory.Revit.Manager.ReferencePlane refPlane = ReferencePlane.NewReferencePlane(famcomponent.internalSQLConenction, famcomponent.internalDataRowView.DataView, user);
+                        ModBox.FamFactory.Revit.Manager.ReferencePlane refPlane = ReferencePlane.NewReferencePlane(famcomponent.internalSQLConenction, famcomponent.RefferencePlaneItems.InternalDataView, user);
                         refPlane.Name = plane.Name;
                         refPlane.FamiltyId = famcomponent.Id;
                         refPlane.ElementId = plane.Id.IntegerValue;
@@ -536,12 +531,9 @@ namespace ModBox.FamFactory.Revit.Manager
                         refPlane.FreeEndY = plane.FreeEnd.Y;
                         refPlane.FreeEndZ = plane.FreeEnd.Z;
                         refPlane.IsActive = true;
-                        refPlane.CreatedById = user.Id;
-                        refPlane.CreatedBy = user;
-                        refPlane.ModifiedBy = user;
-                        refPlane.ModifiedById = user.Id;
                         refPlane.EndEdit();
                     }
+                    famcomponent.ParameterItems.RefreshCollections();
                 }
                 else
                 {
@@ -556,7 +548,7 @@ namespace ModBox.FamFactory.Revit.Manager
             {
                 foreach (Autodesk.Revit.DB.FamilyParameter item in doc.FamilyManager.Parameters)
                 {
-                    Parameter parameter = Parameter.newParameter(famComponent.internalSQLConenction, famComponent.internalDataRowView.DataView, user);
+                    Parameter parameter = Parameter.newParameter(famComponent.internalSQLConenction, famComponent.ParameterItems.InternalDataView, user);
                     parameter.FamilyId = famComponent.Id;
                     parameter.Name = item.Definition.Name;
                     parameter.ElementId = item.Id.IntegerValue;
@@ -588,12 +580,9 @@ namespace ModBox.FamFactory.Revit.Manager
                     parameter.Formula = item.Formula;
                     parameter.IsActive = false;
                     parameter.IsEditable = true;
-                    parameter.CreatedById = user.Id;
-                    parameter.CreatedBy = user;
-                    parameter.ModifiedBy = user;
-                    parameter.ModifiedById = user.Id;
                     parameter.EndEdit();
                 }
+                famComponent.ParameterItems.RefreshCollections();
             }
         }
 
@@ -612,7 +601,7 @@ namespace ModBox.FamFactory.Revit.Manager
                     foreach (Element element in sweepElementList)
                     {
                         Autodesk.Revit.DB.Sweep sweep = (Autodesk.Revit.DB.Sweep)element as Autodesk.Revit.DB.Sweep;
-                        FamilyGeometry familyGeometry = FamilyGeometry.NewFamilyGeometry(famComponent.internalSQLConenction, famComponent.internalDataRowView.DataView, user);
+                        FamilyGeometry familyGeometry = FamilyGeometry.NewFamilyGeometry(famComponent.internalSQLConenction, famComponent.FamilyGeometryItems.InternalDataView, user);
                         familyGeometry.Name = sweep.Name;
                         familyGeometry.ElementId = sweep.Id.IntegerValue;
                         familyGeometry.Description = string.Empty;
@@ -644,7 +633,7 @@ namespace ModBox.FamFactory.Revit.Manager
                     foreach (Element element in extrudeElementList)
                     {
                         Autodesk.Revit.DB.Extrusion extrude = (Autodesk.Revit.DB.Extrusion)element as Autodesk.Revit.DB.Extrusion;
-                        FamilyGeometry familyGeometry = FamilyGeometry.NewFamilyGeometry(famComponent.internalSQLConenction, famComponent.internalDataRowView.DataView, user);
+                        FamilyGeometry familyGeometry = FamilyGeometry.NewFamilyGeometry(famComponent.internalSQLConenction, famComponent.FamilyGeometryItems.InternalDataView, user);
                         familyGeometry.Name = extrude.Name;
                         familyGeometry.ElementId = extrude.Id.IntegerValue;
                         familyGeometry.Description = string.Empty;
@@ -675,7 +664,7 @@ namespace ModBox.FamFactory.Revit.Manager
                     foreach (Element element in blendElementList)
                     {
                         Autodesk.Revit.DB.Blend blend = (Autodesk.Revit.DB.Blend)element as Autodesk.Revit.DB.Blend;
-                        FamilyGeometry familyGeometry = FamilyGeometry.NewFamilyGeometry(famComponent.internalSQLConenction, famComponent.internalDataRowView.DataView, user);
+                        FamilyGeometry familyGeometry = FamilyGeometry.NewFamilyGeometry(famComponent.internalSQLConenction, famComponent.FamilyGeometryItems.InternalDataView, user);
                         familyGeometry.Name = blend.Name;
                         familyGeometry.ElementId = blend.Id.IntegerValue;
                         familyGeometry.Description = string.Empty;
@@ -706,7 +695,7 @@ namespace ModBox.FamFactory.Revit.Manager
                     foreach (Element element in sweptBlendElementList)
                     {
                         Autodesk.Revit.DB.SweptBlend weptblend = (Autodesk.Revit.DB.SweptBlend)element as Autodesk.Revit.DB.SweptBlend;
-                        FamilyGeometry familyGeometry = FamilyGeometry.NewFamilyGeometry(famComponent.internalSQLConenction, famComponent.internalDataRowView.DataView, user);
+                        FamilyGeometry familyGeometry = FamilyGeometry.NewFamilyGeometry(famComponent.internalSQLConenction, famComponent.FamilyGeometryItems.InternalDataView, user);
                         familyGeometry.Name = weptblend.Name;
                         familyGeometry.ElementId = weptblend.Id.IntegerValue;
                         familyGeometry.Description = string.Empty;
@@ -737,7 +726,7 @@ namespace ModBox.FamFactory.Revit.Manager
                     foreach (Element element in revolveElementList)
                     {
                         Autodesk.Revit.DB.Revolution revolve = (Autodesk.Revit.DB.Revolution)element as Autodesk.Revit.DB.Revolution;
-                        FamilyGeometry familyGeometry = FamilyGeometry.NewFamilyGeometry(famComponent.internalSQLConenction, famComponent.internalDataRowView.DataView, user);
+                        FamilyGeometry familyGeometry = FamilyGeometry.NewFamilyGeometry(famComponent.internalSQLConenction, famComponent.FamilyGeometryItems.InternalDataView, user);
                         familyGeometry.Name = revolve.Name;
                         familyGeometry.ElementId = revolve.Id.IntegerValue;
                         familyGeometry.Description = string.Empty;
@@ -765,6 +754,7 @@ namespace ModBox.FamFactory.Revit.Manager
                         familyGeometry.ModifiedById = user.Id;
                         familyGeometry.EndEdit();
                     }
+                    famComponent.ParameterItems.RefreshCollections();
                 }
             }
             else
@@ -780,11 +770,6 @@ namespace ModBox.FamFactory.Revit.Manager
                 return true;
             else
                 return false;
-        }
-        
-        internal static SHA256 getHashAlgarythm()
-        {
-            return SHA256.Create("SHA256");
         }
     }
 }

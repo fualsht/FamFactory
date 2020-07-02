@@ -153,6 +153,9 @@
     <Compile Include="Utils.cs" />
     <Compile Include="ViewModels\EmailProfileViewModel.cs" />
     <Compile Include="ViewModels\FamFactoryComponentViewModel.cs" />
+    <Compile Include="ViewModels\FamilyComponentGeometryViewModel.cs" />
+    <Compile Include="ViewModels\FamilyComponentParameterViewModel.cs" />
+    <Compile Include="ViewModels\FamilyComponentReferencePlaneViewModel.cs" />
     <Compile Include="ViewModels\FamilyTemplateParameterViewModel.cs" />
     <Compile Include="ViewModels\FamilyBuildComponentPositionViewModel.cs" />
     <Compile Include="ViewModels\FamilyBuildComponentViewModel.cs" />

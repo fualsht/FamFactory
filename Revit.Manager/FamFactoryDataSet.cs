@@ -349,7 +349,7 @@ namespace ModBox.FamFactory.Revit.Manager
                 IsReleasedColumn.AllowDBNull = false;
                 IsReleasedColumn.DefaultValue = false;
 
-                DataColumn RoundConnectorDimentionColumn = FamilyComponentsTable.Columns.Add(FamilyComponentsColumnNames.RoundConnectorDimention.ToString(), typeof(string));
+                DataColumn RoundConnectorDimentionColumn = FamilyComponentsTable.Columns.Add(FamilyComponentsColumnNames.RoundConnectorDimension.ToString(), typeof(string));
                 RoundConnectorDimentionColumn.AllowDBNull = false;
                 RoundConnectorDimentionColumn.DefaultValue = string.Empty;
 

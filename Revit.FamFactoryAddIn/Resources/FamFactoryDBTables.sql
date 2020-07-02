@@ -400,7 +400,7 @@ CREATE TABLE FF_FamilyComponents (
                                             DEFAULT (false),
     RoundConnectorDimension STRING          NOT NULL,
     PartType                STRING          NOT NULL,
-    ComniClassNumber        STRING          NOT NULL,
+    OmniClassNumber        STRING          NOT NULL,
     OmniClassTitle          STRING          NOT NULL,
     WorkPlaneBased          BOOLEAN         DEFAULT (false) 
                                             NOT NULL,
